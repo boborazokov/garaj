@@ -1,0 +1,212 @@
+[
+  {
+    "key": "engine",
+    "icon": "cog",
+    "ru": "Двигатель",
+    "en": "Engine",
+    "uz": "Dvigatel"
+  },
+  {
+    "key": "transmission",
+    "icon": "settings2",
+    "ru": "Трансмиссия",
+    "en": "Transmission",
+    "uz": "Transmissiya"
+  },
+  {
+    "key": "suspension",
+    "icon": "arrowUpDown",
+    "ru": "Подвеска",
+    "en": "Suspension",
+    "uz": "Osma tizim"
+  },
+  {
+    "key": "brakes",
+    "icon": "disc3",
+    "ru": "Тормозная система",
+    "en": "Brake System",
+    "uz": "Tormoz tizimi"
+  },
+  {
+    "key": "steering",
+    "icon": "navigation2",
+    "ru": "Рулевое управление",
+    "en": "Steering",
+    "uz": "Rul boshqaruvi"
+  },
+  {
+    "key": "electrical",
+    "icon": "zap",
+    "ru": "Электрооборудование",
+    "en": "Electrical System",
+    "uz": "Elektr jihozlari"
+  },
+  {
+    "key": "cooling",
+    "icon": "fan",
+    "ru": "Система охлаждения",
+    "en": "Cooling System",
+    "uz": "Sovutish tizimi"
+  },
+  {
+    "key": "fuel",
+    "icon": "fuel",
+    "ru": "Топливная система",
+    "en": "Fuel System",
+    "uz": "Yoqilg‘i tizimi"
+  },
+  {
+    "key": "intake",
+    "icon": "airVent",
+    "ru": "Впускная система",
+    "en": "Intake System",
+    "uz": "Havo qabul qilish tizimi"
+  },
+  {
+    "key": "exhaust",
+    "icon": "wind",
+    "ru": "Выпускная система",
+    "en": "Exhaust System",
+    "uz": "Chiqindi gaz tizimi"
+  },
+  {
+    "key": "air_conditioning",
+    "icon": "thermometerSnowflake",
+    "ru": "Кондиционер и отопление",
+    "en": "Air Conditioning & Heating",
+    "uz": "Konditsioner va isitish"
+  },
+  {
+    "key": "body",
+    "icon": "car",
+    "ru": "Кузов",
+    "en": "Body Parts",
+    "uz": "Kuzov"
+  },
+  {
+    "key": "lighting",
+    "icon": "flashlight",
+    "ru": "Освещение",
+    "en": "Lighting",
+    "uz": "Yoritish"
+  },
+  {
+    "key": "glass_mirrors",
+    "icon": "glasses",
+    "ru": "Стекла и зеркала",
+    "en": "Glass & Mirrors",
+    "uz": "Oynalar va ko‘zgular"
+  },
+  {
+    "key": "interior",
+    "icon": "armchair",
+    "ru": "Салон",
+    "en": "Interior",
+    "uz": "Salon"
+  },
+  {
+    "key": "wheels_tires",
+    "icon": "lifeBuoy",
+    "ru": "Колеса и шины",
+    "en": "Wheels & Tires",
+    "uz": "G‘ildiraklar va shinalar"
+  },
+  {
+    "key": "rims",
+    "icon": "disc2",
+    "ru": "Диски",
+    "en": "Rims",
+    "uz": "Disklar"
+  },
+  {
+    "key": "batteries",
+    "icon": "batteryFull",
+    "ru": "Аккумуляторы",
+    "en": "Batteries",
+    "uz": "Akkumulyatorlar"
+  },
+  {
+    "key": "filters",
+    "icon": "filter",
+    "ru": "Фильтры",
+    "en": "Filters",
+    "uz": "Filtrlar"
+  },
+  {
+    "key": "oils_fluids",
+    "icon": "droplet",
+    "ru": "Масла и жидкости",
+    "en": "Oils & Fluids",
+    "uz": "Moylar va suyuqliklar"
+  },
+  {
+    "key": "belts_rollers",
+    "icon": "refreshCw",
+    "ru": "Ремни и ролики",
+    "en": "Belts & Rollers",
+    "uz": "Kamarlar va roliklar"
+  },
+  {
+    "key": "spark_plugs",
+    "icon": "sparkles",
+    "ru": "Свечи зажигания",
+    "en": "Spark Plugs",
+    "uz": "Shamlar"
+  },
+  {
+    "key": "bearings",
+    "icon": "nut",
+    "ru": "Подшипники",
+    "en": "Bearings",
+    "uz": "Podshipniklar"
+  },
+  {
+    "key": "sensors",
+    "icon": "radar",
+    "ru": "Датчики",
+    "en": "Sensors",
+    "uz": "Datchiklar"
+  },
+  {
+    "key": "electronics",
+    "icon": "circuitBoard",
+    "ru": "Автоэлектроника",
+    "en": "Auto Electronics",
+    "uz": "Avtoelektronika"
+  },
+  {
+    "key": "audio",
+    "icon": "speaker",
+    "ru": "Автозвук",
+    "en": "Car Audio",
+    "uz": "Avtoaudio"
+  },
+  {
+    "key": "security",
+    "icon": "shieldCheck",
+    "ru": "Сигнализация и безопасность",
+    "en": "Security Systems",
+    "uz": "Signalizatsiya va xavfsizlik"
+  },
+  {
+    "key": "tools",
+    "icon": "wrench",
+    "ru": "Инструменты",
+    "en": "Tools",
+    "uz": "Asboblar"
+  },
+  {
+    "key": "accessories",
+    "icon": "package",
+    "ru": "Аксессуары",
+    "en": "Accessories",
+    "uz": "Aksessuarlar"
+  },
+  {
+    "key": "consumables",
+    "icon": "boxes",
+    "ru": "Расходные материалы",
+    "en": "Consumables",
+    "uz": "Sarf materiallari"
+  }
+]

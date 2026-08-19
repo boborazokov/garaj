@@ -1,0 +1,1282 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type SellerSocialLinks {
+  telegram: String
+  instagram: String
+  website: String
+  youtube: String
+  facebook: String
+}
+
+type SellerPrivacy {
+  showPhone: Boolean!
+  showEmail: Boolean!
+  showLocation: Boolean!
+  showFollowers: Boolean!
+  allowMessages: Boolean!
+}
+
+type User {
+  _id: ObjectId!
+  name: String!
+  phone: String!
+  password: String!
+  role: UserRoleEnum!
+  address: String
+  image: String
+  banner: String
+  username: String
+  bio: String
+  description: String
+  email: String
+  country: String
+  region: String
+  city: String
+  socialLinks: SellerSocialLinks
+  privacy: SellerPrivacy
+  verified: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum UserRoleEnum {
+  ADMIN
+  MODERATOR
+  USER
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type AuthOutput {
+  token: String!
+  user: User!
+}
+
+type ConfirmationOutput {
+  token: String!
+  correctCode: Float
+}
+
+type CategoryNames {
+  en: String!
+  ru: String!
+  uz: String!
+}
+
+type Category {
+  _id: ObjectId!
+  iconUrl: String
+  key: String
+  icon: String
+  names: CategoryNames!
+  type: CategoryTypeEnum!
+  parentId: ObjectId
+  createdAt: DateTime!
+  updatedAt: DateTime
+  name: String!
+}
+
+enum CategoryTypeEnum {
+  BRAND
+  MODEL
+  PART
+  SERVICE
+  TUNING
+  ANNOUNCEMENT
+}
+
+type GeoPoint {
+  latitude: Float!
+  longitude: Float!
+}
+
+type Part {
+  _id: ObjectId!
+  name: String!
+  description: String!
+  isNegotiable: Boolean!
+  deliveryCondition: DeliveryConditionEnum!
+  isNew: Boolean!
+  price: Float!
+  quantity: Float!
+  currency: CurrencyEnum!
+  images: [String!]
+  seller: User!
+  status: ItemStatusEnum!
+  activeUntil: DateTime
+  category: Category!
+  brand: Category
+  carModel: Category
+  location: String
+  region: String
+  geoLocation: GeoPoint
+  isPromoted: Boolean!
+  promotedUntil: DateTime
+  promotionPlan: ServicePromotionPlanEnum
+  promotionPriority: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  moderationNote: String
+  moderatedAt: DateTime
+  moderatedBy: User
+  isFavorite: Boolean!
+}
+
+enum DeliveryConditionEnum {
+  INCLUDED
+  NOT_INCLUDED
+  UNDER_CONTRACT
+}
+
+enum CurrencyEnum {
+  USD
+  UZS
+}
+
+enum ItemStatusEnum {
+  ACTIVE
+  ARCHIVED
+  PENDING_MODERATION
+  REJECTED
+}
+
+enum ServicePromotionPlanEnum {
+  BASIC
+  STANDARD
+  PREMIUM
+  VIP
+}
+
+type WorkshopCategory {
+  _id: ObjectId!
+  slug: String!
+  names: CategoryNames!
+  icon: String
+  color: String
+  popular: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime
+  name: String!
+}
+
+type WorkshopDaySchedule {
+  day: Int!
+  closed: Boolean!
+  openTime: String
+  closeTime: String
+}
+
+type WorkshopServicePrice {
+  label: String!
+  categorySlug: String
+  priceFrom: Float
+  priceTo: Float
+  currency: String
+}
+
+type Workshop {
+  _id: ObjectId!
+  name: String!
+  description: String
+  location: String
+  address: String
+  city: String
+  geoLocation: GeoPoint!
+  serviceRadiusKm: Float
+  coverImage: String
+  logo: String
+  gallery: [String!]!
+  images: [String!]
+  categories: [WorkshopCategory!]!
+  servicePricing: [WorkshopServicePrice!]!
+  weeklySchedule: [WorkshopDaySchedule!]!
+  openFrom: DateTime!
+  openUntil: DateTime
+  phone: String
+  telegram: String
+  verified: Boolean!
+  premium: Boolean!
+  isPromoted: Boolean!
+  promotedUntil: DateTime
+  promotionPlan: ServicePromotionPlanEnum
+  promotionPriority: Float!
+  hasPickupService: Boolean!
+  open24Hours: Boolean!
+  isEmergency: Boolean!
+  supportedCarBrands: [String!]!
+  rating: Float!
+  reviewCount: Float!
+  fastResponse: Boolean!
+  responseTimeMinutes: Int
+  bookingCount: Float!
+  viewCount: Float!
+  owner: User!
+  status: ItemStatusEnum!
+  activeUntil: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime
+  isOpenNow: Boolean!
+}
+
+type PaginatedUsers {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [User!]!
+}
+
+type DeleteAccountResult {
+  success: Boolean!
+}
+
+type Conversation {
+  _id: ObjectId!
+  participants: [User!]!
+  part: Part
+  lastMessageText: String
+  lastMessageSender: ObjectId
+  lastMessageAt: DateTime
+  hiddenFor: [ObjectId!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Favorite {
+  userId: ObjectId!
+  partsIds: [ObjectId!]
+  servicesIds: [ObjectId!]
+}
+
+type Order {
+  _id: ObjectId!
+  title: String!
+  description: String!
+  author: User
+  phone: String!
+  location: String
+  region: String
+  geoLocation: GeoPoint
+  brand: Category
+  carModel: Category
+  partCategory: Category
+  budget: Float
+  currency: String
+  urgency: OrderUrgencyEnum
+  status: OrderStatusEnum!
+  images: [String!]
+  isPromoted: Boolean!
+  promotedUntil: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum OrderUrgencyEnum {
+  LOW
+  MEDIUM
+  URGENT
+}
+
+enum OrderStatusEnum {
+  ACTIVE
+  CLOSED
+  CANCELLED
+}
+
+type Message {
+  _id: ObjectId!
+  conversation: ObjectId!
+  sender: User!
+  text: String
+  images: [String!]!
+  readBy: [ObjectId!]!
+  deletedFor: [ObjectId!]!
+  replyTo: ObjectId
+  replyToText: String
+  replyToSenderName: String
+  replyToSenderId: ObjectId
+  voiceUrl: String
+  voiceDurationMs: Float
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SearchProductsResult {
+  payload: [Part!]!
+  total: Float!
+  limit: Float!
+  offset: Float!
+  processingTimeMs: Float!
+}
+
+type AppSettings {
+  _id: String!
+  productModerationEnabled: Boolean!
+  updatedAt: DateTime!
+}
+
+type PaginatedParts {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Part!]!
+}
+
+type CategoryTreeNode {
+  _id: ObjectId!
+  name: String!
+  names: CategoryNames!
+  iconUrl: String
+  type: CategoryTypeEnum!
+  parentId: ObjectId
+  children: [CategoryTreeNode!]!
+}
+
+type ServiceCategory {
+  _id: ObjectId!
+  slug: String!
+  name: String!
+  iconUrl: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type Service {
+  _id: ObjectId!
+  title: String!
+  description: String!
+  category: ServiceCategory!
+  geoLocation: GeoPoint!
+  address: String
+  images: [String!]!
+  openFrom: DateTime!
+  openUntil: DateTime
+  phone: String
+  telegram: String
+  verified: Boolean!
+  features: [String!]!
+  rating: Float!
+  reviewCount: Float!
+  isEmergency: Boolean!
+  owner: User!
+  status: ItemStatusEnum!
+  isPromoted: Boolean!
+  promotedUntil: DateTime
+  promotionPlan: ServicePromotionPlanEnum
+  promotionPriority: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type PaginatedWorkshops {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Workshop!]!
+}
+
+type WorkshopReviewOwnerReply {
+  text: String!
+  repliedAt: DateTime!
+}
+
+type WorkshopReview {
+  _id: ObjectId!
+  workshop: Workshop!
+  user: User!
+  rating: Float!
+  text: String!
+  images: [String!]!
+  ownerReply: WorkshopReviewOwnerReply
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type PaginatedWorkshopReviews {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [WorkshopReview!]!
+}
+
+type WorkshopBooking {
+  _id: ObjectId!
+  workshop: Workshop!
+  user: User!
+  scheduledAt: DateTime!
+  notes: String
+  serviceLabel: String
+  status: WorkshopBookingStatusEnum!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum WorkshopBookingStatusEnum {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+type MapSearchResult {
+  workshops: [Workshop!]!
+  services: [Service!]!
+  parts: [Part!]!
+}
+
+type ServiceBooking {
+  _id: ObjectId!
+  service: Service!
+  user: User!
+  scheduledAt: DateTime!
+  notes: String
+  status: ServiceBookingStatusEnum!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum ServiceBookingStatusEnum {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+type ServiceReview {
+  _id: ObjectId!
+  service: Service!
+  user: User!
+  rating: Float!
+  text: String!
+  createdAt: DateTime!
+}
+
+type PaginatedServices {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Service!]!
+}
+
+type Advertisement {
+  _id: ObjectId!
+  type: String!
+  bannerImageUrl: String!
+  title: String!
+  link: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type PaginatedAdvertisements {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Advertisement!]!
+}
+
+type PaginatedOrders {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Order!]!
+}
+
+type DeviceToken {
+  _id: ObjectId!
+  user: User!
+  token: String!
+  platform: DevicePlatformEnum!
+  locale: String
+  appVersion: String
+  deviceModel: String
+  isActive: Boolean!
+  lastSeenAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""Platform a FCM registration token was issued for."""
+enum DevicePlatformEnum {
+  ANDROID
+  IOS
+  WEB
+}
+
+type UserNotificationType {
+  _id: ObjectId!
+  type: String!
+  title: String!
+  body: String!
+  deepLink: String
+  isRead: Boolean!
+  createdAt: DateTime!
+}
+
+type PaginatedUserNotifications {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [UserNotificationType!]!
+}
+
+type OrderResponse {
+  _id: ObjectId!
+  order: ObjectId!
+  seller: User!
+  part: Part
+  text: String!
+  offeredPrice: Float
+  deliveryDays: Float
+  isAccepted: Boolean!
+  createdAt: DateTime!
+}
+
+type ConversationView {
+  _id: ObjectId!
+  participants: [User!]!
+  part: Part
+  lastMessageText: String
+  lastMessageSender: ObjectId
+  lastMessageAt: DateTime
+  hiddenFor: [ObjectId!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  unread: Float!
+}
+
+type PaginatedConversations {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [ConversationView!]!
+}
+
+type PaginatedMessages {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Message!]!
+}
+
+type TypingEvent {
+  conversationId: ObjectId!
+  userId: ObjectId!
+  isTyping: Boolean!
+}
+
+type UnreadCountEvent {
+  conversationId: ObjectId!
+  userId: ObjectId!
+  unread: Float!
+}
+
+type AdminDailyReportRow {
+  date: String!
+  visits: Int!
+  newUsers: Int!
+  partsPublished: Int!
+  ordersPublished: Int!
+}
+
+type AdminDailyReport {
+  rows: [AdminDailyReportRow!]!
+  days: Int!
+  totalVisits: Int!
+  totalNewUsers: Int!
+  totalPartsPublished: Int!
+  totalOrdersPublished: Int!
+  todayVisits: Int!
+  todayPartsPublished: Int!
+}
+
+type AdminStats {
+  usersCount: Float!
+  partsCount: Float!
+  activePartsCount: Float!
+  pendingModerationCount: Float!
+  ordersCount: Float!
+}
+
+type SellerCategoryStat {
+  categoryId: ObjectId!
+  name: String!
+  slug: String
+  productCount: Float!
+}
+
+type SellerStoreStats {
+  totalProducts: Float!
+  activeProducts: Float!
+  categoriesCount: Float!
+  followersCount: Float!
+  profileViews: Float!
+}
+
+type SellerStoreProfile {
+  _id: ObjectId!
+  name: String!
+  username: String
+  image: String
+  banner: String
+  bio: String
+  description: String
+  phone: String
+  email: String
+  country: String
+  region: String
+  city: String
+  address: String
+  socialLinks: SellerSocialLinks
+  verified: Boolean!
+  createdAt: DateTime!
+  stats: SellerStoreStats!
+  categories: [SellerCategoryStat!]!
+  isFollowing: Boolean!
+  isOwnProfile: Boolean!
+  allowMessages: Boolean!
+}
+
+type SellerFollower {
+  _id: ObjectId!
+  name: String!
+  username: String
+  image: String
+  followedAt: DateTime!
+}
+
+type PaginatedSellerFollowers {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [SellerFollower!]!
+}
+
+input SellerSocialLinksInput {
+  telegram: String
+  instagram: String
+  website: String
+  youtube: String
+  facebook: String
+}
+
+input SellerPrivacyInput {
+  showPhone: Boolean! = false
+  showEmail: Boolean! = false
+  showLocation: Boolean! = true
+  showFollowers: Boolean! = true
+  allowMessages: Boolean! = true
+}
+
+"""ObjectId custom scalar type for MongoDB"""
+scalar ObjectId
+
+type Query {
+  signIn(data: SignInInput!): AuthOutput!
+  getProfile: User!
+  searchProducts(query: String, category: String, city: String, minPrice: Float, maxPrice: Float, limit: Int = 20, offset: Int = 0): SearchProductsResult!
+  recommendedProducts(limit: Int = 12, city: String): [Part!]!
+  similarProducts(productId: ObjectId!, limit: Int = 10): [Part!]!
+  trendingProducts(limit: Int = 12, city: String): [Part!]!
+  nearbyProducts(
+    latitude: Float!
+    longitude: Float!
+
+    """Search radius in kilometres"""
+    radiusKm: Float = 15
+    limit: Int = 40
+  ): [Part!]!
+  recentlyViewedProducts(limit: Int = 12, city: String): [Part!]!
+  newArrivals(limit: Int = 12, city: String): [Part!]!
+  recommendedOrders(limit: Int = 12, city: String): [Order!]!
+  getPartById(partId: ObjectId!): Part!
+  getParts(filter: PartFilterInput, search: String, pagination: PaginationInput!, sort: SortOrderEnum, viewerRegion: String): PaginatedParts!
+  getViewsCount(target: ViewsTargetInput!): Int!
+  getFavorites: Favorite!
+  getCategories(filter: CategoryFilterInput): [Category!]!
+  getCategoryTree(rootType: CategoryTypeEnum): [CategoryTreeNode!]!
+  getWorkshopById(workshopId: ObjectId!): Workshop!
+  workshopDetails(workshopId: ObjectId!): Workshop!
+  getWorkshops(filter: WorkshopFilterInput, search: String, pagination: PaginationInput!): PaginatedWorkshops!
+  nearbyWorkshops(
+    latitude: Float!
+    longitude: Float!
+
+    """Search radius in kilometres"""
+    radiusKm: Float = 15
+    limit: Int = 40
+  ): [Workshop!]!
+  recommendedWorkshops: [Workshop!]!
+  popularNearbyWorkshops(
+    latitude: Float!
+    longitude: Float!
+
+    """Search radius in kilometres"""
+    radiusKm: Float = 15
+    limit: Int = 40
+  ): [Workshop!]!
+  openNowWorkshops(
+    latitude: Float!
+    longitude: Float!
+
+    """Search radius in kilometres"""
+    radiusKm: Float = 15
+    limit: Int = 40
+  ): [Workshop!]!
+  fastResponseWorkshops(
+    latitude: Float!
+    longitude: Float!
+
+    """Search radius in kilometres"""
+    radiusKm: Float = 15
+    limit: Int = 40
+  ): [Workshop!]!
+  searchWorkshops(search: String!, categoryId: String, city: String, limit: Float): [Workshop!]!
+  workshopsMapDiscovery(latitude: Float!, longitude: Float!, radiusKm: Float = 25, bounds: MapBoundsInput, filters: WorkshopFiltersInput, limit: Int = 120): [Workshop!]!
+  searchMapEntities(query: String!, limit: Float): MapSearchResult!
+  nearbyMapParts(lat: Float!, lng: Float!, radius: Float = 15, limit: Int = 40): [Part!]!
+  workshopReviews(workshopId: String!): [WorkshopReview!]!
+  workshopReviewsPaginated(workshopId: String!, pagination: PaginationInput): PaginatedWorkshopReviews!
+  workshopCategories: [WorkshopCategory!]!
+  myWorkshopBookings: [WorkshopBooking!]!
+  serviceCategories: [ServiceCategory!]!
+  nearbyServices(
+    latitude: Float!
+    longitude: Float!
+
+    """Search radius in kilometres"""
+    radiusKm: Float = 15
+    limit: Int = 40
+  ): [Service!]!
+  nearbyEmergencyServices(
+    latitude: Float!
+    longitude: Float!
+
+    """Search radius in kilometres"""
+    radiusKm: Float = 15
+    limit: Int = 40
+  ): [Service!]!
+  serviceDetails(serviceId: String!): Service!
+  getServices(pagination: PaginationInput, filter: ServiceFilterInput, search: String): PaginatedServices!
+  topRatedServices: [Service!]!
+  nearbyOrders(
+    latitude: Float!
+    longitude: Float!
+
+    """Search radius in kilometres"""
+    radiusKm: Float = 15
+    limit: Int = 40
+  ): [Order!]!
+  serviceReviews(serviceId: String!): [ServiceReview!]!
+  myServiceBookings: [ServiceBooking!]!
+  getAdvertisements(filter: AdvertisementFilterInput): [Advertisement!]!
+  adminListAdvertisements(pagination: PaginationInput, filter: AdvertisementFilterInput): PaginatedAdvertisements!
+  getOrders(filter: OrderFilterInput, search: String, pagination: PaginationInput!, sort: SortOrderEnum, viewerRegion: String): PaginatedOrders!
+  getOrderById(orderId: ObjectId!): Order!
+  getOrderResponses(orderId: ObjectId!): [OrderResponse!]!
+  getMyNotifications(pagination: PaginationInput): PaginatedUserNotifications!
+  myUnreadNotificationsCount: Int!
+  getConversations(pagination: PaginationInput): PaginatedConversations!
+  getMessages(conversationId: ObjectId!, pagination: PaginationInput): PaginatedMessages!
+  getAppSettings: AppSettings!
+  getAdminStats: AdminStats!
+  getAdminDailyReport(days: Int = 14): AdminDailyReport!
+  adminListUsers(pagination: PaginationInput, search: String): PaginatedUsers!
+  getPendingParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum): PaginatedParts!
+  adminListOrders(pagination: PaginationInput, search: String): PaginatedOrders!
+  adminListParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum): PaginatedParts!
+  getSellerProfile(sellerId: ObjectId!): SellerStoreProfile!
+  getSellerFollowers(sellerId: ObjectId!, pagination: PaginationInput): PaginatedSellerFollowers!
+}
+
+input SignInInput {
+  phone: String!
+  password: String!
+}
+
+input PartFilterInput {
+  seller: ObjectId
+  category: ObjectId
+  brand: ObjectId
+  carModel: ObjectId
+  isNegotiable: Boolean
+  hasDelivery: Boolean
+  isNew: Boolean
+  minPrice: Float
+  maxPrice: Float
+  currency: CurrencyEnum
+  region: String
+  isPromoted: Boolean
+  onlyFavorites: Boolean
+}
+
+input PaginationInput {
+  page: Float = 1
+  limit: Float = 10
+}
+
+enum SortOrderEnum {
+  RECOMMENDED
+  NEWEST
+  PRICE_ASC
+  PRICE_DESC
+}
+
+input ViewsTargetInput {
+  partId: ObjectId!
+}
+
+input CategoryFilterInput {
+  type: CategoryTypeEnum
+  parentId: ObjectId
+  search: String
+}
+
+input WorkshopFilterInput {
+  owner: ObjectId
+  isOpen: Boolean
+  openNow: Boolean
+  verified: Boolean
+  fastResponse: Boolean
+  categoryId: ObjectId
+  city: String
+}
+
+input MapBoundsInput {
+  southWestLat: Float!
+  southWestLng: Float!
+  northEastLat: Float!
+  northEastLng: Float!
+}
+
+input WorkshopFiltersInput {
+  openNow: Boolean
+  verified: Boolean
+  premium: Boolean
+  topRated: Boolean
+  emergencyOnly: Boolean
+  services: [String!]
+  brands: [String!]
+  minRating: Float
+  city: String
+  hasPickupService: Boolean
+  open24Hours: Boolean
+}
+
+input ServiceFilterInput {
+  categoryId: String
+  verified: Boolean
+  isEmergency: Boolean
+  openNow: Boolean
+}
+
+input AdvertisementFilterInput {
+  type: CategoryTypeEnum
+  title: String
+}
+
+input OrderFilterInput {
+  author: ObjectId
+  brand: ObjectId
+  carModel: ObjectId
+  partCategory: ObjectId
+  region: String
+  status: OrderStatusEnum
+  isPromoted: Boolean
+}
+
+type Mutation {
+  signUp(data: SignUpInput!): ConfirmationOutput!
+  confirmSignUp(token: String!, code: String!): AuthOutput!
+  updateProfile(data: UserUpdateInput!, image: Upload): User!
+  deleteMyAccount: DeleteAccountResult!
+  trackActivity(type: ActivityTypeEnum!, entityId: ObjectId, metadata: String): Boolean!
+  trackActivityAuth(type: ActivityTypeEnum!, entityId: ObjectId, metadata: String): Boolean!
+  createPart(data: PartInput!, images: [Upload!]!): Part!
+  updatePartById(partId: ObjectId!, data: PartUpdateInput!, images: [Upload!]): Part!
+  deletePartById(partId: ObjectId!): Part!
+  restorePartById(partId: ObjectId!): Part!
+  promotePartById(partId: ObjectId!, plan: ServicePromotionPlanEnum!): Part!
+  addToFavorites(favorite: FavoriteInput!): Favorite!
+  removeFromFavorites(favorite: FavoriteInput!): Favorite!
+  createCategory(data: CategoryInput!): Category!
+  updateCategory(categoryId: ObjectId!, data: CategoryInput!): Category!
+  deleteCategory(categoryId: ObjectId!): Boolean!
+  createWorkshop(data: WorkshopInput!, gallery: [Upload!], coverImage: Upload, logo: Upload): Workshop!
+  updateWorkshopById(workshopId: ObjectId!, data: WorkshopUpdateInput!, images: [Upload!]): Workshop!
+  deleteWorkshopById(workshopId: ObjectId!): Workshop!
+  addWorkshopReview(data: AddWorkshopReviewInput!, images: [Upload!]): WorkshopReview!
+  replyToWorkshopReview(data: ReplyWorkshopReviewInput!): WorkshopReview!
+  updateWorkshopReview(data: UpdateWorkshopReviewInput!): WorkshopReview!
+  deleteWorkshopReview(reviewId: String!): Boolean!
+  bookWorkshop(data: BookWorkshopInput!): WorkshopBooking!
+  restoreWorkshopById(workshopId: ObjectId!): Workshop!
+  promoteWorkshop(workshopId: ObjectId!, plan: ServicePromotionPlanEnum!): Workshop!
+  createService(data: ServiceInput!, images: [Upload!]): Service!
+  promoteService(serviceId: ObjectId!, plan: ServicePromotionPlanEnum!): Service!
+  bookService(data: BookServiceInput!): ServiceBooking!
+  addReview(data: AddReviewInput!): ServiceReview!
+  favoriteService(serviceId: String!): Boolean!
+  createAdvertisement(data: AdvertisementInput!): Advertisement!
+  updateAdvertisement(advertisementId: ObjectId!, data: AdvertisementInput!): Advertisement!
+  deleteAdvertisement(advertisementId: ObjectId!): Boolean!
+  createOrder(data: OrderInput!): Order!
+  updateOrderById(orderId: ObjectId!, data: OrderUpdateInput!): Order!
+  closeOrderById(orderId: ObjectId!): Order!
+  reopenOrderById(orderId: ObjectId!): Order!
+  deleteOrderById(orderId: ObjectId!): Order!
+  respondToOrder(data: RespondToOrderInput!): OrderResponse!
+  registerDeviceToken(data: RegisterDeviceTokenInput!): DeviceToken!
+  removeDeviceToken(token: String!): Boolean!
+  markNotificationRead(notificationId: ObjectId!): Boolean!
+  markAllNotificationsRead: Int!
+  createConversation(data: CreateConversationInput!): Conversation!
+  markAsRead(conversationId: ObjectId!): Conversation!
+  deleteConversationForMe(conversationId: ObjectId!): Boolean!
+  sendMessage(data: SendMessageInput!): Message!
+  deleteMessageForMe(messageId: ObjectId!): Boolean!
+  updateMessage(data: UpdateMessageInput!): Message!
+  setTyping(conversationId: ObjectId!, isTyping: Boolean!): Boolean!
+  setProductModerationEnabled(enabled: Boolean!): AppSettings!
+  adminSetUserRole(userId: ObjectId!, role: UserRoleEnum!): User!
+  adminSetUserImage(userId: ObjectId!, image: Upload!): User!
+  adminSetUserVerified(userId: ObjectId!, verified: Boolean!): User!
+  approvePart(partId: ObjectId!, note: String): Part!
+  rejectPart(partId: ObjectId!, note: String): Part!
+  followSeller(sellerId: ObjectId!): Boolean!
+  unfollowSeller(sellerId: ObjectId!): Boolean!
+}
+
+input SignUpInput {
+  name: String!
+  phone: String!
+  password: String!
+}
+
+input UserUpdateInput {
+  name: String
+  address: String
+  username: String
+  banner: String
+  bio: String
+  description: String
+  email: String
+  country: String
+  region: String
+  city: String
+  socialLinks: SellerSocialLinksInput
+  privacy: SellerPrivacyInput
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+enum ActivityTypeEnum {
+  PRODUCT_VIEWED
+  PRODUCT_OPENED
+  FAVORITE_ADDED
+  CHAT_OPENED
+  SEARCH_QUERY
+  ORDER_OPENED
+}
+
+input PartInput {
+  name: String!
+  description: String!
+  isNegotiable: Boolean!
+  deliveryCondition: DeliveryConditionEnum!
+  isNew: Boolean!
+  price: Float!
+  quantity: Float!
+  currency: CurrencyEnum!
+  category: ObjectId!
+  brand: ObjectId
+  carModel: ObjectId
+  location: String
+  region: String
+}
+
+input PartUpdateInput {
+  name: String
+  description: String
+  isNegotiable: Boolean
+  deliveryCondition: DeliveryConditionEnum
+  isNew: Boolean
+  price: Float
+  quantity: Float
+  currency: CurrencyEnum
+  category: ObjectId
+  brand: ObjectId
+  carModel: ObjectId
+  location: String
+  region: String
+}
+
+input FavoriteInput {
+  partId: ObjectId
+  serviceId: ObjectId
+}
+
+input CategoryInput {
+  names: CategoryNamesInput!
+  type: CategoryTypeEnum!
+  parentId: ObjectId
+  iconUrl: String
+  key: String
+  icon: String
+}
+
+input CategoryNamesInput {
+  en: String!
+  ru: String!
+  uz: String!
+}
+
+input WorkshopInput {
+  name: String!
+  description: String
+  location: String
+  address: String
+  city: String
+  geoLocation: GeolocationInput!
+  serviceRadiusKm: Float
+  categoryIds: [String!]
+  servicePricing: [WorkshopServicePriceInput!]
+  weeklySchedule: [WorkshopDayScheduleInput!]
+  openFrom: DateTime!
+  openUntil: DateTime
+  phone: String
+  telegram: String
+  fastResponse: Boolean
+  open24Hours: Boolean
+  responseTimeMinutes: Float
+}
+
+input GeolocationInput {
+  latitude: Float!
+  longitude: Float!
+}
+
+input WorkshopServicePriceInput {
+  label: String!
+  categorySlug: String
+  priceFrom: Float
+  priceTo: Float
+  currency: String
+}
+
+input WorkshopDayScheduleInput {
+  day: Int!
+  closed: Boolean!
+  openTime: String
+  closeTime: String
+}
+
+input WorkshopUpdateInput {
+  name: String
+  description: String
+  location: String
+  address: String
+  city: String
+  geoLocation: GeolocationInput
+  serviceRadiusKm: Float
+  categoryIds: [String!]
+  servicePricing: [WorkshopServicePriceInput!]
+  weeklySchedule: [WorkshopDayScheduleInput!]
+  openFrom: DateTime
+  openUntil: DateTime
+  phone: String
+  telegram: String
+  fastResponse: Boolean
+  open24Hours: Boolean
+  responseTimeMinutes: Float
+  gallery: [String!]
+}
+
+input AddWorkshopReviewInput {
+  workshopId: String!
+  rating: Float!
+  text: String
+}
+
+input ReplyWorkshopReviewInput {
+  reviewId: String!
+  text: String!
+}
+
+input UpdateWorkshopReviewInput {
+  reviewId: String!
+  rating: Float!
+  text: String
+}
+
+input BookWorkshopInput {
+  workshopId: String!
+  scheduledAt: DateTime!
+  notes: String
+  serviceLabel: String
+}
+
+input ServiceInput {
+  title: String!
+  description: String
+  categoryId: String!
+  geoLocation: GeolocationInput!
+  address: String
+  openFrom: DateTime!
+  openUntil: DateTime
+  phone: String
+  telegram: String
+  features: [String!]
+  isEmergency: Boolean
+}
+
+input BookServiceInput {
+  serviceId: String!
+  scheduledAt: DateTime!
+  notes: String
+}
+
+input AddReviewInput {
+  serviceId: String!
+  rating: Float!
+  text: String
+}
+
+input AdvertisementInput {
+  type: CategoryTypeEnum!
+  bannerImageUrl: String!
+  title: String!
+  link: String!
+}
+
+input OrderInput {
+  title: String!
+  description: String
+  phone: String!
+  location: String
+  region: String
+  brand: ObjectId
+  carModel: ObjectId
+  partCategory: ObjectId
+  budget: Float
+  currency: String
+  urgency: OrderUrgencyEnum
+}
+
+input OrderUpdateInput {
+  title: String
+  description: String
+  phone: String
+  location: String
+  region: String
+  brand: ObjectId
+  carModel: ObjectId
+  partCategory: ObjectId
+  budget: Float
+  currency: String
+  status: OrderStatusEnum
+  urgency: OrderUrgencyEnum
+}
+
+input RespondToOrderInput {
+  orderId: ObjectId!
+  text: String!
+  partId: ObjectId
+  offeredPrice: Float
+  deliveryDays: Float
+}
+
+input RegisterDeviceTokenInput {
+  token: String!
+  platform: DevicePlatformEnum!
+  locale: String
+  appVersion: String
+  deviceModel: String
+}
+
+input CreateConversationInput {
+  recipientId: ObjectId!
+  partId: ObjectId
+}
+
+input SendMessageInput {
+  conversationId: ObjectId!
+  text: String
+  images: [String!]
+  replyTo: ObjectId
+  voiceUrl: String
+  voiceDurationMs: Int
+}
+
+input UpdateMessageInput {
+  messageId: ObjectId!
+  text: String!
+}
+
+type Subscription {
+  orderResponseAdded(orderId: ObjectId!): OrderResponse!
+  conversationUpdated: Conversation!
+  messageReceived(conversationId: ObjectId!): Message!
+  typingStatus(conversationId: ObjectId!): TypingEvent!
+  unreadCountChanged: UnreadCountEvent!
+}

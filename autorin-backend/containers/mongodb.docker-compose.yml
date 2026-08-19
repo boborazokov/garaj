@@ -1,0 +1,13 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: autorin_mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    command: ['mongod', '--bind_ip_all', '--noauth']
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

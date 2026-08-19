@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-amber-500: #f59e0b;
+  --color-amber-400: #fbbf24;
+  --color-amber-600: #d97706;
+  --color-carbon-50: #f4f6fa;
+  --color-carbon-100: #e5e9ef;
+  --color-carbon-600: #2a3441;
+  --color-carbon-800: #141a22;
+  --color-carbon-900: #0b0f14;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  @apply bg-carbon-50 text-carbon-900 antialiased;
+}

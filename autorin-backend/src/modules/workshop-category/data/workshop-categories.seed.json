@@ -1,0 +1,326 @@
+[
+  {
+    "slug": "engine-repair",
+    "icon": "cog",
+    "popular": false,
+    "color": "#E85D04",
+    "ru": "Ремонт двигателя",
+    "en": "Engine Repair",
+    "uz": "Dvigatel ta'miri"
+  },
+  {
+    "slug": "transmission-repair",
+    "icon": "settings2",
+    "popular": false,
+    "color": "#7209B7",
+    "ru": "Ремонт трансмиссии",
+    "en": "Transmission Repair",
+    "uz": "Transmissiya ta'miri"
+  },
+  {
+    "slug": "suspension-repair",
+    "icon": "arrowUpDown",
+    "popular": false,
+    "color": "#2A9D8F",
+    "ru": "Ремонт подвески",
+    "en": "Suspension Repair",
+    "uz": "Osma tizim ta'miri"
+  },
+  {
+    "slug": "brake-service",
+    "icon": "disc3",
+    "popular": false,
+    "color": "#E63946",
+    "ru": "Тормозная система",
+    "en": "Brake Service",
+    "uz": "Tormoz tizimi xizmati"
+  },
+  {
+    "slug": "steering-repair",
+    "icon": "navigation2",
+    "popular": false,
+    "color": "#4361EE",
+    "ru": "Ремонт рулевого управления",
+    "en": "Steering Repair",
+    "uz": "Rul boshqaruvi ta'miri"
+  },
+  {
+    "slug": "auto-electrician",
+    "icon": "zap",
+    "popular": false,
+    "color": "#F4A261",
+    "ru": "Автоэлектрик",
+    "en": "Auto Electrician",
+    "uz": "Avtoelektrik"
+  },
+  {
+    "slug": "computer-diagnostics",
+    "icon": "activity",
+    "popular": false,
+    "color": "#3A86FF",
+    "ru": "Компьютерная диагностика",
+    "en": "Computer Diagnostics",
+    "uz": "Kompyuter diagnostikasi"
+  },
+  {
+    "slug": "oil-change",
+    "icon": "droplet",
+    "popular": false,
+    "color": "#FFB703",
+    "ru": "Замена масла",
+    "en": "Oil Change",
+    "uz": "Moy almashtirish"
+  },
+  {
+    "slug": "tire-service",
+    "icon": "lifeBuoy",
+    "popular": false,
+    "color": "#06D6A0",
+    "ru": "Шиномонтаж",
+    "en": "Tire Service",
+    "uz": "Shinomontaj"
+  },
+  {
+    "slug": "wheel-alignment",
+    "icon": "crosshair",
+    "popular": false,
+    "color": "#118AB2",
+    "ru": "Развал-схождение",
+    "en": "Wheel Alignment",
+    "uz": "Razval-sxojdeniye"
+  },
+  {
+    "slug": "battery-service",
+    "icon": "batteryFull",
+    "popular": false,
+    "color": "#F72585",
+    "ru": "Аккумуляторы",
+    "en": "Battery Service",
+    "uz": "Akkumulyator xizmati"
+  },
+  {
+    "slug": "air-conditioning",
+    "icon": "thermometerSnowflake",
+    "popular": false,
+    "color": "#4CC9F0",
+    "ru": "Кондиционер",
+    "en": "Air Conditioning",
+    "uz": "Konditsioner"
+  },
+  {
+    "slug": "cooling-system",
+    "icon": "fan",
+    "popular": false,
+    "color": "#4895EF",
+    "ru": "Система охлаждения",
+    "en": "Cooling System",
+    "uz": "Sovutish tizimi"
+  },
+  {
+    "slug": "fuel-system",
+    "icon": "fuel",
+    "popular": false,
+    "color": "#FB8500",
+    "ru": "Топливная система",
+    "en": "Fuel System",
+    "uz": "Yoqilg'i tizimi"
+  },
+  {
+    "slug": "exhaust-service",
+    "icon": "wind",
+    "popular": false,
+    "color": "#6C757D",
+    "ru": "Глушители и выхлоп",
+    "en": "Exhaust Service",
+    "uz": "Glushitel va chiqindi gaz tizimi"
+  },
+  {
+    "slug": "body-repair",
+    "icon": "hammer",
+    "popular": false,
+    "color": "#6D6875",
+    "ru": "Кузовной ремонт",
+    "en": "Body Repair",
+    "uz": "Kuzov ta'miri"
+  },
+  {
+    "slug": "car-painting",
+    "icon": "paintbrush",
+    "popular": false,
+    "color": "#9D4EDD",
+    "ru": "Покраска",
+    "en": "Car Painting",
+    "uz": "Bo'yash"
+  },
+  {
+    "slug": "glass-service",
+    "icon": "glasses",
+    "popular": false,
+    "color": "#90E0EF",
+    "ru": "Замена стекол",
+    "en": "Glass Service",
+    "uz": "Oyna almashtirish"
+  },
+  {
+    "slug": "lighting-service",
+    "icon": "flashlight",
+    "popular": false,
+    "color": "#FFD60A",
+    "ru": "Фары и освещение",
+    "en": "Lighting Service",
+    "uz": "Faralar va yoritish"
+  },
+  {
+    "slug": "car-wash",
+    "icon": "droplets",
+    "popular": false,
+    "color": "#48CAE4",
+    "ru": "Автомойка",
+    "en": "Car Wash",
+    "uz": "Avtomoyka"
+  },
+  {
+    "slug": "detailing",
+    "icon": "sparkles",
+    "popular": false,
+    "color": "#B5179E",
+    "ru": "Детейлинг",
+    "en": "Detailing",
+    "uz": "Deteyling"
+  },
+  {
+    "slug": "window-tinting",
+    "icon": "sunDim",
+    "popular": false,
+    "color": "#560BAD",
+    "ru": "Тонировка",
+    "en": "Window Tinting",
+    "uz": "Tonirovka"
+  },
+  {
+    "slug": "alarm-installation",
+    "icon": "shieldCheck",
+    "popular": false,
+    "color": "#EF476F",
+    "ru": "Установка сигнализации",
+    "en": "Alarm Installation",
+    "uz": "Signalizatsiya o'rnatish"
+  },
+  {
+    "slug": "audio-installation",
+    "icon": "speaker",
+    "popular": false,
+    "color": "#5A189A",
+    "ru": "Установка аудиосистем",
+    "en": "Audio Installation",
+    "uz": "Audio tizim o'rnatish"
+  },
+  {
+    "slug": "welding",
+    "icon": "flame",
+    "popular": true,
+    "color": "#E85D04",
+    "ru": "Сварочные работы",
+    "en": "Welding",
+    "uz": "Payvandlash"
+  },
+  {
+    "slug": "radiator-repair",
+    "icon": "thermometerSun",
+    "popular": true,
+    "color": "#4895EF",
+    "ru": "Ремонт радиатора",
+    "en": "Radiator Repair",
+    "uz": "Radiator ta'miri"
+  },
+  {
+    "slug": "timing-belt",
+    "icon": "refreshCw",
+    "popular": true,
+    "color": "#7209B7",
+    "ru": "Замена ремня ГРМ",
+    "en": "Timing Belt Replacement",
+    "uz": "GRM kamarini almashtirish"
+  },
+  {
+    "slug": "clutch-replacement",
+    "icon": "gitBranch",
+    "popular": true,
+    "color": "#3A0CA3",
+    "ru": "Замена сцепления",
+    "en": "Clutch Replacement",
+    "uz": "Ssepleniye almashtirish"
+  },
+  {
+    "slug": "automatic-transmission",
+    "icon": "layers",
+    "popular": true,
+    "color": "#5A189A",
+    "ru": "Ремонт АКПП",
+    "en": "Automatic Transmission Repair",
+    "uz": "Avtomat korobka ta'miri"
+  },
+  {
+    "slug": "starter-repair",
+    "icon": "plugZap",
+    "popular": true,
+    "color": "#F4A261",
+    "ru": "Ремонт стартера",
+    "en": "Starter Repair",
+    "uz": "Starter ta'miri"
+  },
+  {
+    "slug": "alternator-repair",
+    "icon": "batteryCharging",
+    "popular": true,
+    "color": "#F72585",
+    "ru": "Ремонт генератора",
+    "en": "Alternator Repair",
+    "uz": "Generator ta'miri"
+  },
+  {
+    "slug": "ac-recharge",
+    "icon": "snowflake",
+    "popular": true,
+    "color": "#4CC9F0",
+    "ru": "Заправка кондиционера",
+    "en": "AC Recharge",
+    "uz": "Konditsioner gazini to'ldirish"
+  },
+  {
+    "slug": "car-polishing",
+    "icon": "gem",
+    "popular": true,
+    "color": "#FFD60A",
+    "ru": "Полировка кузова",
+    "en": "Car Polishing",
+    "uz": "Kuzovni polirovka qilish"
+  },
+  {
+    "slug": "interior-cleaning",
+    "icon": "armchair",
+    "popular": true,
+    "color": "#2A9D8F",
+    "ru": "Химчистка салона",
+    "en": "Interior Cleaning",
+    "uz": "Salon kimyoviy tozalash"
+  },
+  {
+    "slug": "mobile-mechanic",
+    "icon": "navigation",
+    "popular": true,
+    "color": "#4361EE",
+    "ru": "Выездной мастер",
+    "en": "Mobile Mechanic",
+    "uz": "Sayyor usta"
+  },
+  {
+    "slug": "tow-truck",
+    "icon": "truck",
+    "popular": true,
+    "color": "#E63946",
+    "ru": "Эвакуатор",
+    "en": "Tow Truck",
+    "uz": "Evakuator"
+  }
+]

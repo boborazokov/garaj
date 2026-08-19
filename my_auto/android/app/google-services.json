@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "549001180477",
+    "project_id": "myauto-45d57",
+    "storage_bucket": "myauto-45d57.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549001180477:android:c90b7c0fc6d6e976d6c154",
+        "android_client_info": {
+          "package_name": "garaj.uz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2f0qGTJrY2PGN1gszvjUQOJnTvouwZN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

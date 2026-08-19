@@ -1,0 +1,15 @@
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.12
+    container_name: autorin_meilisearch
+    restart: always
+    ports:
+      - '${MEILI_PORT:-7700}:7700'
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-autorin_master_key}
+      MEILI_ENV: development
+    volumes:
+      - meili_data:/meili_data
+
+volumes:
+  meili_data:

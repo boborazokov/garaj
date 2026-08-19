@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "deleteOutDir": false,
+    "assets": [
+      {
+        "include": "modules/category/data/**/*.json",
+        "outDir": "dist/modules/category/data"
+      },
+      {
+        "include": "modules/workshop-category/data/**/*.json",
+        "outDir": "dist/modules/workshop-category/data"
+      }
+    ]
+  }
+}
