@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
-/// Garage "Amber & Carbon" palette.
+/// Garage "primary & Carbon" palette.
 ///
 /// Brand identity: a marketplace for car spare parts and announcements.
-/// Amber (#F59E0B) — premium automotive feel, warm and high-contrast.
+/// primary (#F59E0B) — premium automotive feel, warm and high-contrast.
 /// Carbon (#0B0F14) — deep neutral with a slightly cool tint, like
 /// matte-finished engine bay panels.
 class AppPalette {
   AppPalette._();
 
-  static const amber50 = Color(0xFFFFF8E7);
-  static const amber100 = Color(0xFFFFECB3);
-  static const amber200 = Color(0xFFFFD666);
-  static const amber400 = Color(0xFFFBBF24);
-  static const amber500 = Color(0xFFF59E0B);
-  static const amber600 = Color(0xFFD97706);
-  static const amber700 = Color(0xFFB45309);
+  static const primary100 = Color(0xFFD0F2D3);
+  static const primary200 = Color(0xFFB9ECBD);
+  static const primary300 = Color(0xFF99E39F);
+  static const primary400 = Color(0xFF85DD8D);
+  static const primary500 = Color(0xFF67D570);
+  static const primary600 = Color(0xFF5EC266);
+  static const primary700 = Color(0xFF499750);
+  static const primary800 = Color(0xFF39753E);
+  static const primary900 = Color(0xFF2B592F);
 
   static const carbon900 = Color(0xFF0B0F14);
   static const carbon850 = Color(0xFF11161D);
@@ -29,12 +31,12 @@ class AppPalette {
   static const carbon100 = Color(0xFFE5E9EF);
   static const carbon50 = Color(0xFFF4F6FA);
 
-  static const success = Color(0xFF16A34A);
-  static const successSoft = Color(0xFFDCFCE7);
-  static const danger = Color(0xFFDC2626);
-  static const dangerSoft = Color(0xFFFEE2E2);
-  static const info = Color(0xFF2563EB);
-  static const warning = Color(0xFFF59E0B);
+  static const success = Color(0xFF088B3A);
+  static const successSoft = Color(0xFFDAF3E4);
+  static const danger = Color(0xFFC93C32);
+  static const dangerSoft = Color(0xFFFBE8D8);
+  static const info = Color(0xFF0079E8);
+  static const warning = Color(0xFFFFD800);
 
   static const white = Colors.white;
   static const black = Colors.black;
@@ -103,8 +105,8 @@ class AppColors {
 
   static const AppColors light = AppColors._(
     isDark: false,
-    primary: AppPalette.amber500,
-    primaryHover: AppPalette.amber600,
+    primary: AppPalette.primary500,
+    primaryHover: AppPalette.primary600,
     onPrimary: AppPalette.carbon900,
     background: AppPalette.carbon50,
     surface: AppPalette.white,
@@ -127,8 +129,8 @@ class AppColors {
 
   static const AppColors dark = AppColors._(
     isDark: true,
-    primary: AppPalette.amber400,
-    primaryHover: AppPalette.amber200,
+    primary: AppPalette.primary400,
+    primaryHover: AppPalette.primary200,
     onPrimary: AppPalette.carbon900,
     background: AppPalette.carbon900,
     surface: AppPalette.carbon800,
@@ -145,7 +147,7 @@ class AppColors {
     danger: AppPalette.danger,
     dangerSoft: Color(0xFF7F1D1D),
     info: AppPalette.info,
-    warning: AppPalette.amber400,
+    warning: AppPalette.primary400,
     shadow: Color(0x66000000),
   );
 }
@@ -165,14 +167,16 @@ abstract final class PartShopTheme {
 
   static ThemeData _build(AppColors c, Brightness brightness) {
     final isDark = brightness == Brightness.dark;
-    final base = isDark ? ThemeData.dark(useMaterial3: true) : ThemeData.light(useMaterial3: true);
+    final base = isDark
+        ? ThemeData.dark(useMaterial3: true)
+        : ThemeData.light(useMaterial3: true);
 
     final colorScheme = ColorScheme(
       brightness: brightness,
       primary: c.primary,
       onPrimary: c.onPrimary,
-      primaryContainer: isDark ? AppPalette.carbon700 : AppPalette.amber50,
-      onPrimaryContainer: isDark ? c.primary : AppPalette.amber700,
+      primaryContainer: isDark ? AppPalette.carbon700 : AppPalette.primary100,
+      onPrimaryContainer: isDark ? c.primary : AppPalette.primary700,
       secondary: c.textPrimary,
       onSecondary: c.surface,
       secondaryContainer: c.surfaceMuted,
@@ -263,7 +267,8 @@ abstract final class PartShopTheme {
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
-        titleTextStyle: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+        titleTextStyle:
+            textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
         iconTheme: IconThemeData(color: c.textPrimary),
       ),
       cardTheme: CardThemeData(
@@ -291,7 +296,8 @@ abstract final class PartShopTheme {
           foregroundColor: c.onPrimary,
           minimumSize: const Size(64, 52),
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
         ),
       ),
@@ -302,7 +308,8 @@ abstract final class PartShopTheme {
           elevation: 0,
           minimumSize: const Size(64, 52),
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
         ),
       ),
@@ -312,7 +319,8 @@ abstract final class PartShopTheme {
           minimumSize: const Size(64, 52),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           side: BorderSide(color: c.border),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
         ),
       ),
@@ -320,37 +328,40 @@ abstract final class PartShopTheme {
         style: TextButton.styleFrom(
           foregroundColor: c.primary,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: c.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintStyle: TextStyle(color: c.textMuted, fontWeight: FontWeight.w400),
         labelStyle: TextStyle(color: c.textSecondary),
-        floatingLabelStyle: TextStyle(color: c.primary, fontWeight: FontWeight.w600),
+        floatingLabelStyle:
+            TextStyle(color: c.primary, fontWeight: FontWeight.w600),
         prefixIconColor: c.textSecondary,
         suffixIconColor: c.textSecondary,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: c.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: c.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: c.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: c.danger),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: c.danger, width: 1.5),
         ),
       ),
@@ -371,7 +382,8 @@ abstract final class PartShopTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: c.textPrimary,
-        contentTextStyle: TextStyle(color: c.surface, fontWeight: FontWeight.w500),
+        contentTextStyle:
+            TextStyle(color: c.surface, fontWeight: FontWeight.w500),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         behavior: SnackBarBehavior.floating,
       ),

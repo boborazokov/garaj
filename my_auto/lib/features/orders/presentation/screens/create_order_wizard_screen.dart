@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/catalog/vehicle_catalog_repository.dart';
 import 'package:my_auto/core/layout/layout.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';

@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
+import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/chat/chat_di.dart';
 import 'package:my_auto/features/chat/presentation/screens/chats_screen.dart';
 import 'package:my_auto/features/notifications/bloc/notifications_bloc.dart';
@@ -27,17 +28,20 @@ class HomeTopBar extends StatefulWidget {
 
 class _HomeTopBarState extends State<HomeTopBar> {
   int _chatUnread = 0;
+  late final TextEditingController _searchController;
   StreamSubscription<({String conversationId, int unread})>? _unreadSub;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _syncUnread());
+    _searchController = TextEditingController();
   }
 
   @override
   void dispose() {
     _unreadSub?.cancel();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -54,6 +58,13 @@ class _HomeTopBarState extends State<HomeTopBar> {
     });
   }
 
+  void _openSearch() {
+    context.push(
+      RoutesName.search,
+      extra: const {'isAllProduct': true, 'unifiedSearch': true},
+    );
+  }
+
   Future<void> _loadUnread() async {
     if (!context.read<AuthProvider>().isAuthenticated) return;
     try {
@@ -65,25 +76,13 @@ class _HomeTopBarState extends State<HomeTopBar> {
     } catch (_) {}
   }
 
-  void _openProfile() {
-    final shell = context.findAncestorStateOfType<MyBottomNavigationBarState>();
-    if (shell != null) {
-      shell.changeTab(3);
-      return;
-    }
-    context.go(RoutesName.buttonNavigationBar);
-  }
-
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
+
     final colors = context.appColors;
     final s = S.of(context);
-    final theme = Theme.of(context);
     final hasUnreadMessages = _chatUnread > 0;
-    final displayName = auth.isAuthenticated
-        ? auth.auth!.user.name.trim().split(RegExp(r'\s+')).first
-        : s.guest;
 
     if (auth.isGuest && _unreadSub != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _syncUnread());
@@ -97,57 +96,35 @@ class _HomeTopBarState extends State<HomeTopBar> {
         children: [
           Expanded(
             child: Material(
-              color: Colors.transparent,
+              color: colors.surface,
+              borderRadius: AppRadius.rL,
               child: InkWell(
-                onTap: _openProfile,
-                borderRadius: BorderRadius.circular(16),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                  child: Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 48,
-                          height: 48,
-                          fit: BoxFit.cover,
-                        ),
+                borderRadius: AppRadius.rL,
+                onTap: _openSearch,
+                child: IgnorePointer(
+                  child: TextField(
+                    controller: _searchController,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: s.search,
+                      hintStyle: TextStyle(color: colors.textMuted),
+                      prefixIcon: Icon(
+                        LucideIcons.search,
+                        size: 20,
+                        color: colors.textMuted,
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              s.appTitle,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 13,
-                                color: colors.textMuted,
-                                letterSpacing: 0.2,
-                              ),
-                            ),
-                            Text(
-                              s.homeGreeting(displayName),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: -0.3,
-                                color: colors.textPrimary,
-                              ),
-                            ),
-                          ],
-                        ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14,
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
+          ),
+          SizedBox(
+            width: 10,
           ),
           _HeaderActions(
             hasUnreadMessages: hasUnreadMessages,

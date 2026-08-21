@@ -19,8 +19,8 @@ const SKIP_DOCKER = getBooleanEnv('SKIP_DOCKER', false);
 const AUTO_START_DOCKER = getBooleanEnv('AUTO_START_DOCKER', true);
 
 const services = {
-  mongodb: 'autorin_mongodb',
-  redis: 'autorin_redis',
+  // mongodb: 'autorin_mongodb',
+  // redis: 'autorin_redis',
   minio: 'autorin_minio',
   meilisearch: 'autorin_meilisearch',
 };

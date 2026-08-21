@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
@@ -76,7 +76,8 @@ class _SellerProfileState extends State<SellerProfile> {
     _loadProfile();
     _scrollController.addListener(_onScroll);
     _searchController.addListener(_onSearchChanged);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _loadProducts(reset: true));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _loadProducts(reset: true));
   }
 
   @override
@@ -234,10 +235,12 @@ class _SellerProfileState extends State<SellerProfile> {
       );
     } on ChatFailure catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       if (mounted) setState(() => _openingChat = false);
     }
@@ -273,7 +276,8 @@ class _SellerProfileState extends State<SellerProfile> {
     final parts = name.trim().split(RegExp(r'\s+'));
     if (parts.isEmpty || parts.first.isEmpty) return '?';
     if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
-    return (parts.first.substring(0, 1) + parts.last.substring(0, 1)).toUpperCase();
+    return (parts.first.substring(0, 1) + parts.last.substring(0, 1))
+        .toUpperCase();
   }
 
   Future<void> _openUrl(String url) async {
@@ -468,7 +472,8 @@ class _SellerProfileState extends State<SellerProfile> {
                                 Expanded(
                                   child: Text(
                                     profile!.locationLabel!,
-                                    style: TextStyle(color: colors.textSecondary),
+                                    style:
+                                        TextStyle(color: colors.textSecondary),
                                   ),
                                 ),
                               ],
@@ -489,8 +494,7 @@ class _SellerProfileState extends State<SellerProfile> {
                             selectedId: _categoryId,
                             onSelect: (id) {
                               setState(() {
-                                _categoryId =
-                                    _categoryId == id ? null : id;
+                                _categoryId = _categoryId == id ? null : id;
                               });
                               _loadProducts(reset: true);
                             },
@@ -553,7 +557,8 @@ class _SellerProfileState extends State<SellerProfile> {
                                   const SizedBox(height: 16),
                                   FilledButton.icon(
                                     onPressed: _openAddProduct,
-                                    icon: const Icon(LucideIcons.plus, size: 18),
+                                    icon:
+                                        const Icon(LucideIcons.plus, size: 18),
                                     label: Text(s.addFirstProduct),
                                   ),
                                 ],
@@ -703,7 +708,8 @@ class _VisitorProfileHeader extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           s.sellerAtUsername(profile.username!),
-                          style: TextStyle(color: colors.textMuted, fontSize: 14),
+                          style:
+                              TextStyle(color: colors.textMuted, fontSize: 14),
                         ),
                       ],
                       const SizedBox(height: 8),
@@ -725,71 +731,70 @@ class _VisitorProfileHeader extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Row(
-                children: [
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: followLoading ? null : onFollow,
+                    icon: followLoading
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Icon(
+                            profile.isFollowing
+                                ? LucideIcons.check
+                                : LucideIcons.userPlus,
+                            size: 18,
+                          ),
+                    label: Text(
+                      profile.isFollowing ? s.following : s.follow,
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(44),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      foregroundColor:
+                          profile.isFollowing ? colors.textPrimary : null,
+                    ),
+                  ),
+                ),
+                if (profile.allowMessages) ...[
+                  const SizedBox(width: 8),
                   Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: followLoading ? null : onFollow,
-                      icon: followLoading
-                          ? const SizedBox(
+                    child: ElevatedButton.icon(
+                      onPressed: messageLoading ? null : onMessage,
+                      icon: messageLoading
+                          ? SizedBox(
                               width: 16,
                               height: 16,
-                              child: CircularProgressIndicator(strokeWidth: 2),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: colors.onPrimary,
+                              ),
                             )
-                          : Icon(
-                              profile.isFollowing
-                                  ? LucideIcons.check
-                                  : LucideIcons.userPlus,
-                              size: 18,
-                            ),
-                      label: Text(
-                        profile.isFollowing ? s.following : s.follow,
-                      ),
-                      style: OutlinedButton.styleFrom(
+                          : const Icon(LucideIcons.messageSquare, size: 18),
+                      label: Text(s.writeSeller),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: colors.primary,
+                        foregroundColor: colors.onPrimary,
                         minimumSize: const Size.fromHeight(44),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        foregroundColor: profile.isFollowing
-                            ? colors.textPrimary
-                            : null,
                       ),
                     ),
-                  ),
-                  if (profile.allowMessages) ...[
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: messageLoading ? null : onMessage,
-                        icon: messageLoading
-                            ? SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: colors.onPrimary,
-                                ),
-                              )
-                            : const Icon(LucideIcons.messageSquare, size: 18),
-                        label: Text(s.writeSeller),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colors.primary,
-                          foregroundColor: colors.onPrimary,
-                          minimumSize: const Size.fromHeight(44),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                  const SizedBox(width: 8),
-                  IconButton.filledTonal(
-                    onPressed: onShare,
-                    icon: const Icon(LucideIcons.share2, size: 18),
-                    tooltip: s.shareProfile,
                   ),
                 ],
-              ),
+                const SizedBox(width: 8),
+                IconButton.filledTonal(
+                  onPressed: onShare,
+                  icon: const Icon(LucideIcons.share2, size: 18),
+                  tooltip: s.shareProfile,
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -821,7 +826,8 @@ class _StatsRow extends StatelessWidget {
             .map(
               (e) => Container(
                 width: (MediaQuery.sizeOf(context).width - 48) / 2,
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                 decoration: BoxDecoration(
                   color: colors.surface,
                   borderRadius: AppRadius.rM,
@@ -896,10 +902,10 @@ class _SocialLinksRow extends StatelessWidget {
     final s = S.of(context);
     final entries = <(IconData, String?)>[
       (LucideIcons.send, links.telegram),
-      (LucideIcons.instagram, links.instagram),
+      (LucideIcons.aArrowDown, links.instagram),
       (LucideIcons.globe, links.website),
-      (LucideIcons.youtube, links.youtube),
-      (LucideIcons.facebook, links.facebook),
+      (LucideIcons.aArrowDown, links.youtube),
+      (LucideIcons.aArrowDown, links.facebook),
     ].where((e) => e.$2 != null && e.$2!.isNotEmpty).toList();
 
     return Padding(
@@ -948,7 +954,8 @@ class _CategoriesSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(s.sellerCategories,
-              style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+              style:
+                  const TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
           const SizedBox(height: 10),
           SizedBox(
             height: 40,
@@ -1029,7 +1036,8 @@ class _ProductsToolbar extends StatelessWidget {
             const SizedBox(height: 10),
             SegmentedButton<_ProductTab>(
               segments: [
-                ButtonSegment(value: _ProductTab.all, label: Text(s.allProducts)),
+                ButtonSegment(
+                    value: _ProductTab.all, label: Text(s.allProducts)),
                 ButtonSegment(
                     value: _ProductTab.latest, label: Text(s.latestProducts)),
                 ButtonSegment(
@@ -1078,7 +1086,8 @@ class _ProductsToolbar extends StatelessWidget {
               const SizedBox(width: 8),
               IconButton.filledTonal(
                 onPressed: onToggleView,
-                icon: Icon(gridView ? LucideIcons.list : LucideIcons.layoutGrid),
+                icon:
+                    Icon(gridView ? LucideIcons.list : LucideIcons.layoutGrid),
                 tooltip: gridView ? s.listView : s.gridView,
               ),
             ],
@@ -1127,8 +1136,7 @@ class _StickyFollowBar extends StatelessWidget {
                     ),
               label: Text(isFollowing ? s.following : s.follow),
               style: FilledButton.styleFrom(
-                backgroundColor:
-                    isFollowing ? colors.surface : colors.primary,
+                backgroundColor: isFollowing ? colors.surface : colors.primary,
                 foregroundColor:
                     isFollowing ? colors.textPrimary : colors.onPrimary,
               ),

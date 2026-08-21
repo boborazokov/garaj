@@ -460,12 +460,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Опубликуйте заявку — продавцы свяжутся с вами.",
     ),
     "createWorkshopAllServices": MessageLookupByLibrary.simpleMessage(
-      "Все услуги",
+      "Все Сервисы",
     ),
     "createWorkshopPopular": MessageLookupByLibrary.simpleMessage("Популярные"),
     "createWorkshopServicesHint": m9,
     "createWorkshopServicesTitle": MessageLookupByLibrary.simpleMessage(
-      "Выберите услуги",
+      "Выберите Сервисы",
     ),
     "currency": MessageLookupByLibrary.simpleMessage("Валюта"),
     "darkTheme": MessageLookupByLibrary.simpleMessage("Тёмная тема"),
@@ -739,7 +739,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeStickyChooseLocation": MessageLookupByLibrary.simpleMessage("Локация"),
     "homeStickyNearYou": MessageLookupByLibrary.simpleMessage("Рядом с вами"),
     "homeTrendingServicesPreview": MessageLookupByLibrary.simpleMessage(
-      "Популярные услуги",
+      "Популярные Сервисы",
     ),
     "images": MessageLookupByLibrary.simpleMessage("Изображения"),
     "inactive": MessageLookupByLibrary.simpleMessage("Неактивен"),
@@ -831,7 +831,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "myOrders": MessageLookupByLibrary.simpleMessage("Мои заказы"),
     "myProducts": MessageLookupByLibrary.simpleMessage("Мои товары"),
     "myRequests": MessageLookupByLibrary.simpleMessage("Мои заявки"),
-    "myServices": MessageLookupByLibrary.simpleMessage("Мои услуги"),
+    "myServices": MessageLookupByLibrary.simpleMessage("Мои Сервисы"),
     "myStore": MessageLookupByLibrary.simpleMessage("Мой магазин"),
     "name": MessageLookupByLibrary.simpleMessage("Имя"),
     "nearYou": MessageLookupByLibrary.simpleMessage("Рядом с вами"),
@@ -1166,7 +1166,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Продвижение товара",
     ),
     "promoteServiceTitle": MessageLookupByLibrary.simpleMessage(
-      "Продвижение услуги",
+      "Продвижение Сервисы",
     ),
     "promoteWorkshopTitle": MessageLookupByLibrary.simpleMessage(
       "Продвижение мастерской",
@@ -1251,7 +1251,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Фильтры товаров",
     ),
     "searchHubAwaitingTyping": MessageLookupByLibrary.simpleMessage(
-      "Продолжайте ввод — мы собираем товары, мастерские, услуги на карте и заявки в одном ответе.",
+      "Продолжайте ввод — мы собираем товары, мастерские, Сервисы на карте и заявки в одном ответе.",
     ),
     "searchHubCategoryIdeas": MessageLookupByLibrary.simpleMessage(
       "Популярные категории",
@@ -1272,19 +1272,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchHubScopeOrders": MessageLookupByLibrary.simpleMessage("Заявки"),
     "searchHubScopeParts": MessageLookupByLibrary.simpleMessage("Запчасти"),
     "searchHubScopePartsSeed": MessageLookupByLibrary.simpleMessage("запчасти"),
-    "searchHubScopeServices": MessageLookupByLibrary.simpleMessage("Услуги"),
+    "searchHubScopeServices": MessageLookupByLibrary.simpleMessage("Сервисы"),
     "searchHubScopeWorkshops": MessageLookupByLibrary.simpleMessage(
-      "Авто услуги",
+      "Авто Сервисы",
     ),
     "searchHubScopeWorkshopsSeed": MessageLookupByLibrary.simpleMessage(
-      "авто услуги",
+      "авто Сервисы",
     ),
     "searchHubSectionOrders": MessageLookupByLibrary.simpleMessage("Заявки"),
     "searchHubSectionProducts": MessageLookupByLibrary.simpleMessage("Товары"),
     "searchHubSectionSellers": MessageLookupByLibrary.simpleMessage("Продавцы"),
-    "searchHubSectionServices": MessageLookupByLibrary.simpleMessage("Услуги"),
+    "searchHubSectionServices": MessageLookupByLibrary.simpleMessage("Сервисы"),
     "searchHubSectionWorkshops": MessageLookupByLibrary.simpleMessage(
-      "Авто услуги",
+      "Авто Сервисы",
     ),
     "searchHubTrending": MessageLookupByLibrary.simpleMessage("В тренде"),
     "searchHubUnifiedTitle": MessageLookupByLibrary.simpleMessage("Обзор"),
@@ -1345,7 +1345,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "service": MessageLookupByLibrary.simpleMessage("Сервис"),
     "serviceFeatures": MessageLookupByLibrary.simpleMessage("Особенности"),
-    "services": MessageLookupByLibrary.simpleMessage("Услуги"),
+    "services": MessageLookupByLibrary.simpleMessage("Сервисы"),
     "servicesHubEmptyNearby": MessageLookupByLibrary.simpleMessage(
       "Пока нет сервисов с геолокацией рядом. Откройте карту или добавьте свой бизнес.",
     ),
@@ -1353,7 +1353,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Пока нет лучших сервисов.",
     ),
     "servicesHubOpenMapSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Смотрите мастерские и услуги на карте",
+      "Смотрите мастерские и Сервисы на карте",
     ),
     "servicesHubSubtitle": MessageLookupByLibrary.simpleMessage(
       "Найдите проверенные сервисы и запишитесь онлайн",
@@ -1427,7 +1427,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "timeExample": MessageLookupByLibrary.simpleMessage("Пример: 9:00 - 18:00"),
     "title": MessageLookupByLibrary.simpleMessage("Заголовок"),
     "titleOfParts": MessageLookupByLibrary.simpleMessage("Название запчастей"),
-    "titleOfServices": MessageLookupByLibrary.simpleMessage("Название услуги"),
+    "titleOfServices": MessageLookupByLibrary.simpleMessage("Название Сервисы"),
     "topCategories": MessageLookupByLibrary.simpleMessage("Топ категории"),
     "topDeals": MessageLookupByLibrary.simpleMessage("Лучшие предложения"),
     "topProducts": MessageLookupByLibrary.simpleMessage("Топ товары"),

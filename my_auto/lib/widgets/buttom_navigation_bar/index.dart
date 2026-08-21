@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
 import 'package:my_auto/core/routes/name.dart';
@@ -94,12 +94,11 @@ class MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           ],
         ),
       ),
-      floatingActionButton: _CenterFab(onTap: _openAddSheet),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _AppBottomBar(
         selectedIndex: selectedIndex,
         onSelect: changeTab,
-        labels: [s.home, s.orders, s.services, s.profile],
+        onAddSheetOpen: _openAddSheet,
+        labels: [s.home, s.search, s.services, s.profile],
       ),
     );
   }
@@ -112,27 +111,17 @@ class _CenterFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            color: colors.primary,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: colors.primary.withOpacity(0.45),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
-            border: Border.all(color: colors.background, width: 4),
-          ),
-          child: Icon(LucideIcons.plus, color: colors.onPrimary, size: 30),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 54,
+        height: 54,
+        decoration: BoxDecoration(
+          color: colors.primary,
+          shape: BoxShape.circle,
+          border: Border.all(color: colors.background, width: 4),
         ),
+        child: Icon(LucideIcons.plus, color: colors.background, size: 24),
       ),
     );
   }
@@ -141,12 +130,14 @@ class _CenterFab extends StatelessWidget {
 class _AppBottomBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onSelect;
+  final VoidCallback onAddSheetOpen;
   final List<String> labels;
 
   const _AppBottomBar({
     required this.selectedIndex,
     required this.onSelect,
     required this.labels,
+    required this.onAddSheetOpen,
   });
 
   @override
@@ -163,45 +154,45 @@ class _AppBottomBar extends StatelessWidget {
         ),
         padding: const EdgeInsets.only(top: 8, bottom: 8),
         child: Row(
-        children: [
-          Expanded(
-            child: _NavItem(
-              icon: LucideIcons.home,
-              activeIcon: LucideIcons.home,
-              label: labels[0],
-              isActive: selectedIndex == 0,
-              onTap: () => onSelect(0),
+          children: [
+            Expanded(
+              child: _NavItem(
+                icon: LucideIcons.home,
+                activeIcon: LucideIcons.home,
+                label: labels[0],
+                isActive: selectedIndex == 0,
+                onTap: () => onSelect(0),
+              ),
             ),
-          ),
-          Expanded(
-            child: _NavItem(
-              icon: LucideIcons.megaphone,
-              activeIcon: LucideIcons.megaphone,
-              label: labels[1],
-              isActive: selectedIndex == 1,
-              onTap: () => onSelect(1),
+            Expanded(
+              child: _NavItem(
+                icon: LucideIcons.search,
+                activeIcon: LucideIcons.search,
+                label: labels[1],
+                isActive: selectedIndex == 1,
+                onTap: () => onSelect(1),
+              ),
             ),
-          ),
-          const SizedBox(width: 64),
-          Expanded(
-            child: _NavItem(
-              icon: LucideIcons.map,
-              activeIcon: LucideIcons.map,
-              label: labels[2],
-              isActive: selectedIndex == 2,
-              onTap: () => onSelect(2),
+            _CenterFab(onTap: onAddSheetOpen),
+            Expanded(
+              child: _NavItem(
+                icon: LucideIcons.wrench300,
+                activeIcon: LucideIcons.wrench300,
+                label: labels[2],
+                isActive: selectedIndex == 2,
+                onTap: () => onSelect(2),
+              ),
             ),
-          ),
-          Expanded(
-            child: _NavItem(
-              icon: LucideIcons.user,
-              activeIcon: LucideIcons.user,
-              label: labels[3],
-              isActive: selectedIndex == 3,
-              onTap: () => onSelect(3),
+            Expanded(
+              child: _NavItem(
+                icon: LucideIcons.user,
+                activeIcon: LucideIcons.user,
+                label: labels[3],
+                isActive: selectedIndex == 3,
+                onTap: () => onSelect(3),
+              ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
     );
@@ -240,8 +231,9 @@ class _NavItem extends StatelessWidget {
               duration: AppMotion.fast,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
-                color:
-                    isActive ? colors.primary.withOpacity(0.15) : Colors.transparent,
+                color: isActive
+                    ? colors.primary.withOpacity(0.15)
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Icon(
@@ -311,8 +303,7 @@ class _AddActionSheet extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             s.appMarketplaceTagline,
-            style: theme.textTheme.bodySmall
-                ?.copyWith(color: colors.textMuted),
+            style: theme.textTheme.bodySmall?.copyWith(color: colors.textMuted),
           ),
           const SizedBox(height: 16),
           _AddOptionTile(
@@ -440,8 +431,7 @@ class _AddOptionTile extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(LucideIcons.chevronRight,
-                  color: colors.textMuted, size: 18),
+              Icon(LucideIcons.chevronRight, color: colors.textMuted, size: 18),
             ],
           ),
         ),

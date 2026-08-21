@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     final lightTheme = PartShopTheme.light.copyWith(
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.light,
-        primaryColor: AppPalette.amber500,
+        primaryColor: AppPalette.primary500,
         barBackgroundColor: AppPalette.white,
       ),
     );
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
     final darkTheme = PartShopTheme.dark.copyWith(
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.dark,
-        primaryColor: AppPalette.amber400,
+        primaryColor: AppPalette.primary400,
         barBackgroundColor: AppPalette.carbon800,
       ),
     );
@@ -49,9 +49,9 @@ class MyApp extends StatelessWidget {
         locale: localeNotifier.locale,
         localeResolutionCallback: (deviceLocale, supportedLocales) =>
             resolveAppLocale(
-              localeNotifier.locale ?? deviceLocale,
-              supportedLocales,
-            ),
+          localeNotifier.locale ?? deviceLocale,
+          supportedLocales,
+        ),
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,

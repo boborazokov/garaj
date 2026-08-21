@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/provider/add/getCotegories.dart';
 import 'package:my_auto/core/routes/name.dart';
@@ -44,15 +44,15 @@ class _GlobalSearchHubScreenState extends State<GlobalSearchHubScreen> {
   List<String> _recent = const [];
 
   List<String> _trendingQueries(S s) => [
-    s.trendingTires,
-    s.trendingDiagnostics,
-    s.trendingEngineOil,
-    s.trendingTowTruck,
-    s.trendingDetailing,
-    s.trendingAkp,
-    s.trendingBattery,
-    s.trendingBrakes,
-  ];
+        s.trendingTires,
+        s.trendingDiagnostics,
+        s.trendingEngineOil,
+        s.trendingTowTruck,
+        s.trendingDetailing,
+        s.trendingAkp,
+        s.trendingBattery,
+        s.trendingBrakes,
+      ];
 
   @override
   void initState() {
@@ -165,8 +165,7 @@ class _GlobalSearchHubScreenState extends State<GlobalSearchHubScreen> {
                         boxShadow: MarketUi.softElev(context),
                         border: Border.all(
                           color: _focus.hasFocus
-                              ? colors.primary
-                                  .withValues(alpha: .38)
+                              ? colors.primary.withValues(alpha: .38)
                               : colors.border.withValues(alpha: .2),
                           width: _focus.hasFocus ? 1.5 : 1,
                         ),
@@ -213,8 +212,7 @@ class _GlobalSearchHubScreenState extends State<GlobalSearchHubScreen> {
                                   errorBorder: InputBorder.none,
                                   focusedErrorBorder: InputBorder.none,
                                   contentPadding:
-                                      const EdgeInsets.fromLTRB(
-                                          0, 14, 8, 14),
+                                      const EdgeInsets.fromLTRB(0, 14, 8, 14),
                                 ),
                                 onChanged: (_) {
                                   setState(() {});
@@ -236,8 +234,8 @@ class _GlobalSearchHubScreenState extends State<GlobalSearchHubScreen> {
                                   _controller.clear();
                                   setState(() => _snapshot = null);
                                 },
-                                icon: Icon(Icons.close,
-                                    color: colors.textMuted),
+                                icon:
+                                    Icon(Icons.close, color: colors.textMuted),
                               )
                             else
                               const SizedBox(width: 8),
@@ -246,126 +244,9 @@ class _GlobalSearchHubScreenState extends State<GlobalSearchHubScreen> {
                       ),
                     ),
                   ),
-                  if (canPop)
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        foregroundColor: colors.primary,
-                      ),
-                      onPressed: () => context.pop(),
-                      child: Text(
-                        s.cancel,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
                 ],
               ),
             ),
-            if (!hasQuery)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  MarketUi.spacingMD,
-                  12,
-                  MarketUi.spacingMD,
-                  0,
-                ),
-                child: Row(
-                  children: [
-                    _GlassIcon(icon: LucideIcons.search, color: colors.primary),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            s.searchHubUnifiedTitle,
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          Text(
-                            s.searchHubAwaitingTyping,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: colors.textMuted,
-                              height: 1.3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            const SizedBox(height: 12),
-            SizedBox(
-              height: 44,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: MarketUi.spacingMD),
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  _ScopeChip(
-                    label: s.searchHubScopeCars,
-                    icon: LucideIcons.car,
-                    onTap: () {
-                      _controller.text = s.searchHubScopeCarsSeed;
-                      _scheduleSearch(immediate: true);
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  _ScopeChip(
-                    label: s.searchHubScopeParts,
-                    icon: LucideIcons.package,
-                    onTap: () => context.push(
-                      RoutesName.categoriesScreen,
-                      extra: type.PART.name,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  _ScopeChip(
-                    label: s.searchHubScopeServices,
-                    icon: LucideIcons.circleDot,
-                    onTap: () => context.push(RoutesName.servicesHub),
-                  ),
-                  const SizedBox(width: 8),
-                  _ScopeChip(
-                    label: s.searchHubScopeWorkshops,
-                    icon: LucideIcons.wrench,
-                    onTap: () {
-                      _controller.text = s.searchHubScopeWorkshopsSeed;
-                      _scheduleSearch(immediate: true);
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  _ScopeChip(
-                    label: s.searchHubScopeOrders,
-                    icon: LucideIcons.clipboardList,
-                    onTap: () => context.push(RoutesName.ordersList),
-                  ),
-                  const SizedBox(width: 8),
-                  _ScopeChip(
-                    label: s.searchHubScopeNearby,
-                    icon: LucideIcons.mapPin,
-                    onTap: () => context.push(RoutesName.nearbyMap),
-                  ),
-                ],
-              ),
-            ),
-            if (!hasQuery) ...[
-              const SizedBox(height: 12),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: MarketUi.spacingMD,
-                ),
-                child: _QuickActionsRow(
-                  onMap: () => context.push(RoutesName.nearbyMap),
-                  onCreateOrder: () => context.push(RoutesName.createOrder),
-                ),
-              ),
-            ],
             if (_busy)
               Padding(
                 padding: const EdgeInsets.only(top: 6),
@@ -916,8 +797,7 @@ class _UnifiedResults extends StatelessWidget {
             itemWidth: 168,
             itemHeight: 240,
             itemCount: snapshot.products.length,
-            itemBuilder: (i) =>
-                ProductCardGrid(product: snapshot.products[i]),
+            itemBuilder: (i) => ProductCardGrid(product: snapshot.products[i]),
             onSeeAll: snapshot.products.length >= 8
                 ? () => context.push(RoutesName.search,
                     extra: const {'isAllProduct': true})
@@ -931,8 +811,7 @@ class _UnifiedResults extends StatelessWidget {
             itemWidth: 268,
             itemHeight: 200,
             itemCount: snapshot.workshops.length,
-            itemBuilder: (i) =>
-                _WorkshopHitTile(w: snapshot.workshops[i]),
+            itemBuilder: (i) => _WorkshopHitTile(w: snapshot.workshops[i]),
             onSeeAll: snapshot.workshops.length >= 8
                 ? () => context.push(RoutesName.nearbyMap)
                 : null,
@@ -945,8 +824,7 @@ class _UnifiedResults extends StatelessWidget {
             itemWidth: 248,
             itemHeight: 200,
             itemCount: snapshot.services.length,
-            itemBuilder: (i) =>
-                _ServiceHitTile(hit: snapshot.services[i]),
+            itemBuilder: (i) => _ServiceHitTile(hit: snapshot.services[i]),
             onSeeAll: snapshot.services.length >= 8
                 ? () => context.push(RoutesName.servicesHub)
                 : null,
@@ -959,8 +837,7 @@ class _UnifiedResults extends StatelessWidget {
             itemWidth: 268,
             itemHeight: 200,
             itemCount: snapshot.orders.length,
-            itemBuilder: (i) =>
-                _OrderHitTile(order: snapshot.orders[i]),
+            itemBuilder: (i) => _OrderHitTile(order: snapshot.orders[i]),
             onSeeAll: snapshot.orders.length >= 8
                 ? () => context.push(RoutesName.ordersList)
                 : null,
@@ -973,8 +850,7 @@ class _UnifiedResults extends StatelessWidget {
             itemWidth: 208,
             itemHeight: 200,
             itemCount: snapshot.sellers.length,
-            itemBuilder: (i) =>
-                _SellerHitTile(hit: snapshot.sellers[i]),
+            itemBuilder: (i) => _SellerHitTile(hit: snapshot.sellers[i]),
             onSeeAll: null,
           ),
       ],
@@ -1297,8 +1173,7 @@ class _SellerHitTile extends StatelessWidget {
       borderRadius: AppRadius.rL,
       child: InkWell(
         borderRadius: AppRadius.rL,
-        onTap: () =>
-            context.push(RoutesName.sellerProfile, extra: hit.id),
+        onTap: () => context.push(RoutesName.sellerProfile, extra: hit.id),
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -1310,10 +1185,9 @@ class _SellerHitTile extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundImage:
-                    (hit.image != null && hit.image!.isNotEmpty)
-                        ? NetworkImage(hit.image!)
-                        : null,
+                backgroundImage: (hit.image != null && hit.image!.isNotEmpty)
+                    ? NetworkImage(hit.image!)
+                    : null,
                 child: (hit.image == null || hit.image!.isEmpty)
                     ? Text(
                         hit.name.isNotEmpty ? hit.name[0].toUpperCase() : '?',

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:my_auto/core/layout/layout.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/utils/category_lucide_icon.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/core/map/geo_location.dart';
