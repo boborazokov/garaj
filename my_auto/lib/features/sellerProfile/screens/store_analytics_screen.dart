@@ -112,7 +112,6 @@ class _AnalyticsBody extends StatelessWidget {
     final metrics = [
       (s.sellerStatProfileViews, formatCompactCount(stats.profileViews)),
       (s.dashboardProductViews, '—'),
-      (s.sellerStatFollowers, formatCompactCount(stats.followersCount)),
       (s.dashboardMessages, '—'),
       (s.dashboardLeads, '—'),
       (s.productClicks, '—'),

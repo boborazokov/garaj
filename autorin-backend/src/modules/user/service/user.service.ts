@@ -11,6 +11,7 @@ import { UpdateProfileArgs } from '../dto';
 import { MinioService } from 'src/utils/minio';
 import { ItemStatusEnum } from 'src/modules/item/enums';
 import { DeleteAccountResult } from '../types';
+import { SessionService } from 'src/modules/auth/session/session.service';
 
 @Injectable()
 export class UserService {
@@ -19,6 +20,7 @@ export class UserService {
     @InjectModel(COLLECTIONS.PARTS) private partModel: Model<Part>,
     @InjectModel(COLLECTIONS.WORKSHOPS) private workshopModel: Model<Workshop>,
     private minioService: MinioService,
+    private sessions: SessionService,
   ) {}
 
   async getProfile({ userId }: ContextType) {
@@ -36,7 +38,11 @@ export class UserService {
     oldImageUrl?: string | null,
   ): Promise<string> {
     if (oldImageUrl) {
-      await this.minioService.deleteFileFromUrl(oldImageUrl);
+      try {
+        await this.minioService.deleteFileFromUrl(oldImageUrl);
+      } catch {
+        // A broken stored path must not block the new photo.
+      }
     }
 
     const file = await this.minioService.prepareFile({
@@ -44,11 +50,19 @@ export class UserService {
       compress: false,
     });
 
-    return this.minioService.uploadFile({
-      ...file,
-      catalog: Catalog.USERS_AVATARS,
-      compress: true,
-    });
+    try {
+      return await this.minioService.uploadFile({
+        ...file,
+        catalog: Catalog.USERS_AVATARS,
+        compress: true,
+      });
+    } catch {
+      return this.minioService.uploadFile({
+        ...file,
+        catalog: Catalog.USERS_AVATARS,
+        compress: false,
+      });
+    }
   }
 
   async updateProfile(
@@ -66,9 +80,14 @@ export class UserService {
       patch.image = await this.uploadUserImage(image, user.image);
     }
 
-    const updatedUser = await this.userModel.findByIdAndUpdate(userId, patch, {
-      new: true,
-    });
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      userId,
+      {
+        $set: patch,
+        $unset: { username: '', bio: '', description: '', email: '' },
+      },
+      { new: true },
+    );
 
     if (!updatedUser) {
       throw new BadRequestException('User not found');
@@ -135,18 +154,21 @@ export class UserService {
         name: 'Deleted account',
         phone: `deleted_${uid.toString()}_${Date.now()}`,
         image: null,
-        bio: '',
-        description: '',
-        email: '',
-        username: null,
         address: '',
         region: '',
         city: '',
         country: '',
       },
-      $unset: { tgId: '' },
+      $unset: {
+        tgId: '',
+        username: '',
+        bio: '',
+        description: '',
+        email: '',
+      },
     });
 
+    await this.sessions.revokeAllForUser(uid);
     return { success: true };
   }
 }

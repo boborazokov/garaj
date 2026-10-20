@@ -43,7 +43,9 @@ class AppScaffold extends StatelessWidget {
     if (applyKeyboardPadding) {
       content = KeyboardSafeView(child: content);
     }
-    if (applyTopSafeArea) {
+    // AppBar already accounts for the status bar — only pad body when none.
+    final padTop = applyTopSafeArea && appBar == null;
+    if (padTop) {
       content = AppSafeArea(
         top: true,
         bottom: false,

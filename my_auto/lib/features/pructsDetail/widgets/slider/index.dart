@@ -4,16 +4,19 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/provider/home/setFavorite/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProductImagesSlider extends StatefulWidget {
   final List<String> images;
   final String partId;
+  final String shareTitle;
   final String? serviceId;
   final bool initialIsFavorite;
 
@@ -21,6 +24,7 @@ class ProductImagesSlider extends StatefulWidget {
     super.key,
     required this.images,
     required this.partId,
+    this.shareTitle = '',
     this.serviceId,
     this.initialIsFavorite = false,
   });
@@ -112,7 +116,7 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).padding.top + 8,
+            top: systemTopInset(context) + 8,
             left: 12,
             child: _RoundButton(
               icon: LucideIcons.arrowLeft,
@@ -120,7 +124,7 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).padding.top + 8,
+            top: systemTopInset(context) + 8,
             right: 12,
             child: Row(
               children: [
@@ -146,7 +150,18 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
                   },
                 ),
                 const SizedBox(width: 8),
-                _RoundButton(icon: LucideIcons.share2, onTap: () {}),
+                _RoundButton(
+                  icon: LucideIcons.share2,
+                  onTap: () {
+                    final title = widget.shareTitle.trim();
+                    final link = 'https://garage.uz/product/${widget.partId}';
+                    SharePlus.instance.share(
+                      ShareParams(
+                        text: title.isEmpty ? link : '$title\n$link',
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

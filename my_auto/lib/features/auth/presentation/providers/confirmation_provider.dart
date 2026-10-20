@@ -88,9 +88,11 @@ class ConfirmationProvider extends ChangeNotifier {
         await clearPendingSignupToken();
         await context.read<AuthProvider>().setAuth(authData);
         if (!context.mounted) return;
-        final replayed = await PendingActionManager.instance.replay(context);
+        // Clear confirmation / signup from the stack.
+        context.go(RoutesName.buttonNavigationBar);
+        await Future<void>.delayed(Duration.zero);
         if (!context.mounted) return;
-        if (!replayed) context.go(RoutesName.buttonNavigationBar);
+        await PendingActionManager.instance.replay(context);
       }
     } finally {
       isLoading = false;

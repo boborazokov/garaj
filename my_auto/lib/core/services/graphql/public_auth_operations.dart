@@ -7,12 +7,20 @@ const Set<String> publicAuthOperationNames = {
   'signUp',
   'confirmSignUp',
   'signIn',
+  'RequestPasswordReset',
+  'requestPasswordReset',
+  'ResetPassword',
+  'resetPassword',
   'RefreshSession',
   'refreshSession',
   'RegisterDeviceToken',
   'registerDeviceToken',
   'RemoveDeviceToken',
   'removeDeviceToken',
+  'LogoutSession',
+  'logoutSession',
+  'ContactInfo',
+  'contactInfo',
 };
 
 /// Backend `@Public()` catalog + auth (no JWT).
@@ -20,11 +28,14 @@ const Set<String> _publicAuthRootFields = {
   'signup',
   'confirmsignup',
   'signin',
+  'requestpasswordreset',
+  'resetpassword',
   'getcategories',
   'getcategorytree',
   'workshopcategories',
   'servicecategories',
   'getviewscount',
+  'contactinfo',
 };
 
 /// True for GraphQL query operations (not mutation/subscription).

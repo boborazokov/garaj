@@ -5,10 +5,6 @@ mutation Mutation($data: UserUpdateInput!, $image: Upload) {
     name
     phone
     image
-    username
-    bio
-    description
-    email
     country
     region
     city
@@ -24,7 +20,6 @@ mutation Mutation($data: UserUpdateInput!, $image: Upload) {
       showPhone
       showEmail
       showLocation
-      showFollowers
       allowMessages
     }
   }

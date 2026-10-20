@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/model/product/index.dart';
 import 'package:my_auto/core/provider/add/addPartProvider.dart';
 import 'package:my_auto/features/add/screens/addProduct/widgets/form/index.dart';
@@ -89,7 +90,7 @@ class _AddProductWizardState extends State<AddProductWizard> {
             },
           ),
         ),
-        body: SafeArea(
+        body: AppSafeArea(
           top: true,
           bottom: false,
           child: Column(

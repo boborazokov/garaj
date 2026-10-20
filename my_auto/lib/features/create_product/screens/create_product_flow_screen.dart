@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/model/product/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/create_product/bloc/create_product_bloc.dart';
@@ -14,7 +15,6 @@ import 'package:my_auto/features/create_product/widgets/price_step.dart';
 import 'package:my_auto/features/create_product/widgets/product_info_step.dart';
 import 'package:my_auto/features/create_product/widgets/step_progress_header.dart';
 import 'package:my_auto/features/create_product/widgets/sticky_continue_bar.dart';
-import 'package:my_auto/features/create_product/widgets/trust_banner.dart';
 import 'package:my_auto/features/create_product/widgets/unfinished_listing_sheet.dart';
 import 'package:my_auto/features/create_product/domain/create_product_messages.dart';
 import 'package:my_auto/features/create_product/widgets/vehicle_step.dart';
@@ -119,7 +119,8 @@ class _CreateProductFlowView extends StatelessWidget {
       case CreateProductStep.photos:
         return state.draft.hasPhotos;
       case CreateProductStep.vehicle:
-        return state.draft.categoryId != null;
+        return state.draft.categoryId != null &&
+            state.draft.region.trim().isNotEmpty;
       case CreateProductStep.info:
         return state.draft.title.trim().length >= 3;
       case CreateProductStep.price:
@@ -177,7 +178,9 @@ class _CreateProductFlowView extends StatelessWidget {
             state.status == CreateProductStatus.initial) {
           return Scaffold(
             backgroundColor: colors.background,
-            body: const Center(child: CircularProgressIndicator.adaptive()),
+            body: const AppSafeArea(
+              child: Center(child: CircularProgressIndicator.adaptive()),
+            ),
           );
         }
 
@@ -185,7 +188,15 @@ class _CreateProductFlowView extends StatelessWidget {
         final isEdit = state.draft.editingPartId != null;
 
         return PopScope(
-          canPop: _canLeave(state),
+          canPop: _canLeave(state) &&
+              state.draft.step == CreateProductStep.photos,
+          onPopInvokedWithResult: (didPop, _) {
+            if (didPop) return;
+            if (!_canLeave(state)) return;
+            if (state.draft.step != CreateProductStep.photos) {
+              bloc.add(const CreateProductPreviousStep());
+            }
+          },
           child: Scaffold(
             backgroundColor: colors.background,
             appBar: AppBar(
@@ -193,7 +204,15 @@ class _CreateProductFlowView extends StatelessWidget {
                   Text(isEdit ? S.of(context).edit : S.of(context).addProduct),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: _canLeave(state) ? () => context.pop() : null,
+                onPressed: !_canLeave(state)
+                    ? null
+                    : () {
+                        if (state.draft.step == CreateProductStep.photos) {
+                          context.pop();
+                        } else {
+                          bloc.add(const CreateProductPreviousStep());
+                        }
+                      },
               ),
             ),
             body: Column(
@@ -202,8 +221,6 @@ class _CreateProductFlowView extends StatelessWidget {
                   current: state.draft.step,
                   draftSavedAt: state.draftSavedAt,
                 ),
-                if (state.draft.step == CreateProductStep.photos)
-                  const TrustBanner(),
                 if (state.errorMessage != null &&
                     state.status == CreateProductStatus.ready &&
                     state.partCategories.isEmpty)

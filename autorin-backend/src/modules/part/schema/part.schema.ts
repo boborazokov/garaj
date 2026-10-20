@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { ObjectIdScalar } from 'src/common';
@@ -44,6 +44,10 @@ export class Part {
   @Field()
   @Prop({ default: 0, min: 0 })
   quantity: number;
+
+  @Field(() => Int)
+  @Prop({ default: 0, min: 0 })
+  viewsCount: number;
 
   @Field(() => CurrencyEnum)
   @Prop({ type: String, enum: Object.keys(CurrencyEnum), index: true })

@@ -208,8 +208,8 @@ class _NotificationsCenterScreenState extends State<NotificationsCenterScreen> {
         return LucideIcons.messageCircle;
       case PushEventTypes.orderReply:
         return LucideIcons.shoppingBag;
-      case PushEventTypes.newFollower:
-        return LucideIcons.users;
+      case PushEventTypes.orderMatched:
+        return LucideIcons.megaphone;
       case PushEventTypes.favoriteMatched:
       case PushEventTypes.promotedExpired:
         return LucideIcons.sparkles;
@@ -398,37 +398,7 @@ class _NotificationsCenterScreenState extends State<NotificationsCenterScreen> {
                     ),
                   ),
                 const SizedBox(height: 20),
-                Text(
-                  s.notificationsWhatYouGet,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15,
-                    color: colors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                _TopicRow(
-                  icon: LucideIcons.messageCircle,
-                  label: s.notificationsTopicMessages,
-                ),
-                _TopicRow(
-                  icon: LucideIcons.shoppingBag,
-                  label: s.notificationsTopicOrders,
-                ),
-                _TopicRow(
-                  icon: LucideIcons.users,
-                  label: s.notificationsTopicFollowers,
-                ),
-                _TopicRow(
-                  icon: LucideIcons.wrench,
-                  label: s.notificationsTopicWorkshops,
-                ),
-                _TopicRow(
-                  icon: LucideIcons.sparkles,
-                  label: s.notificationsTopicPromos,
-                ),
                 if (!kIsWeb && Platform.isIOS && !alertsOn) ...[
-                  const SizedBox(height: 20),
                   Text(
                     s.notificationsIosSettingsHint,
                     textAlign: TextAlign.center,
@@ -613,36 +583,6 @@ class _StatusCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _TopicRow extends StatelessWidget {
-  const _TopicRow({required this.icon, required this.label});
-
-  final IconData icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: colors.primary),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: colors.textSecondary,
-                height: 1.35,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

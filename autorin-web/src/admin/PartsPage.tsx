@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client/react'
+import { useMutation, useQuery } from '@apollo/client/react'
 import { Link } from 'react-router-dom'
-import { ADMIN_LIST_PARTS } from '../graphql/operations'
+import { ADMIN_LIST_PARTS, DELETE_PART } from '../graphql/operations'
 import type { CategoryType, PaginatedParts } from '../types'
 import { Pagination } from './components/Pagination'
 import { mediaUrl } from '../lib/media'
@@ -32,7 +32,7 @@ export function AdminPartsPage() {
     setPage(1)
   }, [tab, submitted])
 
-  const { data, loading } = useQuery<{ adminListParts: PaginatedParts }>(ADMIN_LIST_PARTS, {
+  const { data, loading, refetch } = useQuery<{ adminListParts: PaginatedParts }>(ADMIN_LIST_PARTS, {
     variables: {
       pagination: { page, limit: 20 },
       search: submitted || undefined,
@@ -40,7 +40,14 @@ export function AdminPartsPage() {
     },
   })
 
+  const [removePart] = useMutation(DELETE_PART)
   const result = data?.adminListParts
+
+  async function onDelete(id: string, name: string) {
+    if (!window.confirm(`Удалить объявление «${name}»?`)) return
+    await removePart({ variables: { partId: id } })
+    refetch()
+  }
 
   return (
     <div className="space-y-6">
@@ -126,12 +133,21 @@ export function AdminPartsPage() {
                 </td>
                 <td className="p-3 text-carbon-100">{part.seller?.name}</td>
                 <td className="p-3">
-                  <Link
-                    to={`/admin/parts/${part._id}`}
-                    className="text-amber-400 hover:underline"
-                  >
-                    Открыть
-                  </Link>
+                  <div className="flex gap-3">
+                    <Link
+                      to={`/admin/parts/${part._id}`}
+                      className="text-amber-400 hover:underline"
+                    >
+                      Открыть
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(part._id, part.name)}
+                      className="text-red-400 hover:underline"
+                    >
+                      Удалить
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

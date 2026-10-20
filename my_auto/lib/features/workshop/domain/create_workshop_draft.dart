@@ -117,10 +117,21 @@ class CreateWorkshopDraft {
     return {
       'name': name.trim(),
       'description': description.trim(),
-      'location': geo != null
-          ? '${geo!.latitude.toStringAsFixed(5)}, ${geo!.longitude.toStringAsFixed(5)}'
+      'location': () {
+        final street = address.trim().isNotEmpty
+            ? address.trim()
+            : (locationLabel.trim().isNotEmpty
+                ? locationLabel.trim()
+                : city.trim());
+        if (street.isNotEmpty) return street;
+        if (geo != null) {
+          return '${geo!.latitude.toStringAsFixed(5)}, ${geo!.longitude.toStringAsFixed(5)}';
+        }
+        return '';
+      }(),
+      'address': address.trim().isNotEmpty
+          ? address.trim()
           : locationLabel.trim(),
-      'address': address.trim(),
       'city': city.trim(),
       'geoLocation': {
         'latitude': geo!.latitude,

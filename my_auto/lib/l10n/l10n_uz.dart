@@ -91,7 +91,7 @@ class SUz extends S {
   String get profile => 'Profil';
 
   @override
-  String get services => 'Xizmatlar';
+  String get services => 'Avtoservis';
 
   @override
   String get add => 'Qo‘shish';
@@ -115,6 +115,57 @@ class SUz extends S {
   String get orders => 'Buyurtmalar';
 
   @override
+  String get navWantToBuy => 'Menga kerak';
+
+  @override
+  String get wantToBuySubtitle =>
+      'Kerakli ehtiyot qismni topa olmasangiz buyurtma qoldiring, sotuvchilar o‘zlari sizga aloqaga chiqishadi.';
+
+  @override
+  String get wantToBuySearchHint => 'Qism, mashina yoki shahar…';
+
+  @override
+  String get wantToBuyCreateCta => 'So‘rov qoldirish';
+
+  @override
+  String wantToBuyRequestsCount(int count) {
+    return '$count ta ochiq';
+  }
+
+  @override
+  String get wantToBuyRequestBadge => 'So‘rov';
+
+  @override
+  String get wantToBuyBudget => 'Byudjet';
+
+  @override
+  String wantToBuyOffers(int count) {
+    return '$count ta taklif';
+  }
+
+  @override
+  String get wantToBuyStep1 => 'So‘rov';
+
+  @override
+  String get wantToBuyStep2 => 'Taklif';
+
+  @override
+  String get wantToBuyStep3 => 'Kelishuv';
+
+  @override
+  String get wantToBuyFeedTitle => 'Xaridor so‘rovlari';
+
+  @override
+  String get wantToBuyRespond => 'Taklif berish';
+
+  @override
+  String get wantToBuyEmptyTitle => 'Hali so‘rovlar yo‘q';
+
+  @override
+  String get wantToBuyEmptyHint =>
+      'Nima kerakligini yozing — do‘kon va sotuvchilar taklif yuboradi.';
+
+  @override
   String get morning => 'Xayrli tong';
 
   @override
@@ -130,7 +181,7 @@ class SUz extends S {
   String get seeAll => 'Hammasi';
 
   @override
-  String get topDeals => 'Eng yaxshi takliflar';
+  String get topDeals => 'Zapchasti va hammasi';
 
   @override
   String get whatDoYouWantSell => 'Nima sotmoqchisiz?';
@@ -181,6 +232,9 @@ class SUz extends S {
   String get profileSectionMyActivity => 'Mening faoliyatim';
 
   @override
+  String get profileSubtitleMyStore => 'Do‘kon, banner va e’lonlar';
+
+  @override
   String get profileSubtitleMyProducts => 'E’lonlar va ehtiyot qismlar';
 
   @override
@@ -188,6 +242,54 @@ class SUz extends S {
 
   @override
   String get profileSubtitleMyOrders => 'So‘nggi buyurtmalar';
+
+  @override
+  String get sellerMatchingOrdersTitle => 'Reklamalar';
+
+  @override
+  String get sellerMatchingOrdersSubtitle =>
+      'Tizimdagi mos xaridor e\'lonlari va statusi';
+
+  @override
+  String get sellerMatchingOrdersAll => 'Barcha mos reklamalar';
+
+  @override
+  String get sellerMatchingOrdersByCategory => 'Kategoriyalar bo‘yicha';
+
+  @override
+  String sellerMatchingOrdersTotalHint(int count) {
+    return 'Siz uchun $count ta faol reklama';
+  }
+
+  @override
+  String sellerMatchingOrdersListingsHint(int count) {
+    return '$count ta mahsulotingiz';
+  }
+
+  @override
+  String get sellerMatchingOrdersEmptyListings => 'Hali mahsulot yo‘q';
+
+  @override
+  String get sellerMatchingOrdersEmptyListingsHint =>
+      'Sotadigan kategoriyalarga mahsulot qo\'shing — mos reklamalar shu yerda chiqadi.';
+
+  @override
+  String get sellerMatchingOrdersStatusActive => 'Faol';
+
+  @override
+  String get sellerMatchingOrdersStatusClosed => 'Yopiq';
+
+  @override
+  String sellerMatchingOrdersOpenCount(int count) {
+    return '$count ta ochiq';
+  }
+
+  @override
+  String get notificationOrderMatchedTitle => 'Yangi mos e’lon';
+
+  @override
+  String get notificationOrderMatchedBody =>
+      'Xaridor sizning kategoriyangizda e’lon yaratdi.';
 
   @override
   String get profileSubtitleMessages => 'Sotuvchilar bilan chatlar';
@@ -957,6 +1059,9 @@ class SUz extends S {
   String get promotedTop => 'Targ\'ib qilingan';
 
   @override
+  String get promoteToTop => 'Topga chiqarish';
+
+  @override
   String get promotedBadge => 'Targ\'ib';
 
   @override
@@ -1393,14 +1498,38 @@ class SUz extends S {
   String get searchHubRecent => 'So‘nggi qidiruvlar';
 
   @override
+  String get searchHubClearRecent => 'Tozalash';
+
+  @override
   String get searchHubTrending => 'Trendlar';
 
   @override
   String get searchHubCategoryIdeas => 'Mashhur turkumlar';
 
   @override
+  String get searchHubExploreTitle => 'Kashfiyot';
+
+  @override
+  String get searchHubBrowseAllCategories => 'Barcha turkumlar';
+
+  @override
+  String get searchHubCarBrands => 'Avtomobil markalari';
+
+  @override
+  String get searchHubExploreHint => 'Nima qidiryapsiz?';
+
+  @override
+  String get searchHubQuickParts => 'Ehtiyot qismlar';
+
+  @override
+  String get searchHubQuickNearby => 'Yaqin atrofda';
+
+  @override
   String get searchHubAwaitingTyping =>
       'Yozganingiz bilan qidiruvni birlashtirib, mahsulotlar, Avto Xizmatlar, xarita xizmatlari va buyurtmalarni ko‘rsatamiz.';
+
+  @override
+  String get searchHubSearching => 'Qidirilmoqda…';
 
   @override
   String get searchHubNoGroupedHits => 'Hozircha mos kelmaydi';
@@ -1717,7 +1846,21 @@ class SUz extends S {
   String get workshopFastResponse => 'Tez javob';
 
   @override
-  String get workshopAbout => 'Xizmat haqida';
+  String get workshopAbout => 'Avtoservis haqida';
+
+  @override
+  String get workshopServiceTypes => 'Xizmat turlari';
+
+  @override
+  String get similarWorkshops => 'O‘xshash avtoservislar';
+
+  @override
+  String get similarOrders => 'O‘xshash buyurtmalar';
+
+  @override
+  String viewsCountLabel(int count) {
+    return '$count';
+  }
 
   @override
   String get workshopOnRequest => 'So\'rov bo\'yicha';
@@ -2047,7 +2190,7 @@ class SUz extends S {
   String get sellerStoreEmpty => 'Sotuvchida hali mahsulot yo\'q';
 
   @override
-  String get sellerStoreEmptyHint => 'Yangi e\'lonlar uchun obuna bo\'ling.';
+  String get sellerStoreEmptyHint => 'Hali e\'lonlar yo\'q.';
 
   @override
   String get username => 'Foydalanuvchi nomi';

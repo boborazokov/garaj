@@ -112,21 +112,21 @@ class MyProductCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
+                              _formatPrice(product.price, product.currency),
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: colors.primary,
+                                height: 1.1,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
                               product.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.w700,
                                 height: 1.25,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              _formatPrice(product.price, product.currency),
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w900,
-                                color: colors.textPrimary,
-                                height: 1.1,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -136,25 +136,13 @@ class MyProductCard extends StatelessWidget {
                             ),
                             if (product.category?.name != null) ...[
                               const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Icon(
-                                    LucideIcons.tag,
-                                    size: 13,
-                                    color: colors.textMuted,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Expanded(
-                                    child: Text(
-                                      product.category!.name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: theme.textTheme.labelSmall?.copyWith(
-                                        color: colors.textMuted,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                product.category!.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: colors.textMuted,
+                                ),
                               ),
                             ],
                           ],
@@ -171,11 +159,24 @@ class MyProductCard extends StatelessWidget {
                     children: [
                       if (isMine && !isDepleted) ...[
                         MyListingPromoteButton(
-                          label: s.promotedTop,
-                          onTap: () => showPromoteProductSheet(
-                            context,
-                            product: product,
-                          ),
+                          label: product.isPromotionActive
+                              ? s.promotedTop
+                              : s.promoteToTop,
+                          isActive: product.isPromotionActive,
+                          onTap: () async {
+                            final ok = await showPromoteProductSheet(
+                              context,
+                              product: product,
+                            );
+                            if (ok != true || !context.mounted) return;
+                            final sellerId = product.seller?.id;
+                            if (sellerId == null || sellerId.isEmpty) return;
+                            await context.read<ProductProvider>().loadList(
+                                  filters: {'seller': sellerId},
+                                  reset: true,
+                                  sort: 'NEWEST',
+                                );
+                          },
                         ),
                         const SizedBox(height: AppSpacing.s),
                       ],

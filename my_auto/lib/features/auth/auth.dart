@@ -3,5 +3,6 @@ library;
 
 export 'auth_providers.dart';
 export 'presentation/screens/confirmation_screen.dart';
+export 'presentation/screens/reset_password_screen.dart';
 export 'presentation/screens/sign_in_screen.dart';
 export 'presentation/screens/sign_up_screen.dart';

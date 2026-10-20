@@ -14,6 +14,7 @@ import {
   AdminListPartsArgs,
   AdminListUsersArgs,
   ModeratePartArgs,
+  SetContactInfoArgs,
   SetProductModerationArgs,
   SetUserRoleArgs,
   AdminSetUserImageArgs,
@@ -40,6 +41,19 @@ export class AdminResolver {
     @Context() context: ContextType,
   ) {
     return this.adminService.setProductModerationEnabled(args.enabled, context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => AppSettings)
+  setContactInfo(
+    @Args() args: SetContactInfoArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setContactInfo(
+      args.supportEmail,
+      args.supportPhone,
+      context,
+    );
   }
 
   @UseRole(UserRoleEnum.ADMIN)

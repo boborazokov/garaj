@@ -135,7 +135,7 @@ class _WorkshopScreenState extends State<WorkshopScreen> {
 
     return Scaffold(
       backgroundColor: colors.background,
-      body: SafeArea(
+      body: AppSafeArea(
         bottom: false,
         child: RefreshIndicator(
           color: colors.primary,

@@ -258,7 +258,7 @@ abstract class S {
   /// No description provided for @services.
   ///
   /// In en, this message translates to:
-  /// **'Services'**
+  /// **'Auto services'**
   String get services;
 
   /// No description provided for @add.
@@ -303,6 +303,96 @@ abstract class S {
   /// **'Orders'**
   String get orders;
 
+  /// No description provided for @navWantToBuy.
+  ///
+  /// In en, this message translates to:
+  /// **'I need'**
+  String get navWantToBuy;
+
+  /// No description provided for @wantToBuySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t find the part you need? Leave a request — sellers will contact you.'**
+  String get wantToBuySubtitle;
+
+  /// No description provided for @wantToBuySearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Part, car or city…'**
+  String get wantToBuySearchHint;
+
+  /// No description provided for @wantToBuyCreateCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Post a request'**
+  String get wantToBuyCreateCta;
+
+  /// No description provided for @wantToBuyRequestsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} open'**
+  String wantToBuyRequestsCount(int count);
+
+  /// No description provided for @wantToBuyRequestBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Request'**
+  String get wantToBuyRequestBadge;
+
+  /// No description provided for @wantToBuyBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get wantToBuyBudget;
+
+  /// No description provided for @wantToBuyOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} offers'**
+  String wantToBuyOffers(int count);
+
+  /// No description provided for @wantToBuyStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Request'**
+  String get wantToBuyStep1;
+
+  /// No description provided for @wantToBuyStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers'**
+  String get wantToBuyStep2;
+
+  /// No description provided for @wantToBuyStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal'**
+  String get wantToBuyStep3;
+
+  /// No description provided for @wantToBuyFeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer requests'**
+  String get wantToBuyFeedTitle;
+
+  /// No description provided for @wantToBuyRespond.
+  ///
+  /// In en, this message translates to:
+  /// **'Make offer'**
+  String get wantToBuyRespond;
+
+  /// No description provided for @wantToBuyEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests yet'**
+  String get wantToBuyEmptyTitle;
+
+  /// No description provided for @wantToBuyEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Post what you need — shops and sellers will reply with offers.'**
+  String get wantToBuyEmptyHint;
+
   /// No description provided for @morning.
   ///
   /// In en, this message translates to:
@@ -336,7 +426,7 @@ abstract class S {
   /// No description provided for @topDeals.
   ///
   /// In en, this message translates to:
-  /// **'Top Deals'**
+  /// **'Parts & more'**
   String get topDeals;
 
   /// No description provided for @whatDoYouWantSell.
@@ -435,6 +525,12 @@ abstract class S {
   /// **'My activity'**
   String get profileSectionMyActivity;
 
+  /// No description provided for @profileSubtitleMyStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Store, banner and listings'**
+  String get profileSubtitleMyStore;
+
   /// No description provided for @profileSubtitleMyProducts.
   ///
   /// In en, this message translates to:
@@ -452,6 +548,84 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Recent orders'**
   String get profileSubtitleMyOrders;
+
+  /// No description provided for @sellerMatchingOrdersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ads'**
+  String get sellerMatchingOrdersTitle;
+
+  /// No description provided for @sellerMatchingOrdersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching buyer requests and their status'**
+  String get sellerMatchingOrdersSubtitle;
+
+  /// No description provided for @sellerMatchingOrdersAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All matching requests'**
+  String get sellerMatchingOrdersAll;
+
+  /// No description provided for @sellerMatchingOrdersByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'By your categories'**
+  String get sellerMatchingOrdersByCategory;
+
+  /// No description provided for @sellerMatchingOrdersTotalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} active requests for you'**
+  String sellerMatchingOrdersTotalHint(int count);
+
+  /// No description provided for @sellerMatchingOrdersListingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of your listings'**
+  String sellerMatchingOrdersListingsHint(int count);
+
+  /// No description provided for @sellerMatchingOrdersEmptyListings.
+  ///
+  /// In en, this message translates to:
+  /// **'No listings yet'**
+  String get sellerMatchingOrdersEmptyListings;
+
+  /// No description provided for @sellerMatchingOrdersEmptyListingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add products in categories you sell — matching buyer requests will appear here.'**
+  String get sellerMatchingOrdersEmptyListingsHint;
+
+  /// No description provided for @sellerMatchingOrdersStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get sellerMatchingOrdersStatusActive;
+
+  /// No description provided for @sellerMatchingOrdersStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get sellerMatchingOrdersStatusClosed;
+
+  /// No description provided for @sellerMatchingOrdersOpenCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} open'**
+  String sellerMatchingOrdersOpenCount(int count);
+
+  /// No description provided for @notificationOrderMatchedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New matching request'**
+  String get notificationOrderMatchedTitle;
+
+  /// No description provided for @notificationOrderMatchedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A buyer posted a request in your category.'**
+  String get notificationOrderMatchedBody;
 
   /// No description provided for @profileSubtitleMessages.
   ///
@@ -1896,8 +2070,14 @@ abstract class S {
   /// No description provided for @promotedTop.
   ///
   /// In en, this message translates to:
-  /// **'Top'**
+  /// **'Promoted'**
   String get promotedTop;
+
+  /// No description provided for @promoteToTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Boost / move to top'**
+  String get promoteToTop;
 
   /// No description provided for @promotedBadge.
   ///
@@ -2697,6 +2877,12 @@ abstract class S {
   /// **'Recent searches'**
   String get searchHubRecent;
 
+  /// No description provided for @searchHubClearRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get searchHubClearRecent;
+
   /// No description provided for @searchHubTrending.
   ///
   /// In en, this message translates to:
@@ -2709,11 +2895,53 @@ abstract class S {
   /// **'Popular categories'**
   String get searchHubCategoryIdeas;
 
+  /// No description provided for @searchHubExploreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get searchHubExploreTitle;
+
+  /// No description provided for @searchHubBrowseAllCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse all categories'**
+  String get searchHubBrowseAllCategories;
+
+  /// No description provided for @searchHubCarBrands.
+  ///
+  /// In en, this message translates to:
+  /// **'Car brands'**
+  String get searchHubCarBrands;
+
+  /// No description provided for @searchHubExploreHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What are you looking for?'**
+  String get searchHubExploreHint;
+
+  /// No description provided for @searchHubQuickParts.
+  ///
+  /// In en, this message translates to:
+  /// **'Parts catalog'**
+  String get searchHubQuickParts;
+
+  /// No description provided for @searchHubQuickNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby on map'**
+  String get searchHubQuickNearby;
+
   /// No description provided for @searchHubAwaitingTyping.
   ///
   /// In en, this message translates to:
   /// **'Start typing to search listings, workshops, orders, and sellers.'**
   String get searchHubAwaitingTyping;
+
+  /// No description provided for @searchHubSearching.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching…'**
+  String get searchHubSearching;
 
   /// No description provided for @searchHubNoGroupedHits.
   ///
@@ -3300,8 +3528,32 @@ abstract class S {
   /// No description provided for @workshopAbout.
   ///
   /// In en, this message translates to:
-  /// **'About'**
+  /// **'About the auto service'**
   String get workshopAbout;
+
+  /// No description provided for @workshopServiceTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Service types'**
+  String get workshopServiceTypes;
+
+  /// No description provided for @similarWorkshops.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar auto services'**
+  String get similarWorkshops;
+
+  /// No description provided for @similarOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar requests'**
+  String get similarOrders;
+
+  /// No description provided for @viewsCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}'**
+  String viewsCountLabel(int count);
 
   /// No description provided for @workshopOnRequest.
   ///
@@ -3919,7 +4171,7 @@ abstract class S {
   /// No description provided for @sellerStoreEmptyHint.
   ///
   /// In en, this message translates to:
-  /// **'Follow to get notified when they list new items.'**
+  /// **'No products listed yet.'**
   String get sellerStoreEmptyHint;
 
   /// No description provided for @username.

@@ -51,9 +51,8 @@ class GridCategories extends StatelessWidget {
         final items = <Widget>[
           ...visibleItems.map(
             (item) => _CategoryTile(
-              title: item.names.compactForLocale(lang, maxChars: 18),
-              imageUrl: item.iconUrl,
-              lucideIcon: categoryLucideIcon(item.icon),
+              title: item.names.forLocale(lang),
+              lucideIcon: resolveCategoryIcon(item),
               onTap: () => context.push(
                 RoutesName.listOfItems,
                 extra: item,
@@ -80,9 +79,10 @@ class GridCategories extends StatelessWidget {
           padding: showAll ? const EdgeInsets.only(bottom: 16) : EdgeInsets.zero,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 10,
-            childAspectRatio: showAll ? 0.92 : 0.85,
+            crossAxisSpacing: showAll ? 8 : 6,
+            mainAxisSpacing: showAll ? 8 : 4,
+            // Home: denser tiles so the grid doesn't look sparse/messy.
+            childAspectRatio: showAll ? 0.88 : 0.82,
           ),
           itemCount: items.length,
           itemBuilder: (context, index) => items[index],
@@ -95,14 +95,12 @@ class GridCategories extends StatelessWidget {
 class _CategoryTile extends StatelessWidget {
   const _CategoryTile({
     required this.title,
-    required this.imageUrl,
     required this.lucideIcon,
     required this.onTap,
   });
 
   final String title;
-  final String? imageUrl;
-  final IconData? lucideIcon;
+  final IconData lucideIcon;
   final VoidCallback onTap;
 
   @override
@@ -114,52 +112,39 @@ class _CategoryTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: AppRadius.rM,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: colors.surface,
+                  color: colors.surfaceMuted,
                   borderRadius: AppRadius.rM,
-                  border: Border.all(color: colors.border),
                 ),
                 child: Center(
-                  child: imageUrl != null && imageUrl!.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.all(6),
-                          child: Image.network(
-                            imageUrl!,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Icon(
-                              lucideIcon ?? LucideIcons.boxes,
-                              size: 22,
-                              color: colors.primary,
-                            ),
-                          ),
-                        )
-                      : Icon(
-                          lucideIcon ?? LucideIcons.boxes,
-                          size: 22,
-                          color: colors.primary,
-                        ),
+                  child: Icon(
+                    lucideIcon,
+                    size: 22,
+                    color: colors.primary,
+                  ),
                 ),
               ),
               const SizedBox(height: 4),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  height: 1.1,
-                  color: colors.textPrimary,
+              Flexible(
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w600,
+                    height: 1.2,
+                    color: colors.textPrimary,
+                  ),
                 ),
               ),
             ],
@@ -183,33 +168,33 @@ class _MoreTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: AppRadius.rM,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: colors.primary.withValues(alpha: 0.15),
+                  color: colors.primary.withValues(alpha: 0.12),
                   borderRadius: AppRadius.rM,
-                  border: Border.all(
-                    color: colors.primary.withValues(alpha: 0.4),
-                  ),
                 ),
                 child: Icon(LucideIcons.layoutGrid, size: 22, color: colors.primary),
               ),
               const SizedBox(height: 4),
-              Text(
-                S.of(context).more,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                  height: 1.1,
-                  color: colors.primary,
+              Flexible(
+                child: Text(
+                  S.of(context).more,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    height: 1.15,
+                    color: colors.primary,
+                  ),
                 ),
               ),
             ],

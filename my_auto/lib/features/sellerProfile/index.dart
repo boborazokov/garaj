@@ -12,8 +12,6 @@ import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/resolve_media_url.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/chat/chat_di.dart';
 import 'package:my_auto/features/chat/domain/failures/chat_failure.dart';
 import 'package:my_auto/features/sellerProfile/models/seller_store_profile.dart';
@@ -26,6 +24,7 @@ import 'package:my_auto/features/sellerProfile/widgets/seller_profile_error.dart
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:my_auto/widgets/productCard/index.dart';
+import 'package:my_auto/widgets/searchInput/index.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -47,7 +46,6 @@ class _SellerProfileState extends State<SellerProfile> {
   SellerStoreProfile? _profile;
   Object? _profileError;
   bool _profileLoading = true;
-  bool _followLoading = false;
   bool _openingChat = false;
   _ProductTab _tab = _ProductTab.all;
   String _sort = 'RECOMMENDED';
@@ -141,69 +139,6 @@ class _SellerProfileState extends State<SellerProfile> {
     }
   }
 
-  Future<void> _confirmUnfollow() async {
-    final s = S.of(context);
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(s.unfollow),
-        content: Text(s.unfollowConfirm),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(s.close),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(s.unfollow),
-          ),
-        ],
-      ),
-    );
-    if (ok == true) await _toggleFollow(forceUnfollow: true);
-  }
-
-  Future<void> _toggleFollow({bool forceUnfollow = false}) async {
-    if (_profile == null || _profile!.isOwnProfile) return;
-    if (_profile!.isFollowing && !forceUnfollow) {
-      await _confirmUnfollow();
-      return;
-    }
-    final authed = await AuthGuard.requireAuth(context);
-    if (!authed || !mounted) return;
-
-    setState(() => _followLoading = true);
-    try {
-      if (_profile!.isFollowing) {
-        await sellerProfileRepository.unfollow(widget.sellerId);
-      } else {
-        await sellerProfileRepository.follow(widget.sellerId);
-      }
-      if (!mounted) return;
-      final delta = _profile!.isFollowing ? -1 : 1;
-      setState(() {
-        _profile = _profile!.copyWith(
-          isFollowing: !_profile!.isFollowing,
-          stats: SellerStoreStats(
-            totalProducts: _profile!.stats.totalProducts,
-            activeProducts: _profile!.stats.activeProducts,
-            categoriesCount: _profile!.stats.categoriesCount,
-            followersCount:
-                (_profile!.stats.followersCount + delta).clamp(0, 999999999),
-            profileViews: _profile!.stats.profileViews,
-          ),
-        );
-      });
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
-    } finally {
-      if (mounted) setState(() => _followLoading = false);
-    }
-  }
-
   Future<void> _writeSeller() async {
     if (_openingChat || _profile == null) return;
     final authed = await AuthGuard.requireAuth(
@@ -249,8 +184,8 @@ class _SellerProfileState extends State<SellerProfile> {
   void _shareProfile() {
     final p = _profile;
     if (p == null) return;
-    final link = buildStoreShareLink(sellerId: p.id, username: p.username);
-    final handle = p.username?.isNotEmpty == true ? '@${p.username}' : p.name;
+    final link = buildStoreShareLink(sellerId: p.id);
+    final handle = p.name;
     SharePlus.instance.share(
       ShareParams(text: '${p.name} ($handle)\n$link'),
     );
@@ -262,12 +197,6 @@ class _SellerProfileState extends State<SellerProfile> {
     final p = _profile;
     if (p == null) return;
     context.push(RoutesName.storeAnalytics, extra: p);
-  }
-
-  void _openFollowers() {
-    final p = _profile;
-    if (p == null) return;
-    context.push(RoutesName.sellerFollowers, extra: p.id);
   }
 
   void _openAddProduct() => context.push(RoutesName.addProduct);
@@ -335,15 +264,7 @@ class _SellerProfileState extends State<SellerProfile> {
               ]
             : null,
       ),
-      bottomNavigationBar: profile != null &&
-              !profile.isOwnProfile &&
-              MediaQuery.sizeOf(context).width < 600
-          ? _StickyFollowBar(
-              isFollowing: profile.isFollowing,
-              loading: _followLoading,
-              onFollow: _toggleFollow,
-            )
-          : null,
+      bottomNavigationBar: null,
       body: _profileLoading && profile == null
           ? const _ProfileSkeleton()
           : _profileError != null && profile == null
@@ -375,7 +296,6 @@ class _SellerProfileState extends State<SellerProfile> {
                           child: OwnerStoreIdentity(
                             profile: profile,
                             initials: _initials(profile.name),
-                            onOpenFollowers: _openFollowers,
                           ),
                         ),
                       if (profile != null && !profile.isOwnProfile)
@@ -384,10 +304,8 @@ class _SellerProfileState extends State<SellerProfile> {
                             profile: profile,
                             localeCode: localeCode,
                             initials: _initials(profile.name),
-                            onFollow: _toggleFollow,
                             onMessage: _writeSeller,
                             onShare: _shareProfile,
-                            followLoading: _followLoading,
                             messageLoading: _openingChat,
                           ),
                         ),
@@ -399,14 +317,6 @@ class _SellerProfileState extends State<SellerProfile> {
                         SliverToBoxAdapter(
                           child: VerifiedAccountInfoCard(
                             isOwner: profile.isOwnProfile,
-                          ),
-                        ),
-                      if (profile != null)
-                        const SliverToBoxAdapter(
-                          child: AdBanner(
-                            surface: AdSurface.model,
-                            height: 120,
-                            margin: EdgeInsets.fromLTRB(16, 8, 16, 0),
                           ),
                         ),
                       if (profile != null && profile.isOwnProfile)
@@ -432,33 +342,6 @@ class _SellerProfileState extends State<SellerProfile> {
                       if (profile != null && !profile.isOwnProfile)
                         SliverToBoxAdapter(
                           child: _StatsRow(stats: profile.stats),
-                        ),
-                      if (!isOwner && profile?.bio?.trim().isNotEmpty == true)
-                        SliverToBoxAdapter(
-                          child: _SectionCard(
-                            title: s.sellerBioSection,
-                            child: Text(
-                              profile!.bio!.trim(),
-                              style: TextStyle(
-                                color: colors.textSecondary,
-                                height: 1.45,
-                              ),
-                            ),
-                          ),
-                        ),
-                      if (!isOwner &&
-                          profile?.description?.trim().isNotEmpty == true)
-                        SliverToBoxAdapter(
-                          child: _SectionCard(
-                            title: s.sellerDescriptionSection,
-                            child: Text(
-                              profile!.description!.trim(),
-                              style: TextStyle(
-                                color: colors.textSecondary,
-                                height: 1.5,
-                              ),
-                            ),
-                          ),
                         ),
                       if (!isOwner && profile?.locationLabel != null)
                         SliverToBoxAdapter(
@@ -619,20 +502,16 @@ class _VisitorProfileHeader extends StatelessWidget {
   final SellerStoreProfile profile;
   final String? localeCode;
   final String initials;
-  final VoidCallback onFollow;
   final VoidCallback onMessage;
   final VoidCallback onShare;
-  final bool followLoading;
   final bool messageLoading;
 
   const _VisitorProfileHeader({
     required this.profile,
     required this.localeCode,
     required this.initials,
-    required this.onFollow,
     required this.onMessage,
     required this.onShare,
-    required this.followLoading,
     required this.messageLoading,
   });
 
@@ -704,21 +583,9 @@ class _VisitorProfileHeader extends StatelessWidget {
                           ],
                         ],
                       ),
-                      if (profile.username?.isNotEmpty == true) ...[
-                        const SizedBox(height: 2),
-                        Text(
-                          s.sellerAtUsername(profile.username!),
-                          style:
-                              TextStyle(color: colors.textMuted, fontSize: 14),
-                        ),
-                      ],
                       const SizedBox(height: 8),
                       Text(
-                        s.sellerFollowersProducts(
-                          formatCompactCount(profile.stats.followersCount),
-                          formatCompactCount(profile.stats.totalProducts),
-                          joined,
-                        ),
+                        '${formatCompactCount(profile.stats.totalProducts)} ${s.sellerStatProducts.toLowerCase()} • $joined',
                         style: TextStyle(
                           color: colors.textSecondary,
                           fontSize: 13,
@@ -732,36 +599,7 @@ class _VisitorProfileHeader extends StatelessWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: followLoading ? null : onFollow,
-                    icon: followLoading
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Icon(
-                            profile.isFollowing
-                                ? LucideIcons.check
-                                : LucideIcons.userPlus,
-                            size: 18,
-                          ),
-                    label: Text(
-                      profile.isFollowing ? s.following : s.follow,
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(44),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      foregroundColor:
-                          profile.isFollowing ? colors.textPrimary : null,
-                    ),
-                  ),
-                ),
-                if (profile.allowMessages) ...[
-                  const SizedBox(width: 8),
+                if (profile.allowMessages)
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: messageLoading ? null : onMessage,
@@ -786,8 +624,7 @@ class _VisitorProfileHeader extends StatelessWidget {
                       ),
                     ),
                   ),
-                ],
-                const SizedBox(width: 8),
+                if (profile.allowMessages) const SizedBox(width: 8),
                 IconButton.filledTonal(
                   onPressed: onShare,
                   icon: const Icon(LucideIcons.share2, size: 18),
@@ -813,80 +650,55 @@ class _StatsRow extends StatelessWidget {
     final items = [
       (s.sellerStatProducts, formatCompactCount(stats.totalProducts)),
       (s.sellerStatCategories, '${stats.categoriesCount}'),
-      (s.sellerStatFollowers, formatCompactCount(stats.followersCount)),
       (s.sellerStatProfileViews, formatCompactCount(stats.profileViews)),
     ];
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: items
-            .map(
-              (e) => Container(
-                width: (MediaQuery.sizeOf(context).width - 48) / 2,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                decoration: BoxDecoration(
-                  color: colors.surface,
-                  borderRadius: AppRadius.rM,
-                  border: Border.all(color: colors.border),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      e.$2,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
+      padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (final e in items)
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: colors.surface,
+                    borderRadius: AppRadius.rM,
+                    border: Border.all(color: colors.border),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        e.$2,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      e.$1,
-                      style: TextStyle(
-                        color: colors.textMuted,
-                        fontSize: 12,
+                      const SizedBox(height: 4),
+                      Text(
+                        e.$1,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: colors.textMuted,
+                          fontSize: 11,
+                          height: 1.2,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            )
-            .toList(),
-      ),
-    );
-  }
-}
-
-class _SectionCard extends StatelessWidget {
-  final String title;
-  final Widget child;
-  const _SectionCard({required this.title, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: colors.surface,
-          borderRadius: AppRadius.rL,
-          border: Border.all(color: colors.border),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
-            const SizedBox(height: 8),
-            child,
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
@@ -1034,28 +846,30 @@ class _ProductsToolbar extends StatelessWidget {
           ),
           if (!isOwner) ...[
             const SizedBox(height: 10),
-            SegmentedButton<_ProductTab>(
-              segments: [
-                ButtonSegment(
-                    value: _ProductTab.all, label: Text(s.allProducts)),
-                ButtonSegment(
-                    value: _ProductTab.latest, label: Text(s.latestProducts)),
-                ButtonSegment(
-                    value: _ProductTab.popular, label: Text(s.popularProducts)),
+            Row(
+              children: [
+                for (final item in <(_ProductTab, String)>[
+                  (_ProductTab.all, s.allProducts),
+                  (_ProductTab.latest, s.latestProducts),
+                  (_ProductTab.popular, s.popularProducts),
+                ])
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      child: _SellerTabChip(
+                        label: item.$2,
+                        selected: tab == item.$1,
+                        onTap: () => onTab(item.$1),
+                      ),
+                    ),
+                  ),
               ],
-              selected: {tab},
-              onSelectionChanged: (v) => onTab(v.first),
             ),
           ],
           const SizedBox(height: 10),
-          TextField(
+          CustomSearchInput(
             controller: searchController,
-            decoration: InputDecoration(
-              hintText: s.searchSellerProducts,
-              prefixIcon: const Icon(LucideIcons.search, size: 20),
-              isDense: true,
-              border: OutlineInputBorder(borderRadius: AppRadius.rM),
-            ),
+            hintText: s.searchSellerProducts,
           ),
           const SizedBox(height: 8),
           Row(
@@ -1098,56 +912,6 @@ class _ProductsToolbar extends StatelessWidget {
   }
 }
 
-class _StickyFollowBar extends StatelessWidget {
-  final bool isFollowing;
-  final bool loading;
-  final VoidCallback onFollow;
-
-  const _StickyFollowBar({
-    required this.isFollowing,
-    required this.loading,
-    required this.onFollow,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final s = S.of(context);
-    final colors = context.appColors;
-    return Material(
-      elevation: 8,
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          child: SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: FilledButton.icon(
-              onPressed: loading ? null : onFollow,
-              icon: loading
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Icon(
-                      isFollowing ? LucideIcons.check : LucideIcons.userPlus,
-                      size: 18,
-                    ),
-              label: Text(isFollowing ? s.following : s.follow),
-              style: FilledButton.styleFrom(
-                backgroundColor: isFollowing ? colors.surface : colors.primary,
-                foregroundColor:
-                    isFollowing ? colors.textPrimary : colors.onPrimary,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _ProfileSkeleton extends StatelessWidget {
   const _ProfileSkeleton();
 
@@ -1182,6 +946,51 @@ class _ProfileSkeleton extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SellerTabChip extends StatelessWidget {
+  const _SellerTabChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    return Material(
+      color: selected ? colors.primary.withValues(alpha: 0.14) : colors.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: AppRadius.rM,
+        side: BorderSide(
+          color: selected ? colors.primary : colors.border,
+        ),
+      ),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: AppRadius.rM,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              height: 1.15,
+              fontWeight: FontWeight.w700,
+              color: selected ? colors.primary : colors.textPrimary,
+            ),
+          ),
         ),
       ),
     );

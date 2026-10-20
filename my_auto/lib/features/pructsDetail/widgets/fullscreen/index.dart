@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/utils/local_image.dart';
 import 'package:my_auto/core/utils/resolve_media_url.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
@@ -55,7 +56,7 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: SafeArea(
+      body: AppSafeArea(
         child: Stack(
           children: [
             PhotoViewGallery.builder(

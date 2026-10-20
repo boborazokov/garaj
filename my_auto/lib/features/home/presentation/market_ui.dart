@@ -56,9 +56,9 @@ class MarketSectionTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         MarketUi.spacingMD,
+        10,
         MarketUi.spacingMD,
-        MarketUi.spacingMD,
-        MarketUi.spacingSM,
+        6,
       ),
       child: Row(
         children: [

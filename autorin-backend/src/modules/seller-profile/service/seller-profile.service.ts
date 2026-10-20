@@ -9,7 +9,6 @@ import {
   SellerStoreProfile,
   SellerStoreStats,
 } from '../types/seller-profile-public.type';
-import { SellerFollow } from '../schema/seller-follow.schema';
 import { SellerProfileView } from '../schema/seller-profile-view.schema';
 
 @Injectable()
@@ -17,8 +16,6 @@ export class SellerProfileService {
   constructor(
     @InjectModel(COLLECTIONS.USERS) private readonly userModel: Model<User>,
     @InjectModel(COLLECTIONS.PARTS) private readonly partModel: Model<Record<string, unknown>>,
-    @InjectModel(COLLECTIONS.SELLER_FOLLOWS)
-    private readonly followModel: Model<SellerFollow>,
     @InjectModel(COLLECTIONS.SELLER_PROFILE_VIEWS)
     private readonly profileViewModel: Model<SellerProfileView>,
   ) {}
@@ -49,27 +46,18 @@ export class SellerProfileService {
       );
     }
 
-    const [totalProducts, activeProducts, followersCount, categories, isFollowing] =
-      await Promise.all([
-        this.partModel.countDocuments({ seller: sellerOid }),
-        this.partModel.countDocuments({
-          seller: sellerOid,
-          status: ItemStatusEnum.ACTIVE,
-        }),
-        this.followModel.countDocuments({ sellerId: sellerOid }),
-        this.aggregateCategories(sellerOid),
-        viewerId && !isOwnProfile
-          ? this.followModel.exists({
-              followerId: new Types.ObjectId(viewerId),
-              sellerId: sellerOid,
-            })
-          : Promise.resolve(null),
-      ]);
+    const [totalProducts, activeProducts, categories] = await Promise.all([
+      this.partModel.countDocuments({ seller: sellerOid }),
+      this.partModel.countDocuments({
+        seller: sellerOid,
+        status: ItemStatusEnum.ACTIVE,
+      }),
+      this.aggregateCategories(sellerOid),
+    ]);
 
     const privacy = user.privacy ?? {};
     const showLocation = privacy.showLocation !== false;
     const showPhone = privacy.showPhone === true;
-    const showEmail = privacy.showEmail === true;
 
     const social = user.socialLinks ?? {};
     const hasSocial = [
@@ -84,20 +72,15 @@ export class SellerProfileService {
       totalProducts,
       activeProducts,
       categoriesCount: categories.length,
-      followersCount,
       profileViews,
     };
 
     return {
       _id: user._id,
       name: user.name,
-      username: user.username?.trim() || undefined,
       image: user.image?.trim() || undefined,
       banner: user.banner?.trim() || undefined,
-      bio: user.bio?.trim() || undefined,
-      description: user.description?.trim() || undefined,
       phone: showPhone ? user.phone : undefined,
-      email: showEmail ? user.email?.trim() || undefined : undefined,
       country: showLocation ? user.country?.trim() || undefined : undefined,
       region: showLocation ? user.region?.trim() || undefined : undefined,
       city: showLocation ? user.city?.trim() || user.address?.trim() || undefined : undefined,
@@ -107,7 +90,6 @@ export class SellerProfileService {
       createdAt: user.createdAt,
       stats,
       categories,
-      isFollowing: Boolean(isFollowing),
       isOwnProfile,
       allowMessages: privacy.allowMessages !== false,
     };

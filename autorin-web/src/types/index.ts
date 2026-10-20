@@ -139,6 +139,8 @@ export interface AdminStats {
 
 export interface AppSettings {
   productModerationEnabled: boolean
+  supportEmail?: string | null
+  supportPhone?: string | null
 }
 
 export interface AdminDailyReportRow {

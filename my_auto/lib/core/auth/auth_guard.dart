@@ -36,8 +36,14 @@ class AuthGuard {
     );
     if (!wantsSignIn || !context.mounted) return false;
 
-    context.push(RoutesName.signin);
-    return false;
+    // Wait for the auth sheet to fully dismiss before pushing sign-in.
+    await Future<void>.delayed(const Duration(milliseconds: 120));
+    if (!context.mounted) return false;
+    final router = GoRouter.of(context);
+    await router.push(RoutesName.signin);
+    if (!context.mounted) return false;
+    // After login, providers `go` to home — do not leave sign-in under flows.
+    return context.read<AuthProvider>().isAuthenticated;
   }
 
   static bool isAuthenticated(BuildContext context) =>

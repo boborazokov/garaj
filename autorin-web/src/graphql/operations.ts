@@ -210,6 +210,8 @@ export const CONFIRM_SIGN_UP = gql`
   mutation ConfirmSignUp($token: String!, $code: String!) {
     confirmSignUp(token: $token, code: $code) {
       token
+      accessToken
+      refreshToken
       user {
         _id
         name
@@ -224,6 +226,8 @@ export const SIGN_IN = gql`
   query SignIn($data: SignInInput!) {
     signIn(data: $data) {
       token
+      accessToken
+      refreshToken
       user {
         _id
         name
@@ -271,6 +275,17 @@ export const GET_APP_SETTINGS = gql`
   query GetAppSettings {
     getAppSettings {
       productModerationEnabled
+      supportEmail
+      supportPhone
+    }
+  }
+`
+
+export const SET_CONTACT_INFO = gql`
+  mutation SetContactInfo($supportEmail: String!, $supportPhone: String!) {
+    setContactInfo(supportEmail: $supportEmail, supportPhone: $supportPhone) {
+      supportEmail
+      supportPhone
     }
   }
 `
@@ -359,6 +374,31 @@ export const ADMIN_LIST_PARTS = gql`
       totalPages
       hasNextPage
       nextPage
+    }
+  }
+`
+
+export const DELETE_PART = gql`
+  mutation DeletePart($partId: ObjectId!) {
+    deletePartById(partId: $partId) {
+      _id
+    }
+  }
+`
+
+export const DELETE_ORDER = gql`
+  mutation DeleteOrder($orderId: ObjectId!) {
+    deleteOrderById(orderId: $orderId) {
+      _id
+    }
+  }
+`
+
+export const CLOSE_ORDER = gql`
+  mutation CloseOrder($orderId: ObjectId!) {
+    closeOrderById(orderId: $orderId) {
+      _id
+      status
     }
   }
 `

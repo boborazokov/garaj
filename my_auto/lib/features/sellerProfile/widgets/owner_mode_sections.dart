@@ -78,13 +78,11 @@ class StoreBannerHeader extends StatelessWidget {
 class OwnerStoreIdentity extends StatelessWidget {
   final SellerStoreProfile profile;
   final String initials;
-  final VoidCallback onOpenFollowers;
 
   const OwnerStoreIdentity({
     super.key,
     required this.profile,
     required this.initials,
-    required this.onOpenFollowers,
   });
 
   @override
@@ -96,7 +94,6 @@ class OwnerStoreIdentity extends StatelessWidget {
 
     final chips = [
       (s.sellerStatProducts, formatCompactCount(stats.totalProducts)),
-      (s.sellerStatFollowers, formatCompactCount(stats.followersCount)),
       (s.sellerStatProfileViews, formatCompactCount(stats.profileViews)),
       (s.sellerStatCategories, '${stats.categoriesCount}'),
     ];
@@ -118,7 +115,8 @@ class OwnerStoreIdentity extends StatelessWidget {
               children: [
                 ClipOval(
                   child: avatarUrl != null
-                      ? ImageCacheNetwork(url: avatarUrl, width: 64, height: 64)
+                      ? ImageCacheNetwork(
+                          url: avatarUrl, width: 64, height: 64)
                       : Container(
                           width: 64,
                           height: 64,
@@ -162,13 +160,6 @@ class OwnerStoreIdentity extends StatelessWidget {
                           ],
                         ],
                       ),
-                      if (profile.username?.isNotEmpty == true) ...[
-                        const SizedBox(height: 2),
-                        Text(
-                          s.sellerAtUsername(profile.username!),
-                          style: TextStyle(color: colors.textMuted, fontSize: 14),
-                        ),
-                      ],
                     ],
                   ),
                 ),
@@ -183,10 +174,10 @@ class OwnerStoreIdentity extends StatelessWidget {
                 separatorBuilder: (_, __) => const SizedBox(width: 8),
                 itemBuilder: (_, i) {
                   final c = chips[i];
-                  final isFollowers = i == 1;
-                  final chip = Container(
+                  return Container(
                     width: 88,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
                       color: colors.background,
                       borderRadius: AppRadius.rM,
@@ -213,15 +204,6 @@ class OwnerStoreIdentity extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ),
-                  );
-                  if (!isFollowers) return chip;
-                  return Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: AppRadius.rM,
-                      onTap: onOpenFollowers,
-                      child: chip,
                     ),
                   );
                 },
@@ -322,7 +304,6 @@ class OwnerStatsPanel extends StatelessWidget {
     final items = [
       (s.sellerStatProfileViews, formatCompactCount(stats.profileViews)),
       (s.dashboardProductViews, '—'),
-      (s.sellerStatFollowers, formatCompactCount(stats.followersCount)),
       (s.sellerStatActiveProducts, '${stats.activeProducts}'),
     ];
 

@@ -12,7 +12,7 @@ export function ConfirmPage() {
   const [error, setError] = useState('')
 
   const [confirm, { loading }] = useMutation<
-    { confirmSignUp: { token: string; user: AuthUser } },
+    { confirmSignUp: { token: string; refreshToken?: string | null; user: AuthUser } },
     { token: string; code: string }
   >(CONFIRM_SIGN_UP)
 
@@ -22,7 +22,7 @@ export function ConfirmPage() {
     try {
       const { data } = await confirm({ variables: { token, code } })
       if (!data?.confirmSignUp) return
-      setSession(data.confirmSignUp.token, data.confirmSignUp.user)
+      setSession(data.confirmSignUp.token, data.confirmSignUp.user, data.confirmSignUp.refreshToken)
       sessionStorage.removeItem('signup_token')
       sessionStorage.removeItem('signup_code_hint')
       navigate('/')

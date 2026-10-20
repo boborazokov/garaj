@@ -2,11 +2,14 @@ class RoutesName {
   static const splash = "/";
   static const signin = "/signin";
   static const signup = "/signup";
+  static const resetPassword = "/reset-password";
   static const buttonNavigationBar = "/buttonNavigationBar";
   static const editProfile = "/edit_profile";
   static const language = "/language";
   static const myProducts = "/my_products";
   static const myOrders = "/my_orders";
+  static const sellerMatchingOrders = "/seller_matching_orders";
+  static const sellerMatchingOrdersList = "/seller_matching_orders_list";
   static const myServices = "/my_services";
   static const moreBrands = "/moreBrands";
   static const productDetailScreen = "/productDetailScreen";
@@ -16,9 +19,8 @@ class RoutesName {
   static const confirmation = "/confirmation";
   static const categoriesScreen = "/categoriesScreen";
   static const listOfItems = "/listOfItems";
- static const sellerProfile = '/sellerProfile';
+  static const sellerProfile = '/sellerProfile';
   static const storeAnalytics = '/storeAnalytics';
-  static const sellerFollowers = '/sellerFollowers';
   static const search = "/search";
   static const favorites = "/favorites";
   static const service = "/service";

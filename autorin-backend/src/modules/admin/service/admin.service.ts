@@ -79,6 +79,11 @@ export class AdminService {
     return this.appSettingsService.setProductModerationEnabled(enabled);
   }
 
+  async setContactInfo(email: string, phone: string, context: ContextType) {
+    this.assertAdmin(context);
+    return this.appSettingsService.setContactInfo(email, phone);
+  }
+
   async getAdminDailyReport(
     args: AdminDailyReportArgs,
     context: ContextType,

@@ -1,5 +1,7 @@
 import 'package:my_auto/core/model/categoryCar/index.dart';
 import 'package:my_auto/core/model/user/index.dart';
+import 'package:my_auto/core/services/graphql/index.dart';
+import 'package:my_auto/core/utils/resolve_media_url.dart';
 
 /// Mirrors the backend `OrderStatusEnum`.
 enum OrderStatusEnum { active, closed, cancelled }
@@ -48,6 +50,7 @@ class OrderItem {
   final CategoryCar? brand;
   final CategoryCar? carModel;
   final CategoryCar? partCategory;
+  final List<String> images;
 
   OrderItem({
     required this.id,
@@ -65,7 +68,25 @@ class OrderItem {
     this.brand,
     this.carModel,
     this.partCategory,
+    this.images = const [],
   });
+
+  String? get primaryImageUrl => images.isNotEmpty ? images.first : null;
+
+  String get vehicleLabel {
+    final parts = <String>[
+      if (isMeaningfulLabel(brand?.name)) brand!.name,
+      if (isMeaningfulLabel(carModel?.name)) carModel!.name,
+    ];
+    return parts.join(' · ');
+  }
+
+  static bool isMeaningfulLabel(String? value) {
+    final t = value?.trim() ?? '';
+    if (t.isEmpty) return false;
+    if (RegExp(r'^[-–—._\s]+$').hasMatch(t)) return false;
+    return true;
+  }
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
@@ -85,6 +106,13 @@ class OrderItem {
       brand: _category(json['brand']),
       carModel: _category(json['carModel']),
       partCategory: _category(json['partCategory']),
+      images: (json['images'] as List?)
+              ?.map((e) => e.toString().trim())
+              .where((e) => e.isNotEmpty)
+              .map((e) => normalizeStoragePath(e, mediaBase: fileUrl))
+              .where((e) => e.isNotEmpty)
+              .toList() ??
+          const [],
     );
   }
 

@@ -9,6 +9,7 @@ import { GraphqlConfig } from './graphql';
 import { MinioModule } from 'src/utils/minio';
 import { validateEnv } from './env';
 import { SecurityModule } from './security';
+import { SessionModule } from 'src/modules/auth/session/session.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 const envFilePath = [`.env.${nodeEnv}`, '.env'];
@@ -22,10 +23,11 @@ const envFilePath = [`.env.${nodeEnv}`, '.env'];
     }),
     ScheduleModule.forRoot(),
     SecurityModule,
-    AuthGuardsModule,
     MeilisearchModule,
     RedisCacheModule,
     MongodbConfig,
+    SessionModule,
+    AuthGuardsModule,
     GraphqlConfig,
     MinioModule,
   ],

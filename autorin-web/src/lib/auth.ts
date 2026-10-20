@@ -8,6 +8,7 @@ export interface AuthUser {
 }
 
 const TOKEN_KEY = 'autorin_token'
+const REFRESH_KEY = 'autorin_refresh'
 const USER_KEY = 'autorin_user'
 
 export function getToken(): string | null {
@@ -24,13 +25,23 @@ export function getUser(): AuthUser | null {
   }
 }
 
-export function setSession(token: string, user: AuthUser) {
+export function getRefreshToken(): string | null {
+  return localStorage.getItem(REFRESH_KEY)
+}
+
+export function setSession(
+  token: string,
+  user: AuthUser,
+  refreshToken?: string | null,
+) {
   localStorage.setItem(TOKEN_KEY, token)
   localStorage.setItem(USER_KEY, JSON.stringify(user))
+  if (refreshToken) localStorage.setItem(REFRESH_KEY, refreshToken)
 }
 
 export function clearSession() {
   localStorage.removeItem(TOKEN_KEY)
+  localStorage.removeItem(REFRESH_KEY)
   localStorage.removeItem(USER_KEY)
 }
 

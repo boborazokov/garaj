@@ -9,7 +9,7 @@ import {
 } from '../dto';
 import { Order } from '../schema';
 import { OrderService } from '../service';
-import { PaginatedOrders } from '../types';
+import { PaginatedOrders, SellerMatchingOrdersOverview } from '../types';
 
 @Resolver()
 export class OrderResolver {
@@ -19,6 +19,12 @@ export class OrderResolver {
   @Query(() => PaginatedOrders)
   getOrders(@Args() args: GetOrdersArgs, @Context() context: ContextType) {
     return this.orderService.getOrders(args, context);
+  }
+
+  @UseAuth()
+  @Query(() => SellerMatchingOrdersOverview)
+  getSellerMatchingOrdersOverview(@Context() context: ContextType) {
+    return this.orderService.getSellerMatchingOrdersOverview(context);
   }
 
   @UseOptionalAuth()

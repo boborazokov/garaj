@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_auto/core/services/graphql/graphql_links.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/services/upload/image_multipart.dart';
+import 'package:my_auto/core/utils/resolve_media_url.dart';
 
 /// GraphQL multipart request (graphql-multipart-request-spec) for `Upload` scalars.
 class GraphQLMultipart {
@@ -15,8 +16,9 @@ class GraphQLMultipart {
     required Map<String, dynamic> variables,
     Map<String, XFile> files = const {},
   }) async {
-    final uri = Uri.parse('${apiUrl}/api');
+    final uri = Uri.parse('$apiUrl/api');
     final request = http.MultipartRequest('POST', uri);
+    request.headers.addAll(mediaRequestHeaders(apiUrl));
 
     final token = await GraphQLLinks.readBearer();
     if (token != null) {

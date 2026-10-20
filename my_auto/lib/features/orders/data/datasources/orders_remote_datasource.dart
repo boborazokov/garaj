@@ -42,7 +42,7 @@ class OrdersRemoteDataSource {
           'pagination': {'page': page, 'limit': limit},
           'filter': filter ?? {},
           'search': search?.trim().isEmpty == true ? null : search?.trim(),
-          'sort': 'RECOMMENDED',
+          'sort': 'NEWEST',
           if (viewerRegion != null && viewerRegion.isNotEmpty)
             'viewerRegion': viewerRegion,
         },
@@ -76,6 +76,19 @@ class OrdersRemoteDataSource {
     _throwOnError(result);
     return OrderDto.fromJson(
       Map<String, dynamic>.from(result.data!['getOrderById'] as Map),
+    );
+  }
+
+  Future<Map<String, dynamic>> getSellerMatchingOrdersOverview() async {
+    final result = await _client.query(
+      QueryOptions(
+        document: gql(getSellerMatchingOrdersOverviewQuery),
+        fetchPolicy: FetchPolicy.networkOnly,
+      ),
+    );
+    _throwOnError(result);
+    return Map<String, dynamic>.from(
+      result.data!['getSellerMatchingOrdersOverview'] as Map,
     );
   }
 

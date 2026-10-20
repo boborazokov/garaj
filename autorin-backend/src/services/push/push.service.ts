@@ -8,7 +8,7 @@ import { FirebaseService } from './firebase.service';
 import {
   ChatPushJob,
   FavoriteMatchedPushJob,
-  NewFollowerPushJob,
+  OrderMatchedPushJob,
   OrderReplyPushJob,
   PromotedExpiredPushJob,
   PushBody,
@@ -53,6 +53,10 @@ export class PushService {
     return this.enqueue('order-reply', job);
   }
 
+  enqueueOrderMatched(job: OrderMatchedPushJob) {
+    return this.enqueue('order-matched', job);
+  }
+
   enqueueFavoriteMatched(job: FavoriteMatchedPushJob) {
     return this.enqueue('favorite-matched', job);
   }
@@ -63,10 +67,6 @@ export class PushService {
 
   enqueueSellerResponse(job: SellerResponsePushJob) {
     return this.enqueue('seller-response', job);
-  }
-
-  enqueueNewFollower(job: NewFollowerPushJob) {
-    return this.enqueue('new-follower', job);
   }
 
   enqueueUserVerified(job: UserVerifiedPushJob) {

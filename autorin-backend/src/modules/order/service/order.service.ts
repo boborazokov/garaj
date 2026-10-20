@@ -2,12 +2,17 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  Logger,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { PaginateModel, PipelineStage, RootFilterQuery, Types } from 'mongoose';
+import { Model, PaginateModel, PipelineStage, RootFilterQuery, Types } from 'mongoose';
 import { ContextType } from 'src/auth/interfaces';
 import { assertAuthenticated } from 'src/auth/utils/authenticated-context';
+import { isAdminRole, ownerScope } from 'src/auth/utils/admin-scope';
 import { COLLECTIONS } from 'src/constants';
+import { ItemStatusEnum } from 'src/modules/item/enums';
+import { Part } from 'src/modules/part/schema';
+import { PushService } from 'src/services/push';
 import { SortOrderEnum } from 'src/shared/enums';
 import {
   CreateOrderArgs,
@@ -17,6 +22,7 @@ import {
 } from '../dto';
 import { OrderStatusEnum } from '../enums';
 import { Order } from '../schema';
+import { SellerMatchingOrdersOverview } from '../types';
 
 const populate = [
   { path: 'author', model: COLLECTIONS.USERS },
@@ -27,9 +33,14 @@ const populate = [
 
 @Injectable()
 export class OrderService {
+  private readonly logger = new Logger(OrderService.name);
+
   constructor(
     @InjectModel(COLLECTIONS.ORDERS)
     private readonly orderModel: PaginateModel<Order>,
+    @InjectModel(COLLECTIONS.PARTS)
+    private readonly partModel: Model<Part>,
+    private readonly pushService: PushService,
   ) {}
 
   async createOrder({ data }: CreateOrderArgs, context: ContextType) {
@@ -45,7 +56,151 @@ export class OrderService {
       status: OrderStatusEnum.ACTIVE,
     };
 
-    return this.orderModel.create(payload);
+    const created = await this.orderModel.create(payload);
+
+    void this.notifyMatchingSellers(created).catch((err) => {
+      this.logger.warn(`Failed to notify matching sellers: ${err}`);
+    });
+
+    return created;
+  }
+
+  /**
+   * Push + inbox alert for every seller who has an ACTIVE listing in the
+   * same part category as the new buyer request.
+   */
+  private async notifyMatchingSellers(order: Order) {
+    if (!order.partCategory) return;
+
+    const categoryId = new Types.ObjectId(order.partCategory.toString());
+    const authorId = order.author?.toString();
+
+    const sellerIds = (await this.partModel.distinct('seller', {
+      category: categoryId,
+      status: ItemStatusEnum.ACTIVE,
+      ...(authorId
+        ? { seller: { $ne: new Types.ObjectId(authorId) } }
+        : {}),
+    })) as Types.ObjectId[];
+
+    if (!sellerIds.length) return;
+
+    let categoryName = '';
+    try {
+      const populated = await this.orderModel
+        .findById(order._id)
+        .populate({ path: 'partCategory', model: COLLECTIONS.CATEGORIES })
+        .lean();
+      const cat = populated?.partCategory as
+        | { names?: { ru?: string; en?: string; uz?: string }; name?: string }
+        | null
+        | undefined;
+      categoryName =
+        cat?.names?.ru ||
+        cat?.names?.en ||
+        cat?.names?.uz ||
+        cat?.name ||
+        '';
+    } catch {
+      /* non-fatal */
+    }
+
+    await this.pushService.enqueueOrderMatched({
+      recipientIds: sellerIds.map((id) => id.toString()),
+      orderId: order._id.toString(),
+      orderTitle: order.title || 'Buyer request',
+      categoryName: categoryName || undefined,
+      budget: order.budget ?? undefined,
+      currency: order.currency ?? undefined,
+    });
+  }
+
+  /** Categories the seller sells in + how many matching ACTIVE requests exist. */
+  async getSellerMatchingOrdersOverview(
+    context: ContextType,
+  ): Promise<SellerMatchingOrdersOverview> {
+    const { userId } = assertAuthenticated(context);
+    const sellerOid = new Types.ObjectId(userId);
+
+    const listingStats = await this.partModel.aggregate<{
+      _id: Types.ObjectId;
+      listingsCount: number;
+    }>([
+      {
+        $match: {
+          seller: sellerOid,
+          status: ItemStatusEnum.ACTIVE,
+          category: { $ne: null },
+        },
+      },
+      { $group: { _id: '$category', listingsCount: { $sum: 1 } } },
+    ]);
+
+    if (!listingStats.length) {
+      return { categories: [], totalMatchingOrders: 0 };
+    }
+
+    const categoryIds = listingStats.map((s) => s._id);
+    const listingsByCat = new Map(
+      listingStats.map((s) => [s._id.toString(), s.listingsCount]),
+    );
+
+    const orderStats = await this.orderModel.aggregate<{
+      _id: Types.ObjectId;
+      orderCount: number;
+    }>([
+      {
+        $match: {
+          status: OrderStatusEnum.ACTIVE,
+          partCategory: { $in: categoryIds },
+          author: { $ne: sellerOid },
+        },
+      },
+      { $group: { _id: '$partCategory', orderCount: { $sum: 1 } } },
+    ]);
+
+    const orderCountByCat = new Map(
+      orderStats.map((s) => [s._id.toString(), s.orderCount]),
+    );
+
+    const categoriesPopulated = await this.orderModel.db
+      .collection(COLLECTIONS.CATEGORIES)
+      .find({ _id: { $in: categoryIds } })
+      .toArray();
+
+    const catById = new Map(
+      categoriesPopulated.map((c) => [c._id.toString(), c]),
+    );
+
+    const categories = categoryIds
+      .map((id) => {
+        const key = id.toString();
+        return {
+          categoryId: id,
+          category: (catById.get(key) as unknown as SellerMatchingOrdersOverview['categories'][number]['category']) ?? null,
+          orderCount: orderCountByCat.get(key) ?? 0,
+          listingsCount: listingsByCat.get(key) ?? 0,
+        };
+      })
+      .sort((a, b) => b.orderCount - a.orderCount || b.listingsCount - a.listingsCount);
+
+    const totalMatchingOrders = categories.reduce(
+      (sum, c) => sum + c.orderCount,
+      0,
+    );
+
+    return { categories, totalMatchingOrders };
+  }
+
+  private async sellerCategoryIds(
+    sellerId: Types.ObjectId,
+  ): Promise<Types.ObjectId[]> {
+    const ids = (await this.partModel.distinct('category', {
+      seller: sellerId,
+      status: ItemStatusEnum.ACTIVE,
+      category: { $ne: null },
+    })) as Types.ObjectId[];
+    return ids.filter(Boolean);
   }
 
   async updateOrderById(
@@ -54,7 +209,7 @@ export class OrderService {
   ) {
     const { userId } = assertAuthenticated(context);
     const updated = await this.orderModel.findOneAndUpdate(
-      { _id: orderId, author: new Types.ObjectId(userId) },
+      { _id: orderId, ...ownerScope(context, 'author', new Types.ObjectId(userId)) },
       { $set: data },
       { new: true },
     );
@@ -69,7 +224,7 @@ export class OrderService {
   async closeOrderById({ orderId }: GetOrderByIdArgs, context: ContextType) {
     const { userId } = assertAuthenticated(context);
     const closed = await this.orderModel.findOneAndUpdate(
-      { _id: orderId, author: new Types.ObjectId(userId) },
+      { _id: orderId, ...ownerScope(context, 'author', new Types.ObjectId(userId)) },
       { $set: { status: OrderStatusEnum.CLOSED } },
       { new: true },
     );
@@ -86,7 +241,7 @@ export class OrderService {
     const reopened = await this.orderModel.findOneAndUpdate(
       {
         _id: orderId,
-        author: new Types.ObjectId(userId),
+        ...ownerScope(context, 'author', new Types.ObjectId(userId)),
         status: OrderStatusEnum.CLOSED,
       },
       { $set: { status: OrderStatusEnum.ACTIVE } },
@@ -107,7 +262,10 @@ export class OrderService {
     const { userId } = assertAuthenticated(context);
     const found = await this.orderModel.findById(orderId);
     if (!found) throw new BadRequestException('Order not found');
-    if (found.author?.toString() !== userId.toString()) {
+    if (
+      !isAdminRole(context) &&
+      found.author?.toString() !== userId.toString()
+    ) {
       throw new ForbiddenException();
     }
     await this.orderModel.deleteOne({ _id: orderId });
@@ -123,17 +281,17 @@ export class OrderService {
       viewerId && found.author?.toString() === viewerId.toString();
 
     // Guests may view active and closed requests; only cancelled are hidden.
-    if (!isAuthor && found.status === OrderStatusEnum.CANCELLED) {
+    if (!isAuthor && !isAdminRole(context) && found.status === OrderStatusEnum.CANCELLED) {
       throw new BadRequestException('Order not found');
     }
 
     return found;
   }
 
-  private buildFilterQuery(
+  private async buildFilterQuery(
     args: GetOrdersArgs,
     viewerUserId?: Types.ObjectId,
-  ): RootFilterQuery<Order> {
+  ): Promise<RootFilterQuery<Order>> {
     const { filter, search } = args;
     const query: RootFilterQuery<Order> = {};
 
@@ -149,6 +307,21 @@ export class OrderService {
         query.isPromoted = filter.isPromoted;
         if (filter.isPromoted) {
           query.promotedUntil = { $gt: new Date() } as never;
+        }
+      }
+
+      if (filter.matchSellerCategories) {
+        if (!viewerUserId) {
+          // Unauthenticated callers never match seller inventory.
+          query._id = { $exists: false };
+        } else {
+          const cats = await this.sellerCategoryIds(viewerUserId);
+          if (!cats.length) {
+            query._id = { $exists: false };
+          } else if (!filter.partCategory) {
+            query.partCategory = { $in: cats };
+          }
+          query.author = { $ne: viewerUserId };
         }
       }
     }
@@ -172,7 +345,7 @@ export class OrderService {
 
   async getOrders(args: GetOrdersArgs, context: ContextType) {
     const { pagination, sort, viewerRegion } = args;
-    const query = this.buildFilterQuery(args, context.userId);
+    const query = await this.buildFilterQuery(args, context.userId);
     const sortOrder = sort ?? SortOrderEnum.RECOMMENDED;
 
     if (sortOrder === SortOrderEnum.NEWEST) {

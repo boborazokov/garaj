@@ -5,6 +5,7 @@ import 'package:my_auto/core/provider/add/getCotegories.dart'
     show type;
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
+import 'package:my_auto/core/utils/category_lucide_icon.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/core/provider/language/index.dart';
 import 'package:my_auto/generated/l10n.dart';
@@ -82,7 +83,7 @@ class CategoryStrip extends StatelessWidget {
                     c.names.compactForLocale(lang, maxChars: 20);
                 return _GradientCategoryCard(
                   name: shortLabel,
-                  iconUrl: c.iconUrl,
+                  icon: resolveCategoryIcon(c),
                   onTap: () => context.push(
                     RoutesName.search,
                     extra: {
@@ -103,12 +104,12 @@ class CategoryStrip extends StatelessWidget {
 class _GradientCategoryCard extends StatelessWidget {
   const _GradientCategoryCard({
     required this.name,
-    required this.iconUrl,
+    required this.icon,
     required this.onTap,
   });
 
   final String name;
-  final String? iconUrl;
+  final IconData icon;
   final VoidCallback onTap;
 
   @override
@@ -139,24 +140,15 @@ class _GradientCategoryCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (iconUrl != null && iconUrl!.isNotEmpty)
-                    Expanded(
-                      child: Center(
-                        child: Image.network(
-                          iconUrl!,
-                          width: 32,
-                          height: 32,
-                          errorBuilder: (_, __, ___) => Icon(
-                            Icons.category_rounded,
-                            color: colors.primary,
-                            size: 28,
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    Icon(Icons.category_rounded,
-                        color: colors.primary, size: 26),
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: colors.primary.withValues(alpha: 0.14),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(icon, size: 20, color: colors.primary),
+                  ),
                   const Spacer(),
                   Text(
                     name,

@@ -14,7 +14,6 @@ type SellerPrivacy {
   showPhone: Boolean!
   showEmail: Boolean!
   showLocation: Boolean!
-  showFollowers: Boolean!
   allowMessages: Boolean!
 }
 
@@ -27,10 +26,6 @@ type User {
   address: String
   image: String
   banner: String
-  username: String
-  bio: String
-  description: String
-  email: String
   country: String
   region: String
   city: String
@@ -54,6 +49,10 @@ scalar DateTime
 
 type AuthOutput {
   token: String!
+  accessToken: String!
+  refreshToken: String
+  sessionId: String
+  tokenVersion: Int
   user: User!
 }
 
@@ -104,6 +103,7 @@ type Part {
   isNew: Boolean!
   price: Float!
   quantity: Float!
+  viewsCount: Int!
   currency: CurrencyEnum!
   images: [String!]
   seller: User!
@@ -321,7 +321,14 @@ type SearchProductsResult {
 type AppSettings {
   _id: String!
   productModerationEnabled: Boolean!
+  supportEmail: String
+  supportPhone: String
   updatedAt: DateTime!
+}
+
+type ContactInfo {
+  supportEmail: String!
+  supportPhone: String!
 }
 
 type PaginatedParts {
@@ -509,18 +516,6 @@ type PaginatedAdvertisements {
   payload: [Advertisement!]!
 }
 
-type PaginatedOrders {
-  totalDocs: Float!
-  limit: Float!
-  hasPrevPage: Boolean!
-  hasNextPage: Boolean!
-  page: Int
-  totalPages: Float!
-  prevPage: Int
-  nextPage: Int
-  payload: [Order!]!
-}
-
 type DeviceToken {
   _id: ObjectId!
   user: User!
@@ -562,6 +557,30 @@ type PaginatedUserNotifications {
   prevPage: Int
   nextPage: Int
   payload: [UserNotificationType!]!
+}
+
+type PaginatedOrders {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Order!]!
+}
+
+type SellerMatchingCategoryStat {
+  categoryId: ObjectId!
+  category: Category
+  orderCount: Int!
+  listingsCount: Int!
+}
+
+type SellerMatchingOrdersOverview {
+  categories: [SellerMatchingCategoryStat!]!
+  totalMatchingOrders: Int!
 }
 
 type OrderResponse {
@@ -663,20 +682,15 @@ type SellerStoreStats {
   totalProducts: Float!
   activeProducts: Float!
   categoriesCount: Float!
-  followersCount: Float!
   profileViews: Float!
 }
 
 type SellerStoreProfile {
   _id: ObjectId!
   name: String!
-  username: String
   image: String
   banner: String
-  bio: String
-  description: String
   phone: String
-  email: String
   country: String
   region: String
   city: String
@@ -686,29 +700,8 @@ type SellerStoreProfile {
   createdAt: DateTime!
   stats: SellerStoreStats!
   categories: [SellerCategoryStat!]!
-  isFollowing: Boolean!
   isOwnProfile: Boolean!
   allowMessages: Boolean!
-}
-
-type SellerFollower {
-  _id: ObjectId!
-  name: String!
-  username: String
-  image: String
-  followedAt: DateTime!
-}
-
-type PaginatedSellerFollowers {
-  totalDocs: Float!
-  limit: Float!
-  hasPrevPage: Boolean!
-  hasNextPage: Boolean!
-  page: Int
-  totalPages: Float!
-  prevPage: Int
-  nextPage: Int
-  payload: [SellerFollower!]!
 }
 
 input SellerSocialLinksInput {
@@ -723,7 +716,6 @@ input SellerPrivacyInput {
   showPhone: Boolean! = false
   showEmail: Boolean! = false
   showLocation: Boolean! = true
-  showFollowers: Boolean! = true
   allowMessages: Boolean! = true
 }
 
@@ -731,6 +723,7 @@ input SellerPrivacyInput {
 scalar ObjectId
 
 type Query {
+  contactInfo: ContactInfo!
   signIn(data: SignInInput!): AuthOutput!
   getProfile: User!
   searchProducts(query: String, category: String, city: String, minPrice: Float, maxPrice: Float, limit: Int = 20, offset: Int = 0): SearchProductsResult!
@@ -831,10 +824,11 @@ type Query {
   getAdvertisements(filter: AdvertisementFilterInput): [Advertisement!]!
   adminListAdvertisements(pagination: PaginationInput, filter: AdvertisementFilterInput): PaginatedAdvertisements!
   getOrders(filter: OrderFilterInput, search: String, pagination: PaginationInput!, sort: SortOrderEnum, viewerRegion: String): PaginatedOrders!
+  getSellerMatchingOrdersOverview: SellerMatchingOrdersOverview!
   getOrderById(orderId: ObjectId!): Order!
-  getOrderResponses(orderId: ObjectId!): [OrderResponse!]!
   getMyNotifications(pagination: PaginationInput): PaginatedUserNotifications!
   myUnreadNotificationsCount: Int!
+  getOrderResponses(orderId: ObjectId!): [OrderResponse!]!
   getConversations(pagination: PaginationInput): PaginatedConversations!
   getMessages(conversationId: ObjectId!, pagination: PaginationInput): PaginatedMessages!
   getAppSettings: AppSettings!
@@ -845,7 +839,6 @@ type Query {
   adminListOrders(pagination: PaginationInput, search: String): PaginatedOrders!
   adminListParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum): PaginatedParts!
   getSellerProfile(sellerId: ObjectId!): SellerStoreProfile!
-  getSellerFollowers(sellerId: ObjectId!, pagination: PaginationInput): PaginatedSellerFollowers!
 }
 
 input SignInInput {
@@ -942,11 +935,17 @@ input OrderFilterInput {
   region: String
   status: OrderStatusEnum
   isPromoted: Boolean
+  matchSellerCategories: Boolean
 }
 
 type Mutation {
   signUp(data: SignUpInput!): ConfirmationOutput!
   confirmSignUp(token: String!, code: String!): AuthOutput!
+  requestPasswordReset(phone: String!): ConfirmationOutput!
+  resetPassword(token: String!, code: String!, password: String!): Boolean!
+  refreshSession(refreshToken: String!, deviceId: String!): AuthOutput!
+  logoutSession(refreshToken: String!, sessionId: String): Boolean!
+  logoutAllDevices: Boolean!
   updateProfile(data: UserUpdateInput!, image: Upload): User!
   deleteMyAccount: DeleteAccountResult!
   trackActivity(type: ActivityTypeEnum!, entityId: ObjectId, metadata: String): Boolean!
@@ -984,11 +983,11 @@ type Mutation {
   closeOrderById(orderId: ObjectId!): Order!
   reopenOrderById(orderId: ObjectId!): Order!
   deleteOrderById(orderId: ObjectId!): Order!
-  respondToOrder(data: RespondToOrderInput!): OrderResponse!
   registerDeviceToken(data: RegisterDeviceTokenInput!): DeviceToken!
   removeDeviceToken(token: String!): Boolean!
   markNotificationRead(notificationId: ObjectId!): Boolean!
   markAllNotificationsRead: Int!
+  respondToOrder(data: RespondToOrderInput!): OrderResponse!
   createConversation(data: CreateConversationInput!): Conversation!
   markAsRead(conversationId: ObjectId!): Conversation!
   deleteConversationForMe(conversationId: ObjectId!): Boolean!
@@ -997,13 +996,12 @@ type Mutation {
   updateMessage(data: UpdateMessageInput!): Message!
   setTyping(conversationId: ObjectId!, isTyping: Boolean!): Boolean!
   setProductModerationEnabled(enabled: Boolean!): AppSettings!
+  setContactInfo(supportEmail: String!, supportPhone: String!): AppSettings!
   adminSetUserRole(userId: ObjectId!, role: UserRoleEnum!): User!
   adminSetUserImage(userId: ObjectId!, image: Upload!): User!
   adminSetUserVerified(userId: ObjectId!, verified: Boolean!): User!
   approvePart(partId: ObjectId!, note: String): Part!
   rejectPart(partId: ObjectId!, note: String): Part!
-  followSeller(sellerId: ObjectId!): Boolean!
-  unfollowSeller(sellerId: ObjectId!): Boolean!
 }
 
 input SignUpInput {
@@ -1015,11 +1013,7 @@ input SignUpInput {
 input UserUpdateInput {
   name: String
   address: String
-  username: String
   banner: String
-  bio: String
-  description: String
-  email: String
   country: String
   region: String
   city: String
@@ -1238,20 +1232,20 @@ input OrderUpdateInput {
   urgency: OrderUrgencyEnum
 }
 
-input RespondToOrderInput {
-  orderId: ObjectId!
-  text: String!
-  partId: ObjectId
-  offeredPrice: Float
-  deliveryDays: Float
-}
-
 input RegisterDeviceTokenInput {
   token: String!
   platform: DevicePlatformEnum!
   locale: String
   appVersion: String
   deviceModel: String
+}
+
+input RespondToOrderInput {
+  orderId: ObjectId!
+  text: String!
+  partId: ObjectId
+  offeredPrice: Float
+  deliveryDays: Float
 }
 
 input CreateConversationInput {

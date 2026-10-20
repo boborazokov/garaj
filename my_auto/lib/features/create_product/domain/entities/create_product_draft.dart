@@ -174,6 +174,7 @@ class CreateProductDraft extends Equatable {
     if (categoryId == null || categoryId!.isEmpty) {
       w.add('Select vehicle or category');
     }
+    if (region.trim().isEmpty) w.add('Select region');
     if (price == null || price! <= 0) w.add('Set a price');
     if (currency.isEmpty) w.add('Select currency');
     return w;

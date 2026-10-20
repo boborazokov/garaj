@@ -45,22 +45,6 @@ export class User {
   banner?: string;
 
   @Field({ nullable: true })
-  @Prop({ trim: true, sparse: true, unique: true, index: true })
-  username?: string;
-
-  @Field({ nullable: true })
-  @Prop({ trim: true, maxlength: 280, default: '' })
-  bio?: string;
-
-  @Field({ nullable: true })
-  @Prop({ trim: true, maxlength: 2000, default: '' })
-  description?: string;
-
-  @Field({ nullable: true })
-  @Prop({ trim: true, default: '' })
-  email?: string;
-
-  @Field({ nullable: true })
   @Prop({ trim: true, default: '' })
   country?: string;
 
@@ -83,7 +67,6 @@ export class User {
       showPhone: false,
       showEmail: false,
       showLocation: true,
-      showFollowers: true,
       allowMessages: true,
     }),
   })

@@ -44,9 +44,5 @@ export class SellerPrivacy {
 
   @Field({ defaultValue: true })
   @Prop({ default: true })
-  showFollowers?: boolean;
-
-  @Field({ defaultValue: true })
-  @Prop({ default: true })
   allowMessages?: boolean;
 }

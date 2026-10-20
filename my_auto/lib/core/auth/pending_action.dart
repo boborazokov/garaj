@@ -30,6 +30,10 @@ final class PendingAddProduct extends PendingAction {
   const PendingAddProduct();
 }
 
+final class PendingOpenMyStore extends PendingAction {
+  const PendingOpenMyStore();
+}
+
 final class PendingCreateOrder extends PendingAction {
   const PendingCreateOrder({this.initialTitle});
   final String? initialTitle;

@@ -1,5 +1,24 @@
 /// GraphQL documents for Orders / Requests marketplace feature.
 
+const String getSellerMatchingOrdersOverviewQuery = r"""
+query GetSellerMatchingOrdersOverview {
+  getSellerMatchingOrdersOverview {
+    totalMatchingOrders
+    categories {
+      categoryId
+      orderCount
+      listingsCount
+      category {
+        _id
+        key
+        icon
+        names { en ru uz }
+      }
+    }
+  }
+}
+""";
+
 const String getOrdersQuery = r"""
 query GetOrders(
   $pagination: PaginationInput!,

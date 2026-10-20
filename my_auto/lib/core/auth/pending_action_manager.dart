@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
+import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/provider/home/setFavorite/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/features/chat/chat_di.dart';
@@ -72,6 +73,14 @@ class PendingActionManager {
         case PendingAddProduct():
           if (!context.mounted) return true;
           context.push(RoutesName.addProduct);
+          return true;
+
+        case PendingOpenMyStore():
+          if (!context.mounted) return true;
+          final id = context.read<AuthProvider>().auth?.user.id;
+          if (id != null && id.isNotEmpty) {
+            context.push(RoutesName.sellerProfile, extra: id);
+          }
           return true;
 
         case PendingCreateOrder(:final initialTitle):

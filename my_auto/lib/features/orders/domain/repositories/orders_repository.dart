@@ -3,6 +3,7 @@ import 'dart:io';
 import '../entities/order.dart';
 import '../entities/order_response.dart';
 import '../entities/paginated_orders.dart';
+import '../entities/seller_matching_orders.dart';
 
 abstract class OrdersRepository {
   Future<PaginatedOrders> getOrders({
@@ -45,4 +46,7 @@ abstract class OrdersRepository {
   Future<Set<String>> getRespondedOrderIds();
 
   Future<void> markResponded(String orderId);
+
+  /// Active buyer requests grouped by the seller's listing categories.
+  Future<SellerMatchingOrdersOverview> getSellerMatchingOrdersOverview();
 }

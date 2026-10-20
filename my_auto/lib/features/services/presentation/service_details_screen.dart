@@ -7,8 +7,7 @@ import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
+import 'package:my_auto/core/utils/place_label.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/services/data/models/service_review.dart';
 import 'package:my_auto/features/services/data/services_repository.dart';
@@ -157,18 +156,13 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  const AdBanner(
-                    surface: AdSurface.service,
-                    height: 110,
-                    margin: EdgeInsets.only(bottom: 12),
-                  ),
                   Text(s.description),
                   const SizedBox(height: 12),
-                  if (s.address.isNotEmpty)
+                  if (humanPlaceLabel(address: s.address, fallback: '').isNotEmpty)
                     ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Icon(LucideIcons.mapPin, color: colors.primary),
-                      title: Text(s.address),
+                      title: Text(humanPlaceLabel(address: s.address)),
                       trailing: IconButton(
                         icon: const Icon(LucideIcons.navigation),
                         onPressed: () {

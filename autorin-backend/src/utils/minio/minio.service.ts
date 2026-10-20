@@ -9,6 +9,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ReadStreamOptions } from 'graphql-upload-ts';
 import { unlinkSync, ReadStream, writeFileSync, createReadStream } from 'fs';
 
+import { parsePublicMediaPath } from '../../modules/media/safe-media-path';
 import { MINIO_CLIENT_TOKEN } from './minio.provider';
 import { CompressorService } from 'src/utils/compressor';
 import { GetFileArgs, UploadFileArgs, PrepareFileArgs } from './args';
@@ -157,13 +158,7 @@ export class MinioService {
     stream: NodeJS.ReadableStream;
     contentType: string;
   }> {
-    const segments = storagePath.replace(/^\//, '').split('/').filter(Boolean);
-    if (segments.length < 2) {
-      throw new Error('Invalid storage path');
-    }
-
-    const bucket = segments[0];
-    const objectKey = segments.slice(1).join('/');
+    const { bucket, objectKey } = parsePublicMediaPath(storagePath);
     const stream = await this.minioClient.getObject(bucket, objectKey);
 
     let contentType = 'application/octet-stream';

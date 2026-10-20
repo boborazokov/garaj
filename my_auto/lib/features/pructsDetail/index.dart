@@ -4,8 +4,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/provider/home/getProductById/index.dart';
 import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/discovery/presentation/providers/discovery_provider.dart';
 import 'package:my_auto/features/discovery/presentation/widgets/product_carousel_section.dart';
 import 'package:my_auto/core/routes/name.dart';
@@ -130,7 +128,9 @@ class _ProductDetailView extends StatelessWidget {
     if (providerById.isLoading) {
       return Scaffold(
         backgroundColor: colors.background,
-        body: const Center(child: CircularProgressIndicator.adaptive()),
+        body: const AppSafeArea(
+          child: Center(child: CircularProgressIndicator.adaptive()),
+        ),
       );
     }
 
@@ -211,6 +211,7 @@ class _ProductDetailView extends StatelessWidget {
             child: ProductImagesSlider(
               images: product.images,
               partId: product.id,
+              shareTitle: product.name,
               initialIsFavorite: product.isFavorite,
             ),
           ),
@@ -218,24 +219,27 @@ class _ProductDetailView extends StatelessWidget {
             name: product.name,
             price: product.price,
             currency: product.currency,
-            category: product.category!,
+            category: product.category,
+            brand: product.brand,
+            carModel: product.carModel,
             createdDate: product.createdAt,
+            location: product.location,
+            region: product.region,
+            condition: product.condition,
+            negotiable: product.negotiable == true,
+            isPromoted: product.isPromotionActive,
+            showPrice: !(product.negotiable == true && product.price <= 0),
+            viewsCount: product.viewsCount,
           ),
           ProductInfo(
             condition: product.condition ?? false,
             delivery: product.delivery,
             negotiable: product.negotiable ?? false,
+            quantity: product.quantity,
           ),
           DescriptionSectionPart(
             description: product.description,
             sellerPhone: product.seller!.phone,
-          ),
-          const SliverToBoxAdapter(
-            child: AdBanner(
-              surface: AdSurface.part,
-              height: 130,
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            ),
           ),
           SellerInfo(
             sellerId: product.seller!.id,
@@ -330,7 +334,7 @@ class _BottomActionBarState extends State<_BottomActionBar> {
         partId: widget.partId,
         sellerName: widget.sellerName,
       ),
-      message: 'Sign in to message this seller',
+      message: S.of(context).signInToContinue,
     );
     if (!authed || !mounted) return;
 
@@ -389,13 +393,12 @@ class _BottomActionBarState extends State<_BottomActionBar> {
         decoration: BoxDecoration(
           color: colors.surface,
           borderRadius: AppRadius.rXl,
-          border: Border.all(color: colors.border),
           boxShadow: AppShadows.floating(context),
         ),
         child: widget.isOwner
             ? SizedBox(
                 width: double.infinity,
-                child: ElevatedButton.icon(
+                child: FilledButton.icon(
                   onPressed: widget.onPromote,
                   icon: Icon(
                     widget.product.isPromotionActive
@@ -404,15 +407,13 @@ class _BottomActionBarState extends State<_BottomActionBar> {
                     size: 18,
                   ),
                   label: Text(
-                    widget.product.isPromotionActive
-                        ? '${s.promotedTop} · plan'
-                        : 'Choose promotion plan',
+                    s.promoteListingTitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontWeight: FontWeight.w800),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
                     backgroundColor: colors.primary,
                     foregroundColor: colors.onPrimary,
                     shape: RoundedRectangleBorder(
@@ -443,7 +444,7 @@ class _BottomActionBarState extends State<_BottomActionBar> {
                         style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                       style: OutlinedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(48),
+                        minimumSize: const Size.fromHeight(50),
                         foregroundColor: colors.textPrimary,
                         side: BorderSide(color: colors.border),
                         shape: RoundedRectangleBorder(
@@ -452,9 +453,9 @@ class _BottomActionBarState extends State<_BottomActionBar> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: ElevatedButton.icon(
+                    child: FilledButton.icon(
                       onPressed: widget.onCall,
                       icon: const Icon(LucideIcons.phone, size: 18),
                       label: Text(
@@ -463,8 +464,8 @@ class _BottomActionBarState extends State<_BottomActionBar> {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontWeight: FontWeight.w800),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(48),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
                         backgroundColor: colors.primary,
                         foregroundColor: colors.onPrimary,
                         shape: RoundedRectangleBorder(

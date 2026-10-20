@@ -78,6 +78,11 @@ class PushRouter {
         return (id != null && id.isNotEmpty)
             ? '${RoutesName.orderDetail}/$id'
             : RoutesName.ordersList;
+      case PushEventTypes.orderMatched:
+        final id = data[PushDataKeys.orderId]?.toString();
+        return (id != null && id.isNotEmpty)
+            ? '${RoutesName.orderDetail}/$id'
+            : RoutesName.sellerMatchingOrders;
       case PushEventTypes.favoriteMatched:
       case PushEventTypes.sellerResponse:
       case PushEventTypes.promotedExpired:
@@ -85,12 +90,6 @@ class PushRouter {
         return (id != null && id.isNotEmpty)
             ? '${RoutesName.productDetailScreen}?id=$id'
             : null;
-      case PushEventTypes.newFollower:
-        final sellerId = data[PushDataKeys.sellerId]?.toString();
-        if (sellerId != null && sellerId.isNotEmpty) {
-          return '${RoutesName.sellerFollowers}?sellerId=$sellerId';
-        }
-        return RoutesName.sellerFollowers;
       default:
         return null;
     }
@@ -124,16 +123,6 @@ class PushRouter {
           final sellerId = params['sellerId'] ?? params['id'];
           if (sellerId != null && sellerId.isNotEmpty) {
             router.push(RoutesName.sellerProfile, extra: sellerId);
-          }
-          return;
-        }
-
-        if (path == RoutesName.sellerFollowers) {
-          final sellerId = params['sellerId'] ?? params['id'];
-          if (sellerId != null && sellerId.isNotEmpty) {
-            router.push(RoutesName.sellerFollowers, extra: sellerId);
-          } else {
-            router.push(RoutesName.sellerFollowers);
           }
           return;
         }

@@ -6,7 +6,7 @@ import { PushService, PUSH_QUEUE } from './push.service';
 import {
   ChatPushJob,
   FavoriteMatchedPushJob,
-  NewFollowerPushJob,
+  OrderMatchedPushJob,
   OrderReplyPushJob,
   PromotedExpiredPushJob,
   PushEventType,
@@ -41,14 +41,14 @@ export class PushWorker extends WorkerHost {
         return this.handleChat(job.data as ChatPushJob);
       case 'order-reply':
         return this.handleOrderReply(job.data as OrderReplyPushJob);
+      case 'order-matched':
+        return this.handleOrderMatched(job.data as OrderMatchedPushJob);
       case 'favorite-matched':
         return this.handleFavoriteMatched(job.data as FavoriteMatchedPushJob);
       case 'promoted-expired':
         return this.handlePromotedExpired(job.data as PromotedExpiredPushJob);
       case 'seller-response':
         return this.handleSellerResponse(job.data as SellerResponsePushJob);
-      case 'new-follower':
-        return this.handleNewFollower(job.data as NewFollowerPushJob);
       case 'user-verified':
         return this.handleUserVerified(job.data as UserVerifiedPushJob);
       default:
@@ -88,6 +88,24 @@ export class PushWorker extends WorkerHost {
     );
   }
 
+  private async handleOrderMatched(d: OrderMatchedPushJob) {
+    await this.push.dispatch(
+      d.recipientIds,
+      NotificationTemplates.newOrderMatched(
+        d.orderTitle,
+        d.categoryName,
+        d.budget,
+        d.currency,
+      ),
+      {
+        type: PushEventType.ORDER_MATCHED,
+        orderId: d.orderId,
+        categoryName: d.categoryName ?? '',
+        deepLink: `/orders/${d.orderId}`,
+      },
+    );
+  }
+
   private async handleFavoriteMatched(d: FavoriteMatchedPushJob) {
     await this.push.dispatch(
       d.recipientIds,
@@ -120,21 +138,6 @@ export class PushWorker extends WorkerHost {
         type: PushEventType.SELLER_RESPONSE,
         partId: d.partId,
         deepLink: `/productDetailScreen?id=${d.partId}`,
-      },
-    );
-  }
-
-  private async handleNewFollower(d: NewFollowerPushJob) {
-    const sellerId = d.recipientIds[0] ?? '';
-    await this.push.dispatch(
-      d.recipientIds,
-      NotificationTemplates.newFollower(d.followerName),
-      {
-        type: PushEventType.NEW_FOLLOWER,
-        followerId: d.followerId,
-        followerName: d.followerName,
-        sellerId,
-        deepLink: `/sellerFollowers?sellerId=${sellerId}`,
       },
     );
   }

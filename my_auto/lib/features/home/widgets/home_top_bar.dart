@@ -8,7 +8,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
-import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/chat/chat_di.dart';
 import 'package:my_auto/features/chat/presentation/screens/chats_screen.dart';
 import 'package:my_auto/features/notifications/bloc/notifications_bloc.dart';
@@ -16,7 +15,7 @@ import 'package:my_auto/features/notifications/bloc/notifications_state.dart';
 import 'package:my_auto/features/notifications/presentation/notifications_center_screen.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/main.dart' show pushService;
-import 'package:my_auto/widgets/buttom_navigation_bar/index.dart';
+import 'package:my_auto/widgets/searchInput/index.dart';
 
 /// Home header: tappable app brand (→ profile), messages, notifications.
 class HomeTopBar extends StatefulWidget {
@@ -79,8 +78,6 @@ class _HomeTopBarState extends State<HomeTopBar> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
-
-    final colors = context.appColors;
     final s = S.of(context);
     final hasUnreadMessages = _chatUnread > 0;
 
@@ -95,30 +92,15 @@ class _HomeTopBarState extends State<HomeTopBar> {
       child: Row(
         children: [
           Expanded(
-            child: Material(
-              color: colors.surface,
-              borderRadius: AppRadius.rL,
-              child: InkWell(
-                borderRadius: AppRadius.rL,
-                onTap: _openSearch,
-                child: IgnorePointer(
-                  child: TextField(
-                    controller: _searchController,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      hintText: s.search,
-                      hintStyle: TextStyle(color: colors.textMuted),
-                      prefixIcon: Icon(
-                        LucideIcons.search,
-                        size: 20,
-                        color: colors.textMuted,
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                      ),
-                    ),
-                  ),
+            child: GestureDetector(
+              onTap: _openSearch,
+              behavior: HitTestBehavior.opaque,
+              child: AbsorbPointer(
+                child: CustomSearchInput(
+                  controller: _searchController,
+                  hintText: s.search,
+                  readOnly: true,
+                  showClear: false,
                 ),
               ),
             ),
@@ -156,71 +138,65 @@ class _HeaderActions extends StatelessWidget {
     final colors = context.appColors;
     final s = S.of(context);
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-      decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: colors.border.withValues(alpha: 0.6)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _HeaderIconButton(
-            tooltip: s.messages,
-            onPressed: onMessages,
-            icon: LucideIcons.messageCircle,
-            iconColor: hasUnreadMessages ? colors.danger : colors.textPrimary,
-            badge: hasUnreadMessages
-                ? _TopBarBadge(
-                    label: chatUnread > 9 ? '9+' : '$chatUnread',
-                    color: colors.danger,
-                  )
-                : null,
-          ),
-          if (pushService.operational)
-            BlocBuilder<NotificationsBloc, NotificationsState>(
-              builder: (context, nState) {
-                final pushWarn = nState.status == NotificationsStatus.denied ||
-                    (!nState.permissionGranted &&
-                        nState.status != NotificationsStatus.bootstrapping);
-                return _HeaderIconButton(
-                  tooltip: s.notificationsCenterTitle,
-                  onPressed: onNotifications,
-                  customIcon: SvgPicture.asset(
-                    'assets/svg/notification.svg',
-                    width: 22,
-                    height: 22,
-                    colorFilter: ColorFilter.mode(
-                      colors.textPrimary,
-                      BlendMode.srcIn,
-                    ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _CircleHeaderButton(
+          tooltip: s.messages,
+          onPressed: onMessages,
+          icon: LucideIcons.messageCircle,
+          iconColor: hasUnreadMessages ? colors.danger : colors.textPrimary,
+          badge: hasUnreadMessages
+              ? _TopBarBadge(
+                  label: chatUnread > 9 ? '9+' : '$chatUnread',
+                  color: colors.danger,
+                )
+              : null,
+        ),
+        if (pushService.operational) ...[
+          const SizedBox(width: 8),
+          BlocBuilder<NotificationsBloc, NotificationsState>(
+            builder: (context, nState) {
+              final pushWarn = nState.status == NotificationsStatus.denied ||
+                  (!nState.permissionGranted &&
+                      nState.status != NotificationsStatus.bootstrapping);
+              return _CircleHeaderButton(
+                tooltip: s.notificationsCenterTitle,
+                onPressed: onNotifications,
+                customIcon: SvgPicture.asset(
+                  'assets/svg/notification.svg',
+                  width: 20,
+                  height: 20,
+                  colorFilter: ColorFilter.mode(
+                    colors.textPrimary,
+                    BlendMode.srcIn,
                   ),
-                  badge: pushWarn
-                      ? Container(
-                          width: 9,
-                          height: 9,
-                          decoration: BoxDecoration(
-                            color: colors.warning,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: colors.surface,
-                              width: 1.5,
-                            ),
+                ),
+                badge: pushWarn
+                    ? Container(
+                        width: 9,
+                        height: 9,
+                        decoration: BoxDecoration(
+                          color: colors.warning,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: colors.surface,
+                            width: 1.5,
                           ),
-                        )
-                      : null,
-                );
-              },
-            ),
+                        ),
+                      )
+                    : null,
+              );
+            },
+          ),
         ],
-      ),
+      ],
     );
   }
 }
 
-class _HeaderIconButton extends StatelessWidget {
-  const _HeaderIconButton({
+class _CircleHeaderButton extends StatelessWidget {
+  const _CircleHeaderButton({
     required this.tooltip,
     required this.onPressed,
     this.icon,
@@ -240,30 +216,45 @@ class _HeaderIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.appColors;
 
-    return IconButton(
-      tooltip: tooltip,
-      onPressed: onPressed,
-      visualDensity: VisualDensity.compact,
-      padding: const EdgeInsets.all(8),
-      constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
-      icon: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          if (customIcon != null)
-            customIcon!
-          else
-            Icon(
-              icon,
-              color: iconColor ?? colors.textPrimary,
-              size: 22,
+    return Tooltip(
+      message: tooltip,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          customBorder: const CircleBorder(),
+          child: Ink(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: colors.surface,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: colors.border.withValues(alpha: 0.55),
+              ),
             ),
-          if (badge != null)
-            Positioned(
-              right: -2,
-              top: -2,
-              child: badge!,
+            child: Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                if (customIcon != null)
+                  customIcon!
+                else
+                  Icon(
+                    icon,
+                    color: iconColor ?? colors.textPrimary,
+                    size: 20,
+                  ),
+                if (badge != null)
+                  Positioned(
+                    right: 8,
+                    top: 8,
+                    child: badge!,
+                  ),
+              ],
             ),
-        ],
+          ),
+        ),
       ),
     );
   }

@@ -3,20 +3,15 @@ query GetSellerProfile($sellerId: ObjectId!) {
   getSellerProfile(sellerId: $sellerId) {
     _id
     name
-    username
     image
     banner
-    bio
-    description
     phone
-    email
     country
     region
     city
     address
     verified
     createdAt
-    isFollowing
     isOwnProfile
     allowMessages
     socialLinks {
@@ -30,7 +25,6 @@ query GetSellerProfile($sellerId: ObjectId!) {
       totalProducts
       activeProducts
       categoriesCount
-      followersCount
       profileViews
     }
     categories {
@@ -43,34 +37,6 @@ query GetSellerProfile($sellerId: ObjectId!) {
 }
 """;
 
-const String FOLLOW_SELLER = r"""
-mutation FollowSeller($sellerId: ObjectId!) {
-  followSeller(sellerId: $sellerId)
-}
-""";
-
-const String UNFOLLOW_SELLER = r"""
-mutation UnfollowSeller($sellerId: ObjectId!) {
-  unfollowSeller(sellerId: $sellerId)
-}
-""";
-
-const String GET_SELLER_FOLLOWERS = r'''
-query GetSellerFollowers($sellerId: ObjectId!, $pagination: PaginationInput) {
-  getSellerFollowers(sellerId: $sellerId, pagination: $pagination) {
-    totalDocs
-    hasNextPage
-    payload {
-      _id
-      name
-      username
-      image
-      followedAt
-    }
-  }
-}
-''';
-
 const String GET_PROFILE = r"""
 query GetProfile {
   getProfile {
@@ -79,10 +45,6 @@ query GetProfile {
     phone
     image
     banner
-    username
-    bio
-    description
-    email
     country
     region
     city
@@ -98,7 +60,6 @@ query GetProfile {
       showPhone
       showEmail
       showLocation
-      showFollowers
       allowMessages
     }
     createdAt

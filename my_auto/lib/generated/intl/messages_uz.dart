@@ -68,11 +68,23 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m21(followers, products, date) =>
       "${followers} obunachi • ${products} mahsulot • ${date} dan";
 
-  static String m22(date) => "Sotuvchi Garage\'da ${date} dan beri";
+  static String m22(count) => "${count} ta mahsulotingiz";
 
-  static String m23(text) => "Egasi: ${text}";
+  static String m23(count) => "${count} ta ochiq";
 
-  static String m24(amount, currency) => "${amount} ${currency} dan";
+  static String m24(count) => "Siz uchun ${count} ta faol reklama";
+
+  static String m25(date) => "Sotuvchi Garage\'da ${date} dan beri";
+
+  static String m26(count) => "${count}";
+
+  static String m27(count) => "${count} ta taklif";
+
+  static String m28(count) => "${count} ta ochiq";
+
+  static String m29(text) => "Egasi: ${text}";
+
+  static String m30(amount, currency) => "${amount} ${currency} dan";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -851,6 +863,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "myServices": MessageLookupByLibrary.simpleMessage("Mening xizmatlarim"),
     "myStore": MessageLookupByLibrary.simpleMessage("Mening do\'konim"),
     "name": MessageLookupByLibrary.simpleMessage("Ism"),
+    "navWantToBuy": MessageLookupByLibrary.simpleMessage("Menga kerak"),
     "nearYou": MessageLookupByLibrary.simpleMessage("Yoningizda"),
     "nearYouSubtitle": MessageLookupByLibrary.simpleMessage(
       "Hududingizdagi e’lonlar",
@@ -924,6 +937,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Yangi xabar",
     ),
     "notificationOpenAction": MessageLookupByLibrary.simpleMessage("Ochish"),
+    "notificationOrderMatchedBody": MessageLookupByLibrary.simpleMessage(
+      "Xaridor sizning kategoriyangizda e’lon yaratdi.",
+    ),
+    "notificationOrderMatchedTitle": MessageLookupByLibrary.simpleMessage(
+      "Yangi mos e’lon",
+    ),
     "notificationOrderReplyBody": MessageLookupByLibrary.simpleMessage(
       "Buyurtmangiz bo\'yicha yangilanish bor.",
     ),
@@ -1189,6 +1208,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileSubtitleMyServices": MessageLookupByLibrary.simpleMessage(
       "Boshqariladigan ustaxonalar",
     ),
+    "profileSubtitleMyStore": MessageLookupByLibrary.simpleMessage(
+      "Do‘kon, banner va e’lonlar",
+    ),
     "promoteListingTitle": MessageLookupByLibrary.simpleMessage(
       "E\'lonni targ\'ib qilish",
     ),
@@ -1203,6 +1225,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promoteServiceTitle": MessageLookupByLibrary.simpleMessage(
       "Xizmatni targ\'ib qilish",
     ),
+    "promoteToTop": MessageLookupByLibrary.simpleMessage("Topga chiqarish"),
     "promoteWorkshopTitle": MessageLookupByLibrary.simpleMessage(
       "Ustaxonani targ\'ib qilish",
     ),
@@ -1294,16 +1317,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchHubAwaitingTyping": MessageLookupByLibrary.simpleMessage(
       "Yozganingiz bilan qidiruvni birlashtirib, mahsulotlar, Avto Xizmatlar, xarita xizmatlari va buyurtmalarni ko‘rsatamiz.",
     ),
+    "searchHubBrowseAllCategories": MessageLookupByLibrary.simpleMessage(
+      "Barcha turkumlar",
+    ),
+    "searchHubCarBrands": MessageLookupByLibrary.simpleMessage(
+      "Avtomobil markalari",
+    ),
     "searchHubCategoryIdeas": MessageLookupByLibrary.simpleMessage(
       "Mashhur turkumlar",
     ),
+    "searchHubClearRecent": MessageLookupByLibrary.simpleMessage("Tozalash"),
     "searchHubEverythingHint": MessageLookupByLibrary.simpleMessage(
       "Mahsulotlar, Avto Xizmatlar, buyurtmalar va sotuvchilar…",
     ),
+    "searchHubExploreHint": MessageLookupByLibrary.simpleMessage(
+      "Nima qidiryapsiz?",
+    ),
+    "searchHubExploreTitle": MessageLookupByLibrary.simpleMessage("Kashfiyot"),
     "searchHubNoGroupedHits": MessageLookupByLibrary.simpleMessage(
       "Hozircha mos kelmaydi",
     ),
     "searchHubOpenMap": MessageLookupByLibrary.simpleMessage("Xarita"),
+    "searchHubQuickNearby": MessageLookupByLibrary.simpleMessage(
+      "Yaqin atrofda",
+    ),
+    "searchHubQuickParts": MessageLookupByLibrary.simpleMessage(
+      "Ehtiyot qismlar",
+    ),
     "searchHubRecent": MessageLookupByLibrary.simpleMessage(
       "So‘nggi qidiruvlar",
     ),
@@ -1318,6 +1358,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchHubScopeWorkshopsSeed": MessageLookupByLibrary.simpleMessage(
       "avto xizmatlar",
     ),
+    "searchHubSearching": MessageLookupByLibrary.simpleMessage("Qidirilmoqda…"),
     "searchHubSectionOrders": MessageLookupByLibrary.simpleMessage(
       "Buyurtmalar",
     ),
@@ -1364,8 +1405,35 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellerInformation": MessageLookupByLibrary.simpleMessage(
       "Sotuvchi haqida",
     ),
+    "sellerMatchingOrdersAll": MessageLookupByLibrary.simpleMessage(
+      "Barcha mos reklamalar",
+    ),
+    "sellerMatchingOrdersByCategory": MessageLookupByLibrary.simpleMessage(
+      "Kategoriyalar bo‘yicha",
+    ),
+    "sellerMatchingOrdersEmptyListings": MessageLookupByLibrary.simpleMessage(
+      "Hali mahsulot yo‘q",
+    ),
+    "sellerMatchingOrdersEmptyListingsHint": MessageLookupByLibrary.simpleMessage(
+      "Sotadigan kategoriyalarga mahsulot qo\'shing — mos reklamalar shu yerda chiqadi.",
+    ),
+    "sellerMatchingOrdersListingsHint": m22,
+    "sellerMatchingOrdersOpenCount": m23,
+    "sellerMatchingOrdersStatusActive": MessageLookupByLibrary.simpleMessage(
+      "Faol",
+    ),
+    "sellerMatchingOrdersStatusClosed": MessageLookupByLibrary.simpleMessage(
+      "Yopiq",
+    ),
+    "sellerMatchingOrdersSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Tizimdagi mos xaridor e\'lonlari va statusi",
+    ),
+    "sellerMatchingOrdersTitle": MessageLookupByLibrary.simpleMessage(
+      "Reklamalar",
+    ),
+    "sellerMatchingOrdersTotalHint": m24,
     "sellerProfile": MessageLookupByLibrary.simpleMessage("Sotuvchi profili"),
-    "sellerSince": m22,
+    "sellerSince": m25,
     "sellerSinceDescription": MessageLookupByLibrary.simpleMessage(
       "Sotuvchining ro‘yxatdan o‘tgan oyini va yilini ko‘rsatadi",
     ),
@@ -1385,14 +1453,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Sotuvchida hali mahsulot yo\'q",
     ),
     "sellerStoreEmptyHint": MessageLookupByLibrary.simpleMessage(
-      "Yangi e\'lonlar uchun obuna bo\'ling.",
+      "Hali e\'lonlar yo\'q.",
     ),
     "serverNotWorking": MessageLookupByLibrary.simpleMessage(
       "Server hozirda ishlamayapti. Iltimos, keyinroq urinib ko‘ring.",
     ),
     "service": MessageLookupByLibrary.simpleMessage("Xizmat"),
     "serviceFeatures": MessageLookupByLibrary.simpleMessage("Xususiyatlar"),
-    "services": MessageLookupByLibrary.simpleMessage("Xizmatlar"),
+    "services": MessageLookupByLibrary.simpleMessage("Avtoservis"),
     "servicesHubEmptyNearby": MessageLookupByLibrary.simpleMessage(
       "Hozircha yaqin atrofda joylashuvi bor servislar yo\'q. Xaritani oching yoki biznesingizni qo\'shing.",
     ),
@@ -1434,8 +1502,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Xaridor bilan yozishish uchun kiring",
     ),
     "signUp": MessageLookupByLibrary.simpleMessage("Ro‘yxatdan o‘tish"),
+    "similarOrders": MessageLookupByLibrary.simpleMessage(
+      "O‘xshash buyurtmalar",
+    ),
     "similarProducts": MessageLookupByLibrary.simpleMessage(
       "O‘xshash mahsulotlar",
+    ),
+    "similarWorkshops": MessageLookupByLibrary.simpleMessage(
+      "O‘xshash avtoservislar",
     ),
     "skip": MessageLookupByLibrary.simpleMessage("O\'tkazib yuborish"),
     "sortBy": MessageLookupByLibrary.simpleMessage("Saralash"),
@@ -1480,7 +1554,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "titleOfParts": MessageLookupByLibrary.simpleMessage("Ehtiyot qism nomi"),
     "titleOfServices": MessageLookupByLibrary.simpleMessage("Xizmat nomi"),
     "topCategories": MessageLookupByLibrary.simpleMessage("Top kategoriyalar"),
-    "topDeals": MessageLookupByLibrary.simpleMessage("Eng yaxshi takliflar"),
+    "topDeals": MessageLookupByLibrary.simpleMessage("Zapchasti va hammasi"),
     "topProducts": MessageLookupByLibrary.simpleMessage("Top mahsulotlar"),
     "trendingAkp": MessageLookupByLibrary.simpleMessage("Avtomat uzatma"),
     "trendingBattery": MessageLookupByLibrary.simpleMessage("Akkumulyator"),
@@ -1534,13 +1608,40 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "viewProfile": MessageLookupByLibrary.simpleMessage("Profilni ko\'rish"),
     "views": MessageLookupByLibrary.simpleMessage("Ko‘rishlar"),
+    "viewsCountLabel": m26,
     "viewsOfPhone": MessageLookupByLibrary.simpleMessage("Telefon ko‘rishlari"),
+    "wantToBuyBudget": MessageLookupByLibrary.simpleMessage("Byudjet"),
+    "wantToBuyCreateCta": MessageLookupByLibrary.simpleMessage(
+      "So‘rov qoldirish",
+    ),
+    "wantToBuyEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Nima kerakligini yozing — do‘kon va sotuvchilar taklif yuboradi.",
+    ),
+    "wantToBuyEmptyTitle": MessageLookupByLibrary.simpleMessage(
+      "Hali so‘rovlar yo‘q",
+    ),
+    "wantToBuyFeedTitle": MessageLookupByLibrary.simpleMessage(
+      "Xaridor so‘rovlari",
+    ),
+    "wantToBuyOffers": m27,
+    "wantToBuyRequestBadge": MessageLookupByLibrary.simpleMessage("So‘rov"),
+    "wantToBuyRequestsCount": m28,
+    "wantToBuyRespond": MessageLookupByLibrary.simpleMessage("Taklif berish"),
+    "wantToBuySearchHint": MessageLookupByLibrary.simpleMessage(
+      "Qism, mashina yoki shahar…",
+    ),
+    "wantToBuyStep1": MessageLookupByLibrary.simpleMessage("So‘rov"),
+    "wantToBuyStep2": MessageLookupByLibrary.simpleMessage("Taklif"),
+    "wantToBuyStep3": MessageLookupByLibrary.simpleMessage("Kelishuv"),
+    "wantToBuySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Kerakli ehtiyot qismni topa olmasangiz buyurtma qoldiring, sotuvchilar o‘zlari sizga aloqaga chiqishadi.",
+    ),
     "whatDoYouWantSell": MessageLookupByLibrary.simpleMessage(
       "Nima sotmoqchisiz?",
     ),
     "withDiscount": MessageLookupByLibrary.simpleMessage("Chegirmali"),
     "workingTime": MessageLookupByLibrary.simpleMessage("Ish vaqti"),
-    "workshopAbout": MessageLookupByLibrary.simpleMessage("Xizmat haqida"),
+    "workshopAbout": MessageLookupByLibrary.simpleMessage("Avtoservis haqida"),
     "workshopDeleted": MessageLookupByLibrary.simpleMessage(
       "Usta joyi muvaffaqiyatli o‘chirildi",
     ),
@@ -1552,15 +1653,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "So\'rov bo\'yicha",
     ),
     "workshopOpenNow": MessageLookupByLibrary.simpleMessage("Hozir ochiq"),
-    "workshopOwnerReply": m23,
+    "workshopOwnerReply": m29,
     "workshopPopular": MessageLookupByLibrary.simpleMessage("Mashhur"),
-    "workshopPriceFrom": m24,
+    "workshopPriceFrom": m30,
     "workshopScreenSubtitle": MessageLookupByLibrary.simpleMessage(
       "Yaqin atrofdagi ishonchli avtoservislar",
     ),
     "workshopScreenTitle": MessageLookupByLibrary.simpleMessage("Usta joylari"),
     "workshopSearchResults": MessageLookupByLibrary.simpleMessage(
       "Qidiruv natijalari",
+    ),
+    "workshopServiceTypes": MessageLookupByLibrary.simpleMessage(
+      "Xizmat turlari",
     ),
     "workshopStatusClosed": MessageLookupByLibrary.simpleMessage("Yopiq"),
     "workshopStatusOpen": MessageLookupByLibrary.simpleMessage("Ochiq"),

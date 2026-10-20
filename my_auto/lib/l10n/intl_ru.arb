@@ -32,7 +32,7 @@
   "logIn": "Войдите в свой аккаунт",
   "home": "Главная",
   "profile": "Профиль",
-  "services": "Услуги",
+  "services": "Автосервис",
   "add": "Добавить",
   "order": "Заказ",
   "search": "Поиск",
@@ -40,12 +40,37 @@
   "favoritesEmpty": "Пока нет сохранённых объявлений",
   "update": "Обновить",
   "orders": "Заказы",
+  "navWantToBuy": "Мне нужно",
+  "wantToBuySubtitle": "Не можете найти нужную деталь? Оставьте заявку — продавцы сами свяжутся с вами.",
+  "wantToBuySearchHint": "Деталь, авто или город…",
+  "wantToBuyCreateCta": "Оставить заявку",
+  "wantToBuyRequestsCount": "{count} открыто",
+  "@wantToBuyRequestsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "wantToBuyRequestBadge": "Заявка",
+  "wantToBuyBudget": "Бюджет",
+  "wantToBuyOffers": "{count} предложений",
+  "@wantToBuyOffers": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "wantToBuyStep1": "Заявка",
+  "wantToBuyStep2": "Цены",
+  "wantToBuyStep3": "Сделка",
+  "wantToBuyFeedTitle": "Заявки покупателей",
+  "wantToBuyRespond": "Предложить",
+  "wantToBuyEmptyTitle": "Заявок пока нет",
+  "wantToBuyEmptyHint": "Напишите, что нужно — магазины и продавцы пришлют предложения.",
   "morning": "Доброе утро",
   "afternoon": "Добрый день",
   "night": "Доброй ночи",
   "specialOffers": "Специальные предложения",
   "seeAll": "Все",
-  "topDeals": "Лучшие предложения",
+  "topDeals": "Запчасти и всё",
   "whatDoYouWantSell": "Что вы хотите продать?",
   "passengerCars": "Легковые автомобили",
   "service": "Сервис",
@@ -62,9 +87,38 @@
   "myServices": "Мои услуги",
   "myProducts": "Мои товары",
   "profileSectionMyActivity": "Моя активность",
+  "profileSubtitleMyStore": "Магазин, баннер и объявления",
   "profileSubtitleMyProducts": "Объявления и запчасти",
   "profileSubtitleMyServices": "Ваши мастерские",
   "profileSubtitleMyOrders": "Недавние заказы",
+  "sellerMatchingOrdersTitle": "Реклама",
+  "sellerMatchingOrdersSubtitle": "Подходящие заявки покупателей и их статус",
+  "sellerMatchingOrdersAll": "Все подходящие заявки",
+  "sellerMatchingOrdersByCategory": "По вашим категориям",
+  "sellerMatchingOrdersTotalHint": "{count} активных заявок для вас",
+  "@sellerMatchingOrdersTotalHint": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "sellerMatchingOrdersListingsHint": "{count} ваших объявлений",
+  "@sellerMatchingOrdersListingsHint": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "sellerMatchingOrdersEmptyListings": "Пока нет товаров",
+  "sellerMatchingOrdersEmptyListingsHint": "Добавьте товары в категориях, которыми торгуете — подходящие заявки появятся здесь.",
+  "sellerMatchingOrdersStatusActive": "Активна",
+  "sellerMatchingOrdersStatusClosed": "Закрыта",
+  "sellerMatchingOrdersOpenCount": "{count} открытых",
+  "@sellerMatchingOrdersOpenCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "notificationOrderMatchedTitle": "Новая подходящая заявка",
+  "notificationOrderMatchedBody": "Покупатель создал заявку в вашей категории.",
   "profileSubtitleMessages": "Чаты с продавцами",
   "profileSectionPreferences": "Настройки",
   "profileSectionSupport": "Поддержка",
@@ -297,7 +351,8 @@
   "deleteReviewConfirm": "Удалить ваш отзыв безвозвратно?",
   "loadMoreReviews": "Показать ещё",
   "reviewDeleted": "Отзыв удалён",
-  "promotedTop": "ТОП",
+  "promotedTop": "В топе",
+  "promoteToTop": "Продвинуть / в топ",
   "promotedBadge": "ТОП",
   "featured": "Рекомендуем",
   "featuredSubtitle": "Продвигаемые объявления",
@@ -436,9 +491,17 @@
   "searchHubOpenMap": "Карта",
   "searchHubAdvancedProductFilters": "Фильтры товаров",
   "searchHubRecent": "Недавние запросы",
+  "searchHubClearRecent": "Очистить",
   "searchHubTrending": "В тренде",
   "searchHubCategoryIdeas": "Популярные категории",
+  "searchHubExploreTitle": "Обзор",
+  "searchHubBrowseAllCategories": "Все категории",
+  "searchHubCarBrands": "Марки автомобилей",
+  "searchHubExploreHint": "Что вы ищете?",
+  "searchHubQuickParts": "Каталог запчастей",
+  "searchHubQuickNearby": "Рядом на карте",
   "searchHubAwaitingTyping": "Продолжайте ввод — мы собираем товары, мастерские, услуги на карте и заявки в одном ответе.",
+  "searchHubSearching": "Ищем…",
   "searchHubNoGroupedHits": "Пока ничего не нашли",
   "searchHubSectionProducts": "Товары",
   "searchHubSectionWorkshops": "Авто услуги",
@@ -537,7 +600,18 @@
   "workshopVerified": "Проверен",
   "workshopOpenNow": "Открыто",
   "workshopFastResponse": "Быстрый ответ",
-  "workshopAbout": "О сервисе",
+  "workshopAbout": "Об автосервисе",
+  "workshopServiceTypes": "Виды услуг",
+  "similarWorkshops": "Похожие автосервисы",
+  "similarOrders": "Похожие заявки",
+  "viewsCountLabel": "{count}",
+  "@viewsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "workshopOnRequest": "По запросу",
   "workshopPriceFrom": "от {amount} {currency}",
   "workshopOwnerReply": "Владелец: {text}",
@@ -647,7 +721,7 @@
   "viewProfile": "Профиль",
   "moreFromSeller": "Ещё от этого продавца",
   "sellerStoreEmpty": "У продавца пока нет товаров",
-  "sellerStoreEmptyHint": "Подпишитесь, чтобы узнать о новых объявлениях.",
+  "sellerStoreEmptyHint": "Пока нет объявлений.",
   "username": "Имя пользователя",
   "bio": "Кратко о себе",
   "emailAddress": "Электронная почта",

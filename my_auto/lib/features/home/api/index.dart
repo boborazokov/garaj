@@ -28,6 +28,7 @@ query GetParts(
       promotedUntil
       promotionPlan
       promotionPriority
+      viewsCount
       location
       region
       name
@@ -38,7 +39,6 @@ query GetParts(
         _id
         name
         image
-        username
         createdAt
         phone
         address
@@ -77,6 +77,7 @@ query GetPartById($partId: ObjectId!) {
     promotedUntil
     promotionPlan
     promotionPriority
+    viewsCount
     location
     region
     quantity
@@ -88,7 +89,6 @@ query GetPartById($partId: ObjectId!) {
       phone
       address
       image
-      username
       verified
     }
   }

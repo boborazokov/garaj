@@ -12,7 +12,10 @@ class AdvertisementRepository {
 
   final GraphQLClient _client;
 
-  Future<List<Advertisement>> list({AdSurface? surface}) async {
+  Future<List<Advertisement>> list({
+    AdSurface? surface,
+    bool forceNetwork = false,
+  }) async {
     final filter = <String, dynamic>{};
     if (surface != null) filter['type'] = surface.api;
 
@@ -22,7 +25,8 @@ class AdvertisementRepository {
         variables: {
           'filter': filter.isEmpty ? null : filter,
         },
-        fetchPolicy: FetchPolicy.cacheAndNetwork,
+        fetchPolicy:
+            forceNetwork ? FetchPolicy.networkOnly : FetchPolicy.cacheAndNetwork,
       ),
     );
 

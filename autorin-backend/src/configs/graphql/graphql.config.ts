@@ -25,6 +25,7 @@ import {
   verifyWsToken,
   WsConnectionLimiter,
 } from './ws-connection-limiter';
+import { SessionService } from 'src/modules/auth/session/session.service';
 
 const wsLogger = new Logger('GraphQL-WS');
 
@@ -84,7 +85,7 @@ class WsConnectionLimiterModule {}
 
           subscriptions: {
             'graphql-ws': {
-              onConnect: (ctx: any) => {
+              onConnect: async (ctx: any) => {
                 const headerOrigin = ctx.extra?.request?.headers?.origin;
                 const origin =
                   (typeof headerOrigin === 'string' ? headerOrigin : undefined) ??
@@ -98,6 +99,11 @@ class WsConnectionLimiterModule {}
                   (params['Authorization'] as string) ??
                   '';
                 const identity = verifyWsToken(raw, jwtSecret, jwt);
+                await SessionService.assertHandshake({
+                  userId: identity.userId.toString(),
+                  userRole: identity.userRole,
+                  sid: identity.sid,
+                });
                 wsLimiter.assertHandshakeAllowed(identity.userId);
                 const socketId = wsLimiter.attachSocketId(ctx);
                 wsLimiter.register(identity.userId, socketId);
@@ -118,7 +124,7 @@ class WsConnectionLimiterModule {}
             },
 
             'subscriptions-transport-ws': {
-              onConnect: (params: Record<string, unknown>) => {
+              onConnect: async (params: Record<string, unknown>) => {
                 const origin =
                   (params['origin'] as string) ??
                   (params['Origin'] as string);
@@ -129,6 +135,11 @@ class WsConnectionLimiterModule {}
                   (params['Authorization'] as string) ??
                   '';
                 const identity = verifyWsToken(raw, jwtSecret, jwt);
+                await SessionService.assertHandshake({
+                  userId: identity.userId.toString(),
+                  userRole: identity.userRole,
+                  sid: identity.sid,
+                });
                 wsLimiter.assertHandshakeAllowed(identity.userId);
                 return {
                   userId: identity.userId,

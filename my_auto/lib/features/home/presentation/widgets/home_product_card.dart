@@ -6,6 +6,7 @@ import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/generated/l10n.dart';
+import 'package:my_auto/widgets/card_date_region.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:my_auto/widgets/favorite_heart_button.dart';
 
@@ -25,24 +26,6 @@ class HomeProductCard extends StatelessWidget {
     return '${parts.reversed.join(' ')} $currency';
   }
 
-  String _city() {
-    if (product.region != null && product.region!.trim().isNotEmpty) {
-      return product.region!.trim();
-    }
-    if (product.location.trim().isNotEmpty) return product.location.trim();
-    return '—';
-  }
-
-  String _ago(BuildContext context) {
-    final s = S.of(context);
-    final diff = DateTime.now().difference(product.createdAt);
-    if (diff.inMinutes < 1) return s.chatJustNow;
-    if (diff.inHours < 1) return s.chatMinutesAgo(diff.inMinutes);
-    if (diff.inHours < 24) return s.chatHoursAgo(diff.inHours);
-    if (diff.inDays < 7) return s.chatDaysAgo(diff.inDays);
-    return '${product.createdAt.day}/${product.createdAt.month}';
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
@@ -54,7 +37,8 @@ class HomeProductCard extends StatelessWidget {
       borderRadius: MarketUi.cardRadius,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.push(RoutesName.productDetailScreen, extra: product.id),
+        onTap: () =>
+            context.push(RoutesName.productDetailScreen, extra: product.id),
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: MarketUi.cardRadius,
@@ -106,6 +90,29 @@ class HomeProductCard extends StatelessWidget {
                           ),
                         ),
                       ),
+                    if (product.condition == true)
+                      Positioned(
+                        left: 8,
+                        bottom: 8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: colors.success,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            S.of(context).newPart,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                      ),
                     Positioned(
                       right: 6,
                       top: 6,
@@ -131,6 +138,17 @@ class HomeProductCard extends StatelessWidget {
                         color: colors.primary,
                       ),
                     ),
+                    if (product.negotiable == true) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        S.of(context).negotiable,
+                        maxLines: 1,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: colors.primary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 4),
                     Text(
                       product.name,
@@ -142,28 +160,10 @@ class HomeProductCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Icon(LucideIcons.mapPin,
-                            size: 12, color: colors.textMuted),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            _city(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              color: colors.textMuted,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          _ago(context),
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: colors.textMuted,
-                          ),
-                        ),
-                      ],
+                    CardDateRegion(
+                      createdAt: product.createdAt,
+                      region: product.region,
+                      fontSize: 12,
                     ),
                   ],
                 ),

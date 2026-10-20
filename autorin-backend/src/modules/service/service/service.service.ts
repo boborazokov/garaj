@@ -5,6 +5,7 @@ import * as dayjs from 'dayjs';
 import { FileUpload } from 'graphql-upload-ts';
 import { ContextType } from 'src/auth/interfaces';
 import { assertAuthenticated } from 'src/auth/utils/authenticated-context';
+import { ownerScope } from 'src/auth/utils/admin-scope';
 import { Catalog, COLLECTIONS } from 'src/constants';
 import { ItemStatusEnum } from 'src/modules/item/enums';
 import { MinioService } from 'src/utils/minio';
@@ -188,7 +189,7 @@ export class ServiceListingService {
   async promoteService({ serviceId, plan }: PromoteServiceArgs, context: ContextType) {
     const { userId } = assertAuthenticated(context);
     const promoted = await this.serviceModel.findOneAndUpdate(
-      { _id: serviceId, owner: new Types.ObjectId(userId) },
+      { _id: serviceId, ...ownerScope(context, 'owner', new Types.ObjectId(userId)) },
       { $set: buildPromotionUpdate(plan) },
       { new: true },
     );

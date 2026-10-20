@@ -27,7 +27,6 @@ class PushDataKeys {
   static const String senderId = 'senderId';
   static const String orderId = 'orderId';
   static const String partId = 'partId';
-  static const String followerId = 'followerId';
   static const String sellerId = 'sellerId';
 }
 
@@ -36,10 +35,10 @@ class PushEventTypes {
   PushEventTypes._();
   static const String chat = 'chat';
   static const String orderReply = 'orderReply';
+  static const String orderMatched = 'orderMatched';
   static const String favoriteMatched = 'favoriteMatched';
   static const String promotedExpired = 'promotedExpired';
   static const String sellerResponse = 'sellerResponse';
-  static const String newFollower = 'newFollower';
   static const String accountVerified = 'accountVerified';
   static const String workshopBooking = 'workshopBooking';
 }

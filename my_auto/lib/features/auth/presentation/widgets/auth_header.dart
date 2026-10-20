@@ -38,8 +38,8 @@ class AuthHeader extends StatelessWidget {
         if (showLogo) ...[
           Image.asset(
             'assets/images/logo.png',
-            fit: BoxFit.cover,
-            height: 100,
+            fit: BoxFit.contain,
+            height: 110,
           ),
           const SizedBox(height: 10),
         ],

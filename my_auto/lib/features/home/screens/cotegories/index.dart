@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/provider/add/getCotegories.dart';
 import 'package:my_auto/features/home/widgets/gridCotegory/index.dart';
 import 'package:my_auto/features/home/widgets/slider/index.dart';
@@ -28,7 +29,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: SafeArea(
+      body: AppSafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(

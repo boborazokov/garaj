@@ -1,21 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/home/widgets/productList/index.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/common/app_bar.dart';
 import 'package:my_auto/widgets/searchInput/index.dart';
 import 'package:provider/provider.dart';
-
-enum _ConditionFilter { any, isNew, used }
 
 /// Catalog search with the "Didn't find what you need? → Create request"
 /// CTA that turns empty / sparse results into actionable buy-requests.
@@ -32,8 +29,6 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final ScrollController _scrollController = ScrollController();
   Timer? _debounce;
-  _ConditionFilter _condition = _ConditionFilter.any;
-  bool? _negotiable;
   ProductProvider? _productProvider;
 
   @override
@@ -50,19 +45,6 @@ class _SearchScreenState extends State<SearchScreen> {
     final filters = <String, dynamic>{};
     if (widget.categoryId != null && widget.categoryId!.isNotEmpty) {
       filters['category'] = widget.categoryId;
-    }
-    switch (_condition) {
-      case _ConditionFilter.isNew:
-        filters['isNew'] = true;
-        break;
-      case _ConditionFilter.used:
-        filters['isNew'] = false;
-        break;
-      case _ConditionFilter.any:
-        break;
-    }
-    if (_negotiable == true) {
-      filters['isNegotiable'] = true;
     }
     return filters;
   }
@@ -158,7 +140,7 @@ class _SearchScreenState extends State<SearchScreen> {
               title: widget.isAll ? s.allProducts : s.search,
             )
           : null,
-      body: SafeArea(
+      body: AppSafeArea(
         bottom: false,
         child: Column(
           children: [
@@ -171,55 +153,15 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: provider.searchController,
                       hintText: s.search,
                       autoFocus: false,
+                      onSubmitted: (_) {
+                        _debounce?.cancel();
+                        provider.loadList(
+                          filters: _buildFilters(),
+                          reset: true,
+                          search: provider.searchController.text,
+                        );
+                      },
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 44,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                children: [
-                  _FilterChip(
-                    icon: LucideIcons.sparkles,
-                    label: s.newPart,
-                    isActive: _condition == _ConditionFilter.isNew,
-                    onTap: () {
-                      setState(() {
-                        _condition = _condition == _ConditionFilter.isNew
-                            ? _ConditionFilter.any
-                            : _ConditionFilter.isNew;
-                      });
-                      _refresh();
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  _FilterChip(
-                    icon: LucideIcons.recycle,
-                    label: s.used,
-                    isActive: _condition == _ConditionFilter.used,
-                    onTap: () {
-                      setState(() {
-                        _condition = _condition == _ConditionFilter.used
-                            ? _ConditionFilter.any
-                            : _ConditionFilter.used;
-                      });
-                      _refresh();
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  _FilterChip(
-                    icon: LucideIcons.percent,
-                    label: s.negotiable,
-                    isActive: _negotiable == true,
-                    onTap: () {
-                      setState(() {
-                        _negotiable = _negotiable == true ? null : true;
-                      });
-                      _refresh();
-                    },
                   ),
                 ],
               ),
@@ -241,14 +183,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
                             physics: const AlwaysScrollableScrollPhysics(),
                             children: [
-                              const AdBanner(
-                                surface: AdSurface.part,
-                                height: 120,
-                                margin: EdgeInsets.fromLTRB(8, 0, 8, 12),
-                              ),
                               ProductGrid(
                                 products: products,
-                                inlineAdSurface: AdSurface.part,
                               ),
                               if (hasQuery && products.length <= _sparseThreshold)
                                 Padding(
@@ -270,59 +206,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _FilterChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isActive;
-  final VoidCallback onTap;
-
-  const _FilterChip({
-    required this.icon,
-    required this.label,
-    required this.isActive,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-    return Material(
-      color: isActive ? colors.primary : colors.surface,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(999),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(
-              color: isActive ? colors.primary : colors.border,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon,
-                  size: 14,
-                  color: isActive ? colors.onPrimary : colors.textSecondary),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: TextStyle(
-                  color: isActive ? colors.onPrimary : colors.textPrimary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

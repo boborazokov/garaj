@@ -4,10 +4,6 @@ import 'package:my_auto/core/map/geo_location.dart';
 
 class EditProfileController {
   final nameController = TextEditingController();
-  final usernameController = TextEditingController();
-  final bioController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final emailController = TextEditingController();
   final locationController = TextEditingController();
 
   UzbekistanRegion? selectedRegion;
@@ -21,15 +17,10 @@ class EditProfileController {
   bool showPhone = false;
   bool showEmail = false;
   bool showLocation = true;
-  bool showFollowers = true;
   bool allowMessages = true;
 
   void dispose() {
     nameController.dispose();
-    usernameController.dispose();
-    bioController.dispose();
-    descriptionController.dispose();
-    emailController.dispose();
     locationController.dispose();
     telegramController.dispose();
     instagramController.dispose();

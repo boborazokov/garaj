@@ -18,8 +18,6 @@ import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/utils/geocoder.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/chat/chat_di.dart';
 import 'package:my_auto/features/chat/domain/entities/conversation.dart';
 import 'package:my_auto/features/discovery/presentation/providers/discovery_provider.dart';
@@ -613,13 +611,6 @@ class _MarketplaceHomeFeedState extends State<MarketplaceHomeFeed>
                   child: HomePromoCarousel(
                     slides: _promoSlides(context, colors, hub),
                   ),
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: AdBanner(
-                  surface: AdSurface.brand,
-                  height: 150,
-                  margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
                 ),
               ),
               SliverToBoxAdapter(

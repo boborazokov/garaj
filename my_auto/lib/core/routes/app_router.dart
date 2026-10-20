@@ -21,6 +21,7 @@ import 'package:my_auto/features/orders/presentation/screens/orders_screen.dart'
 import 'package:my_auto/features/profile/screens/contactUs/index.dart';
 import 'package:my_auto/features/profile/screens/edit_profile/index.dart';
 import 'package:my_auto/features/profile/screens/myOrders/index.dart';
+import 'package:my_auto/features/profile/screens/seller_matching_orders/index.dart';
 import 'package:my_auto/features/profile/screens/my_products/index.dart';
 import 'package:my_auto/features/profile/screens/my_services/my_services.dart';
 import 'package:my_auto/features/profile/screens/privacy_policy/index.dart';
@@ -32,7 +33,6 @@ import 'package:my_auto/features/search/index.dart';
 import 'package:my_auto/features/search/presentation/global_search_hub_screen.dart';
 import 'package:my_auto/features/sellerProfile/index.dart';
 import 'package:my_auto/features/sellerProfile/models/seller_store_profile.dart';
-import 'package:my_auto/features/sellerProfile/screens/seller_followers_screen.dart';
 import 'package:my_auto/features/sellerProfile/screens/store_analytics_screen.dart';
 import 'package:my_auto/features/splash/index.dart';
 import 'package:my_auto/features/workshop/presentation/create_workshop/create_workshop_flow_screen.dart';
@@ -69,6 +69,10 @@ GoRouter createAppRouter(AuthProvider auth) {
         builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
+        path: RoutesName.resetPassword,
+        builder: (context, state) => const ResetPasswordScreen(),
+      ),
+      GoRoute(
         path: RoutesName.buttonNavigationBar,
         builder: (context, state) => const MyBottomNavigationBar(),
       ),
@@ -83,6 +87,28 @@ GoRouter createAppRouter(AuthProvider auth) {
       GoRoute(
         path: RoutesName.myOrders,
         builder: (context, state) => const MyOrders(),
+      ),
+      GoRoute(
+        path: RoutesName.sellerMatchingOrders,
+        builder: (context, state) => const SellerMatchingOrdersScreen(),
+      ),
+      GoRoute(
+        path: RoutesName.sellerMatchingOrdersList,
+        builder: (context, state) {
+          final extra = state.extra;
+          Map<String, dynamic>? map;
+          if (extra is Map<String, dynamic>) {
+            map = extra;
+          } else if (extra is Map) {
+            map = extra.map((k, v) => MapEntry(k.toString(), v));
+          }
+          return SellerMatchingOrdersListScreen(
+            partCategoryId: map?['partCategoryId'] as String?,
+            title: map?['title'] as String?,
+            matchSellerCategories:
+                map?['matchSellerCategories'] as bool? ?? true,
+          );
+        },
       ),
       GoRoute(
         path: RoutesName.myServices,
@@ -193,13 +219,6 @@ GoRouter createAppRouter(AuthProvider auth) {
             return StoreAnalyticsScreen(sellerId: extra);
           }
           return const StoreAnalyticsScreen();
-        },
-      ),
-      GoRoute(
-        path: RoutesName.sellerFollowers,
-        builder: (context, state) {
-          final sellerId = state.extra as String? ?? '';
-          return SellerFollowersScreen(sellerId: sellerId);
         },
       ),
       GoRoute(

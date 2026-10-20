@@ -16,6 +16,7 @@ Future<bool> showAuthWallSheet(
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
+    useRootNavigator: true,
     builder: (ctx) => _AuthWallSheet(
       title: title,
       message: message,
@@ -89,7 +90,9 @@ class _AuthWallSheet extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop(true);
+              },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
                 backgroundColor: colors.primary,
@@ -108,7 +111,9 @@ class _AuthWallSheet extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: TextButton(
-              onPressed: () => Navigator.pop(context, false),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop(false);
+              },
               child: Text(
                 s.continueBrowsing,
                 style: TextStyle(

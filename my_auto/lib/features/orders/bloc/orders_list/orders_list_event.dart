@@ -9,10 +9,16 @@ sealed class OrdersListEvent extends Equatable {
 }
 
 final class OrdersListStarted extends OrdersListEvent {
-  const OrdersListStarted({this.authorId});
+  const OrdersListStarted({
+    this.authorId,
+    this.partCategoryId,
+    this.matchSellerCategories = false,
+  });
   final String? authorId;
+  final String? partCategoryId;
+  final bool matchSellerCategories;
   @override
-  List<Object?> get props => [authorId];
+  List<Object?> get props => [authorId, partCategoryId, matchSellerCategories];
 }
 
 final class OrdersListRefreshed extends OrdersListEvent {

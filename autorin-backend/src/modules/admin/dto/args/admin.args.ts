@@ -13,6 +13,15 @@ export class SetProductModerationArgs {
 }
 
 @ArgsType()
+export class SetContactInfoArgs {
+  @Field()
+  supportEmail: string;
+
+  @Field()
+  supportPhone: string;
+}
+
+@ArgsType()
 export class SetUserRoleArgs {
   @Field(() => ObjectIdScalar)
   userId: Types.ObjectId;

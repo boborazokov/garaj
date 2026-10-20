@@ -61,9 +61,11 @@ class SignInProvider extends ChangeNotifier {
       await context.read<AuthProvider>().setAuth(authData);
       controller.clearForm();
       if (!context.mounted) return;
-      final replayed = await PendingActionManager.instance.replay(context);
+      // Clear sign-in from the stack so Back from create-product ≠ login.
+      context.go(RoutesName.buttonNavigationBar);
+      await Future<void>.delayed(Duration.zero);
       if (!context.mounted) return;
-      if (!replayed) context.go(RoutesName.buttonNavigationBar);
+      await PendingActionManager.instance.replay(context);
     } finally {
       isLoading = false;
       notifyListeners();

@@ -45,14 +45,12 @@ class SellerPrivacySettings {
   final bool showPhone;
   final bool showEmail;
   final bool showLocation;
-  final bool showFollowers;
   final bool allowMessages;
 
   const SellerPrivacySettings({
     this.showPhone = false,
     this.showEmail = false,
     this.showLocation = true,
-    this.showFollowers = true,
     this.allowMessages = true,
   });
 
@@ -62,7 +60,6 @@ class SellerPrivacySettings {
       showPhone: json['showPhone'] == true,
       showEmail: json['showEmail'] == true,
       showLocation: json['showLocation'] != false,
-      showFollowers: json['showFollowers'] != false,
       allowMessages: json['allowMessages'] != false,
     );
   }
@@ -71,7 +68,6 @@ class SellerPrivacySettings {
         'showPhone': showPhone,
         'showEmail': showEmail,
         'showLocation': showLocation,
-        'showFollowers': showFollowers,
         'allowMessages': allowMessages,
       };
 }
@@ -80,14 +76,12 @@ class SellerStoreStats {
   final int totalProducts;
   final int activeProducts;
   final int categoriesCount;
-  final int followersCount;
   final int profileViews;
 
   const SellerStoreStats({
     required this.totalProducts,
     required this.activeProducts,
     required this.categoriesCount,
-    required this.followersCount,
     required this.profileViews,
   });
 
@@ -102,7 +96,6 @@ class SellerStoreStats {
       totalProducts: n(json['totalProducts']),
       activeProducts: n(json['activeProducts']),
       categoriesCount: n(json['categoriesCount']),
-      followersCount: n(json['followersCount']),
       profileViews: n(json['profileViews']),
     );
   }
@@ -134,13 +127,9 @@ class SellerCategoryStat {
 class SellerStoreProfile {
   final String id;
   final String name;
-  final String? username;
   final String? image;
   final String? banner;
-  final String? bio;
-  final String? description;
   final String? phone;
-  final String? email;
   final String? country;
   final String? region;
   final String? city;
@@ -150,20 +139,15 @@ class SellerStoreProfile {
   final DateTime createdAt;
   final SellerStoreStats stats;
   final List<SellerCategoryStat> categories;
-  final bool isFollowing;
   final bool isOwnProfile;
   final bool allowMessages;
 
   const SellerStoreProfile({
     required this.id,
     required this.name,
-    this.username,
     this.image,
     this.banner,
-    this.bio,
-    this.description,
     this.phone,
-    this.email,
     this.country,
     this.region,
     this.city,
@@ -173,7 +157,6 @@ class SellerStoreProfile {
     required this.createdAt,
     required this.stats,
     this.categories = const [],
-    this.isFollowing = false,
     this.isOwnProfile = false,
     this.allowMessages = true,
   });
@@ -182,13 +165,9 @@ class SellerStoreProfile {
     return SellerStoreProfile(
       id: json['_id']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
-      username: json['username']?.toString(),
       image: json['image']?.toString(),
       banner: json['banner']?.toString(),
-      bio: json['bio']?.toString(),
-      description: json['description']?.toString(),
       phone: json['phone']?.toString(),
-      email: json['email']?.toString(),
       country: json['country']?.toString(),
       region: json['region']?.toString(),
       city: json['city']?.toString(),
@@ -209,25 +188,20 @@ class SellerStoreProfile {
                 Map<String, dynamic>.from(e as Map),
               ))
           .toList(),
-      isFollowing: json['isFollowing'] == true,
       isOwnProfile: json['isOwnProfile'] == true,
       allowMessages: json['allowMessages'] != false,
     );
   }
 
   SellerStoreProfile copyWith({
-    bool? isFollowing,
     SellerStoreStats? stats,
   }) {
     return SellerStoreProfile(
       id: id,
       name: name,
-      username: username,
       image: image,
-      bio: bio,
-      description: description,
+      banner: banner,
       phone: phone,
-      email: email,
       country: country,
       region: region,
       city: city,
@@ -237,8 +211,8 @@ class SellerStoreProfile {
       createdAt: createdAt,
       stats: stats ?? this.stats,
       categories: categories,
-      isFollowing: isFollowing ?? this.isFollowing,
       isOwnProfile: isOwnProfile,
+      allowMessages: allowMessages,
     );
   }
 

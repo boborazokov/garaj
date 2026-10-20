@@ -12,9 +12,27 @@ export class AppSettings {
   _id: string;
 
   @Field()
-  @Prop({ default: false })
+  /** Fresh installs review listings before they go public. */
+  @Prop({ default: true })
   productModerationEnabled: boolean;
+
+  @Field({ nullable: true })
+  @Prop({ default: '' })
+  supportEmail?: string;
+
+  @Field({ nullable: true })
+  @Prop({ default: '' })
+  supportPhone?: string;
 
   @Field()
   updatedAt?: Date;
+}
+
+@ObjectType()
+export class ContactInfo {
+  @Field()
+  supportEmail: string;
+
+  @Field()
+  supportPhone: string;
 }

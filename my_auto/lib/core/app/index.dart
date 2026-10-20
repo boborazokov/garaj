@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -14,6 +16,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  /// Edge-to-edge Android can zero [MediaQuery.padding] while
+  /// [MediaQuery.viewPadding] still has notch / home-indicator insets.
+  /// Normalize once so every [SafeArea] / Scaffold / overlay stays correct.
+  static MediaQueryData _normalizedMediaQuery(MediaQueryData mq) {
+    return mq.copyWith(
+      padding: EdgeInsets.only(
+        top: math.max(mq.padding.top, mq.viewPadding.top),
+        left: math.max(mq.padding.left, mq.viewPadding.left),
+        right: math.max(mq.padding.right, mq.viewPadding.right),
+        bottom: math.max(mq.padding.bottom, mq.viewPadding.bottom),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +75,13 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
+        builder: (context, child) {
+          final mq = MediaQuery.of(context);
+          return MediaQuery(
+            data: _normalizedMediaQuery(mq),
+            child: child ?? const SizedBox.shrink(),
+          );
+        },
       ),
     );
   }

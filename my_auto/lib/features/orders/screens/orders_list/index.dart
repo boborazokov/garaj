@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
@@ -9,9 +10,6 @@ import 'package:my_auto/core/provider/orders/orders_provider.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_list_slot.dart';
 import 'package:my_auto/features/orders/widgets/order_card.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/searchInput/index.dart';
@@ -113,7 +111,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
 
     return Scaffold(
       backgroundColor: colors.background,
-      body: SafeArea(
+      body: AppSafeArea(
         bottom: false,
         child: Column(
           children: [
@@ -180,16 +178,9 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
                             physics: const AlwaysScrollableScrollPhysics(),
                             itemCount:
-                                orders.length + 1 + (isMoreLoading ? 1 : 0),
+                                orders.length + (isMoreLoading ? 1 : 0),
                             itemBuilder: (_, i) {
-                              if (i == 0) {
-                                return const AdBanner(
-                                  surface: AdSurface.announcement,
-                                  height: 120,
-                                  margin: EdgeInsets.only(bottom: 12),
-                                );
-                              }
-                              final orderIndex = i - 1;
+                              final orderIndex = i;
                               if (orderIndex >= orders.length) {
                                 return const Padding(
                                   padding: EdgeInsets.all(16),
@@ -201,16 +192,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                               final order = orders[orderIndex];
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 10),
-                                child: Column(
-                                  children: [
-                                    AdListSlot(
-                                      listIndex: orderIndex,
-                                      surface: AdSurface.announcement,
-                                      interval: 5,
-                                    ),
-                                    OrderCard(order: order),
-                                  ],
-                                ),
+                                child: OrderCard(order: order),
                               );
                             },
                           ),

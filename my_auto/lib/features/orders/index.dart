@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -11,7 +12,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: AppSafeArea(
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Center(

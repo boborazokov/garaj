@@ -10,6 +10,7 @@ const String GET_WORKSHOPS = r'''
         _id
         activeUntil
         address
+        city
         createdAt
         images
         location

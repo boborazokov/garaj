@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/routes/name.dart';
@@ -18,7 +19,7 @@ class Add extends StatelessWidget {
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppTopBar(title: s.whatDoYouWantSell),
-      body: SafeArea(
+      body: AppSafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           children: [

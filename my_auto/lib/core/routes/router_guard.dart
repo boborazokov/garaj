@@ -27,13 +27,13 @@ class RouterGuard {
     RoutesName.inbox,
     RoutesName.notifications,
     RoutesName.storeAnalytics,
-    RoutesName.sellerFollowers,
   };
 
   static const _publicAuthRoutes = {
     RoutesName.splash,
     RoutesName.signin,
     RoutesName.signup,
+    RoutesName.resetPassword,
     RoutesName.confirmation,
   };
 

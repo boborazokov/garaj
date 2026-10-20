@@ -18,54 +18,52 @@ class OrdersEmptyState extends StatelessWidget {
 
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 100,
-              height: 100,
+              width: 88,
+              height: 88,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    colors.primary.withValues(alpha: 0.2),
-                    colors.primary.withValues(alpha: 0.05),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(32),
+                color: colors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(28),
               ),
               child: Icon(
-                LucideIcons.packageSearch,
-                size: 44,
+                LucideIcons.clipboardPen,
+                size: 40,
                 color: colors.primary,
               ),
             ),
             const SizedBox(height: 20),
             Text(
-              s.noOrders,
+              s.wantToBuyEmptyTitle,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
             ),
             const SizedBox(height: 8),
             Text(
-              s.noOrdersHint,
+              s.wantToBuyEmptyHint,
               textAlign: TextAlign.center,
-              style: TextStyle(color: colors.textMuted, height: 1.4),
+              style: TextStyle(
+                color: colors.textMuted,
+                height: 1.45,
+                fontSize: 14,
+              ),
             ),
             const SizedBox(height: 20),
             FilledButton.icon(
-              onPressed: onCreate ?? () => context.push(RoutesName.createOrder),
+              onPressed:
+                  onCreate ?? () => context.push(RoutesName.createOrder),
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(48),
                 padding: const EdgeInsets.symmetric(horizontal: 28),
                 shape: RoundedRectangleBorder(borderRadius: AppRadius.rL),
               ),
               icon: const Icon(LucideIcons.plus),
-              label: Text(s.createRequest),
+              label: Text(s.wantToBuyCreateCta),
             ),
           ],
         ),

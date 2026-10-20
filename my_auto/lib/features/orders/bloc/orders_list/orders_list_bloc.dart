@@ -19,7 +19,7 @@ class OrdersListBloc extends Bloc<OrdersListEvent, OrdersListState> {
     on<OrdersListStarted>(_onStarted);
     on<OrdersListRefreshed>(_onRefreshed, transformer: droppable());
     on<OrdersListLoadMore>(_onLoadMore, transformer: droppable());
-    on<OrdersListSearchChanged>(_onSearchChanged, transformer: droppable());
+    on<OrdersListSearchChanged>(_onSearchChanged, transformer: restartable());
     on<OrdersListTabChanged>(_onTabChanged);
     on<OrdersListFavoriteToggled>(_onFavoriteToggled);
     on<OrdersListDeleteRequested>(_onDelete);
@@ -33,7 +33,11 @@ class OrdersListBloc extends Bloc<OrdersListEvent, OrdersListState> {
     OrdersListStarted event,
     Emitter<OrdersListState> emit,
   ) async {
-    emit(state.copyWith(authorId: event.authorId));
+    emit(state.copyWith(
+      authorId: event.authorId,
+      partCategoryId: event.partCategoryId,
+      matchSellerCategories: event.matchSellerCategories,
+    ));
     final favorites = await _repository.getFavoriteIds();
     final responded = await _repository.getRespondedOrderIds();
     emit(state.copyWith(favoriteIds: favorites, respondedIds: responded));
@@ -150,6 +154,12 @@ class OrdersListBloc extends Bloc<OrdersListEvent, OrdersListState> {
         filter['author'] = state.authorId;
       } else if (state.tab == OrdersTab.myRequests && _currentUserId != null) {
         filter['author'] = _currentUserId;
+      }
+      if (state.partCategoryId != null && state.partCategoryId!.isNotEmpty) {
+        filter['partCategory'] = state.partCategoryId;
+      }
+      if (state.matchSellerCategories) {
+        filter['matchSellerCategories'] = true;
       }
 
       final result = await _repository.getOrders(

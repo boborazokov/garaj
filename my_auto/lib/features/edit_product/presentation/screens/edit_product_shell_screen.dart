@@ -126,20 +126,6 @@ class _EditProductShellScreenState extends State<EditProductShellScreen> {
                     ),
                     SliverToBoxAdapter(child: _section(colors, title: 'Price & delivery', child: const PriceStep(compact: true))),
                     SliverToBoxAdapter(
-                      child: _placeholderSection(
-                        context,
-                        title: 'Contact options',
-                        body: 'Phone / Telegram / WhatsApp toggles tie into your seller profile rollout.',
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: _placeholderSection(
-                        context,
-                        title: 'Promotion',
-                        body: 'Boosts and featured placements will appear here.',
-                      ),
-                    ),
-                    SliverToBoxAdapter(
                       child: _section(
                         colors,
                         title: 'Preview',
@@ -234,34 +220,6 @@ class _EditProductShellScreenState extends State<EditProductShellScreen> {
               ),
               const SizedBox(height: 14),
               child,
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _placeholderSection(
-    BuildContext context, {
-    required String title,
-    required String body,
-  }) {
-    final colors = context.appColors;
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Material(
-        color: colors.surfaceMuted.withValues(alpha: 0.5),
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.rL),
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
-              Text(body, style: theme.textTheme.bodySmall?.copyWith(color: colors.textMuted)),
             ],
           ),
         ),

@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -8,19 +7,16 @@ import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_list_slot.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
-import 'package:my_auto/features/services/data/models/service_listing.dart';
-import 'package:my_auto/features/services/data/services_repository.dart';
-import 'package:my_auto/features/services/presentation/widgets/service_card.dart';
+import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
+import 'package:my_auto/features/workshop/data/workshops_repository.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:my_auto/widgets/searchInput/index.dart';
 
-enum _ServicesViewMode { discover, nearby, topRated, verified, search }
+enum _HubFilter { all, openNow, nearby }
 
+/// Avtoservis hub — clean marketplace list of workshops.
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({super.key});
 
@@ -30,10 +26,9 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen> {
   final _search = TextEditingController();
-  List<ServiceListing> _nearby = [];
-  List<ServiceListing> _top = [];
+  List<WorkshopProfile> _items = [];
   bool _loading = true;
-  _ServicesViewMode _mode = _ServicesViewMode.discover;
+  _HubFilter _filter = _HubFilter.all;
 
   @override
   void initState() {
@@ -49,6 +44,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
   Future<void> _load() async {
     setState(() => _loading = true);
+
     double lat = 41.2995;
     double lng = 69.2401;
     try {
@@ -57,90 +53,53 @@ class _ServicesScreenState extends State<ServicesScreen> {
       lng = pos.longitude;
     } catch (_) {}
 
-    final results = await Future.wait([
-      servicesRepository.nearbyServices(latitude: lat, longitude: lng),
-      servicesRepository.topRated(),
-    ]);
+    var nearby = await workshopsRepository.nearby(
+      latitude: lat,
+      longitude: lng,
+      radiusKm: 120,
+      limit: 50,
+    );
+    if (nearby.isEmpty) {
+      nearby = await workshopsRepository.list(limit: 50);
+    }
+
+    // Prefer promoted / rated first for a healthier feed.
+    nearby = [...nearby]..sort((a, b) {
+        final pa = a.isPromotionActive ? 1 : 0;
+        final pb = b.isPromotionActive ? 1 : 0;
+        if (pa != pb) return pb.compareTo(pa);
+        final ra = a.rating;
+        final rb = b.rating;
+        if (ra != rb) return rb.compareTo(ra);
+        return a.name.compareTo(b.name);
+      });
 
     if (!mounted) return;
     setState(() {
-      _nearby = results[0];
-      _top = results[1];
+      _items = nearby;
       _loading = false;
     });
   }
 
-  void _onSearchChanged(String value) {
-    final trimmed = value.trim();
-    setState(() {
-      if (trimmed.isEmpty && _mode == _ServicesViewMode.search) {
-        _mode = _ServicesViewMode.discover;
-      } else if (trimmed.isNotEmpty) {
-        _mode = _ServicesViewMode.search;
-      }
-    });
-  }
-
-  void _selectFilter(_ServicesViewMode mode) {
-    setState(() {
-      if (_mode == mode) {
-        _mode = _ServicesViewMode.discover;
-        return;
-      }
-      _mode = mode;
-      if (_search.text.isNotEmpty) {
-        _search.clear();
-      }
-    });
-  }
-
-  List<ServiceListing> _applySearch(List<ServiceListing> source) {
-    final q = _search.text.trim().toLowerCase();
-    if (q.isEmpty) return source;
-    return source.where((s) {
-      return s.title.toLowerCase().contains(q) ||
-          s.categoryName.toLowerCase().contains(q) ||
-          s.address.toLowerCase().contains(q);
-    }).toList();
-  }
-
-  List<ServiceListing> get _allServices {
-    final ids = <String>{};
-    final merged = <ServiceListing>[];
-    for (final s in [..._nearby, ..._top]) {
-      if (ids.add(s.id)) merged.add(s);
+  List<WorkshopProfile> get _visible {
+    var list = _items;
+    switch (_filter) {
+      case _HubFilter.openNow:
+        list = list.where((w) => w.isOpenNow || w.open24Hours).toList();
+      case _HubFilter.nearby:
+        list = list; // already nearby-first from API
+      case _HubFilter.all:
+        break;
     }
-    return merged;
-  }
 
-  List<ServiceListing> get _filteredList {
-    final base = switch (_mode) {
-      _ServicesViewMode.nearby => _nearby,
-      _ServicesViewMode.topRated => _top,
-      _ServicesViewMode.verified =>
-        _allServices.where((s) => s.verified).toList(),
-      _ServicesViewMode.search => _allServices,
-      _ServicesViewMode.discover => const <ServiceListing>[],
-    };
-    return _applySearch(base);
-  }
-
-  String _filteredTitle(S s) {
-    return switch (_mode) {
-      _ServicesViewMode.nearby => s.mapFilterNearby,
-      _ServicesViewMode.topRated => s.mapFilterTopRated,
-      _ServicesViewMode.verified => s.mapFilterVerified,
-      _ServicesViewMode.search => s.workshopSearchResults,
-      _ServicesViewMode.discover => '',
-    };
-  }
-
-  bool get _showFiltered =>
-      _mode != _ServicesViewMode.discover &&
-      (_mode != _ServicesViewMode.search || _search.text.trim().isNotEmpty);
-
-  void _openDetail(ServiceListing service) {
-    context.push('${RoutesName.serviceDetail}/${service.id}');
+    final q = _search.text.trim().toLowerCase();
+    if (q.isEmpty) return list;
+    return list.where((w) {
+      return w.name.toLowerCase().contains(q) ||
+          w.city.toLowerCase().contains(q) ||
+          w.displayAddress.toLowerCase().contains(q) ||
+          w.categories.any((c) => c.name.toLowerCase().contains(q));
+    }).toList();
   }
 
   @override
@@ -148,62 +107,58 @@ class _ServicesScreenState extends State<ServicesScreen> {
     final colors = context.appColors;
     final s = S.of(context);
     final theme = Theme.of(context);
+    final visible = _visible;
 
     return Scaffold(
       backgroundColor: colors.background,
-      body: SafeArea(
+      body: AppSafeArea(
+        top: true,
         bottom: false,
         child: RefreshIndicator(
           color: colors.primary,
           onRefresh: _load,
           child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 16, 0),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 12, 0),
                   child: Row(
                     children: [
-                      if (context.canPop())
-                        IconButton(
-                          tooltip: MaterialLocalizations.of(context)
-                              .backButtonTooltip,
-                          onPressed: () => context.pop(),
-                          icon: Icon(
-                            LucideIcons.arrowLeft,
-                            color: colors.textPrimary,
-                          ),
-                        )
-                      else
-                        const SizedBox(width: 8),
-                      _GlassIcon(
-                        icon: LucideIcons.wrench,
-                        color: colors.primary,
-                      ),
-                      const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              s.searchHubSectionWorkshops,
+                              s.services,
                               style: theme.textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.w800,
+                                letterSpacing: -0.4,
                               ),
                             ),
+                            const SizedBox(height: 2),
                             Text(
                               s.servicesHubSubtitle,
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: colors.textMuted,
+                                height: 1.3,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      IconButton(
-                        tooltip: s.workshopsLiveMap,
-                        onPressed: () => context.push(RoutesName.nearbyMap),
-                        icon: Icon(LucideIcons.map, color: colors.primary),
+                      _RoundAction(
+                        icon: LucideIcons.map,
+                        tooltip: s.searchHubOpenMap,
+                        onTap: () => context.push(RoutesName.nearbyMap),
+                      ),
+                      const SizedBox(width: 6),
+                      _RoundAction(
+                        icon: LucideIcons.plus,
+                        tooltip: s.addService,
+                        onTap: () => context.push(RoutesName.createWorkshop),
                       ),
                     ],
                   ),
@@ -211,93 +166,77 @@ class _ServicesScreenState extends State<ServicesScreen> {
               ),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
                   child: CustomSearchInput(
                     controller: _search,
                     hintText: s.searchHubEverythingHint,
-                    onChanged: _onSearchChanged,
+                    onChanged: (_) => setState(() {}),
+                    onSubmitted: (_) => setState(() {}),
                   ),
                 ),
               ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 44,
+                  height: 40,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     children: [
                       _FilterChip(
+                        label: s.seeAll,
+                        selected: _filter == _HubFilter.all,
+                        onTap: () => setState(() => _filter = _HubFilter.all),
+                      ),
+                      const SizedBox(width: 8),
+                      _FilterChip(
+                        label: s.mapFilterOpenNow,
+                        icon: LucideIcons.clock,
+                        selected: _filter == _HubFilter.openNow,
+                        onTap: () =>
+                            setState(() => _filter = _HubFilter.openNow),
+                      ),
+                      const SizedBox(width: 8),
+                      _FilterChip(
                         label: s.mapFilterNearby,
                         icon: LucideIcons.mapPin,
-                        selected: _mode == _ServicesViewMode.nearby,
-                        onTap: () => _selectFilter(_ServicesViewMode.nearby),
-                      ),
-                      const SizedBox(width: 8),
-                      _FilterChip(
-                        label: s.mapFilterTopRated,
-                        icon: LucideIcons.star,
-                        selected: _mode == _ServicesViewMode.topRated,
-                        onTap: () => _selectFilter(_ServicesViewMode.topRated),
-                      ),
-                      const SizedBox(width: 8),
-                      _FilterChip(
-                        label: s.mapFilterVerified,
-                        icon: LucideIcons.badgeCheck,
-                        selected: _mode == _ServicesViewMode.verified,
-                        onTap: () => _selectFilter(_ServicesViewMode.verified),
+                        selected: _filter == _HubFilter.nearby,
+                        onTap: () =>
+                            setState(() => _filter = _HubFilter.nearby),
                       ),
                     ],
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
-                  child: _MapPromoCard(
-                    title: s.searchHubOpenMap,
-                    subtitle: s.servicesHubOpenMapSubtitle,
-                    onTap: () => context.push(RoutesName.nearbyMap),
+              const SliverToBoxAdapter(child: SizedBox(height: 12)),
+              if (_loading)
+                const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(child: CircularProgressIndicator.adaptive()),
+                )
+              else if (visible.isEmpty)
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: _EmptyHub(
+                    onMap: () => context.push(RoutesName.nearbyMap),
+                    onAdd: () => context.push(RoutesName.createWorkshop),
+                  ),
+                )
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, i) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _AvtoservisCard(workshop: visible[i]),
+                      ),
+                      childCount: visible.length,
+                    ),
                   ),
                 ),
-              ),
-              const SliverToBoxAdapter(
-                child: AdBanner(
-                  surface: AdSurface.service,
-                  height: 120,
-                  margin: EdgeInsets.fromLTRB(16, 12, 16, 0),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-              ),
-              if (_loading && !_showFiltered)
-                const SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(child: CircularProgressIndicator.adaptive()),
-                )
-              else if (_showFiltered)
-                _servicesListSliver(
-                  _filteredList,
-                  _filteredTitle(s),
-                  emptyMessage: _mode == _ServicesViewMode.topRated
-                      ? s.servicesHubEmptyTopRated
-                      : s.noServices,
-                )
-              else if (_loading)
-                const SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(child: CircularProgressIndicator.adaptive()),
-                )
-              else ...[
-                if (_top.isNotEmpty) _topRatedStripSliver(s),
-                _servicesListSliver(
-                  _nearby,
-                  s.mapFilterNearby,
-                  emptyMessage: s.servicesHubEmptyNearby,
-                  showMapCta: true,
-                ),
-              ],
-              SliverPadding(
-                padding: EdgeInsets.only(
-                  bottom: listPaddingAboveBottomNav(context, navBarHeight: 24),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: listPaddingAboveBottomNav(context, navBarHeight: 20),
                 ),
               ),
             ],
@@ -306,119 +245,30 @@ class _ServicesScreenState extends State<ServicesScreen> {
       ),
     );
   }
-
-  Widget _topRatedStripSliver(S s) {
-    return SliverToBoxAdapter(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          MarketSectionTitle(
-            title: s.mapFilterTopRated,
-            trailingLabel: s.seeAll,
-            onTrailing: () => _selectFilter(_ServicesViewMode.topRated),
-          ),
-          SizedBox(
-            height: 132,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: MarketUi.spacingMD),
-              itemCount: _top.length > 12 ? 12 : _top.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemBuilder: (_, i) => _CompactServiceCard(
-                service: _top[i],
-                onTap: () => _openDetail(_top[i]),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _servicesListSliver(
-    List<ServiceListing> items,
-    String title, {
-    required String emptyMessage,
-    bool showMapCta = false,
-  }) {
-    if (items.isEmpty) {
-      return SliverToBoxAdapter(
-        child: _ServicesEmptyState(
-          message: emptyMessage,
-          showMapCta: showMapCta,
-          onMap: () => context.push(RoutesName.nearbyMap),
-          onAdd: () => context.push(RoutesName.createWorkshop),
-        ),
-      );
-    }
-
-    return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-      sliver: SliverMainAxisGroup(
-        slivers: [
-          if (title.isNotEmpty)
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
-                ),
-              ),
-            ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, i) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Column(
-                  children: [
-                    AdListSlot(
-                      listIndex: i,
-                      surface: AdSurface.service,
-                      interval: 5,
-                    ),
-                    ServiceCard(
-                      service: items[i],
-                      onTap: () => _openDetail(items[i]),
-                    ),
-                  ],
-                ),
-              ),
-              childCount: items.length,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
-class _GlassIcon extends StatelessWidget {
-  const _GlassIcon({required this.icon, required this.color});
+class _RoundAction extends StatelessWidget {
+  const _RoundAction({
+    required this.icon,
+    required this.onTap,
+    this.tooltip,
+  });
 
   final IconData icon;
-  final Color color;
+  final VoidCallback onTap;
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: AppRadius.rM,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-        child: Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.12),
-            borderRadius: AppRadius.rM,
-            border: Border.all(color: color.withValues(alpha: 0.25)),
-          ),
-          child: Icon(icon, color: color, size: 22),
-        ),
+    final colors = context.appColors;
+    return IconButton(
+      tooltip: tooltip,
+      onPressed: onTap,
+      style: IconButton.styleFrom(
+        backgroundColor: colors.primary.withValues(alpha: 0.1),
+        foregroundColor: colors.primary,
       ),
+      icon: Icon(icon, size: 20),
     );
   }
 }
@@ -426,47 +276,52 @@ class _GlassIcon extends StatelessWidget {
 class _FilterChip extends StatelessWidget {
   const _FilterChip({
     required this.label,
-    required this.icon,
     required this.selected,
     required this.onTap,
+    this.icon,
   });
 
   final String label;
-  final IconData icon;
   final bool selected;
   final VoidCallback onTap;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    final fg = selected ? colors.onPrimary : colors.textPrimary;
-    final bg = selected ? colors.primary : colors.surface;
-    final border = selected ? colors.primary : colors.border;
-
     return Material(
-      color: bg,
+      color: selected ? colors.primary : colors.surface,
       borderRadius: BorderRadius.circular(999),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
-        child: AnimatedContainer(
-          duration: AppMotion.fast,
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: border),
+            border: Border.all(
+              color: selected
+                  ? colors.primary
+                  : colors.border.withValues(alpha: 0.7),
+            ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 16, color: selected ? fg : colors.primary),
-              const SizedBox(width: 6),
+              if (icon != null) ...[
+                Icon(
+                  icon,
+                  size: 14,
+                  color: selected ? colors.onPrimary : colors.primary,
+                ),
+                const SizedBox(width: 6),
+              ],
               Text(
                 label,
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: fg,
                   fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: selected ? colors.onPrimary : colors.textPrimary,
                 ),
               ),
             ],
@@ -477,186 +332,207 @@ class _FilterChip extends StatelessWidget {
   }
 }
 
-class _MapPromoCard extends StatelessWidget {
-  const _MapPromoCard({
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
+class _AvtoservisCard extends StatelessWidget {
+  const _AvtoservisCard({required this.workshop});
 
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
+  final WorkshopProfile workshop;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final s = S.of(context);
+    final theme = Theme.of(context);
+    final image = workshop.heroImage;
+    final place = workshop.displayAddress;
+    final isOpen = workshop.isOpenNow || workshop.open24Hours;
+    final name = workshop.name.trim().isEmpty ? s.services : workshop.name.trim();
+    final category = workshop.categories.isNotEmpty
+        ? workshop.categories.first.name
+        : '';
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: AppRadius.rXl,
-        child: Ink(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary, colors.primaryHover],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: AppRadius.rXl,
-            boxShadow: AppShadows.glow(colors.primary),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: colors.onPrimary.withValues(alpha: 0.18),
-                  borderRadius: AppRadius.rM,
-                ),
-                child: Icon(
-                  LucideIcons.map,
-                  color: colors.onPrimary,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: colors.onPrimary,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        color: colors.onPrimary.withValues(alpha: 0.85),
-                        fontSize: 12,
-                        height: 1.3,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                LucideIcons.chevronRight,
-                color: colors.onPrimary.withValues(alpha: 0.9),
-                size: 20,
-              ),
-            ],
-          ),
-        ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: AppRadius.rL,
+        color: colors.surface,
+        border: Border.all(color: colors.border.withValues(alpha: 0.45)),
+        boxShadow: MarketUi.softElev(context),
       ),
-    );
-  }
-}
-
-class _CompactServiceCard extends StatelessWidget {
-  const _CompactServiceCard({
-    required this.service,
-    required this.onTap,
-  });
-
-  final ServiceListing service;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-    final img = service.images.isNotEmpty ? service.images.first : null;
-
-    return SizedBox(
-      width: 210,
       child: Material(
         color: Colors.transparent,
+        borderRadius: AppRadius.rL,
+        clipBehavior: Clip.antiAlias,
         child: InkWell(
-          borderRadius: MarketUi.cardRadius,
-          onTap: onTap,
-          child: Ink(
-            decoration: MarketUi.card(context, colors),
+          onTap: () {
+            HapticFeedback.selectionClick();
+            context.push(
+              '${RoutesName.workshopDetailScreen}/${workshop.id}',
+            );
+          },
+          child: SizedBox(
+            height: 112,
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.horizontal(
-                    left: Radius.circular(20),
-                  ),
-                  child: SizedBox(
-                    width: 88,
-                    height: 132,
-                    child: img != null && img.isNotEmpty
-                        ? ImageCacheNetwork(url: img, fit: BoxFit.cover)
-                        : ColoredBox(
-                            color: colors.surfaceMuted,
-                            child: Icon(
-                              LucideIcons.wrench,
-                              color: colors.textMuted,
-                              size: 28,
+                SizedBox(
+                  width: 112,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ColoredBox(
+                        color: colors.primary.withValues(alpha: 0.08),
+                        child: image.isNotEmpty
+                            ? ImageCacheNetwork(url: image, fit: BoxFit.cover)
+                            : Center(
+                                child: Icon(
+                                  LucideIcons.wrench,
+                                  size: 32,
+                                  color: colors.primary.withValues(alpha: 0.55),
+                                ),
+                              ),
+                      ),
+                      if (workshop.isPromotionActive)
+                        Positioned(
+                          left: 6,
+                          top: 6,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colors.warning,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              s.promotedBadge,
+                              style: TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w800,
+                                color: colors.textPrimary,
+                              ),
                             ),
                           ),
+                        ),
+                    ],
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          service.title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 13,
-                            height: 1.2,
-                            color: colors.textPrimary,
-                          ),
-                        ),
-                        if (service.categoryName.isNotEmpty) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            service.categoryName,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: colors.textMuted,
-                            ),
-                          ),
-                        ],
-                        const Spacer(),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(
-                              LucideIcons.star,
-                              size: 14,
-                              color: colors.warning,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              service.rating.toStringAsFixed(1),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12,
-                                color: colors.textPrimary,
+                            Expanded(
+                              child: Text(
+                                name,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  height: 1.2,
+                                  letterSpacing: -0.2,
+                                ),
                               ),
                             ),
-                            if (service.verified) ...[
-                              const Spacer(),
+                            if (workshop.verified) ...[
+                              const SizedBox(width: 4),
                               Icon(
                                 LucideIcons.badgeCheck,
                                 size: 16,
                                 color: colors.primary,
+                              ),
+                            ],
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          children: [
+                            Container(
+                              width: 7,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: isOpen ? colors.success : colors.danger,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              isOpen
+                                  ? s.workshopStatusOpen
+                                  : s.workshopStatusClosed,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: isOpen
+                                    ? colors.success
+                                    : colors.textMuted,
+                              ),
+                            ),
+                            if (category.isNotEmpty) ...[
+                              Text(
+                                '  ·  ',
+                                style: TextStyle(
+                                  color: colors.textMuted,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  category,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: colors.textSecondary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            if (place.isNotEmpty && place != '—') ...[
+                              Icon(
+                                LucideIcons.mapPin,
+                                size: 13,
+                                color: colors.textMuted,
+                              ),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  place,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: colors.textMuted,
+                                  ),
+                                ),
+                              ),
+                            ] else
+                              const Spacer(),
+                            if (workshop.rating > 0) ...[
+                              const SizedBox(width: 6),
+                              Icon(
+                                LucideIcons.star,
+                                size: 13,
+                                color: colors.warning,
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                workshop.rating.toStringAsFixed(1),
+                                style: TextStyle(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w800,
+                                  color: colors.textPrimary,
+                                ),
                               ),
                             ],
                           ],
@@ -674,18 +550,11 @@ class _CompactServiceCard extends StatelessWidget {
   }
 }
 
-class _ServicesEmptyState extends StatelessWidget {
-  const _ServicesEmptyState({
-    required this.message,
-    this.showMapCta = false,
-    this.onMap,
-    this.onAdd,
-  });
+class _EmptyHub extends StatelessWidget {
+  const _EmptyHub({required this.onMap, required this.onAdd});
 
-  final String message;
-  final bool showMapCta;
-  final VoidCallback? onMap;
-  final VoidCallback? onAdd;
+  final VoidCallback onMap;
+  final VoidCallback onAdd;
 
   @override
   Widget build(BuildContext context) {
@@ -693,61 +562,49 @@ class _ServicesEmptyState extends StatelessWidget {
     final s = S.of(context);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 32, 24, 16),
+      padding: const EdgeInsets.fromLTRB(28, 24, 28, 16),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 88,
-            height: 88,
+            width: 84,
+            height: 84,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colors.primary.withValues(alpha: 0.18),
-                  colors.primary.withValues(alpha: 0.05),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: colors.primary.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              LucideIcons.mapPinOff,
-              size: 36,
-              color: colors.primary,
-            ),
+            child: Icon(LucideIcons.carFront, size: 36, color: colors.primary),
           ),
           const SizedBox(height: 16),
           Text(
-            message,
+            s.servicesHubEmptyNearby,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: colors.textMuted,
               height: 1.45,
-              fontSize: 15,
+              fontSize: 14.5,
             ),
           ),
-          if (showMapCta) ...[
-            const SizedBox(height: 20),
-            FilledButton.icon(
-              onPressed: onMap,
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(46),
-                shape: RoundedRectangleBorder(borderRadius: AppRadius.rL),
-              ),
-              icon: const Icon(LucideIcons.map, size: 18),
-              label: Text(s.searchHubOpenMap),
+          const SizedBox(height: 20),
+          FilledButton.icon(
+            onPressed: onMap,
+            icon: const Icon(LucideIcons.map, size: 18),
+            label: Text(s.searchHubOpenMap),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(48),
+              shape: RoundedRectangleBorder(borderRadius: AppRadius.rL),
             ),
-            const SizedBox(height: 10),
-            OutlinedButton.icon(
-              onPressed: onAdd,
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size.fromHeight(46),
-                shape: RoundedRectangleBorder(borderRadius: AppRadius.rL),
-              ),
-              icon: const Icon(LucideIcons.plus, size: 18),
-              label: Text(s.addService),
+          ),
+          const SizedBox(height: 10),
+          OutlinedButton.icon(
+            onPressed: onAdd,
+            icon: const Icon(LucideIcons.plus, size: 18),
+            label: Text(s.addService),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size.fromHeight(48),
+              shape: RoundedRectangleBorder(borderRadius: AppRadius.rL),
             ),
-          ],
+          ),
         ],
       ),
     );

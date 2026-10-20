@@ -114,11 +114,18 @@ class Order extends Equatable {
 
   String get vehicleLabel {
     final parts = <String>[
-      if (brand?.name.isNotEmpty == true) brand!.name,
-      if (carModel?.name.isNotEmpty == true) carModel!.name,
+      if (_meaningfulName(brand?.name)) brand!.name,
+      if (_meaningfulName(carModel?.name)) carModel!.name,
       if (year != null) year.toString(),
     ];
-    return parts.isEmpty ? 'Vehicle' : parts.join(' · ');
+    return parts.join(' · ');
+  }
+
+  static bool _meaningfulName(String? value) {
+    final t = value?.trim() ?? '';
+    if (t.isEmpty) return false;
+    if (RegExp(r'^[-–—._\s]+$').hasMatch(t)) return false;
+    return true;
   }
 
   /// Part + vehicle context for the buyer request (not seller listings).

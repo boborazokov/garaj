@@ -80,7 +80,7 @@ class ProfileItem extends StatelessWidget {
 
     final iconColor = isDestructive ? colors.danger : colors.textPrimary;
     final iconBg = isDestructive
-        ? colors.danger.withOpacity(0.12)
+        ? colors.danger.withValues(alpha: 0.12)
         : colors.surfaceMuted;
 
     return Material(
@@ -113,7 +113,8 @@ class ProfileItem extends StatelessWidget {
                       title,
                       style: theme.textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: isDestructive ? colors.danger : colors.textPrimary,
+                        color:
+                            isDestructive ? colors.danger : colors.textPrimary,
                       ),
                     ),
                     if (subtitle != null) ...[

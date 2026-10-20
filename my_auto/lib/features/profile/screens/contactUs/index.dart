@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> launchPhone(String phoneNumber) async {
-  final uri = Uri(scheme: 'tel', path: phoneNumber);
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri);
+const _contactInfoQuery = r'''
+query ContactInfo {
+  contactInfo {
+    supportEmail
   }
 }
+''';
 
 Future<void> _launchEmail(String email) async {
   final uri = Uri(scheme: 'mailto', path: email);
@@ -19,8 +22,57 @@ Future<void> _launchEmail(String email) async {
   }
 }
 
-class ContactUsScreen extends StatelessWidget {
+class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
+
+  @override
+  State<ContactUsScreen> createState() => _ContactUsScreenState();
+}
+
+class _ContactUsScreenState extends State<ContactUsScreen> {
+  String _email = '';
+  bool _loading = true;
+  bool _failed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    setState(() {
+      _loading = true;
+      _failed = false;
+    });
+    try {
+      final result = await GraphQLConfig.client().query(
+        QueryOptions(
+          document: gql(_contactInfoQuery),
+          fetchPolicy: FetchPolicy.networkOnly,
+        ),
+      );
+      final raw = result.data?['contactInfo'];
+      if (!mounted) return;
+      if (result.hasException || raw is! Map) {
+        setState(() {
+          _loading = false;
+          _failed = true;
+        });
+        return;
+      }
+      setState(() {
+        _email = (raw['supportEmail'] ?? '').toString().trim();
+        _loading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _loading = false;
+        _failed = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,21 +130,29 @@ class ContactUsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          _ContactCard(
-            icon: LucideIcons.mail,
-            title: s.email,
-            value: s.supportEmail,
-            subtitle: s.contactUsEmailSubtitle,
-            onTap: () => _launchEmail(s.supportEmail),
-          ),
-          const SizedBox(height: 12),
-          _ContactCard(
-            icon: LucideIcons.phone,
-            title: s.phone,
-            value: s.supportPhone,
-            subtitle: s.contactUsPhoneSubtitle,
-            onTap: () => launchPhone(s.supportPhone.replaceAll(' ', '')),
-          ),
+          if (_loading)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Center(child: CircularProgressIndicator.adaptive()),
+            )
+          else if (_failed)
+            Text(
+              s.errorOccurred,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colors.textMuted,
+                  ),
+            )
+          else ...[
+            if (_email.isNotEmpty) ...[
+              _ContactCard(
+                icon: LucideIcons.mail,
+                title: s.email,
+                value: _email,
+                subtitle: s.contactUsEmailSubtitle,
+                onTap: () => _launchEmail(_email),
+              ),
+            ],
+          ],
         ],
       ),
     );

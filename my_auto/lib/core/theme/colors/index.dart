@@ -1,49 +1,119 @@
 import 'package:flutter/material.dart';
 
-/// Garage "primary & Carbon" palette.
+/// Garage brand palette — aligned to the Muskun / Pickolab design system.
 ///
-/// Brand identity: a marketplace for car spare parts and announcements.
-/// primary (#F59E0B) — premium automotive feel, warm and high-contrast.
-/// Carbon (#0B0F14) — deep neutral with a slightly cool tint, like
-/// matte-finished engine bay panels.
+/// Scales: Primary (green), Secondary (neutral grey), Success, Error,
+/// Warning, Information, plus Soft / Light / Stroke helpers.
 class AppPalette {
   AppPalette._();
 
-  static const primary100 = Color(0xFFD0F2D3);
-  static const primary200 = Color(0xFFB9ECBD);
-  static const primary300 = Color(0xFF99E39F);
-  static const primary400 = Color(0xFF85DD8D);
+  // ── Primary (Neutral green) ──────────────────────────────────────────
+  static const primary100 = Color(0xFFD0F1D2);
+  static const primary200 = Color(0xFFB8ECBC);
+  static const primary300 = Color(0xFF9AE39E);
+  static const primary400 = Color(0xFF86DD8E);
   static const primary500 = Color(0xFF67D570);
   static const primary600 = Color(0xFF5EC266);
-  static const primary700 = Color(0xFF499750);
-  static const primary800 = Color(0xFF39753E);
-  static const primary900 = Color(0xFF2B592F);
+  static const primary700 = Color(0xFF4E9455);
+  static const primary800 = Color(0xFF39753F);
+  static const primary900 = Color(0xFF2C5930);
 
-  static const carbon900 = Color(0xFF0B0F14);
-  static const carbon850 = Color(0xFF11161D);
-  static const carbon800 = Color(0xFF141A22);
-  static const carbon700 = Color(0xFF1C2430);
-  static const carbon600 = Color(0xFF2A3441);
-  static const carbon500 = Color(0xFF3A4554);
-  static const carbon400 = Color(0xFF566374);
-  static const carbon300 = Color(0xFF8B97A8);
-  static const carbon200 = Color(0xFFB8C2D0);
-  static const carbon100 = Color(0xFFE5E9EF);
-  static const carbon50 = Color(0xFFF4F6FA);
+  // ── Secondary (Neutral grey) ─────────────────────────────────────────
+  static const secondary0 = Color(0xFFFFFFFF);
+  static const secondary100 = Color(0xFFE5E5E5);
+  static const secondary200 = Color(0xFFBDBEC0);
+  static const secondary300 = Color(0xFF9D9EA2);
+  static const secondary400 = Color(0xFF717276);
+  static const secondary500 = Color(0xFF53565B);
+  static const secondary600 = Color(0xFF292C31);
+  static const secondary700 = Color(0xFF1C1F24);
+  static const secondary800 = Color(0xFF18191D);
+  static const secondary900 = Color(0xFF121315);
 
-  static const success = Color(0xFF088B3A);
-  static const successSoft = Color(0xFFDAF3E4);
-  static const danger = Color(0xFFC93C32);
-  static const dangerSoft = Color(0xFFFBE8D8);
-  static const info = Color(0xFF0079E8);
-  static const warning = Color(0xFFFFD800);
+  /// Legacy carbon aliases → secondary scale (existing call sites).
+  static const carbon900 = secondary900;
+  static const carbon850 = Color(0xFF15161A);
+  static const carbon800 = secondary800;
+  static const carbon700 = secondary700;
+  static const carbon600 = secondary600;
+  static const carbon500 = secondary500;
+  static const carbon400 = secondary400;
+  static const carbon300 = secondary300;
+  static const carbon200 = secondary200;
+  static const carbon100 = secondary100;
+  static const carbon50 = softGrey;
+
+  // ── Success ──────────────────────────────────────────────────────────
+  static const success100 = Color(0xFFE7F7ED);
+  static const success200 = Color(0xFFDBF3E5);
+  static const success300 = Color(0xFFB3E6C7);
+  static const success400 = Color(0xFF049D42);
+  static const success500 = Color(0xFF049D42);
+  static const success600 = Color(0xFF0A8B39);
+  static const success700 = Color(0xFF0B652F);
+  static const success800 = Color(0xFF054E21);
+  static const success900 = Color(0xFF043D1A);
+
+  static const success = success500;
+  static const successSoft = success200;
+
+  // ── Error ────────────────────────────────────────────────────────────
+  static const error100 = Color(0xFFFBE8D9);
+  static const error200 = Color(0xFFF7CBB2);
+  static const error300 = Color(0xFFF2A88B);
+  static const error400 = Color(0xFFF0886F);
+  static const error500 = Color(0xFFEC5741);
+  static const error600 = Color(0xFFCA3C32);
+  static const error700 = Color(0xFFA43627);
+  static const error800 = Color(0xFF871F26);
+  static const error900 = Color(0xFF701826);
+
+  static const danger = error600;
+  static const dangerSoft = error100;
+
+  // ── Warning ──────────────────────────────────────────────────────────
+  static const warning100 = Color(0xFFFEF4AF);
+  static const warning200 = Color(0xFFFFED89);
+  static const warning300 = Color(0xFFFFE455);
+  static const warning400 = Color(0xFFFFDF34);
+  static const warning500 = Color(0xFFFFD801);
+  static const warning600 = Color(0xFFE9C501);
+  static const warning700 = Color(0xFFB59600);
+  static const warning800 = Color(0xFF92843B);
+  static const warning900 = Color(0xFF6B5C01);
+
+  static const warning = warning500;
+
+  // ── Information ──────────────────────────────────────────────────────
+  static const info100 = Color(0xFFE5F3FE);
+  static const info200 = Color(0xFF8AC7FE);
+  static const info300 = Color(0xFF54ADFF);
+  static const info400 = Color(0xFF329DFF);
+  static const info500 = Color(0xFF0183FF);
+  static const info600 = Color(0xFF0079E8);
+  static const info700 = Color(0xFF005DB1);
+  static const info800 = Color(0xFF0A4A94);
+  static const info900 = Color(0xFF00386B);
+
+  static const info = info600;
+
+  // ── Transparent (black over white) ───────────────────────────────────
+  static const transparent50 = Color(0x80000000);
+  static const transparent30 = Color(0x4D000000);
+  static const transparent20 = Color(0x33000000);
+  static const transparent10 = Color(0x1A000000);
+
+  // ── Other ────────────────────────────────────────────────────────────
+  static const softGrey = Color(0xFFF4F4F4);
+  static const lightGrey = Color(0xFFF9F9F9);
+  static const stroke = Color(0xFFD9D9D9);
 
   static const white = Colors.white;
   static const black = Colors.black;
 }
 
-/// Brand semantic tokens. These are the canonical colors that screens
-/// and components should reference instead of literal hex codes.
+/// Brand semantic tokens. Screens and widgets should use these instead of
+/// raw hex values.
 class AppColors {
   final bool isDark;
 
@@ -107,47 +177,47 @@ class AppColors {
     isDark: false,
     primary: AppPalette.primary500,
     primaryHover: AppPalette.primary600,
-    onPrimary: AppPalette.carbon900,
-    background: AppPalette.carbon50,
+    onPrimary: AppPalette.secondary900,
+    background: AppPalette.lightGrey,
     surface: AppPalette.white,
-    surfaceMuted: Color(0xFFF1F3F8),
+    surfaceMuted: AppPalette.lightGrey,
     surfaceElevated: AppPalette.white,
-    textPrimary: AppPalette.carbon900,
-    textSecondary: AppPalette.carbon500,
-    textMuted: AppPalette.carbon400,
+    textPrimary: AppPalette.secondary900,
+    textSecondary: AppPalette.secondary500,
+    textMuted: AppPalette.secondary400,
     onDark: AppPalette.white,
-    border: AppPalette.carbon100,
-    divider: Color(0xFFEAEDF3),
+    border: AppPalette.stroke,
+    divider: AppPalette.carbon100,
     success: AppPalette.success,
     successSoft: AppPalette.successSoft,
     danger: AppPalette.danger,
     dangerSoft: AppPalette.dangerSoft,
     info: AppPalette.info,
     warning: AppPalette.warning,
-    shadow: Color(0x140B0F14),
+    shadow: Color(0x14121315),
   );
 
   static const AppColors dark = AppColors._(
     isDark: true,
     primary: AppPalette.primary400,
     primaryHover: AppPalette.primary200,
-    onPrimary: AppPalette.carbon900,
-    background: AppPalette.carbon900,
-    surface: AppPalette.carbon800,
+    onPrimary: AppPalette.secondary900,
+    background: AppPalette.secondary900,
+    surface: AppPalette.secondary800,
     surfaceMuted: AppPalette.carbon850,
-    surfaceElevated: AppPalette.carbon700,
+    surfaceElevated: AppPalette.secondary700,
     textPrimary: Color(0xFFEDF1F7),
-    textSecondary: AppPalette.carbon200,
-    textMuted: AppPalette.carbon300,
+    textSecondary: AppPalette.secondary100,
+    textMuted: AppPalette.secondary200,
     onDark: AppPalette.white,
-    border: AppPalette.carbon600,
-    divider: AppPalette.carbon700,
-    success: AppPalette.success,
-    successSoft: Color(0xFF14532D),
-    danger: AppPalette.danger,
-    dangerSoft: Color(0xFF7F1D1D),
-    info: AppPalette.info,
-    warning: AppPalette.primary400,
+    border: AppPalette.secondary600,
+    divider: AppPalette.secondary700,
+    success: AppPalette.success500,
+    successSoft: AppPalette.success900,
+    danger: AppPalette.error500,
+    dangerSoft: AppPalette.error900,
+    info: AppPalette.info400,
+    warning: AppPalette.warning400,
     shadow: Color(0x66000000),
   );
 }
@@ -175,7 +245,8 @@ abstract final class PartShopTheme {
       brightness: brightness,
       primary: c.primary,
       onPrimary: c.onPrimary,
-      primaryContainer: isDark ? AppPalette.carbon700 : AppPalette.primary100,
+      primaryContainer:
+          isDark ? AppPalette.secondary700 : AppPalette.primary100,
       onPrimaryContainer: isDark ? c.primary : AppPalette.primary700,
       secondary: c.textPrimary,
       onSecondary: c.surface,
@@ -422,8 +493,8 @@ abstract final class PartShopTheme {
         }),
       ),
       splashFactory: NoSplash.splashFactory,
-      highlightColor: c.primary.withOpacity(0.06),
-      hoverColor: c.primary.withOpacity(0.04),
+      highlightColor: c.primary.withValues(alpha: 0.06),
+      hoverColor: c.primary.withValues(alpha: 0.04),
     );
   }
 }

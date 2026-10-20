@@ -194,7 +194,7 @@ class AuthCoordinator extends ChangeNotifier {
 
   bool shouldRefreshForGraphQLError({String? code, String? message}) {
     final c = (code ?? '').toUpperCase();
-    if (c == 'TOKEN_EXPIRED') return true;
+    if (c == 'TOKEN_EXPIRED' || c == 'AUTH_TOKEN_EXPIRED') return true;
     final m = (message ?? '').toLowerCase();
     return m.contains('token expired') || m.contains('jwt expired');
   }

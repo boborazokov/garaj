@@ -32,6 +32,7 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
     on<CreateProductPhotoRemoved>(_onPhotoRemoved);
     on<CreateProductPhotosReordered>(_onPhotosReordered);
     on<CreateProductVehicleUpdated>(_onVehicle);
+    on<CreateProductRegionChanged>(_onRegion);
     on<CreateProductTitleChanged>(_onTitle);
     on<CreateProductDescriptionChanged>(_onDescription);
     on<CreateProductConditionChanged>(_onCondition);
@@ -178,14 +179,14 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
     Emitter<CreateProductState> emit,
   ) {
     final photos = [...state.draft.photos];
-    if (event.oldIndex < 0 ||
-        event.newIndex < 0 ||
-        event.oldIndex >= photos.length ||
-        event.newIndex >= photos.length) {
-      return;
-    }
-    final item = photos.removeAt(event.oldIndex);
-    photos.insert(event.newIndex, item);
+    var newIndex = event.newIndex;
+    final oldIndex = event.oldIndex;
+    if (oldIndex < 0 || oldIndex >= photos.length) return;
+    if (newIndex < 0) return;
+    if (newIndex > oldIndex) newIndex -= 1;
+    if (newIndex < 0 || newIndex >= photos.length) return;
+    final item = photos.removeAt(oldIndex);
+    photos.insert(newIndex, item);
     emit(state.copyWith(draft: state.draft.copyWith(photos: photos)));
   }
 
@@ -198,6 +199,13 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
       state.copyWith(draft: draft),
     );
     unawaited(_draftStorage.pushRecentVehicle(event.vehicle));
+  }
+
+  void _onRegion(
+    CreateProductRegionChanged event,
+    Emitter<CreateProductState> emit,
+  ) {
+    emit(state.copyWith(draft: state.draft.copyWith(region: event.region)));
   }
 
   void _onTitle(CreateProductTitleChanged event, Emitter<CreateProductState> emit) {

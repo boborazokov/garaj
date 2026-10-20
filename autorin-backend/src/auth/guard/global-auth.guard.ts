@@ -9,6 +9,7 @@ import {
 } from '../constants/auth-metadata.constants';
 import { AuthGuardShared } from './auth-guard.shared';
 import { WsAuthGuard } from './ws-auth.guard';
+import { SessionService } from 'src/modules/auth/session/session.service';
 
 /**
  * Secure-by-default: every HTTP route and GraphQL root field requires a valid
@@ -28,9 +29,10 @@ export class GlobalAuthGuard implements CanActivate {
     private readonly reflector: Reflector,
     private readonly shared: AuthGuardShared,
     private readonly wsAuthGuard: WsAuthGuard,
+    private readonly sessions: SessionService,
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -75,17 +77,27 @@ export class GlobalAuthGuard implements CanActivate {
     }
 
     if (isOptional) {
-      this.shared.attachUserToRequest(context);
+      const attached = this.shared.attachUserToRequest(context);
+      if (attached.ok) {
+        await this.sessions.assertAccessAllowed(attached.payload);
+      }
       return true;
     }
 
     const result = this.shared.attachUserToRequest(context);
     if (!result.ok) {
+      if (result.expired) {
+        throwApi(ApiErrorCode.AUTH_TOKEN_EXPIRED, {
+          status: HttpStatus.UNAUTHORIZED,
+          debug: 'Access token expired',
+        });
+      }
       throwApi(ApiErrorCode.AUTH_UNAUTHORIZED, {
         status: HttpStatus.UNAUTHORIZED,
         debug: 'JWT missing or invalid',
       });
     }
+    await this.sessions.assertAccessAllowed(result.payload);
     return true;
   }
 }

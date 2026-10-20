@@ -22,14 +22,14 @@
   },
   {
     "key": "brakes",
-    "icon": "disc3",
+    "icon": "circleDot",
     "ru": "Тормозная система",
     "en": "Brake System",
     "uz": "Tormoz tizimi"
   },
   {
     "key": "steering",
-    "icon": "navigation2",
+    "icon": "circleGauge",
     "ru": "Рулевое управление",
     "en": "Steering",
     "uz": "Rul boshqaruvi"
@@ -64,14 +64,14 @@
   },
   {
     "key": "exhaust",
-    "icon": "wind",
+    "icon": "cloudFog",
     "ru": "Выпускная система",
     "en": "Exhaust System",
     "uz": "Chiqindi gaz tizimi"
   },
   {
     "key": "air_conditioning",
-    "icon": "thermometerSnowflake",
+    "icon": "snowflake",
     "ru": "Кондиционер и отопление",
     "en": "Air Conditioning & Heating",
     "uz": "Konditsioner va isitish"
@@ -85,14 +85,14 @@
   },
   {
     "key": "lighting",
-    "icon": "flashlight",
+    "icon": "lightbulb",
     "ru": "Освещение",
     "en": "Lighting",
     "uz": "Yoritish"
   },
   {
     "key": "glass_mirrors",
-    "icon": "glasses",
+    "icon": "scan",
     "ru": "Стекла и зеркала",
     "en": "Glass & Mirrors",
     "uz": "Oynalar va ko‘zgular"
@@ -106,73 +106,17 @@
   },
   {
     "key": "wheels_tires",
-    "icon": "lifeBuoy",
+    "icon": "circleDashed",
     "ru": "Колеса и шины",
     "en": "Wheels & Tires",
     "uz": "G‘ildiraklar va shinalar"
   },
   {
-    "key": "rims",
-    "icon": "disc2",
-    "ru": "Диски",
-    "en": "Rims",
-    "uz": "Disklar"
-  },
-  {
-    "key": "batteries",
-    "icon": "batteryFull",
-    "ru": "Аккумуляторы",
-    "en": "Batteries",
-    "uz": "Akkumulyatorlar"
-  },
-  {
-    "key": "filters",
-    "icon": "filter",
-    "ru": "Фильтры",
-    "en": "Filters",
-    "uz": "Filtrlar"
-  },
-  {
-    "key": "oils_fluids",
-    "icon": "droplet",
-    "ru": "Масла и жидкости",
-    "en": "Oils & Fluids",
-    "uz": "Moylar va suyuqliklar"
-  },
-  {
-    "key": "belts_rollers",
-    "icon": "refreshCw",
-    "ru": "Ремни и ролики",
-    "en": "Belts & Rollers",
-    "uz": "Kamarlar va roliklar"
-  },
-  {
-    "key": "spark_plugs",
-    "icon": "sparkles",
-    "ru": "Свечи зажигания",
-    "en": "Spark Plugs",
-    "uz": "Shamlar"
-  },
-  {
     "key": "bearings",
-    "icon": "nut",
+    "icon": "circleDot",
     "ru": "Подшипники",
     "en": "Bearings",
     "uz": "Podshipniklar"
-  },
-  {
-    "key": "sensors",
-    "icon": "radar",
-    "ru": "Датчики",
-    "en": "Sensors",
-    "uz": "Datchiklar"
-  },
-  {
-    "key": "electronics",
-    "icon": "circuitBoard",
-    "ru": "Автоэлектроника",
-    "en": "Auto Electronics",
-    "uz": "Avtoelektronika"
   },
   {
     "key": "audio",
@@ -197,7 +141,7 @@
   },
   {
     "key": "accessories",
-    "icon": "package",
+    "icon": "gift",
     "ru": "Аксессуары",
     "en": "Accessories",
     "uz": "Aksessuarlar"

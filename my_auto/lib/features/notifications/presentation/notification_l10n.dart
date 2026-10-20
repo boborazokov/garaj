@@ -94,15 +94,15 @@ LocalizedNotificationCopy localizeNotification(S s, AppNotification n) {
   }
 
   switch (type) {
-    case PushEventTypes.newFollower:
-      return LocalizedNotificationCopy(
-        title: s.notificationNewFollowerTitle,
-        body: _nonEmpty(body, s.notificationNewFollowerBody),
-      );
     case PushEventTypes.orderReply:
       return LocalizedNotificationCopy(
         title: _nonEmpty(title, s.notificationOrderReplyTitle),
         body: _nonEmpty(body, s.notificationOrderReplyBody),
+      );
+    case PushEventTypes.orderMatched:
+      return LocalizedNotificationCopy(
+        title: _nonEmpty(title, s.notificationOrderMatchedTitle),
+        body: _nonEmpty(body, s.notificationOrderMatchedBody),
       );
     case PushEventTypes.promotedExpired:
       return LocalizedNotificationCopy(
@@ -197,15 +197,6 @@ LocalizedNotificationCopy? _matchLegacyEnglish(
     return LocalizedNotificationCopy(
       title: s.notificationAccountVerifiedTitle,
       body: s.notificationAccountVerifiedBody,
-    );
-  }
-
-  if (t.contains('new follower') ||
-      b.contains('started following') ||
-      b.contains('followed your')) {
-    return LocalizedNotificationCopy(
-      title: s.notificationNewFollowerTitle,
-      body: _nonEmpty(body, s.notificationNewFollowerBody),
     );
   }
 

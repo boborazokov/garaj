@@ -1,25 +1,61 @@
 import 'file_io.dart';
 
+final _ephemeralHost = RegExp(
+  r'(^localhost$)|(^127\.)|(^10\.)|(^192\.168\.)|(ngrok)',
+  caseSensitive: false,
+);
+
+bool _isEphemeralMediaHost(String host) => _ephemeralHost.hasMatch(host);
+
+String _stripBase(String path, String base) {
+  if (base.isEmpty) return path;
+  if (path.startsWith('$base/')) return path.substring(base.length + 1);
+  if (path == base) return '';
+  return path;
+}
+
 /// Builds a full URL for MinIO / CDN paths or returns absolute URLs unchanged.
+///
+/// Stale localhost / LAN / ngrok hosts are re-based onto [mediaBase] so images
+/// keep working after tunnel or LAN IP changes.
 String? resolveMediaUrl(String? path, {required String mediaBase}) {
   if (path == null) return null;
   final trimmed = path.trim();
   if (trimmed.isEmpty) return null;
 
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-    return trimmed;
-  }
-
   final base = mediaBase.endsWith('/')
       ? mediaBase.substring(0, mediaBase.length - 1)
       : mediaBase;
+
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    final uri = Uri.tryParse(trimmed);
+    if (uri == null) return trimmed;
+
+      if (base.isNotEmpty && _isEphemeralMediaHost(uri.host)) {
+      final segment = uri.path.startsWith('/')
+          ? uri.path.substring(1)
+          : uri.path;
+      if (segment.isEmpty) return base;
+      return _mediaUrl(base, segment);
+    }
+    return trimmed;
+  }
+
   if (base.isEmpty) return trimmed;
 
   final segment = trimmed.startsWith('/') ? trimmed.substring(1) : trimmed;
   if (segment.startsWith('http://') || segment.startsWith('https://')) {
-    return segment;
+    return resolveMediaUrl(segment, mediaBase: mediaBase);
   }
-  return '$base/$segment';
+  return _mediaUrl(base, segment);
+}
+
+/// Storage keys are `bucket/object`. The API serves them under `/media`.
+String _mediaUrl(String base, String segment) {
+  final s = segment.startsWith('/') ? segment.substring(1) : segment;
+  if (s.isEmpty) return base;
+  if (s.startsWith('media/')) return '$base/$s';
+  return '$base/media/$s';
 }
 
 /// Strips CDN base prefix so [ImageCacheNetwork] can re-apply [fileUrl] consistently.
@@ -31,15 +67,17 @@ String normalizeStoragePath(String path, {required String mediaBase}) {
       ? mediaBase.substring(0, mediaBase.length - 1)
       : mediaBase;
 
-  if (base.isNotEmpty) {
-    if (p.startsWith('$base/')) {
-      p = p.substring(base.length + 1);
-    } else if (p == base) {
-      return '';
-    }
-  }
+  p = _stripBase(p, base);
 
-  if (p.startsWith('http://') || p.startsWith('https://')) return p;
+  if (p.startsWith('http://') || p.startsWith('https://')) {
+    final uri = Uri.tryParse(p);
+    if (uri != null && _isEphemeralMediaHost(uri.host)) {
+      final segment =
+          uri.path.startsWith('/') ? uri.path.substring(1) : uri.path;
+      return segment;
+    }
+    return p;
+  }
   return p.startsWith('/') ? p.substring(1) : p;
 }
 
@@ -65,3 +103,11 @@ bool isLocalImagePath(String path) {
 }
 
 bool isRemoteMediaPath(String path) => !isLocalImagePath(path);
+
+/// Headers needed for ephemeral tunnels (ngrok free interstitial).
+Map<String, String> mediaRequestHeaders(String url) {
+  final uri = Uri.tryParse(url);
+  if (uri == null) return const {};
+  if (!uri.host.toLowerCase().contains('ngrok')) return const {};
+  return const {'ngrok-skip-browser-warning': 'true'};
+}

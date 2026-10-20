@@ -68,36 +68,38 @@ class PreviewStep extends StatelessWidget {
         ],
         const SizedBox(height: 16),
         _ListingPreviewCard(draft: draft),
-        const SizedBox(height: 20),
-        Text(
-          s.edit,
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            color: colors.textMuted,
-            fontSize: 12,
+        if (draft.editingPartId != null) ...[
+          const SizedBox(height: 20),
+          Text(
+            s.edit,
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: colors.textMuted,
+              fontSize: 12,
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        _EditRow(
-          icon: LucideIcons.image,
-          label: s.createProductStepPhotos,
-          onTap: () => onEditStep(CreateProductStep.photos),
-        ),
-        _EditRow(
-          icon: LucideIcons.car,
-          label: s.createProductStepVehicle,
-          onTap: () => onEditStep(CreateProductStep.vehicle),
-        ),
-        _EditRow(
-          icon: LucideIcons.fileText,
-          label: s.createProductStepInfo,
-          onTap: () => onEditStep(CreateProductStep.info),
-        ),
-        _EditRow(
-          icon: LucideIcons.banknote,
-          label: s.createProductStepPrice,
-          onTap: () => onEditStep(CreateProductStep.price),
-        ),
+          const SizedBox(height: 8),
+          _EditRow(
+            icon: LucideIcons.image,
+            label: s.createProductStepPhotos,
+            onTap: () => onEditStep(CreateProductStep.photos),
+          ),
+          _EditRow(
+            icon: LucideIcons.car,
+            label: s.createProductStepVehicle,
+            onTap: () => onEditStep(CreateProductStep.vehicle),
+          ),
+          _EditRow(
+            icon: LucideIcons.fileText,
+            label: s.createProductStepInfo,
+            onTap: () => onEditStep(CreateProductStep.info),
+          ),
+          _EditRow(
+            icon: LucideIcons.banknote,
+            label: s.createProductStepPrice,
+            onTap: () => onEditStep(CreateProductStep.price),
+          ),
+        ],
         if (state.isPublishing) ...[
           const SizedBox(height: 16),
           LinearProgressIndicator(value: state.uploadProgress),
@@ -130,7 +132,7 @@ class _ListingPreviewCard extends StatelessWidget {
       if (draft.vehicle.modelName?.isNotEmpty == true) draft.vehicle.modelName!,
       if (draft.vehicle.partCategoryName?.isNotEmpty == true)
         draft.vehicle.partCategoryName!,
-      if (draft.vehicle.year != null) draft.vehicle.year.toString(),
+      if (draft.region.trim().isNotEmpty) draft.region.trim(),
     ];
     return parts.isEmpty ? null : parts.join(' · ');
   }
@@ -226,7 +228,7 @@ class _ListingPreviewCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

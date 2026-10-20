@@ -18,11 +18,8 @@ ProfileCompletionResult computeProfileCompletion(
   final checks = <(bool, String)>[
     (profile.image?.trim().isNotEmpty == true, s.missingAvatar),
     (profile.banner?.trim().isNotEmpty == true, s.missingStoreBanner),
-    (profile.bio?.trim().isNotEmpty == true, s.missingBio),
-    (profile.description?.trim().isNotEmpty == true, s.missingDescription),
     (profile.socialLinks?.hasAny == true, s.missingSocialLinks),
     (profile.locationLabel != null, s.missingLocation),
-    (profile.username?.trim().isNotEmpty == true, s.missingUsername),
   ];
 
   final done = checks.where((c) => c.$1).length;

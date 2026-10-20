@@ -10,7 +10,7 @@ import { ROLE_METADATA } from '../role';
 
 export type AttachUserResult =
   | { ok: true; payload: AuthTokenPayload }
-  | { ok: false };
+  | { ok: false; expired?: boolean };
 
 /**
  * Shared JWT extraction / request mutation used by strict and optional guards.
@@ -35,15 +35,15 @@ export class AuthGuardShared {
   }
 
   extractRequiredRoles(target: Function, resolverName: string): UserRoleEnum[] {
-    const roles = Reflect.getMetadata(
-      ROLE_METADATA,
-      target,
-      resolverName,
-    ) as UserRoleEnum[];
+    const prototype = (target as { prototype?: object }).prototype ?? target;
+    const roles = (Reflect.getMetadata(ROLE_METADATA, prototype, resolverName) ??
+      Reflect.getMetadata(ROLE_METADATA, target, resolverName)) as
+      | UserRoleEnum[]
+      | undefined;
     return roles || [];
   }
 
-  decodeToken(token?: string): false | AuthTokenPayload {
+  decodeToken(token?: string): false | AuthTokenPayload | 'expired' {
     if (!token) return false;
 
     const secret = this.configService.getOrThrow<string>('JWT_SECRET');
@@ -60,7 +60,8 @@ export class AuthGuardShared {
         UserRoleEnum[decodedToken.userRole];
 
       return isTokenPayloadValid ? decodedToken : false;
-    } catch {
+    } catch (err) {
+      if (err instanceof jwt.TokenExpiredError) return 'expired';
       return false;
     }
   }
@@ -85,14 +86,23 @@ export class AuthGuardShared {
     }
 
     const token = this.extractTokenFromRequest(request);
-    const tokenPayload = this.decodeToken(token);
+    const decoded = this.decodeToken(token);
 
-    if (!token || !tokenPayload) {
+    if (!token || decoded === 'expired') {
+      Object.assign(request, {
+        isAuthenticated: false,
+      } satisfies Partial<ContextType>);
+      return { ok: false, expired: decoded === 'expired' };
+    }
+
+    if (!decoded) {
       Object.assign(request, {
         isAuthenticated: false,
       } satisfies Partial<ContextType>);
       return { ok: false };
     }
+
+    const tokenPayload = decoded;
 
     const requiredRoles = this.extractRequiredRoles(
       resolverClass,

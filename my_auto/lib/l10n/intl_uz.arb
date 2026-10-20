@@ -32,7 +32,7 @@
   "logIn": "Hisobingizga kiring",
   "home": "Bosh sahifa",
   "profile": "Profil",
-  "services": "Xizmatlar",
+  "services": "Avtoservis",
   "add": "Qo‘shish",
   "order": "Buyurtma",
   "search": "Qidiruv",
@@ -40,12 +40,37 @@
   "favoritesEmpty": "Hali saqlangan e'lonlar yo'q",
   "update": "Yangilash",
   "orders": "Buyurtmalar",
+  "navWantToBuy": "Menga kerak",
+  "wantToBuySubtitle": "Kerakli ehtiyot qismni topa olmasangiz buyurtma qoldiring, sotuvchilar o‘zlari sizga aloqaga chiqishadi.",
+  "wantToBuySearchHint": "Qism, mashina yoki shahar…",
+  "wantToBuyCreateCta": "So‘rov qoldirish",
+  "wantToBuyRequestsCount": "{count} ta ochiq",
+  "@wantToBuyRequestsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "wantToBuyRequestBadge": "So‘rov",
+  "wantToBuyBudget": "Byudjet",
+  "wantToBuyOffers": "{count} ta taklif",
+  "@wantToBuyOffers": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "wantToBuyStep1": "So‘rov",
+  "wantToBuyStep2": "Taklif",
+  "wantToBuyStep3": "Kelishuv",
+  "wantToBuyFeedTitle": "Xaridor so‘rovlari",
+  "wantToBuyRespond": "Taklif berish",
+  "wantToBuyEmptyTitle": "Hali so‘rovlar yo‘q",
+  "wantToBuyEmptyHint": "Nima kerakligini yozing — do‘kon va sotuvchilar taklif yuboradi.",
   "morning": "Xayrli tong",
   "afternoon": "Xayrli kun",
   "night": "Xayrli tun",
   "specialOffers": "Maxsus takliflar",
   "seeAll": "Hammasi",
-  "topDeals": "Eng yaxshi takliflar",
+  "topDeals": "Zapchasti va hammasi",
   "whatDoYouWantSell": "Nima sotmoqchisiz?",
   "passengerCars": "Yengil avtomobillar",
   "service": "Xizmat",
@@ -62,9 +87,38 @@
   "myServices": "Mening xizmatlarim",
   "myProducts": "Mening mahsulotlarim",
   "profileSectionMyActivity": "Mening faoliyatim",
+  "profileSubtitleMyStore": "Do‘kon, banner va e’lonlar",
   "profileSubtitleMyProducts": "E’lonlar va ehtiyot qismlar",
   "profileSubtitleMyServices": "Boshqariladigan ustaxonalar",
   "profileSubtitleMyOrders": "So‘nggi buyurtmalar",
+  "sellerMatchingOrdersTitle": "Reklamalar",
+  "sellerMatchingOrdersSubtitle": "Tizimdagi mos xaridor e'lonlari va statusi",
+  "sellerMatchingOrdersAll": "Barcha mos reklamalar",
+  "sellerMatchingOrdersByCategory": "Kategoriyalar bo‘yicha",
+  "sellerMatchingOrdersTotalHint": "Siz uchun {count} ta faol reklama",
+  "@sellerMatchingOrdersTotalHint": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "sellerMatchingOrdersListingsHint": "{count} ta mahsulotingiz",
+  "@sellerMatchingOrdersListingsHint": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "sellerMatchingOrdersEmptyListings": "Hali mahsulot yo‘q",
+  "sellerMatchingOrdersEmptyListingsHint": "Sotadigan kategoriyalarga mahsulot qo'shing — mos reklamalar shu yerda chiqadi.",
+  "sellerMatchingOrdersStatusActive": "Faol",
+  "sellerMatchingOrdersStatusClosed": "Yopiq",
+  "sellerMatchingOrdersOpenCount": "{count} ta ochiq",
+  "@sellerMatchingOrdersOpenCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "notificationOrderMatchedTitle": "Yangi mos e’lon",
+  "notificationOrderMatchedBody": "Xaridor sizning kategoriyangizda e’lon yaratdi.",
   "profileSubtitleMessages": "Sotuvchilar bilan chatlar",
   "profileSectionPreferences": "Sozlamalar",
   "profileSectionSupport": "Yordam",
@@ -298,6 +352,7 @@
   "loadMoreReviews": "Yana ko‘rsatish",
   "reviewDeleted": "Sharh o‘chirildi",
   "promotedTop": "Targ'ib qilingan",
+  "promoteToTop": "Topga chiqarish",
   "promotedBadge": "Targ'ib",
   "featured": "Tavsiya",
   "featuredSubtitle": "Reklama qilingan e’lonlar",
@@ -436,9 +491,17 @@
   "searchHubOpenMap": "Xarita",
   "searchHubAdvancedProductFilters": "Mahsulot filtrlari",
   "searchHubRecent": "So‘nggi qidiruvlar",
+  "searchHubClearRecent": "Tozalash",
   "searchHubTrending": "Trendlar",
   "searchHubCategoryIdeas": "Mashhur turkumlar",
+  "searchHubExploreTitle": "Kashfiyot",
+  "searchHubBrowseAllCategories": "Barcha turkumlar",
+  "searchHubCarBrands": "Avtomobil markalari",
+  "searchHubExploreHint": "Nima qidiryapsiz?",
+  "searchHubQuickParts": "Ehtiyot qismlar",
+  "searchHubQuickNearby": "Yaqin atrofda",
   "searchHubAwaitingTyping": "Yozganingiz bilan qidiruvni birlashtirib, mahsulotlar, Avto Xizmatlar, xarita xizmatlari va buyurtmalarni ko‘rsatamiz.",
+  "searchHubSearching": "Qidirilmoqda…",
   "searchHubNoGroupedHits": "Hozircha mos kelmaydi",
   "searchHubSectionProducts": "Mahsulotlar",
   "searchHubSectionWorkshops": "Avto Xizmatlar",
@@ -537,7 +600,18 @@
   "workshopVerified": "Tasdiqlangan",
   "workshopOpenNow": "Hozir ochiq",
   "workshopFastResponse": "Tez javob",
-  "workshopAbout": "Xizmat haqida",
+  "workshopAbout": "Avtoservis haqida",
+  "workshopServiceTypes": "Xizmat turlari",
+  "similarWorkshops": "O‘xshash avtoservislar",
+  "similarOrders": "O‘xshash buyurtmalar",
+  "viewsCountLabel": "{count}",
+  "@viewsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "workshopOnRequest": "So'rov bo'yicha",
   "workshopPriceFrom": "{amount} {currency} dan",
   "workshopOwnerReply": "Egasi: {text}",
@@ -647,7 +721,7 @@
   "viewProfile": "Profilni ko'rish",
   "moreFromSeller": "Bu sotuvchidan yana",
   "sellerStoreEmpty": "Sotuvchida hali mahsulot yo'q",
-  "sellerStoreEmptyHint": "Yangi e'lonlar uchun obuna bo'ling.",
+  "sellerStoreEmptyHint": "Hali e'lonlar yo'q.",
   "username": "Foydalanuvchi nomi",
   "bio": "Qisqa bio",
   "emailAddress": "Elektron pochta",

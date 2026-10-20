@@ -35,7 +35,7 @@ export class ViewService {
       userId,
     });
 
-    if (existingView) {
+    if (!existingView) {
       await this.viewModel.create({
         targetType,
         targetId,

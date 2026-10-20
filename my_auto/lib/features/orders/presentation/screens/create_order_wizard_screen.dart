@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/catalog/vehicle_catalog_repository.dart';
+import 'package:my_auto/core/constants/uzbekistan_regions.dart';
 import 'package:my_auto/core/layout/layout.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
@@ -18,6 +19,7 @@ import 'package:my_auto/features/orders/domain/failures/orders_failure.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/features/orders/orders_di.dart';
 import 'package:my_auto/features/orders/presentation/widgets/order_images.dart';
+import 'package:my_auto/features/add/widgets/customDropdown/index.dart';
 import 'package:my_auto/widgets/form/app_form_field.dart';
 import 'package:my_auto/widgets/form/field_label.dart';
 import 'package:my_auto/generated/l10n.dart';
@@ -54,6 +56,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
   final _yearCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
   final _locationCtrl = TextEditingController();
+  UzbekistanRegion? _region;
   final _budgetCtrl = TextEditingController();
 
   OrderUrgency _urgency = OrderUrgency.medium;
@@ -167,6 +170,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
         }
         return null;
       case 2:
+        if (_region == null) return '${s.region} *';
         if (FormValidators.phone(context, _phoneCtrl.text) != null) {
           return s.fieldRequired;
         }
@@ -193,6 +197,8 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
       'description': descLines.join('\n'),
       'phone': _phoneCtrl.text.trim(),
       'urgency': _urgency.toApi(),
+      if (_region != null)
+        'region': uzbekistanRegionLabel(S.of(context), _region!),
       if (_locationCtrl.text.isNotEmpty) 'location': _locationCtrl.text.trim(),
       if (budget > 0) 'budget': budget.toDouble(),
       if (_vehicle.brandId != null) 'brand': _vehicle.brandId,
@@ -721,11 +727,19 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
           minLength: 0,
         ),
         const SizedBox(height: 16),
+        CustomDropdownField<UzbekistanRegion>(
+          items: uzbekistanRegions,
+          hint: s.region,
+          value: _region,
+          onChanged: (val) => setState(() => _region = val),
+          getLabel: (val) => uzbekistanRegionLabel(s, val),
+        ),
+        const SizedBox(height: 12),
         AppFormField(
           controller: _locationCtrl,
-          label: s.location,
+          label: s.address,
           required: false,
-          hint: s.chooseLocation,
+          hint: s.address,
           icon: LucideIcons.mapPin,
           minLength: 0,
         ),
@@ -835,6 +849,8 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
               const SizedBox(height: 8),
               Text('$budget UZS'),
               Text(_phoneCtrl.text),
+              if (_region != null)
+                Text(uzbekistanRegionLabel(s, _region!)),
               if (_locationCtrl.text.isNotEmpty) Text(_locationCtrl.text),
             ],
           ),

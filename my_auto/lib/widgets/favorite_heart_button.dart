@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
 import 'package:my_auto/core/provider/home/setFavorite/index.dart';
@@ -68,10 +67,9 @@ class FavoriteHeartButton extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(padding),
               child: Icon(
-                LucideIcons.heart,
+                isFav ? Icons.favorite : Icons.favorite_border,
                 size: size,
                 color: iconColor,
-                fill: isFav ? 1.0 : 0.0,
               ),
             ),
           ),

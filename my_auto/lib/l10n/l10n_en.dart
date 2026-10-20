@@ -90,7 +90,7 @@ class SEn extends S {
   String get profile => 'Profile';
 
   @override
-  String get services => 'Services';
+  String get services => 'Auto services';
 
   @override
   String get add => 'Add';
@@ -114,6 +114,57 @@ class SEn extends S {
   String get orders => 'Orders';
 
   @override
+  String get navWantToBuy => 'I need';
+
+  @override
+  String get wantToBuySubtitle =>
+      'Can\'t find the part you need? Leave a request — sellers will contact you.';
+
+  @override
+  String get wantToBuySearchHint => 'Part, car or city…';
+
+  @override
+  String get wantToBuyCreateCta => 'Post a request';
+
+  @override
+  String wantToBuyRequestsCount(int count) {
+    return '$count open';
+  }
+
+  @override
+  String get wantToBuyRequestBadge => 'Request';
+
+  @override
+  String get wantToBuyBudget => 'Budget';
+
+  @override
+  String wantToBuyOffers(int count) {
+    return '$count offers';
+  }
+
+  @override
+  String get wantToBuyStep1 => 'Request';
+
+  @override
+  String get wantToBuyStep2 => 'Offers';
+
+  @override
+  String get wantToBuyStep3 => 'Deal';
+
+  @override
+  String get wantToBuyFeedTitle => 'Buyer requests';
+
+  @override
+  String get wantToBuyRespond => 'Make offer';
+
+  @override
+  String get wantToBuyEmptyTitle => 'No requests yet';
+
+  @override
+  String get wantToBuyEmptyHint =>
+      'Post what you need — shops and sellers will reply with offers.';
+
+  @override
   String get morning => 'Good Morning';
 
   @override
@@ -129,7 +180,7 @@ class SEn extends S {
   String get seeAll => 'See All';
 
   @override
-  String get topDeals => 'Top Deals';
+  String get topDeals => 'Parts & more';
 
   @override
   String get whatDoYouWantSell => 'What do you want to sell?';
@@ -180,6 +231,9 @@ class SEn extends S {
   String get profileSectionMyActivity => 'My activity';
 
   @override
+  String get profileSubtitleMyStore => 'Store, banner and listings';
+
+  @override
   String get profileSubtitleMyProducts => 'Listings & spare parts';
 
   @override
@@ -187,6 +241,54 @@ class SEn extends S {
 
   @override
   String get profileSubtitleMyOrders => 'Recent orders';
+
+  @override
+  String get sellerMatchingOrdersTitle => 'Ads';
+
+  @override
+  String get sellerMatchingOrdersSubtitle =>
+      'Matching buyer requests and their status';
+
+  @override
+  String get sellerMatchingOrdersAll => 'All matching requests';
+
+  @override
+  String get sellerMatchingOrdersByCategory => 'By your categories';
+
+  @override
+  String sellerMatchingOrdersTotalHint(int count) {
+    return '$count active requests for you';
+  }
+
+  @override
+  String sellerMatchingOrdersListingsHint(int count) {
+    return '$count of your listings';
+  }
+
+  @override
+  String get sellerMatchingOrdersEmptyListings => 'No listings yet';
+
+  @override
+  String get sellerMatchingOrdersEmptyListingsHint =>
+      'Add products in categories you sell — matching buyer requests will appear here.';
+
+  @override
+  String get sellerMatchingOrdersStatusActive => 'Active';
+
+  @override
+  String get sellerMatchingOrdersStatusClosed => 'Closed';
+
+  @override
+  String sellerMatchingOrdersOpenCount(int count) {
+    return '$count open';
+  }
+
+  @override
+  String get notificationOrderMatchedTitle => 'New matching request';
+
+  @override
+  String get notificationOrderMatchedBody =>
+      'A buyer posted a request in your category.';
 
   @override
   String get profileSubtitleMessages => 'Chats with sellers';
@@ -947,7 +1049,10 @@ class SEn extends S {
   String get reviewDeleted => 'Review deleted';
 
   @override
-  String get promotedTop => 'Top';
+  String get promotedTop => 'Promoted';
+
+  @override
+  String get promoteToTop => 'Boost / move to top';
 
   @override
   String get promotedBadge => 'TOP';
@@ -1382,14 +1487,38 @@ class SEn extends S {
   String get searchHubRecent => 'Recent searches';
 
   @override
+  String get searchHubClearRecent => 'Clear';
+
+  @override
   String get searchHubTrending => 'Trending';
 
   @override
   String get searchHubCategoryIdeas => 'Popular categories';
 
   @override
+  String get searchHubExploreTitle => 'Explore';
+
+  @override
+  String get searchHubBrowseAllCategories => 'Browse all categories';
+
+  @override
+  String get searchHubCarBrands => 'Car brands';
+
+  @override
+  String get searchHubExploreHint => 'What are you looking for?';
+
+  @override
+  String get searchHubQuickParts => 'Parts catalog';
+
+  @override
+  String get searchHubQuickNearby => 'Nearby on map';
+
+  @override
   String get searchHubAwaitingTyping =>
       'Start typing to search listings, workshops, orders, and sellers.';
+
+  @override
+  String get searchHubSearching => 'Searching…';
 
   @override
   String get searchHubNoGroupedHits => 'No matches yet';
@@ -1706,7 +1835,21 @@ class SEn extends S {
   String get workshopFastResponse => 'Fast response';
 
   @override
-  String get workshopAbout => 'About';
+  String get workshopAbout => 'About the auto service';
+
+  @override
+  String get workshopServiceTypes => 'Service types';
+
+  @override
+  String get similarWorkshops => 'Similar auto services';
+
+  @override
+  String get similarOrders => 'Similar requests';
+
+  @override
+  String viewsCountLabel(int count) {
+    return '$count';
+  }
 
   @override
   String get workshopOnRequest => 'On request';
@@ -2034,8 +2177,7 @@ class SEn extends S {
   String get sellerStoreEmpty => 'This seller has no products yet';
 
   @override
-  String get sellerStoreEmptyHint =>
-      'Follow to get notified when they list new items.';
+  String get sellerStoreEmptyHint => 'No products listed yet.';
 
   @override
   String get username => 'Username';

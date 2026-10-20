@@ -41,10 +41,6 @@ class User {
   final String name;
   final String id;
   final String? image;
-  final String? username;
-  final String? bio;
-  final String? description;
-  final String? email;
   final String? country;
   final String? region;
   final String? city;
@@ -57,10 +53,6 @@ class User {
     required this.name,
     required this.id,
     this.image,
-    this.username,
-    this.bio,
-    this.description,
-    this.email,
     this.country,
     this.region,
     this.city,
@@ -86,10 +78,6 @@ class User {
       name: json['name']?.toString() ?? '',
       id: json['_id']?.toString() ?? '',
       image: json['image']?.toString(),
-      username: json['username']?.toString(),
-      bio: json['bio']?.toString(),
-      description: json['description']?.toString(),
-      email: json['email']?.toString(),
       country: json['country']?.toString(),
       region: json['region']?.toString(),
       city: json['city']?.toString(),
@@ -105,10 +93,6 @@ class User {
       'name': name,
       '_id': id,
       if (image != null) 'image': image,
-      if (username != null) 'username': username,
-      if (bio != null) 'bio': bio,
-      if (description != null) 'description': description,
-      if (email != null) 'email': email,
       if (country != null) 'country': country,
       if (region != null) 'region': region,
       if (city != null) 'city': city,

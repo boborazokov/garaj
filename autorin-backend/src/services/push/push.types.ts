@@ -6,10 +6,10 @@
 export enum PushEventType {
   CHAT_MESSAGE = 'chat',
   ORDER_REPLY = 'orderReply',
+  ORDER_MATCHED = 'orderMatched',
   FAVORITE_MATCHED = 'favoriteMatched',
   PROMOTED_EXPIRED = 'promotedExpired',
   SELLER_RESPONSE = 'sellerResponse',
-  NEW_FOLLOWER = 'newFollower',
   USER_VERIFIED = 'userVerified',
 }
 
@@ -31,6 +31,16 @@ export interface OrderReplyPushJob {
   responsePreview?: string;
 }
 
+/** Buyer posted a request that matches a seller's listing categories. */
+export interface OrderMatchedPushJob {
+  recipientIds: string[];
+  orderId: string;
+  orderTitle: string;
+  categoryName?: string;
+  budget?: number;
+  currency?: string;
+}
+
 export interface FavoriteMatchedPushJob {
   recipientIds: string[];
   partId: string;
@@ -50,12 +60,6 @@ export interface SellerResponsePushJob {
   sellerName: string;
 }
 
-export interface NewFollowerPushJob {
-  recipientIds: string[];
-  followerId: string;
-  followerName: string;
-}
-
 export interface UserVerifiedPushJob {
   recipientIds: string[];
   userId: string;
@@ -68,10 +72,10 @@ export interface UserVerifiedPushJob {
 export type PushJobName =
   | 'chat-message'
   | 'order-reply'
+  | 'order-matched'
   | 'favorite-matched'
   | 'promoted-expired'
   | 'seller-response'
-  | 'new-follower'
   | 'user-verified';
 
 export interface PushBody {

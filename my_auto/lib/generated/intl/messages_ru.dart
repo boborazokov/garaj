@@ -67,11 +67,23 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m21(followers, products, date) =>
       "${followers} подписчиков • ${products} товаров • С ${date}";
 
-  static String m22(date) => "Продавец на Garage с ${date}";
+  static String m22(count) => "${count} ваших объявлений";
 
-  static String m23(text) => "Владелец: ${text}";
+  static String m23(count) => "${count} открытых";
 
-  static String m24(amount, currency) => "от ${amount} ${currency}";
+  static String m24(count) => "${count} активных заявок для вас";
+
+  static String m25(date) => "Продавец на Garage с ${date}";
+
+  static String m26(count) => "${count}";
+
+  static String m27(count) => "${count} предложений";
+
+  static String m28(count) => "${count} открыто";
+
+  static String m29(text) => "Владелец: ${text}";
+
+  static String m30(amount, currency) => "от ${amount} ${currency}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -460,12 +472,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Опубликуйте заявку — продавцы свяжутся с вами.",
     ),
     "createWorkshopAllServices": MessageLookupByLibrary.simpleMessage(
-      "Все Сервисы",
+      "Все услуги",
     ),
     "createWorkshopPopular": MessageLookupByLibrary.simpleMessage("Популярные"),
     "createWorkshopServicesHint": m9,
     "createWorkshopServicesTitle": MessageLookupByLibrary.simpleMessage(
-      "Выберите Сервисы",
+      "Выберите услуги",
     ),
     "currency": MessageLookupByLibrary.simpleMessage("Валюта"),
     "darkTheme": MessageLookupByLibrary.simpleMessage("Тёмная тема"),
@@ -739,7 +751,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeStickyChooseLocation": MessageLookupByLibrary.simpleMessage("Локация"),
     "homeStickyNearYou": MessageLookupByLibrary.simpleMessage("Рядом с вами"),
     "homeTrendingServicesPreview": MessageLookupByLibrary.simpleMessage(
-      "Популярные Сервисы",
+      "Популярные услуги",
     ),
     "images": MessageLookupByLibrary.simpleMessage("Изображения"),
     "inactive": MessageLookupByLibrary.simpleMessage("Неактивен"),
@@ -831,9 +843,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "myOrders": MessageLookupByLibrary.simpleMessage("Мои заказы"),
     "myProducts": MessageLookupByLibrary.simpleMessage("Мои товары"),
     "myRequests": MessageLookupByLibrary.simpleMessage("Мои заявки"),
-    "myServices": MessageLookupByLibrary.simpleMessage("Мои Сервисы"),
+    "myServices": MessageLookupByLibrary.simpleMessage("Мои услуги"),
     "myStore": MessageLookupByLibrary.simpleMessage("Мой магазин"),
     "name": MessageLookupByLibrary.simpleMessage("Имя"),
+    "navWantToBuy": MessageLookupByLibrary.simpleMessage("Мне нужно"),
     "nearYou": MessageLookupByLibrary.simpleMessage("Рядом с вами"),
     "nearYouSubtitle": MessageLookupByLibrary.simpleMessage(
       "Объявления в вашем регионе",
@@ -901,6 +914,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Новое сообщение",
     ),
     "notificationOpenAction": MessageLookupByLibrary.simpleMessage("Открыть"),
+    "notificationOrderMatchedBody": MessageLookupByLibrary.simpleMessage(
+      "Покупатель создал заявку в вашей категории.",
+    ),
+    "notificationOrderMatchedTitle": MessageLookupByLibrary.simpleMessage(
+      "Новая подходящая заявка",
+    ),
     "notificationOrderReplyBody": MessageLookupByLibrary.simpleMessage(
       "Есть обновление по вашему заказу.",
     ),
@@ -1154,6 +1173,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileSubtitleMyServices": MessageLookupByLibrary.simpleMessage(
       "Ваши мастерские",
     ),
+    "profileSubtitleMyStore": MessageLookupByLibrary.simpleMessage(
+      "Магазин, баннер и объявления",
+    ),
     "promoteListingTitle": MessageLookupByLibrary.simpleMessage(
       "Продвижение объявления",
     ),
@@ -1166,13 +1188,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Продвижение товара",
     ),
     "promoteServiceTitle": MessageLookupByLibrary.simpleMessage(
-      "Продвижение Сервисы",
+      "Продвижение услуги",
     ),
+    "promoteToTop": MessageLookupByLibrary.simpleMessage("Продвинуть / в топ"),
     "promoteWorkshopTitle": MessageLookupByLibrary.simpleMessage(
       "Продвижение мастерской",
     ),
     "promotedBadge": MessageLookupByLibrary.simpleMessage("ТОП"),
-    "promotedTop": MessageLookupByLibrary.simpleMessage("ТОП"),
+    "promotedTop": MessageLookupByLibrary.simpleMessage("В топе"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
       "Продвижение успешно активировано",
     ),
@@ -1251,18 +1274,35 @@ class MessageLookup extends MessageLookupByLibrary {
       "Фильтры товаров",
     ),
     "searchHubAwaitingTyping": MessageLookupByLibrary.simpleMessage(
-      "Продолжайте ввод — мы собираем товары, мастерские, Сервисы на карте и заявки в одном ответе.",
+      "Продолжайте ввод — мы собираем товары, мастерские, услуги на карте и заявки в одном ответе.",
+    ),
+    "searchHubBrowseAllCategories": MessageLookupByLibrary.simpleMessage(
+      "Все категории",
+    ),
+    "searchHubCarBrands": MessageLookupByLibrary.simpleMessage(
+      "Марки автомобилей",
     ),
     "searchHubCategoryIdeas": MessageLookupByLibrary.simpleMessage(
       "Популярные категории",
     ),
+    "searchHubClearRecent": MessageLookupByLibrary.simpleMessage("Очистить"),
     "searchHubEverythingHint": MessageLookupByLibrary.simpleMessage(
       "Поиск запчастей, сервисов, заявок и продавцов…",
     ),
+    "searchHubExploreHint": MessageLookupByLibrary.simpleMessage(
+      "Что вы ищете?",
+    ),
+    "searchHubExploreTitle": MessageLookupByLibrary.simpleMessage("Обзор"),
     "searchHubNoGroupedHits": MessageLookupByLibrary.simpleMessage(
       "Пока ничего не нашли",
     ),
     "searchHubOpenMap": MessageLookupByLibrary.simpleMessage("Карта"),
+    "searchHubQuickNearby": MessageLookupByLibrary.simpleMessage(
+      "Рядом на карте",
+    ),
+    "searchHubQuickParts": MessageLookupByLibrary.simpleMessage(
+      "Каталог запчастей",
+    ),
     "searchHubRecent": MessageLookupByLibrary.simpleMessage("Недавние запросы"),
     "searchHubScopeCars": MessageLookupByLibrary.simpleMessage("Авто"),
     "searchHubScopeCarsSeed": MessageLookupByLibrary.simpleMessage(
@@ -1272,19 +1312,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchHubScopeOrders": MessageLookupByLibrary.simpleMessage("Заявки"),
     "searchHubScopeParts": MessageLookupByLibrary.simpleMessage("Запчасти"),
     "searchHubScopePartsSeed": MessageLookupByLibrary.simpleMessage("запчасти"),
-    "searchHubScopeServices": MessageLookupByLibrary.simpleMessage("Сервисы"),
+    "searchHubScopeServices": MessageLookupByLibrary.simpleMessage("Услуги"),
     "searchHubScopeWorkshops": MessageLookupByLibrary.simpleMessage(
-      "Авто Сервисы",
+      "Авто услуги",
     ),
     "searchHubScopeWorkshopsSeed": MessageLookupByLibrary.simpleMessage(
-      "авто Сервисы",
+      "авто услуги",
     ),
+    "searchHubSearching": MessageLookupByLibrary.simpleMessage("Ищем…"),
     "searchHubSectionOrders": MessageLookupByLibrary.simpleMessage("Заявки"),
     "searchHubSectionProducts": MessageLookupByLibrary.simpleMessage("Товары"),
     "searchHubSectionSellers": MessageLookupByLibrary.simpleMessage("Продавцы"),
-    "searchHubSectionServices": MessageLookupByLibrary.simpleMessage("Сервисы"),
+    "searchHubSectionServices": MessageLookupByLibrary.simpleMessage("Услуги"),
     "searchHubSectionWorkshops": MessageLookupByLibrary.simpleMessage(
-      "Авто Сервисы",
+      "Авто услуги",
     ),
     "searchHubTrending": MessageLookupByLibrary.simpleMessage("В тренде"),
     "searchHubUnifiedTitle": MessageLookupByLibrary.simpleMessage("Обзор"),
@@ -1319,8 +1360,35 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellerInformation": MessageLookupByLibrary.simpleMessage(
       "Информация о продавце",
     ),
+    "sellerMatchingOrdersAll": MessageLookupByLibrary.simpleMessage(
+      "Все подходящие заявки",
+    ),
+    "sellerMatchingOrdersByCategory": MessageLookupByLibrary.simpleMessage(
+      "По вашим категориям",
+    ),
+    "sellerMatchingOrdersEmptyListings": MessageLookupByLibrary.simpleMessage(
+      "Пока нет товаров",
+    ),
+    "sellerMatchingOrdersEmptyListingsHint": MessageLookupByLibrary.simpleMessage(
+      "Добавьте товары в категориях, которыми торгуете — подходящие заявки появятся здесь.",
+    ),
+    "sellerMatchingOrdersListingsHint": m22,
+    "sellerMatchingOrdersOpenCount": m23,
+    "sellerMatchingOrdersStatusActive": MessageLookupByLibrary.simpleMessage(
+      "Активна",
+    ),
+    "sellerMatchingOrdersStatusClosed": MessageLookupByLibrary.simpleMessage(
+      "Закрыта",
+    ),
+    "sellerMatchingOrdersSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Подходящие заявки покупателей и их статус",
+    ),
+    "sellerMatchingOrdersTitle": MessageLookupByLibrary.simpleMessage(
+      "Реклама",
+    ),
+    "sellerMatchingOrdersTotalHint": m24,
     "sellerProfile": MessageLookupByLibrary.simpleMessage("Профиль продавца"),
-    "sellerSince": m22,
+    "sellerSince": m25,
     "sellerSinceDescription": MessageLookupByLibrary.simpleMessage(
       "Показывает месяц и год регистрации продавца",
     ),
@@ -1338,14 +1406,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "У продавца пока нет товаров",
     ),
     "sellerStoreEmptyHint": MessageLookupByLibrary.simpleMessage(
-      "Подпишитесь, чтобы узнать о новых объявлениях.",
+      "Пока нет объявлений.",
     ),
     "serverNotWorking": MessageLookupByLibrary.simpleMessage(
       "Сервер в настоящее время не работает. Пожалуйста, попробуйте позже.",
     ),
     "service": MessageLookupByLibrary.simpleMessage("Сервис"),
     "serviceFeatures": MessageLookupByLibrary.simpleMessage("Особенности"),
-    "services": MessageLookupByLibrary.simpleMessage("Сервисы"),
+    "services": MessageLookupByLibrary.simpleMessage("Автосервис"),
     "servicesHubEmptyNearby": MessageLookupByLibrary.simpleMessage(
       "Пока нет сервисов с геолокацией рядом. Откройте карту или добавьте свой бизнес.",
     ),
@@ -1353,7 +1421,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Пока нет лучших сервисов.",
     ),
     "servicesHubOpenMapSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Смотрите мастерские и Сервисы на карте",
+      "Смотрите мастерские и услуги на карте",
     ),
     "servicesHubSubtitle": MessageLookupByLibrary.simpleMessage(
       "Найдите проверенные сервисы и запишитесь онлайн",
@@ -1387,7 +1455,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Войдите, чтобы написать покупателю",
     ),
     "signUp": MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
+    "similarOrders": MessageLookupByLibrary.simpleMessage("Похожие заявки"),
     "similarProducts": MessageLookupByLibrary.simpleMessage("Похожие товары"),
+    "similarWorkshops": MessageLookupByLibrary.simpleMessage(
+      "Похожие автосервисы",
+    ),
     "skip": MessageLookupByLibrary.simpleMessage("Пропустить"),
     "sortBy": MessageLookupByLibrary.simpleMessage("Сортировка"),
     "sortNewest": MessageLookupByLibrary.simpleMessage("Сначала новые"),
@@ -1427,9 +1499,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "timeExample": MessageLookupByLibrary.simpleMessage("Пример: 9:00 - 18:00"),
     "title": MessageLookupByLibrary.simpleMessage("Заголовок"),
     "titleOfParts": MessageLookupByLibrary.simpleMessage("Название запчастей"),
-    "titleOfServices": MessageLookupByLibrary.simpleMessage("Название Сервисы"),
+    "titleOfServices": MessageLookupByLibrary.simpleMessage("Название услуги"),
     "topCategories": MessageLookupByLibrary.simpleMessage("Топ категории"),
-    "topDeals": MessageLookupByLibrary.simpleMessage("Лучшие предложения"),
+    "topDeals": MessageLookupByLibrary.simpleMessage("Запчасти и всё"),
     "topProducts": MessageLookupByLibrary.simpleMessage("Топ товары"),
     "trendingAkp": MessageLookupByLibrary.simpleMessage("АКПП"),
     "trendingBattery": MessageLookupByLibrary.simpleMessage("Аккумулятор"),
@@ -1485,13 +1557,40 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "viewProfile": MessageLookupByLibrary.simpleMessage("Профиль"),
     "views": MessageLookupByLibrary.simpleMessage("Просмотры"),
+    "viewsCountLabel": m26,
     "viewsOfPhone": MessageLookupByLibrary.simpleMessage("Просмотры телефона"),
+    "wantToBuyBudget": MessageLookupByLibrary.simpleMessage("Бюджет"),
+    "wantToBuyCreateCta": MessageLookupByLibrary.simpleMessage(
+      "Оставить заявку",
+    ),
+    "wantToBuyEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Напишите, что нужно — магазины и продавцы пришлют предложения.",
+    ),
+    "wantToBuyEmptyTitle": MessageLookupByLibrary.simpleMessage(
+      "Заявок пока нет",
+    ),
+    "wantToBuyFeedTitle": MessageLookupByLibrary.simpleMessage(
+      "Заявки покупателей",
+    ),
+    "wantToBuyOffers": m27,
+    "wantToBuyRequestBadge": MessageLookupByLibrary.simpleMessage("Заявка"),
+    "wantToBuyRequestsCount": m28,
+    "wantToBuyRespond": MessageLookupByLibrary.simpleMessage("Предложить"),
+    "wantToBuySearchHint": MessageLookupByLibrary.simpleMessage(
+      "Деталь, авто или город…",
+    ),
+    "wantToBuyStep1": MessageLookupByLibrary.simpleMessage("Заявка"),
+    "wantToBuyStep2": MessageLookupByLibrary.simpleMessage("Цены"),
+    "wantToBuyStep3": MessageLookupByLibrary.simpleMessage("Сделка"),
+    "wantToBuySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Не можете найти нужную деталь? Оставьте заявку — продавцы сами свяжутся с вами.",
+    ),
     "whatDoYouWantSell": MessageLookupByLibrary.simpleMessage(
       "Что вы хотите продать?",
     ),
     "withDiscount": MessageLookupByLibrary.simpleMessage("Со скидкой"),
     "workingTime": MessageLookupByLibrary.simpleMessage("Время работы"),
-    "workshopAbout": MessageLookupByLibrary.simpleMessage("О сервисе"),
+    "workshopAbout": MessageLookupByLibrary.simpleMessage("Об автосервисе"),
     "workshopDeleted": MessageLookupByLibrary.simpleMessage(
       "Мастерская успешно удалена",
     ),
@@ -1503,9 +1602,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "workshopOnRequest": MessageLookupByLibrary.simpleMessage("По запросу"),
     "workshopOpenNow": MessageLookupByLibrary.simpleMessage("Открыто"),
-    "workshopOwnerReply": m23,
+    "workshopOwnerReply": m29,
     "workshopPopular": MessageLookupByLibrary.simpleMessage("Популярные"),
-    "workshopPriceFrom": m24,
+    "workshopPriceFrom": m30,
     "workshopScreenSubtitle": MessageLookupByLibrary.simpleMessage(
       "Проверенные автосервисы рядом с вами",
     ),
@@ -1513,6 +1612,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "workshopSearchResults": MessageLookupByLibrary.simpleMessage(
       "Результаты поиска",
     ),
+    "workshopServiceTypes": MessageLookupByLibrary.simpleMessage("Виды услуг"),
     "workshopStatusClosed": MessageLookupByLibrary.simpleMessage("Закрыто"),
     "workshopStatusOpen": MessageLookupByLibrary.simpleMessage("Открыто"),
     "workshopUntitled": MessageLookupByLibrary.simpleMessage(

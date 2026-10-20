@@ -90,7 +90,7 @@ class SRu extends S {
   String get profile => 'Профиль';
 
   @override
-  String get services => 'Услуги';
+  String get services => 'Автосервис';
 
   @override
   String get add => 'Добавить';
@@ -114,6 +114,57 @@ class SRu extends S {
   String get orders => 'Заказы';
 
   @override
+  String get navWantToBuy => 'Мне нужно';
+
+  @override
+  String get wantToBuySubtitle =>
+      'Не можете найти нужную деталь? Оставьте заявку — продавцы сами свяжутся с вами.';
+
+  @override
+  String get wantToBuySearchHint => 'Деталь, авто или город…';
+
+  @override
+  String get wantToBuyCreateCta => 'Оставить заявку';
+
+  @override
+  String wantToBuyRequestsCount(int count) {
+    return '$count открыто';
+  }
+
+  @override
+  String get wantToBuyRequestBadge => 'Заявка';
+
+  @override
+  String get wantToBuyBudget => 'Бюджет';
+
+  @override
+  String wantToBuyOffers(int count) {
+    return '$count предложений';
+  }
+
+  @override
+  String get wantToBuyStep1 => 'Заявка';
+
+  @override
+  String get wantToBuyStep2 => 'Цены';
+
+  @override
+  String get wantToBuyStep3 => 'Сделка';
+
+  @override
+  String get wantToBuyFeedTitle => 'Заявки покупателей';
+
+  @override
+  String get wantToBuyRespond => 'Предложить';
+
+  @override
+  String get wantToBuyEmptyTitle => 'Заявок пока нет';
+
+  @override
+  String get wantToBuyEmptyHint =>
+      'Напишите, что нужно — магазины и продавцы пришлют предложения.';
+
+  @override
   String get morning => 'Доброе утро';
 
   @override
@@ -129,7 +180,7 @@ class SRu extends S {
   String get seeAll => 'Все';
 
   @override
-  String get topDeals => 'Лучшие предложения';
+  String get topDeals => 'Запчасти и всё';
 
   @override
   String get whatDoYouWantSell => 'Что вы хотите продать?';
@@ -180,6 +231,9 @@ class SRu extends S {
   String get profileSectionMyActivity => 'Моя активность';
 
   @override
+  String get profileSubtitleMyStore => 'Магазин, баннер и объявления';
+
+  @override
   String get profileSubtitleMyProducts => 'Объявления и запчасти';
 
   @override
@@ -187,6 +241,54 @@ class SRu extends S {
 
   @override
   String get profileSubtitleMyOrders => 'Недавние заказы';
+
+  @override
+  String get sellerMatchingOrdersTitle => 'Реклама';
+
+  @override
+  String get sellerMatchingOrdersSubtitle =>
+      'Подходящие заявки покупателей и их статус';
+
+  @override
+  String get sellerMatchingOrdersAll => 'Все подходящие заявки';
+
+  @override
+  String get sellerMatchingOrdersByCategory => 'По вашим категориям';
+
+  @override
+  String sellerMatchingOrdersTotalHint(int count) {
+    return '$count активных заявок для вас';
+  }
+
+  @override
+  String sellerMatchingOrdersListingsHint(int count) {
+    return '$count ваших объявлений';
+  }
+
+  @override
+  String get sellerMatchingOrdersEmptyListings => 'Пока нет товаров';
+
+  @override
+  String get sellerMatchingOrdersEmptyListingsHint =>
+      'Добавьте товары в категориях, которыми торгуете — подходящие заявки появятся здесь.';
+
+  @override
+  String get sellerMatchingOrdersStatusActive => 'Активна';
+
+  @override
+  String get sellerMatchingOrdersStatusClosed => 'Закрыта';
+
+  @override
+  String sellerMatchingOrdersOpenCount(int count) {
+    return '$count открытых';
+  }
+
+  @override
+  String get notificationOrderMatchedTitle => 'Новая подходящая заявка';
+
+  @override
+  String get notificationOrderMatchedBody =>
+      'Покупатель создал заявку в вашей категории.';
 
   @override
   String get profileSubtitleMessages => 'Чаты с продавцами';
@@ -949,7 +1051,10 @@ class SRu extends S {
   String get reviewDeleted => 'Отзыв удалён';
 
   @override
-  String get promotedTop => 'ТОП';
+  String get promotedTop => 'В топе';
+
+  @override
+  String get promoteToTop => 'Продвинуть / в топ';
 
   @override
   String get promotedBadge => 'ТОП';
@@ -1387,14 +1492,38 @@ class SRu extends S {
   String get searchHubRecent => 'Недавние запросы';
 
   @override
+  String get searchHubClearRecent => 'Очистить';
+
+  @override
   String get searchHubTrending => 'В тренде';
 
   @override
   String get searchHubCategoryIdeas => 'Популярные категории';
 
   @override
+  String get searchHubExploreTitle => 'Обзор';
+
+  @override
+  String get searchHubBrowseAllCategories => 'Все категории';
+
+  @override
+  String get searchHubCarBrands => 'Марки автомобилей';
+
+  @override
+  String get searchHubExploreHint => 'Что вы ищете?';
+
+  @override
+  String get searchHubQuickParts => 'Каталог запчастей';
+
+  @override
+  String get searchHubQuickNearby => 'Рядом на карте';
+
+  @override
   String get searchHubAwaitingTyping =>
       'Продолжайте ввод — мы собираем товары, мастерские, услуги на карте и заявки в одном ответе.';
+
+  @override
+  String get searchHubSearching => 'Ищем…';
 
   @override
   String get searchHubNoGroupedHits => 'Пока ничего не нашли';
@@ -1709,7 +1838,21 @@ class SRu extends S {
   String get workshopFastResponse => 'Быстрый ответ';
 
   @override
-  String get workshopAbout => 'О сервисе';
+  String get workshopAbout => 'Об автосервисе';
+
+  @override
+  String get workshopServiceTypes => 'Виды услуг';
+
+  @override
+  String get similarWorkshops => 'Похожие автосервисы';
+
+  @override
+  String get similarOrders => 'Похожие заявки';
+
+  @override
+  String viewsCountLabel(int count) {
+    return '$count';
+  }
 
   @override
   String get workshopOnRequest => 'По запросу';
@@ -2037,8 +2180,7 @@ class SRu extends S {
   String get sellerStoreEmpty => 'У продавца пока нет товаров';
 
   @override
-  String get sellerStoreEmptyHint =>
-      'Подпишитесь, чтобы узнать о новых объявлениях.';
+  String get sellerStoreEmptyHint => 'Пока нет объявлений.';
 
   @override
   String get username => 'Имя пользователя';

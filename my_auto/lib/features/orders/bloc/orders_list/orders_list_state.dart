@@ -21,6 +21,8 @@ class OrdersListState extends Equatable {
     this.stats = const OrderStats(),
     this.failure,
     this.authorId,
+    this.partCategoryId,
+    this.matchSellerCategories = false,
   });
 
   final OrdersListStatus status;
@@ -35,6 +37,8 @@ class OrdersListState extends Equatable {
   final OrderStats stats;
   final OrdersFailure? failure;
   final String? authorId;
+  final String? partCategoryId;
+  final bool matchSellerCategories;
 
   OrdersListState copyWith({
     OrdersListStatus? status,
@@ -49,6 +53,8 @@ class OrdersListState extends Equatable {
     OrderStats? stats,
     OrdersFailure? failure,
     String? authorId,
+    String? partCategoryId,
+    bool? matchSellerCategories,
     bool clearFailure = false,
   }) {
     return OrdersListState(
@@ -64,6 +70,9 @@ class OrdersListState extends Equatable {
       stats: stats ?? this.stats,
       failure: clearFailure ? null : (failure ?? this.failure),
       authorId: authorId ?? this.authorId,
+      partCategoryId: partCategoryId ?? this.partCategoryId,
+      matchSellerCategories:
+          matchSellerCategories ?? this.matchSellerCategories,
     );
   }
 

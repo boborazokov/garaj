@@ -4,7 +4,7 @@ import 'package:my_auto/core/theme/tokens.dart';
 import 'package:shimmer/shimmer.dart';
 
 class OrderShimmerList extends StatelessWidget {
-  const OrderShimmerList({super.key, this.count = 4});
+  const OrderShimmerList({super.key, this.count = 6});
 
   final int count;
 
@@ -14,15 +14,19 @@ class OrderShimmerList extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: colors.surfaceMuted,
       highlightColor: colors.surface,
-      child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+      child: GridView.builder(
+        padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 0.78,
+        ),
         itemCount: count,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (_, __) => Container(
-          height: 168,
           decoration: BoxDecoration(
             color: colors.surfaceMuted,
-            borderRadius: AppRadius.rXl,
+            borderRadius: AppRadius.rL,
           ),
         ),
       ),

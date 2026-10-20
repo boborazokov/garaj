@@ -44,7 +44,7 @@ class _UploadImageState extends State<UploadImage> {
     final images = provider.allImages;
 
     return Scaffold(
-      body: SafeArea(
+      body: AppSafeArea(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
             16,

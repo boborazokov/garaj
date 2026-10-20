@@ -25,4 +25,11 @@ export class OrderFilterInput {
 
   @Field({ nullable: true })
   isPromoted?: boolean;
+
+  /**
+   * When true, restrict results to ACTIVE orders whose `partCategory`
+   * matches any category of the authenticated seller's ACTIVE listings.
+   */
+  @Field({ nullable: true })
+  matchSellerCategories?: boolean;
 }

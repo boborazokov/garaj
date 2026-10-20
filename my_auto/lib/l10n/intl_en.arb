@@ -32,7 +32,7 @@
   "logIn": "Log In to your account",
   "home": "Home",
   "profile": "Profile",
-  "services": "Services",
+  "services": "Auto services",
   "add": "Add",
   "order": "Order",
   "search": "Search",
@@ -40,12 +40,37 @@
   "favoritesEmpty": "No saved items yet",
   "update": "Update",
   "orders": "Orders",
+  "navWantToBuy": "I need",
+  "wantToBuySubtitle": "Can't find the part you need? Leave a request — sellers will contact you.",
+  "wantToBuySearchHint": "Part, car or city…",
+  "wantToBuyCreateCta": "Post a request",
+  "wantToBuyRequestsCount": "{count} open",
+  "@wantToBuyRequestsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "wantToBuyRequestBadge": "Request",
+  "wantToBuyBudget": "Budget",
+  "wantToBuyOffers": "{count} offers",
+  "@wantToBuyOffers": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "wantToBuyStep1": "Request",
+  "wantToBuyStep2": "Offers",
+  "wantToBuyStep3": "Deal",
+  "wantToBuyFeedTitle": "Buyer requests",
+  "wantToBuyRespond": "Make offer",
+  "wantToBuyEmptyTitle": "No requests yet",
+  "wantToBuyEmptyHint": "Post what you need — shops and sellers will reply with offers.",
   "morning": "Good Morning",
   "afternoon": "Good Afternoon",
   "night": "Good Night",
   "specialOffers": "Special Offers",
   "seeAll": "See All",
-  "topDeals": "Top Deals",
+  "topDeals": "Parts & more",
   "whatDoYouWantSell": "What do you want to sell?",
   "passengerCars": "Passenger Cars",
   "service": "Service",
@@ -62,9 +87,38 @@
   "myServices": "My Services",
   "myProducts": "My Products",
   "profileSectionMyActivity": "My activity",
+  "profileSubtitleMyStore": "Store, banner and listings",
   "profileSubtitleMyProducts": "Listings & spare parts",
   "profileSubtitleMyServices": "Workshops you manage",
   "profileSubtitleMyOrders": "Recent orders",
+  "sellerMatchingOrdersTitle": "Ads",
+  "sellerMatchingOrdersSubtitle": "Matching buyer requests and their status",
+  "sellerMatchingOrdersAll": "All matching requests",
+  "sellerMatchingOrdersByCategory": "By your categories",
+  "sellerMatchingOrdersTotalHint": "{count} active requests for you",
+  "@sellerMatchingOrdersTotalHint": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "sellerMatchingOrdersListingsHint": "{count} of your listings",
+  "@sellerMatchingOrdersListingsHint": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "sellerMatchingOrdersEmptyListings": "No listings yet",
+  "sellerMatchingOrdersEmptyListingsHint": "Add products in categories you sell — matching buyer requests will appear here.",
+  "sellerMatchingOrdersStatusActive": "Active",
+  "sellerMatchingOrdersStatusClosed": "Closed",
+  "sellerMatchingOrdersOpenCount": "{count} open",
+  "@sellerMatchingOrdersOpenCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "notificationOrderMatchedTitle": "New matching request",
+  "notificationOrderMatchedBody": "A buyer posted a request in your category.",
   "profileSubtitleMessages": "Chats with sellers",
   "profileSectionPreferences": "Preferences",
   "profileSectionSupport": "Support",
@@ -321,7 +375,8 @@
   "deleteReviewConfirm": "Delete your review permanently?",
   "loadMoreReviews": "Load more",
   "reviewDeleted": "Review deleted",
-  "promotedTop": "Top",
+  "promotedTop": "Promoted",
+  "promoteToTop": "Boost / move to top",
   "promotedBadge": "TOP",
   "featured": "Featured",
   "featuredSubtitle": "Promoted listings",
@@ -477,9 +532,17 @@
   "searchHubOpenMap": "Map",
   "searchHubAdvancedProductFilters": "Product filters",
   "searchHubRecent": "Recent searches",
+  "searchHubClearRecent": "Clear",
   "searchHubTrending": "Trending",
   "searchHubCategoryIdeas": "Popular categories",
+  "searchHubExploreTitle": "Explore",
+  "searchHubBrowseAllCategories": "Browse all categories",
+  "searchHubCarBrands": "Car brands",
+  "searchHubExploreHint": "What are you looking for?",
+  "searchHubQuickParts": "Parts catalog",
+  "searchHubQuickNearby": "Nearby on map",
   "searchHubAwaitingTyping": "Start typing to search listings, workshops, orders, and sellers.",
+  "searchHubSearching": "Searching…",
   "searchHubNoGroupedHits": "No matches yet",
   "searchHubSectionProducts": "Products",
   "searchHubSectionWorkshops": "Auto Services",
@@ -578,7 +641,18 @@
   "workshopVerified": "Verified",
   "workshopOpenNow": "Open now",
   "workshopFastResponse": "Fast response",
-  "workshopAbout": "About",
+  "workshopAbout": "About the auto service",
+  "workshopServiceTypes": "Service types",
+  "similarWorkshops": "Similar auto services",
+  "similarOrders": "Similar requests",
+  "viewsCountLabel": "{count}",
+  "@viewsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "workshopOnRequest": "On request",
   "workshopPriceFrom": "from {amount} {currency}",
   "@workshopPriceFrom": {
@@ -716,7 +790,7 @@
   "viewProfile": "View profile",
   "moreFromSeller": "More from this seller",
   "sellerStoreEmpty": "This seller has no products yet",
-  "sellerStoreEmptyHint": "Follow to get notified when they list new items.",
+  "sellerStoreEmptyHint": "No products listed yet.",
   "username": "Username",
   "bio": "Bio",
   "emailAddress": "Email address",

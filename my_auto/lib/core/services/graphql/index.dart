@@ -62,7 +62,8 @@ class GraphQLConfig {
     Request request,
     ServerException exception,
   ) {
-    final code = exception.parsedResponse?.errors?.firstOrNull?.extensions?['code']
+    final code = exception
+        .parsedResponse?.errors?.firstOrNull?.extensions?['code']
         ?.toString();
     final message =
         exception.parsedResponse?.errors?.firstOrNull?.message ?? '';
@@ -118,19 +119,22 @@ class GraphQLConfig {
     final normalizedCode = code?.toUpperCase() ?? '';
     final lowerMessage = (message ?? '').toLowerCase();
 
-    if (isWsHandshakeThrottleError(code: normalizedCode, message: lowerMessage)) {
+    if (isWsHandshakeThrottleError(
+        code: normalizedCode, message: lowerMessage)) {
       return false;
     }
 
     // Let [AuthRefreshLink] retry once before logging out.
-    if (normalizedCode == 'TOKEN_EXPIRED') return false;
+    if (normalizedCode == 'TOKEN_EXPIRED' ||
+        normalizedCode == 'AUTH_TOKEN_EXPIRED') {
+      return false;
+    }
 
     // HTTP 401 / explicit auth errors → sign out.
     if (statusCode == 401) return true;
 
     if (normalizedCode == 'AUTH_UNAUTHORIZED' ||
         normalizedCode == 'UNAUTHENTICATED' ||
-        normalizedCode == 'AUTH_TOKEN_EXPIRED' ||
         normalizedCode == 'INVALID_REFRESH_TOKEN' ||
         normalizedCode == 'SESSION_REVOKED') {
       return true;
@@ -168,6 +172,7 @@ class GraphQLConfig {
     }
 
     final token = await _secureStorage.read(key: "authToken");
+    if (!context.mounted) return;
     if (token != null && token.isNotEmpty) {
       final auth = context.read<AuthProvider>();
       if (!auth.isAuthenticated) {

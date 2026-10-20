@@ -32,7 +32,12 @@ class GraphQLLinks {
 
   static void initialize() {
     final apiUrl = dotenv.env['API_URL'] ?? '';
-    httpLink = HttpLink('$apiUrl/api');
+    httpLink = HttpLink(
+      '$apiUrl/api',
+      defaultHeaders: {
+        if (apiUrl.contains('ngrok')) 'ngrok-skip-browser-warning': 'true',
+      },
+    );
     _createWebSocketLink();
     _rebuildStack();
   }

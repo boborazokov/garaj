@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/model/product/index.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/profile/widgets/my_product_card/index.dart';
 import 'package:my_auto/widgets/productCard/index.dart';
 
@@ -11,8 +9,6 @@ class ProductGrid extends StatelessWidget {
   final bool isMine;
   final bool isDepleted;
   final ScrollPhysics? physics;
-  final AdSurface? inlineAdSurface;
-  final int inlineAdEveryRows;
 
   const ProductGrid({
     super.key,
@@ -21,8 +17,6 @@ class ProductGrid extends StatelessWidget {
     this.isDepleted = false,
     this.isMine = false,
     this.physics,
-    this.inlineAdSurface,
-    this.inlineAdEveryRows = 3,
   });
 
   @override
@@ -52,26 +46,25 @@ class ProductGrid extends StatelessWidget {
 
     double aspectRatio;
     if (screenWidth < 360) {
-      aspectRatio = 0.62;
+      aspectRatio = 0.50;
     } else if (screenWidth < 420) {
-      aspectRatio = 0.66;
+      aspectRatio = 0.52;
     } else if (screenWidth < 600) {
-      aspectRatio = 0.70;
+      aspectRatio = 0.54;
     } else {
-      aspectRatio = 0.74;
+      aspectRatio = 0.56;
     }
 
-    if (inlineAdSurface == null) {
-      return GridView.builder(
+    return GridView.builder(
         itemCount: products.length,
         shrinkWrap: true,
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
         controller: controller,
         physics: physics ?? const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 12,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
           childAspectRatio: aspectRatio,
         ),
         itemBuilder: (context, index) {
@@ -81,63 +74,5 @@ class ProductGrid extends StatelessWidget {
           );
         },
       );
-    }
-
-    final productRows = (products.length + crossAxisCount - 1) ~/ crossAxisCount;
-    final blockSize = inlineAdEveryRows + 1;
-    final virtualRows = productRows == 0
-        ? 0
-        : productRows + (productRows - 1) ~/ inlineAdEveryRows;
-
-    return ListView.builder(
-      controller: controller,
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(8),
-      physics: physics ?? const NeverScrollableScrollPhysics(),
-      itemCount: virtualRows,
-      itemBuilder: (context, virtualRow) {
-        final isAd = (virtualRow + 1) % blockSize == 0;
-        if (isAd) {
-          return AdBanner(
-            surface: inlineAdSurface!,
-            height: 110,
-            margin: const EdgeInsets.fromLTRB(0, 4, 0, 12),
-          );
-        }
-
-        final blockIndex = virtualRow ~/ blockSize;
-        final posInBlock = virtualRow % blockSize;
-        final productRow = blockIndex * inlineAdEveryRows + posInBlock;
-        final start = productRow * crossAxisCount;
-
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (var col = 0; col < crossAxisCount; col++)
-                if (start + col < products.length)
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: col == 0 ? 0 : 5,
-                        right: col == crossAxisCount - 1 ? 0 : 5,
-                      ),
-                      child: AspectRatio(
-                        aspectRatio: aspectRatio,
-                        child: ProductCardGrid(
-                          product: products[start + col],
-                          key: ValueKey(products[start + col].id),
-                        ),
-                      ),
-                    ),
-                  )
-                else
-                  const Spacer(),
-            ],
-          ),
-        );
-      },
-    );
   }
 }

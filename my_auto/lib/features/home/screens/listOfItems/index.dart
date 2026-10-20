@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/model/categoryCar/index.dart';
 import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/home/widgets/productList/index.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/generated/l10n.dart';
@@ -110,12 +108,15 @@ class _ListOfItemsState extends State<ListOfItems> {
                 child: CustomSearchInput(
                   controller: provider.searchController,
                   hintText: S.of(context).search,
+                  onSubmitted: (_) {
+                    _debounce?.cancel();
+                    provider.loadList(
+                      filters: {"category": widget.category.id},
+                      reset: true,
+                      search: provider.searchController.text,
+                    );
+                  },
                 )),
-            const AdBanner(
-              surface: AdSurface.part,
-              height: 120,
-              margin: EdgeInsets.only(bottom: 8),
-            ),
             Expanded(
               child: isLoading && products.isEmpty
                   ? const Center(child: CircularProgressIndicator.adaptive())
@@ -125,7 +126,6 @@ class _ListOfItemsState extends State<ListOfItems> {
                           controller: _scrollController,
                           products: products,
                           physics: const AlwaysScrollableScrollPhysics(),
-                          inlineAdSurface: AdSurface.part,
                         ),
             ),
             if (isMoreLoading)

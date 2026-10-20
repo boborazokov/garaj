@@ -67,11 +67,23 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m21(followers, products, date) =>
       "${followers} followers • ${products} products • Joined ${date}";
 
-  static String m22(date) => "Seller on Garage since ${date}";
+  static String m22(count) => "${count} of your listings";
 
-  static String m23(text) => "Owner: ${text}";
+  static String m23(count) => "${count} open";
 
-  static String m24(amount, currency) => "from ${amount} ${currency}";
+  static String m24(count) => "${count} active requests for you";
+
+  static String m25(date) => "Seller on Garage since ${date}";
+
+  static String m26(count) => "${count}";
+
+  static String m27(count) => "${count} offers";
+
+  static String m28(count) => "${count} open";
+
+  static String m29(text) => "Owner: ${text}";
+
+  static String m30(amount, currency) => "from ${amount} ${currency}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -826,6 +838,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "myServices": MessageLookupByLibrary.simpleMessage("My Services"),
     "myStore": MessageLookupByLibrary.simpleMessage("My store"),
     "name": MessageLookupByLibrary.simpleMessage("Name"),
+    "navWantToBuy": MessageLookupByLibrary.simpleMessage("I need"),
     "nearYou": MessageLookupByLibrary.simpleMessage("Near You"),
     "nearYouSubtitle": MessageLookupByLibrary.simpleMessage(
       "Listings in your area",
@@ -893,6 +906,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "New message",
     ),
     "notificationOpenAction": MessageLookupByLibrary.simpleMessage("Open"),
+    "notificationOrderMatchedBody": MessageLookupByLibrary.simpleMessage(
+      "A buyer posted a request in your category.",
+    ),
+    "notificationOrderMatchedTitle": MessageLookupByLibrary.simpleMessage(
+      "New matching request",
+    ),
     "notificationOrderReplyBody": MessageLookupByLibrary.simpleMessage(
       "There is an update on your order.",
     ),
@@ -1148,6 +1167,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileSubtitleMyServices": MessageLookupByLibrary.simpleMessage(
       "Workshops you manage",
     ),
+    "profileSubtitleMyStore": MessageLookupByLibrary.simpleMessage(
+      "Store, banner and listings",
+    ),
     "promoteListingTitle": MessageLookupByLibrary.simpleMessage(
       "Promote listing",
     ),
@@ -1162,11 +1184,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "promoteServiceTitle": MessageLookupByLibrary.simpleMessage(
       "Promote service",
     ),
+    "promoteToTop": MessageLookupByLibrary.simpleMessage("Boost / move to top"),
     "promoteWorkshopTitle": MessageLookupByLibrary.simpleMessage(
       "Promote workshop",
     ),
     "promotedBadge": MessageLookupByLibrary.simpleMessage("TOP"),
-    "promotedTop": MessageLookupByLibrary.simpleMessage("Top"),
+    "promotedTop": MessageLookupByLibrary.simpleMessage("Promoted"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
       "Promotion activated successfully",
     ),
@@ -1243,16 +1266,31 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchHubAwaitingTyping": MessageLookupByLibrary.simpleMessage(
       "Start typing to search listings, workshops, orders, and sellers.",
     ),
+    "searchHubBrowseAllCategories": MessageLookupByLibrary.simpleMessage(
+      "Browse all categories",
+    ),
+    "searchHubCarBrands": MessageLookupByLibrary.simpleMessage("Car brands"),
     "searchHubCategoryIdeas": MessageLookupByLibrary.simpleMessage(
       "Popular categories",
     ),
+    "searchHubClearRecent": MessageLookupByLibrary.simpleMessage("Clear"),
     "searchHubEverythingHint": MessageLookupByLibrary.simpleMessage(
       "Search parts, workshops, orders, sellers…",
     ),
+    "searchHubExploreHint": MessageLookupByLibrary.simpleMessage(
+      "What are you looking for?",
+    ),
+    "searchHubExploreTitle": MessageLookupByLibrary.simpleMessage("Explore"),
     "searchHubNoGroupedHits": MessageLookupByLibrary.simpleMessage(
       "No matches yet",
     ),
     "searchHubOpenMap": MessageLookupByLibrary.simpleMessage("Map"),
+    "searchHubQuickNearby": MessageLookupByLibrary.simpleMessage(
+      "Nearby on map",
+    ),
+    "searchHubQuickParts": MessageLookupByLibrary.simpleMessage(
+      "Parts catalog",
+    ),
     "searchHubRecent": MessageLookupByLibrary.simpleMessage("Recent searches"),
     "searchHubScopeCars": MessageLookupByLibrary.simpleMessage("Cars"),
     "searchHubScopeCarsSeed": MessageLookupByLibrary.simpleMessage("car"),
@@ -1269,6 +1307,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchHubScopeWorkshopsSeed": MessageLookupByLibrary.simpleMessage(
       "auto service",
     ),
+    "searchHubSearching": MessageLookupByLibrary.simpleMessage("Searching…"),
     "searchHubSectionOrders": MessageLookupByLibrary.simpleMessage("Requests"),
     "searchHubSectionProducts": MessageLookupByLibrary.simpleMessage(
       "Products",
@@ -1311,8 +1350,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellerInformation": MessageLookupByLibrary.simpleMessage(
       "Seller information",
     ),
+    "sellerMatchingOrdersAll": MessageLookupByLibrary.simpleMessage(
+      "All matching requests",
+    ),
+    "sellerMatchingOrdersByCategory": MessageLookupByLibrary.simpleMessage(
+      "By your categories",
+    ),
+    "sellerMatchingOrdersEmptyListings": MessageLookupByLibrary.simpleMessage(
+      "No listings yet",
+    ),
+    "sellerMatchingOrdersEmptyListingsHint": MessageLookupByLibrary.simpleMessage(
+      "Add products in categories you sell — matching buyer requests will appear here.",
+    ),
+    "sellerMatchingOrdersListingsHint": m22,
+    "sellerMatchingOrdersOpenCount": m23,
+    "sellerMatchingOrdersStatusActive": MessageLookupByLibrary.simpleMessage(
+      "Active",
+    ),
+    "sellerMatchingOrdersStatusClosed": MessageLookupByLibrary.simpleMessage(
+      "Closed",
+    ),
+    "sellerMatchingOrdersSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Matching buyer requests and their status",
+    ),
+    "sellerMatchingOrdersTitle": MessageLookupByLibrary.simpleMessage("Ads"),
+    "sellerMatchingOrdersTotalHint": m24,
     "sellerProfile": MessageLookupByLibrary.simpleMessage("Seller profile"),
-    "sellerSince": m22,
+    "sellerSince": m25,
     "sellerSinceDescription": MessageLookupByLibrary.simpleMessage(
       "Shows seller registration month and year",
     ),
@@ -1328,14 +1392,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "This seller has no products yet",
     ),
     "sellerStoreEmptyHint": MessageLookupByLibrary.simpleMessage(
-      "Follow to get notified when they list new items.",
+      "No products listed yet.",
     ),
     "serverNotWorking": MessageLookupByLibrary.simpleMessage(
       "The server is currently not working. Please try again later.",
     ),
     "service": MessageLookupByLibrary.simpleMessage("Service"),
     "serviceFeatures": MessageLookupByLibrary.simpleMessage("Features"),
-    "services": MessageLookupByLibrary.simpleMessage("Services"),
+    "services": MessageLookupByLibrary.simpleMessage("Auto services"),
     "servicesHubEmptyNearby": MessageLookupByLibrary.simpleMessage(
       "No services with location nearby yet. Open the map or add your business.",
     ),
@@ -1377,7 +1441,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Sign in to message this buyer",
     ),
     "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "similarOrders": MessageLookupByLibrary.simpleMessage("Similar requests"),
     "similarProducts": MessageLookupByLibrary.simpleMessage("Similar Products"),
+    "similarWorkshops": MessageLookupByLibrary.simpleMessage(
+      "Similar auto services",
+    ),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "sortBy": MessageLookupByLibrary.simpleMessage("Sort by"),
     "sortNewest": MessageLookupByLibrary.simpleMessage("Newest"),
@@ -1419,7 +1487,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Title of services",
     ),
     "topCategories": MessageLookupByLibrary.simpleMessage("Top categories"),
-    "topDeals": MessageLookupByLibrary.simpleMessage("Top Deals"),
+    "topDeals": MessageLookupByLibrary.simpleMessage("Parts & more"),
     "topProducts": MessageLookupByLibrary.simpleMessage("Top products"),
     "trendingAkp": MessageLookupByLibrary.simpleMessage(
       "Automatic transmission",
@@ -1476,13 +1544,42 @@ class MessageLookup extends MessageLookupByLibrary {
     "viewDetails": MessageLookupByLibrary.simpleMessage("View details"),
     "viewProfile": MessageLookupByLibrary.simpleMessage("View profile"),
     "views": MessageLookupByLibrary.simpleMessage("Views"),
+    "viewsCountLabel": m26,
     "viewsOfPhone": MessageLookupByLibrary.simpleMessage("Phone views"),
+    "wantToBuyBudget": MessageLookupByLibrary.simpleMessage("Budget"),
+    "wantToBuyCreateCta": MessageLookupByLibrary.simpleMessage(
+      "Post a request",
+    ),
+    "wantToBuyEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Post what you need — shops and sellers will reply with offers.",
+    ),
+    "wantToBuyEmptyTitle": MessageLookupByLibrary.simpleMessage(
+      "No requests yet",
+    ),
+    "wantToBuyFeedTitle": MessageLookupByLibrary.simpleMessage(
+      "Buyer requests",
+    ),
+    "wantToBuyOffers": m27,
+    "wantToBuyRequestBadge": MessageLookupByLibrary.simpleMessage("Request"),
+    "wantToBuyRequestsCount": m28,
+    "wantToBuyRespond": MessageLookupByLibrary.simpleMessage("Make offer"),
+    "wantToBuySearchHint": MessageLookupByLibrary.simpleMessage(
+      "Part, car or city…",
+    ),
+    "wantToBuyStep1": MessageLookupByLibrary.simpleMessage("Request"),
+    "wantToBuyStep2": MessageLookupByLibrary.simpleMessage("Offers"),
+    "wantToBuyStep3": MessageLookupByLibrary.simpleMessage("Deal"),
+    "wantToBuySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Can\'t find the part you need? Leave a request — sellers will contact you.",
+    ),
     "whatDoYouWantSell": MessageLookupByLibrary.simpleMessage(
       "What do you want to sell?",
     ),
     "withDiscount": MessageLookupByLibrary.simpleMessage("With discount"),
     "workingTime": MessageLookupByLibrary.simpleMessage("Working time"),
-    "workshopAbout": MessageLookupByLibrary.simpleMessage("About"),
+    "workshopAbout": MessageLookupByLibrary.simpleMessage(
+      "About the auto service",
+    ),
     "workshopDeleted": MessageLookupByLibrary.simpleMessage(
       "Workshop deleted successfully",
     ),
@@ -1494,15 +1591,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "workshopOnRequest": MessageLookupByLibrary.simpleMessage("On request"),
     "workshopOpenNow": MessageLookupByLibrary.simpleMessage("Open now"),
-    "workshopOwnerReply": m23,
+    "workshopOwnerReply": m29,
     "workshopPopular": MessageLookupByLibrary.simpleMessage("Popular"),
-    "workshopPriceFrom": m24,
+    "workshopPriceFrom": m30,
     "workshopScreenSubtitle": MessageLookupByLibrary.simpleMessage(
       "Trusted auto businesses near you",
     ),
     "workshopScreenTitle": MessageLookupByLibrary.simpleMessage("Workshops"),
     "workshopSearchResults": MessageLookupByLibrary.simpleMessage(
       "Search results",
+    ),
+    "workshopServiceTypes": MessageLookupByLibrary.simpleMessage(
+      "Service types",
     ),
     "workshopStatusClosed": MessageLookupByLibrary.simpleMessage("Closed"),
     "workshopStatusOpen": MessageLookupByLibrary.simpleMessage("Open"),

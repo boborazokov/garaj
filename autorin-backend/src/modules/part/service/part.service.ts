@@ -15,6 +15,7 @@ import { FileUpload } from 'graphql-upload-ts';
 import { MinioService } from 'src/utils/minio';
 import { ContextType } from 'src/auth/interfaces';
 import { assertAuthenticated } from 'src/auth/utils/authenticated-context';
+import { isAdminRole, ownerScope } from 'src/auth/utils/admin-scope';
 import { POPULATIONS } from 'src/constants/populations.constants';
 import { ViewService } from 'src/modules/view/service';
 import { ViewTargetTypeEnum } from 'src/modules/view/enums';
@@ -58,7 +59,18 @@ export class PartService {
       ...plain,
       isPromoted: plain.isPromoted === true,
       promotionPriority: (plain.promotionPriority as number) ?? 0,
+      viewsCount: Number(plain.viewsCount ?? 0),
     } as Part;
+  }
+
+  /** `Part.seller` is non-null in GraphQL; drop orphans (deleted users). */
+  private hasResolvedSeller(part: Part): boolean {
+    const seller = part?.seller as unknown;
+    if (seller == null) return false;
+    if (seller instanceof Types.ObjectId) return false;
+    if (typeof seller === 'string') return false;
+    if (typeof seller !== 'object') return false;
+    return Boolean((seller as { _id?: unknown })._id);
   }
 
   async uploadPartImages(
@@ -116,7 +128,30 @@ export class PartService {
     if (status === ItemStatusEnum.ACTIVE) {
       void this.partIndexService.indexPartById(created._id);
     }
-    return this.partForGraphql(created);
+    const populated = await this.partModel
+      .findById(created._id)
+      .populate([...POPULATIONS.part, ...POPULATIONS.item]);
+    return this.partForGraphql(populated ?? created);
+  }
+
+  /** While review-before-publish is off, held listings go live. */
+  async publishListingsWithoutReview(): Promise<number> {
+    if (await this.appSettingsService.isProductModerationEnabled()) return 0;
+    const result = await this.partModel.updateMany(
+      {
+        status: {
+          $in: [ItemStatusEnum.PENDING_MODERATION, ItemStatusEnum.ARCHIVED],
+        },
+      },
+      {
+        $set: {
+          status: ItemStatusEnum.ACTIVE,
+          activeUntil: dayjs().add(1, 'month').toDate(),
+        },
+        $unset: { archivedAt: '' },
+      },
+    );
+    return result.modifiedCount ?? 0;
   }
 
   async updatePartById(
@@ -142,7 +177,7 @@ export class PartService {
     }
 
     const updatedPart = await this.partModel.findOneAndUpdate(
-      { _id: partId, seller: new Types.ObjectId(userId) },
+      { _id: partId, ...ownerScope(context, 'seller', new Types.ObjectId(userId)) },
       { $set: updateData },
       { new: true },
     );
@@ -159,7 +194,7 @@ export class PartService {
     const { userId } = assertAuthenticated(context);
     const deletedPart = await this.partModel.findOneAndDelete({
       _id: partId,
-      seller: new Types.ObjectId(userId),
+      ...ownerScope(context, 'seller', new Types.ObjectId(userId)),
     });
 
     if (!deletedPart) {
@@ -190,11 +225,20 @@ export class PartService {
     const isOwner =
       viewerId && foundPart.seller?.toString() === viewerId.toString();
 
-    if (!isOwner && foundPart.status !== ItemStatusEnum.ACTIVE) {
+    if (!isOwner && !isAdminRole(context) && foundPart.status !== ItemStatusEnum.ACTIVE) {
       throw new BadRequestException('Part not found');
     }
 
-    if (viewerId) {
+    if (!isOwner) {
+      const current = Number(foundPart.viewsCount ?? 0);
+      foundPart.viewsCount = current + 1;
+      await this.partModel.updateOne(
+        { _id: foundPart._id },
+        { $inc: { viewsCount: 1 } },
+      );
+    }
+
+    if (viewerId && !isOwner) {
       await this.viewService.incrementViewsCount(
         ViewTargetTypeEnum.PART,
         foundPart._id,
@@ -264,7 +308,8 @@ export class PartService {
     }
 
     if (search) {
-      const searchRegex = new RegExp(search, 'i');
+      const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const searchRegex = new RegExp(escaped, 'i');
       queryFilter.$or = [{ name: searchRegex }, { description: searchRegex }];
     }
 
@@ -299,7 +344,9 @@ export class PartService {
         },
       );
       return {
-        payload: docs.map((d) => this.partForGraphql(d)),
+        payload: docs
+          .map((d) => this.partForGraphql(d))
+          .filter((d) => this.hasResolvedSeller(d)),
         ...paginationResult,
       };
     }
@@ -312,6 +359,26 @@ export class PartService {
     const limit = pagination?.limit ?? 10;
 
     const matchStage: PipelineStage = { $match: queryFilter as Record<string, unknown> };
+
+    // Resolve seller before pagination so orphaned parts (deleted users)
+    // never reach GraphQL (`Part.seller` is non-null).
+    const resolveSellerStages: PipelineStage[] = [
+      {
+        $lookup: {
+          from: COLLECTIONS.USERS,
+          localField: 'seller',
+          foreignField: '_id',
+          as: '_sellerArr',
+        },
+      },
+      { $match: { '_sellerArr.0': { $exists: true } } },
+      {
+        $addFields: {
+          seller: { $arrayElemAt: ['$_sellerArr', 0] },
+        },
+      },
+      { $project: { _sellerArr: 0 } },
+    ];
 
     const addRankStage: PipelineStage = {
       $addFields: {
@@ -359,15 +426,6 @@ export class PartService {
           { $limit: limit },
           {
             $lookup: {
-              from: COLLECTIONS.USERS,
-              localField: 'seller',
-              foreignField: '_id',
-              as: 'seller',
-            },
-          },
-          { $unwind: { path: '$seller', preserveNullAndEmptyArrays: true } },
-          {
-            $lookup: {
               from: COLLECTIONS.CATEGORIES,
               localField: 'category',
               foreignField: '_id',
@@ -387,7 +445,14 @@ export class PartService {
     };
 
     const [result] = await this.partModel
-      .aggregate([matchStage, addRankStage, rankStage, sortStage, facetStage])
+      .aggregate([
+        matchStage,
+        ...resolveSellerStages,
+        addRankStage,
+        rankStage,
+        sortStage,
+        facetStage,
+      ])
       .exec();
 
     const totalDocs = result?.meta?.[0]?.totalDocs ?? 0;
@@ -396,7 +461,9 @@ export class PartService {
     const hasPrevPage = page > 1;
 
     return {
-      payload: (result?.payload ?? []).map((d) => this.partForGraphql(d)),
+      payload: (result?.payload ?? [])
+        .map((d) => this.partForGraphql(d))
+        .filter((d) => this.hasResolvedSeller(d)),
       totalDocs,
       limit,
       page,
@@ -411,7 +478,7 @@ export class PartService {
   async restorePartById({ partId }: GetPartByIdArgs, context: ContextType) {
     const { userId } = assertAuthenticated(context);
     const restoredPart = await this.partModel.findOneAndUpdate(
-      { _id: partId, seller: new Types.ObjectId(userId) },
+      { _id: partId, ...ownerScope(context, 'seller', new Types.ObjectId(userId)) },
       {
         $set: {
           status: ItemStatusEnum.ACTIVE,
@@ -435,7 +502,7 @@ export class PartService {
     const { userId } = assertAuthenticated(context);
 
     const promoted = await this.partModel.findOneAndUpdate(
-      { _id: partId, seller: new Types.ObjectId(userId) },
+      { _id: partId, ...ownerScope(context, 'seller', new Types.ObjectId(userId)) },
       { $set: buildPromotionUpdate(plan) },
       { new: true },
     );

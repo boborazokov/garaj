@@ -74,6 +74,7 @@ class PhotosStep extends StatelessWidget {
           ReorderableListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            buildDefaultDragHandles: false,
             itemCount: photos.length,
             onReorder: (oldIndex, newIndex) {
               HapticFeedback.selectionClick();
@@ -85,6 +86,7 @@ class PhotosStep extends StatelessWidget {
               final photo = photos[index];
               return _PhotoTile(
                 key: ValueKey(photo.id),
+                index: index,
                 photo: photo,
                 isCover: index == 0,
                 onRemove: () => context.read<CreateProductBloc>().add(
@@ -163,11 +165,13 @@ class _UploadZone extends StatelessWidget {
 class _PhotoTile extends StatelessWidget {
   const _PhotoTile({
     super.key,
+    required this.index,
     required this.photo,
     required this.isCover,
     required this.onRemove,
   });
 
+  final int index;
   final ProductPhoto photo;
   final bool isCover;
   final VoidCallback onRemove;
@@ -219,14 +223,21 @@ class _PhotoTile extends StatelessWidget {
                     const Spacer(),
                     Row(
                       children: [
-                        Icon(LucideIcons.gripVertical,
-                            size: 18, color: colors.textMuted),
-                        const SizedBox(width: 8),
+                        ReorderableDragStartListener(
+                          index: index,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Icon(LucideIcons.gripVertical,
+                                size: 18, color: colors.textMuted),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
                         Text(s.createProductDragReorder,
                             style: TextStyle(
                                 fontSize: 12, color: colors.textMuted)),
                         const Spacer(),
                         IconButton(
+                          tooltip: s.delete,
                           onPressed: onRemove,
                           icon: Icon(LucideIcons.trash2, color: colors.danger),
                         ),

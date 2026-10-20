@@ -26,9 +26,12 @@ class ProfileScreen extends StatelessWidget {
     required PendingAction pending,
     required VoidCallback onAuthed,
   }) async {
+    final alreadyAuthed = AuthGuard.isAuthenticated(context);
     final ok = await AuthGuard.requireAuth(context, pending: pending);
     if (!ok || !context.mounted) return;
-    if (AuthGuard.isAuthenticated(context)) onAuthed();
+    if (!AuthGuard.isAuthenticated(context)) return;
+    // Fresh login already replayed [pending]; only navigate if already signed in.
+    if (alreadyAuthed) onAuthed();
   }
 
   @override
@@ -41,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.background,
-      body: SafeArea(
+      body: AppSafeArea(
         bottom: false,
         child: ListView(
           padding: EdgeInsets.fromLTRB(

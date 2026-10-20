@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useQuery } from '@apollo/client/react'
-import { ADMIN_LIST_ORDERS } from '../graphql/operations'
+import { useMutation, useQuery } from '@apollo/client/react'
+import { ADMIN_LIST_ORDERS, CLOSE_ORDER, DELETE_ORDER } from '../graphql/operations'
 import type { PaginatedOrders } from '../types'
 import { Pagination } from './components/Pagination'
 
@@ -18,7 +18,20 @@ export function AdminOrdersPage() {
     },
   )
 
+  const [closeOrder] = useMutation(CLOSE_ORDER)
+  const [removeOrder] = useMutation(DELETE_ORDER)
   const result = data?.adminListOrders
+
+  async function onClose(id: string) {
+    await closeOrder({ variables: { orderId: id } })
+    refetch()
+  }
+
+  async function onDelete(id: string, title: string) {
+    if (!window.confirm(`Удалить заявку «${title}»?`)) return
+    await removeOrder({ variables: { orderId: id } })
+    refetch()
+  }
 
   return (
     <div className="space-y-6">
@@ -50,6 +63,7 @@ export function AdminOrdersPage() {
               <th className="p-3">Бюджет</th>
               <th className="p-3">Статус</th>
               <th className="p-3">Дата</th>
+              <th className="p-3"></th>
             </tr>
           </thead>
           <tbody>
@@ -84,6 +98,26 @@ export function AdminOrdersPage() {
                   {order.createdAt
                     ? new Date(order.createdAt).toLocaleDateString('ru-RU')
                     : '—'}
+                </td>
+                <td className="p-3">
+                  <div className="flex gap-3">
+                    {order.status === 'ACTIVE' && (
+                      <button
+                        type="button"
+                        onClick={() => onClose(order._id)}
+                        className="text-amber-400 hover:underline"
+                      >
+                        Закрыть
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => onDelete(order._id, order.title)}
+                      className="text-red-400 hover:underline"
+                    >
+                      Удалить
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

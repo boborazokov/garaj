@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 
 class CustomDropdownField<T> extends FormField<T> {
   CustomDropdownField({
@@ -29,7 +30,7 @@ class CustomDropdownField<T> extends FormField<T> {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
                 builder: (context) {
-                  return SafeArea(
+                  return AppSafeArea(
                     child: ListView.separated(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shrinkWrap: true,

@@ -157,84 +157,111 @@ class OrderPhotosPicker extends StatelessWidget {
 
 /// Thumbnail for list cards.
 class OrderCardThumbnail extends StatelessWidget {
-  const OrderCardThumbnail({super.key, required this.imagePath});
+  const OrderCardThumbnail({
+    super.key,
+    required this.imagePath,
+    this.width = 76,
+    this.height = 76,
+  });
 
   final String imagePath;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: AppRadius.rL,
       child: SizedBox(
-        width: 76,
-        height: 76,
+        width: width,
+        height: height,
         child: _OrderImage(path: imagePath, fit: BoxFit.cover),
       ),
     );
   }
 }
 
-/// Horizontal gallery for order detail.
-class OrderDetailGallery extends StatelessWidget {
-  const OrderDetailGallery({super.key, required this.images});
+/// Full-bleed gallery for order detail (page dots + counter).
+class OrderDetailGallery extends StatefulWidget {
+  const OrderDetailGallery({
+    super.key,
+    required this.images,
+    this.height = 280,
+  });
 
   final List<String> images;
+  final double height;
+
+  @override
+  State<OrderDetailGallery> createState() => _OrderDetailGalleryState();
+}
+
+class _OrderDetailGalleryState extends State<OrderDetailGallery> {
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
+    final images = widget.images;
     if (images.isEmpty) return const SizedBox.shrink();
 
-    if (images.length == 1) {
-      return ClipRRect(
-        borderRadius: AppRadius.rL,
-        child: AspectRatio(
-          aspectRatio: 16 / 9,
-          child: _OrderImage(path: images.first, fit: BoxFit.cover),
-        ),
-      );
-    }
-
     return SizedBox(
-      height: 200,
-      child: PageView.builder(
-        itemCount: images.length,
-        controller: PageController(viewportFraction: 0.92),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: ClipRRect(
-              borderRadius: AppRadius.rL,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  _OrderImage(path: images[index], fit: BoxFit.cover),
-                  Positioned(
-                    right: 10,
-                    bottom: 10,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: AppRadius.rM,
-                      ),
-                      child: Text(
-                        '${index + 1}/${images.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+      height: widget.height,
+      width: double.infinity,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          PageView.builder(
+            itemCount: images.length,
+            onPageChanged: (i) => setState(() => _index = i),
+            itemBuilder: (context, index) {
+              return _OrderImage(path: images[index], fit: BoxFit.cover);
+            },
+          ),
+          if (images.length > 1) ...[
+            Positioned(
+              right: 12,
+              bottom: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.55),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '${_index + 1}/${images.length}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
                   ),
-                ],
+                ),
               ),
             ),
-          );
-        },
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 12,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(images.length, (i) {
+                  final active = i == _index;
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 180),
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    width: active ? 16 : 6,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: active
+                          ? Colors.white
+                          : Colors.white.withValues(alpha: 0.45),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
@@ -251,6 +278,18 @@ class _OrderImage extends StatelessWidget {
     if (isLocalImagePath(path)) {
       return Image.file(File(path), fit: fit);
     }
-    return ImageCacheNetwork(url: path, fit: fit);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final w = constraints.maxWidth.isFinite ? constraints.maxWidth : null;
+        final h =
+            constraints.maxHeight.isFinite ? constraints.maxHeight : null;
+        return ImageCacheNetwork(
+          url: path,
+          fit: fit,
+          width: w,
+          height: h,
+        );
+      },
+    );
   }
 }

@@ -13,6 +13,7 @@ import { FileUpload } from 'graphql-upload-ts';
 import { MinioService } from 'src/utils/minio';
 import { ContextType } from 'src/auth/interfaces';
 import { assertAuthenticated } from 'src/auth/utils/authenticated-context';
+import { ownerScope } from 'src/auth/utils/admin-scope';
 import { POPULATIONS } from 'src/constants/populations.constants';
 import { ViewService } from 'src/modules/view/service';
 import { ViewTargetTypeEnum } from 'src/modules/view/enums';
@@ -299,7 +300,7 @@ export class WorkshopService implements OnModuleInit {
     }
 
     const updatedWorkshop = await this.workshopModel.findOneAndUpdate(
-      { _id: workshopId, owner: new Types.ObjectId(userId) },
+      { _id: workshopId, ...ownerScope(context, 'owner', new Types.ObjectId(userId)) },
       { $set: updateData },
       { new: true },
     );
@@ -321,7 +322,7 @@ export class WorkshopService implements OnModuleInit {
     const { userId } = assertAuthenticated(context);
     const deletedWorkshop = await this.workshopModel.findOneAndDelete({
       _id: workshopId,
-      owner: new Types.ObjectId(userId),
+      ...ownerScope(context, 'owner', new Types.ObjectId(userId)),
     });
 
     if (!deletedWorkshop) {
@@ -448,7 +449,7 @@ export class WorkshopService implements OnModuleInit {
   ) {
     const { userId } = assertAuthenticated(context);
     const restoredWorkshop = await this.workshopModel.findOneAndUpdate(
-      { _id: workshopId, owner: new Types.ObjectId(userId) },
+      { _id: workshopId, ...ownerScope(context, 'owner', new Types.ObjectId(userId)) },
       {
         $set: {
           status: ItemStatusEnum.ACTIVE,
@@ -471,7 +472,7 @@ export class WorkshopService implements OnModuleInit {
   ) {
     const { userId } = assertAuthenticated(context);
     const promoted = await this.workshopModel.findOneAndUpdate(
-      { _id: workshopId, owner: new Types.ObjectId(userId) },
+      { _id: workshopId, ...ownerScope(context, 'owner', new Types.ObjectId(userId)) },
       { $set: { ...buildPromotionUpdate(plan), premium: true } },
       { new: true },
     );

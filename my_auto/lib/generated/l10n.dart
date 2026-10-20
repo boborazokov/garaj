@@ -254,9 +254,9 @@ class S {
     return Intl.message('Profile', name: 'profile', desc: '', args: []);
   }
 
-  /// `Services`
+  /// `Auto services`
   String get services {
-    return Intl.message('Services', name: 'services', desc: '', args: []);
+    return Intl.message('Auto services', name: 'services', desc: '', args: []);
   }
 
   /// `Add`
@@ -299,6 +299,131 @@ class S {
     return Intl.message('Orders', name: 'orders', desc: '', args: []);
   }
 
+  /// `I need`
+  String get navWantToBuy {
+    return Intl.message('I need', name: 'navWantToBuy', desc: '', args: []);
+  }
+
+  /// `Can't find the part you need? Leave a request — sellers will contact you.`
+  String get wantToBuySubtitle {
+    return Intl.message(
+      'Can\'t find the part you need? Leave a request — sellers will contact you.',
+      name: 'wantToBuySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Part, car or city…`
+  String get wantToBuySearchHint {
+    return Intl.message(
+      'Part, car or city…',
+      name: 'wantToBuySearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Post a request`
+  String get wantToBuyCreateCta {
+    return Intl.message(
+      'Post a request',
+      name: 'wantToBuyCreateCta',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} open`
+  String wantToBuyRequestsCount(int count) {
+    return Intl.message(
+      '$count open',
+      name: 'wantToBuyRequestsCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Request`
+  String get wantToBuyRequestBadge {
+    return Intl.message(
+      'Request',
+      name: 'wantToBuyRequestBadge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Budget`
+  String get wantToBuyBudget {
+    return Intl.message('Budget', name: 'wantToBuyBudget', desc: '', args: []);
+  }
+
+  /// `{count} offers`
+  String wantToBuyOffers(int count) {
+    return Intl.message(
+      '$count offers',
+      name: 'wantToBuyOffers',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Request`
+  String get wantToBuyStep1 {
+    return Intl.message('Request', name: 'wantToBuyStep1', desc: '', args: []);
+  }
+
+  /// `Offers`
+  String get wantToBuyStep2 {
+    return Intl.message('Offers', name: 'wantToBuyStep2', desc: '', args: []);
+  }
+
+  /// `Deal`
+  String get wantToBuyStep3 {
+    return Intl.message('Deal', name: 'wantToBuyStep3', desc: '', args: []);
+  }
+
+  /// `Buyer requests`
+  String get wantToBuyFeedTitle {
+    return Intl.message(
+      'Buyer requests',
+      name: 'wantToBuyFeedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make offer`
+  String get wantToBuyRespond {
+    return Intl.message(
+      'Make offer',
+      name: 'wantToBuyRespond',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No requests yet`
+  String get wantToBuyEmptyTitle {
+    return Intl.message(
+      'No requests yet',
+      name: 'wantToBuyEmptyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Post what you need — shops and sellers will reply with offers.`
+  String get wantToBuyEmptyHint {
+    return Intl.message(
+      'Post what you need — shops and sellers will reply with offers.',
+      name: 'wantToBuyEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Good Morning`
   String get morning {
     return Intl.message('Good Morning', name: 'morning', desc: '', args: []);
@@ -334,9 +459,9 @@ class S {
     return Intl.message('See All', name: 'seeAll', desc: '', args: []);
   }
 
-  /// `Top Deals`
+  /// `Parts & more`
   String get topDeals {
-    return Intl.message('Top Deals', name: 'topDeals', desc: '', args: []);
+    return Intl.message('Parts & more', name: 'topDeals', desc: '', args: []);
   }
 
   /// `What do you want to sell?`
@@ -459,6 +584,16 @@ class S {
     );
   }
 
+  /// `Store, banner and listings`
+  String get profileSubtitleMyStore {
+    return Intl.message(
+      'Store, banner and listings',
+      name: 'profileSubtitleMyStore',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Listings & spare parts`
   String get profileSubtitleMyProducts {
     return Intl.message(
@@ -484,6 +619,136 @@ class S {
     return Intl.message(
       'Recent orders',
       name: 'profileSubtitleMyOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ads`
+  String get sellerMatchingOrdersTitle {
+    return Intl.message(
+      'Ads',
+      name: 'sellerMatchingOrdersTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Matching buyer requests and their status`
+  String get sellerMatchingOrdersSubtitle {
+    return Intl.message(
+      'Matching buyer requests and their status',
+      name: 'sellerMatchingOrdersSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All matching requests`
+  String get sellerMatchingOrdersAll {
+    return Intl.message(
+      'All matching requests',
+      name: 'sellerMatchingOrdersAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By your categories`
+  String get sellerMatchingOrdersByCategory {
+    return Intl.message(
+      'By your categories',
+      name: 'sellerMatchingOrdersByCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} active requests for you`
+  String sellerMatchingOrdersTotalHint(int count) {
+    return Intl.message(
+      '$count active requests for you',
+      name: 'sellerMatchingOrdersTotalHint',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count} of your listings`
+  String sellerMatchingOrdersListingsHint(int count) {
+    return Intl.message(
+      '$count of your listings',
+      name: 'sellerMatchingOrdersListingsHint',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `No listings yet`
+  String get sellerMatchingOrdersEmptyListings {
+    return Intl.message(
+      'No listings yet',
+      name: 'sellerMatchingOrdersEmptyListings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add products in categories you sell — matching buyer requests will appear here.`
+  String get sellerMatchingOrdersEmptyListingsHint {
+    return Intl.message(
+      'Add products in categories you sell — matching buyer requests will appear here.',
+      name: 'sellerMatchingOrdersEmptyListingsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get sellerMatchingOrdersStatusActive {
+    return Intl.message(
+      'Active',
+      name: 'sellerMatchingOrdersStatusActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closed`
+  String get sellerMatchingOrdersStatusClosed {
+    return Intl.message(
+      'Closed',
+      name: 'sellerMatchingOrdersStatusClosed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} open`
+  String sellerMatchingOrdersOpenCount(int count) {
+    return Intl.message(
+      '$count open',
+      name: 'sellerMatchingOrdersOpenCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `New matching request`
+  String get notificationOrderMatchedTitle {
+    return Intl.message(
+      'New matching request',
+      name: 'notificationOrderMatchedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A buyer posted a request in your category.`
+  String get notificationOrderMatchedBody {
+    return Intl.message(
+      'A buyer posted a request in your category.',
+      name: 'notificationOrderMatchedBody',
       desc: '',
       args: [],
     );
@@ -2519,9 +2784,19 @@ class S {
     );
   }
 
-  /// `Top`
+  /// `Promoted`
   String get promotedTop {
-    return Intl.message('Top', name: 'promotedTop', desc: '', args: []);
+    return Intl.message('Promoted', name: 'promotedTop', desc: '', args: []);
+  }
+
+  /// `Boost / move to top`
+  String get promoteToTop {
+    return Intl.message(
+      'Boost / move to top',
+      name: 'promoteToTop',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `TOP`
@@ -3739,6 +4014,16 @@ class S {
     );
   }
 
+  /// `Clear`
+  String get searchHubClearRecent {
+    return Intl.message(
+      'Clear',
+      name: 'searchHubClearRecent',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Trending`
   String get searchHubTrending {
     return Intl.message(
@@ -3759,11 +4044,81 @@ class S {
     );
   }
 
+  /// `Explore`
+  String get searchHubExploreTitle {
+    return Intl.message(
+      'Explore',
+      name: 'searchHubExploreTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse all categories`
+  String get searchHubBrowseAllCategories {
+    return Intl.message(
+      'Browse all categories',
+      name: 'searchHubBrowseAllCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Car brands`
+  String get searchHubCarBrands {
+    return Intl.message(
+      'Car brands',
+      name: 'searchHubCarBrands',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What are you looking for?`
+  String get searchHubExploreHint {
+    return Intl.message(
+      'What are you looking for?',
+      name: 'searchHubExploreHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parts catalog`
+  String get searchHubQuickParts {
+    return Intl.message(
+      'Parts catalog',
+      name: 'searchHubQuickParts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nearby on map`
+  String get searchHubQuickNearby {
+    return Intl.message(
+      'Nearby on map',
+      name: 'searchHubQuickNearby',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Start typing to search listings, workshops, orders, and sellers.`
   String get searchHubAwaitingTyping {
     return Intl.message(
       'Start typing to search listings, workshops, orders, and sellers.',
       name: 'searchHubAwaitingTyping',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Searching…`
+  String get searchHubSearching {
+    return Intl.message(
+      'Searching…',
+      name: 'searchHubSearching',
       desc: '',
       args: [],
     );
@@ -4734,9 +5089,54 @@ class S {
     );
   }
 
-  /// `About`
+  /// `About the auto service`
   String get workshopAbout {
-    return Intl.message('About', name: 'workshopAbout', desc: '', args: []);
+    return Intl.message(
+      'About the auto service',
+      name: 'workshopAbout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service types`
+  String get workshopServiceTypes {
+    return Intl.message(
+      'Service types',
+      name: 'workshopServiceTypes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Similar auto services`
+  String get similarWorkshops {
+    return Intl.message(
+      'Similar auto services',
+      name: 'similarWorkshops',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Similar requests`
+  String get similarOrders {
+    return Intl.message(
+      'Similar requests',
+      name: 'similarOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count}`
+  String viewsCountLabel(int count) {
+    return Intl.message(
+      '$count',
+      name: 'viewsCountLabel',
+      desc: '',
+      args: [count],
+    );
   }
 
   /// `On request`
@@ -5633,10 +6033,10 @@ class S {
     );
   }
 
-  /// `Follow to get notified when they list new items.`
+  /// `No products listed yet.`
   String get sellerStoreEmptyHint {
     return Intl.message(
-      'Follow to get notified when they list new items.',
+      'No products listed yet.',
       name: 'sellerStoreEmptyHint',
       desc: '',
       args: [],

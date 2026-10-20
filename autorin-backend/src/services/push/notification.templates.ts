@@ -35,6 +35,24 @@ export const NotificationTemplates = {
     return { title, body };
   },
 
+  newOrderMatched(
+    orderTitle: string,
+    categoryName?: string,
+    budget?: number,
+    currency?: string,
+  ): PushBody {
+    const cat = (categoryName || '').trim();
+    const title = cat.length > 0 ? `New request · ${cat.slice(0, 40)}` : 'New matching request';
+    const money =
+      budget != null && budget > 0
+        ? ` · ${budget}${currency ? ` ${currency}` : ''}`
+        : '';
+    return {
+      title,
+      body: `"${(orderTitle || 'Buyer request').slice(0, 90)}"${money}`,
+    };
+  },
+
   favoriteMatched(partName: string): PushBody {
     return {
       title: 'A match for your favorite',
@@ -53,14 +71,6 @@ export const NotificationTemplates = {
     return {
       title: `${sellerName} replied`,
       body: `About "${partName.slice(0, 100)}"`,
-    };
-  },
-
-  newFollower(followerName: string): PushBody {
-    const name = (followerName || 'Someone').trim();
-    return {
-      title: 'New follower',
-      body: `${name} started following your store.`,
     };
   },
 

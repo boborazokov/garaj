@@ -9,50 +9,132 @@ bool advertisementLinkHasTarget(String rawLink) {
   return rawLink.trim().isNotEmpty;
 }
 
+/// Known first path segments that map to in-app screens.
+const _kInAppHeads = {
+  'chat',
+  'chats',
+  'inbox',
+  'notifications',
+  'product',
+  'part',
+  'productDetailScreen',
+  'workshop',
+  'workshopDetailScreen',
+  'service',
+  'services',
+  'serviceDetail',
+  'servicesHub',
+  'seller',
+  'store',
+  'sellerProfile',
+  'search',
+  'favorites',
+  'map',
+  'nearbyMap',
+  'categoriesScreen',
+  'listOfItems',
+  'orders',
+  'orderDetail',
+  'ordersList',
+  'createOrder',
+  'myProducts',
+  'myOrders',
+  'myServices',
+  'editProfile',
+  'edit_profile',
+  'addProduct',
+  'contactUs',
+  'privacyPolicy',
+  'storeAnalytics',
+};
+
+/// Hosts whose paths may be resolved as in-app deep links.
+/// Everything else on http(s) opens in the browser / external app.
+const _kAppHosts = {
+  'garage.uz',
+  'www.garage.uz',
+  'autorin.uz',
+  'www.autorin.uz',
+  'app.garage.uz',
+  'app.autorin.uz',
+};
+
 /// Opens any advertisement link format used in admin:
-/// - in-app routes: `/chat/ID`, `/productDetailScreen`, `/favorites`
-/// - site paths: `https://garage.uz/store/handle`, `/seller/ID`
-/// - deep links: `autorin://product/ID`
-/// - external: `https://…`, `www.…`, `mailto:`, `tel:`
+/// - in-app routes: `/chat/ID`, `/product/ID`, `/favorites`
+/// - app deep links: `autorin://product/ID`
+/// - websites: `https://instagram.com/…`, `https://t.me/…`, `www.example.com`
+/// - other apps: `tg://…`, `whatsapp://…`, `mailto:`, `tel:`
 ///
-/// Used by every [AdBanner] in the app — one handler for all surfaces.
+/// Unknown http(s) paths are **never** pushed into GoRouter — they open externally.
 Future<void> openAdvertisementLink(BuildContext context, String rawLink) async {
   final normalized = _normalizeLink(rawLink);
   if (normalized == null) return;
-
   if (!context.mounted) return;
 
-  // Pure in-app path.
+  // Pure in-app relative path: `/favorites`, `/product/abc`
   if (normalized.startsWith('/')) {
-    if (_openInAppPath(context, normalized, const {})) return;
-    context.push(normalized);
+    if (_isKnownInAppPath(normalized) &&
+        _openInAppPath(context, normalized, const {})) {
+      return;
+    }
+    // Unknown `/…` — do not route inside the app.
+    if (kDebugMode) {
+      debugPrint('[AdLink] unknown in-app path, ignored: $normalized');
+    }
     return;
   }
 
   final uri = _parseUri(normalized);
   if (uri == null) return;
 
-  if (uri.scheme == 'autorin') {
+  final scheme = uri.scheme.toLowerCase();
+
+  // Custom app scheme for this product.
+  if (scheme == 'autorin') {
     if (!context.mounted) return;
-    _openAutorinUri(context, uri);
+    final path = uri.path.isNotEmpty ? uri.path : '/${uri.host}';
+    _openInAppPath(context, path.startsWith('/') ? path : '/$path', uri.queryParameters);
     return;
   }
 
-  if (uri.scheme == 'mailto' || uri.scheme == 'tel') {
+  // Direct OS handlers / other apps.
+  if (scheme == 'mailto' ||
+      scheme == 'tel' ||
+      scheme == 'sms' ||
+      scheme == 'tg' ||
+      scheme == 'telegram' ||
+      scheme == 'whatsapp' ||
+      scheme == 'viber' ||
+      scheme == 'instagram' ||
+      scheme == 'fb' ||
+      scheme == 'facebook' ||
+      scheme == 'market' ||
+      scheme == 'intent' ||
+      scheme == 'geo') {
     await _launchExternal(uri);
     return;
   }
 
-  if (uri.scheme == 'http' || uri.scheme == 'https') {
-    final path = uri.path;
-    if (path.isNotEmpty && path != '/') {
+  if (scheme == 'http' || scheme == 'https') {
+    // Only try in-app navigation for our own hosts + known route paths.
+    // External sites (Instagram, Telegram web, Google, partner shops, …)
+    // always open in the browser / external app.
+    final tryInApp = _isAppHost(uri.host) && _isKnownInAppPath(uri.path);
+    if (tryInApp) {
       if (!context.mounted) return;
-      if (_openInAppPath(context, path, uri.queryParameters)) return;
+      if (_openInAppPath(context, uri.path, uri.queryParameters)) return;
     }
     await _launchExternal(uri);
     return;
   }
 
+  // Empty / unknown scheme that still looks like a URL → https.
+  if (scheme.isEmpty) {
+    await _launchExternal(Uri.parse('https://$normalized'));
+    return;
+  }
+
+  // Any other custom scheme (third-party apps).
   await _launchExternal(uri);
 }
 
@@ -60,31 +142,42 @@ String? _normalizeLink(String raw) {
   var link = raw.trim();
   if (link.isEmpty) return null;
 
-  // `chat/abc` → `/chat/abc`
+  // `chat/abc` → `/chat/abc` (in-app shorthand only)
   if (!link.contains('://') &&
       !link.startsWith('/') &&
-      _looksLikeRelativePath(link)) {
+      _looksLikeInAppShorthand(link)) {
     link = '/$link';
   }
 
   return link;
 }
 
-bool _looksLikeRelativePath(String link) {
-  if (link.contains(' ')) return false;
-  return link.contains('/') ||
-      link.startsWith('chat') ||
-      link.startsWith('product') ||
-      link.startsWith('seller') ||
-      link.startsWith('store') ||
-      link.startsWith('workshop') ||
-      link.startsWith('service') ||
-      link.startsWith('orders');
+bool _looksLikeInAppShorthand(String link) {
+  if (link.contains(' ') || link.contains('.')) return false;
+  final head = link.split('/').firstWhere((s) => s.isNotEmpty, orElse: () => '');
+  return _kInAppHeads.contains(head);
+}
+
+bool _isAppHost(String host) {
+  final h = host.trim().toLowerCase();
+  if (h.isEmpty) return false;
+  if (_kAppHosts.contains(h)) return true;
+  // localhost / LAN during QA
+  if (h == 'localhost' || h.startsWith('192.168.') || h.startsWith('10.')) {
+    return true;
+  }
+  return false;
+}
+
+bool _isKnownInAppPath(String path) {
+  final segments = path.split('/').where((s) => s.isNotEmpty).toList();
+  if (segments.isEmpty) return false;
+  return _kInAppHeads.contains(segments.first);
 }
 
 Uri? _parseUri(String link) {
   var uri = Uri.tryParse(link);
-  if (uri != null) return uri;
+  if (uri != null && uri.scheme.isNotEmpty) return uri;
 
   if (!link.contains('://')) {
     uri = Uri.tryParse('https://$link');
@@ -105,11 +198,16 @@ Future<void> _launchExternal(Uri uri) async {
   }
 }
 
-void _openAutorinUri(BuildContext context, Uri uri) {
-  final path = uri.path.isNotEmpty ? uri.path : '/${uri.host}';
-  _openInAppPath(context, path, uri.queryParameters);
+String? _resolveId(String? pathId, Map<String, String> query) {
+  if (pathId != null && pathId.trim().isNotEmpty) return pathId.trim();
+  for (final key in ['id', 'partId', 'sellerId', 'workshopId', 'orderId', 'serviceId']) {
+    final v = query[key]?.trim();
+    if (v != null && v.isNotEmpty) return v;
+  }
+  return null;
 }
 
+/// Returns `true` only when navigation inside the Flutter app succeeded.
 bool _openInAppPath(
   BuildContext context,
   String path,
@@ -119,8 +217,8 @@ bool _openInAppPath(
   if (segments.isEmpty) return false;
 
   final head = segments.first;
-  final id = segments.length > 1 ? segments[1] : null;
-  final subId = segments.length > 2 ? segments[2] : null;
+  final pathId = segments.length > 1 ? segments[1] : null;
+  final id = _resolveId(pathId, query);
 
   switch (head) {
     case 'chat':
@@ -141,25 +239,15 @@ bool _openInAppPath(
       return true;
     case 'product':
     case 'part':
-      if (id != null) {
-        context.push(RoutesName.productDetailScreen, extra: id);
-        return true;
-      }
-      return false;
     case 'productDetailScreen':
-      if (id != null) {
-        context.push(RoutesName.productDetailScreen, extra: id);
-        return true;
-      }
-      context.push(RoutesName.productDetailScreen);
+      if (id == null) return false;
+      context.push(RoutesName.productDetailScreen, extra: id);
       return true;
     case 'workshop':
     case 'workshopDetailScreen':
-      if (id != null) {
-        context.push('${RoutesName.workshopDetailScreen}/$id');
-        return true;
-      }
-      return false;
+      if (id == null) return false;
+      context.push('${RoutesName.workshopDetailScreen}/$id');
+      return true;
     case 'service':
     case 'services':
     case 'serviceDetail':
@@ -173,17 +261,10 @@ bool _openInAppPath(
       context.push(RoutesName.servicesHub);
       return true;
     case 'seller':
-      if (id != null) {
-        context.push(RoutesName.sellerProfile, extra: id);
-        return true;
-      }
-      return false;
     case 'store':
-      if (id != null) {
-        context.push(RoutesName.sellerProfile, extra: id);
-        return true;
-      }
-      return false;
+      if (id == null) return false;
+      context.push(RoutesName.sellerProfile, extra: id);
+      return true;
     case 'sellerProfile':
       if (id != null) {
         context.push(RoutesName.sellerProfile, extra: id);
@@ -256,14 +337,7 @@ bool _openInAppPath(
       context.push(RoutesName.storeAnalytics);
       return true;
     default:
-      if (path.startsWith('/')) {
-        context.push(path);
-        return true;
-      }
-      if (subId != null) {
-        context.push('/$head/$id/$subId');
-        return true;
-      }
+      // Never push unknown paths into GoRouter — that caused the banner errors.
       return false;
   }
 }

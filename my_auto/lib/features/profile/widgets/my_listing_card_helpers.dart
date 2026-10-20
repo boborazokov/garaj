@@ -134,14 +134,18 @@ class MyListingPromoteButton extends StatelessWidget {
     super.key,
     required this.label,
     required this.onTap,
+    this.isActive = false,
   });
 
   final String label;
   final VoidCallback? onTap;
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final bg = isActive ? colors.primary : colors.warning;
+    final fg = isActive ? colors.onPrimary : colors.textPrimary;
 
     return Material(
       color: Colors.transparent,
@@ -150,25 +154,25 @@ class MyListingPromoteButton extends StatelessWidget {
         borderRadius: AppRadius.rS,
         child: Ink(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary, colors.primaryHover],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
+            color: bg,
             borderRadius: AppRadius.rS,
-            boxShadow: AppShadows.glow(colors.primary),
+            boxShadow: isActive ? AppShadows.glow(colors.primary) : null,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 11),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(LucideIcons.sparkles, size: 16, color: colors.onPrimary),
+                Icon(
+                  isActive ? LucideIcons.badgeCheck : LucideIcons.sparkles,
+                  size: 16,
+                  color: fg,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   label,
                   style: TextStyle(
-                    color: colors.onPrimary,
+                    color: fg,
                     fontSize: 13,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.3,

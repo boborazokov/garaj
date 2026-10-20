@@ -27,7 +27,7 @@ export function SignInPage() {
   const [error, setError] = useState('')
 
   const [signIn, { loading }] = useLazyQuery<
-    { signIn: { token: string; user: AuthUser } },
+    { signIn: { token: string; refreshToken?: string | null; user: AuthUser } },
     { data: { phone: string; password: string } }
   >(SIGN_IN, { fetchPolicy: 'network-only' })
 
@@ -42,7 +42,7 @@ export function SignInPage() {
         setError('Неверный телефон или пароль')
         return
       }
-      setSession(data.signIn.token, data.signIn.user)
+      setSession(data.signIn.token, data.signIn.user, data.signIn.refreshToken)
       const user = data.signIn.user
       if (isAdmin(user)) {
         navigate(redirect.startsWith('/admin') ? redirect : '/admin')

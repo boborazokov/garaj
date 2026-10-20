@@ -20,11 +20,12 @@ extension ItemStatusEnumX on ItemStatusEnum {
   static ItemStatusEnum fromApiString(String value) {
     switch (value.toUpperCase()) {
       case "ACTIVE":
+      case "PENDING_MODERATION":
         return ItemStatusEnum.active;
       case "ARCHIVED":
         return ItemStatusEnum.archived;
       default:
-        return ItemStatusEnum.archived;
+        return ItemStatusEnum.active;
     }
   }
 }
@@ -58,6 +59,7 @@ class Part {
   final DateTime? promotedUntil;
   final String? promotionPlan;
   final int promotionPriority;
+  final int viewsCount;
 
   Part({
     required this.id,
@@ -85,6 +87,7 @@ class Part {
     this.promotedUntil,
     this.promotionPlan,
     this.promotionPriority = 0,
+    this.viewsCount = 0,
   });
 
   bool get isPromotionActive {
@@ -142,7 +145,8 @@ class Part {
         isPromoted: json['isPromoted'] == true,
         promotedUntil: _parseOptionalDate(json['promotedUntil']),
         promotionPlan: json['promotionPlan']?.toString(),
-        promotionPriority: _toInt(json['promotionPriority']));
+        promotionPriority: _toInt(json['promotionPriority']),
+        viewsCount: _toInt(json['viewsCount']));
   }
 
   Map<String, dynamic> toJson() {
@@ -214,7 +218,6 @@ class Seller {
   final String phone;
   final DateTime createdAt;
   final String? address;
-  final String? username;
   final bool verified;
 
   Seller({
@@ -224,7 +227,6 @@ class Seller {
     required this.createdAt,
     required this.image,
     this.address,
-    this.username,
     this.verified = false,
   });
 
@@ -235,7 +237,6 @@ class Seller {
       phone: json['phone']?.toString() ?? '',
       image: json['image']?.toString() ?? '',
       address: json['address']?.toString(),
-      username: json['username']?.toString(),
       verified: json['verified'] == true,
       createdAt: DateTime.tryParse(json['createdAt']?.toString() ?? '') ??
           DateTime.now(),

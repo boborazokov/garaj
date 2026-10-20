@@ -13,8 +13,6 @@ import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
-import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
 import 'package:my_auto/features/workshop/data/workshops_repository.dart';
 import 'package:my_auto/features/promotion/presentation/promote_workshop_sheet.dart';
@@ -40,6 +38,7 @@ class WorkshopDetailScreen extends StatefulWidget {
 class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
   WorkshopProfile? _workshop;
   List<WorkshopReview> _reviews = [];
+  List<WorkshopProfile> _similar = [];
   bool _loading = true;
   bool _reviewsLoadingMore = false;
   bool _reviewsHasMore = false;
@@ -86,6 +85,19 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
       _loading = false;
     });
     await _loadReviews(reset: true);
+    if (w == null) return;
+    final nearby = await workshopsRepository.nearby(
+      latitude: w.geo?.latitude,
+      longitude: w.geo?.longitude,
+      limit: 12,
+    );
+    if (!mounted) return;
+    setState(() {
+      _similar = nearby
+          .where((e) => e.id != widget.workshopId)
+          .take(8)
+          .toList(growable: false);
+    });
   }
 
   Future<void> _loadReviews({required bool reset}) async {
@@ -145,7 +157,9 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
     if (_loading) {
       return Scaffold(
         backgroundColor: colors.background,
-        body: const Center(child: CircularProgressIndicator.adaptive()),
+        body: const AppSafeArea(
+          child: Center(child: CircularProgressIndicator.adaptive()),
+        ),
       );
     }
 
@@ -153,7 +167,10 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
     if (w == null) {
       return Scaffold(
         appBar: AppBar(),
-        body: Center(child: Text(S.of(context).errorWorkshopNotFound)),
+        body: AppSafeArea(
+          top: false,
+          child: Center(child: Text(S.of(context).errorWorkshopNotFound)),
+        ),
       );
     }
 
@@ -203,13 +220,6 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
                           )
                           .toList(),
                     ),
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: AdBanner(
-              surface: AdSurface.service,
-              height: 130,
-              margin: EdgeInsets.fromLTRB(16, 12, 16, 0),
             ),
           ),
           SliverToBoxAdapter(
@@ -282,25 +292,53 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
                   ),
                   if (w.description.isNotEmpty) ...[
                     const SizedBox(height: 20),
-                    Text(
-                      s.workshopAbout,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: colors.surfaceMuted.withValues(alpha: 0.65),
+                        borderRadius: AppRadius.rL,
+                        border: Border.all(
+                          color: colors.border.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                LucideIcons.info,
+                                size: 18,
+                                color: colors.primary,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                s.workshopAbout,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w800),
+                              ),
+                            ],
                           ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      w.description,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: colors.textSecondary,
-                            height: 1.5,
+                          const SizedBox(height: 10),
+                          Text(
+                            w.description,
+                            style:
+                                Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      color: colors.textSecondary,
+                                      height: 1.55,
+                                    ),
                           ),
+                        ],
+                      ),
                     ),
                   ],
                   if (w.categories.isNotEmpty) ...[
                     const SizedBox(height: 20),
                     Text(
-                      s.services,
+                      s.workshopServiceTypes,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
@@ -546,6 +584,73 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
                               : Text(S.of(context).loadMoreReviews),
                         ),
                       ),
+                  ],
+                  if (_similar.isNotEmpty) ...[
+                    const SizedBox(height: 28),
+                    Text(
+                      S.of(context).similarWorkshops,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w800,
+                          ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      height: 148,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _similar.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 12),
+                        itemBuilder: (context, i) {
+                          final item = _similar[i];
+                          final cover = item.heroImage;
+                          return SizedBox(
+                            width: 148,
+                            child: Material(
+                              color: colors.surface,
+                              borderRadius: AppRadius.rL,
+                              clipBehavior: Clip.antiAlias,
+                              child: InkWell(
+                                onTap: () => context.push(
+                                  '${RoutesName.workshopDetailScreen}/${item.id}',
+                                ),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Expanded(
+                                      child: cover.isEmpty
+                                          ? ColoredBox(
+                                              color: colors.surfaceMuted,
+                                              child: Icon(
+                                                LucideIcons.wrench,
+                                                color: colors.textMuted,
+                                              ),
+                                            )
+                                          : ImageCacheNetwork(
+                                              url: cover,
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Text(
+                                        item.name,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                   SizedBox(height: bottomSafeOffset(context, 76)),
                 ],

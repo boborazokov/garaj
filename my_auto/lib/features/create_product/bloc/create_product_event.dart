@@ -69,6 +69,13 @@ final class CreateProductVehicleUpdated extends CreateProductEvent {
   List<Object?> get props => [vehicle];
 }
 
+final class CreateProductRegionChanged extends CreateProductEvent {
+  const CreateProductRegionChanged(this.region);
+  final String region;
+  @override
+  List<Object?> get props => [region];
+}
+
 final class CreateProductTitleChanged extends CreateProductEvent {
   const CreateProductTitleChanged(this.title);
   final String title;

@@ -1,0 +1,142 @@
+[
+  {
+    "key": "chevrolet",
+    "en": "Chevrolet",
+    "ru": "Chevrolet",
+    "uz": "Chevrolet",
+    "models": ["Cobalt", "Malibu", "Tracker", "Equinox", "Traverse", "Tahoe", "Captiva", "Spark", "Cruze", "Trailblazer", "Onix", "Nexia", "Damas", "Lacetti", "Gentra", "Orlando", "Aveo", "Labo", "Matiz", "Epica"]
+  },
+  {
+    "key": "daewoo",
+    "en": "Daewoo",
+    "ru": "Daewoo",
+    "uz": "Daewoo",
+    "models": ["Nexia", "Matiz", "Damas", "Tico", "Lanos", "Nubira", "Leganza", "Espero", "Gentra", "Labo", "Racer", "LeMans", "Prince", "Super Salon", "Brougham"]
+  },
+  {
+    "key": "byd",
+    "en": "BYD",
+    "ru": "BYD",
+    "uz": "BYD",
+    "models": ["Song Plus", "Han", "Tang", "Yuan Plus", "Seal", "Dolphin", "Qin Plus", "Seagull", "Champion", "Chazor", "Destroyer 05", "e2", "Song Pro", "Sealion 6", "Atto 3"]
+  },
+  {
+    "key": "toyota",
+    "en": "Toyota",
+    "ru": "Toyota",
+    "uz": "Toyota",
+    "models": ["Camry", "Corolla", "Land Cruiser", "Prado", "RAV4", "Highlander", "Hilux", "Yaris", "Avalon", "Fortuner", "Prius", "C-HR", "Alphard", "Sequoia", "Tacoma"]
+  },
+  {
+    "key": "hyundai",
+    "en": "Hyundai",
+    "ru": "Hyundai",
+    "uz": "Hyundai",
+    "models": ["Sonata", "Elantra", "Tucson", "Santa Fe", "Accent", "Palisade", "Creta", "Staria", "Grandeur", "Venue", "Ioniq 5", "Porter", "Solaris", "ix35", "H-1"]
+  },
+  {
+    "key": "kia",
+    "en": "Kia",
+    "ru": "Kia",
+    "uz": "Kia",
+    "models": ["K5", "Sportage", "Sorento", "Rio", "Cerato", "Carnival", "Seltos", "K8", "Soul", "Picanto", "Stinger", "Optima", "Mohave", "EV6", "Telluride"]
+  },
+  {
+    "key": "mercedes-benz",
+    "en": "Mercedes-Benz",
+    "ru": "Mercedes-Benz",
+    "uz": "Mercedes-Benz",
+    "models": ["C-Class", "E-Class", "S-Class", "GLE", "GLS", "GLC", "A-Class", "G-Class", "CLA", "Sprinter", "V-Class", "GLB", "EQE", "CLS", "Maybach"]
+  },
+  {
+    "key": "bmw",
+    "en": "BMW",
+    "ru": "BMW",
+    "uz": "BMW",
+    "models": ["3 Series", "5 Series", "7 Series", "X1", "X3", "X5", "X6", "X7", "1 Series", "4 Series", "X4", "M3", "M5", "i4", "iX"]
+  },
+  {
+    "key": "audi",
+    "en": "Audi",
+    "ru": "Audi",
+    "uz": "Audi",
+    "models": ["A3", "A4", "A6", "A8", "Q3", "Q5", "Q7", "Q8", "A5", "A7", "Q2", "e-tron", "TT", "RS6", "S5"]
+  },
+  {
+    "key": "volkswagen",
+    "en": "Volkswagen",
+    "ru": "Volkswagen",
+    "uz": "Volkswagen",
+    "models": ["Polo", "Passat", "Tiguan", "Golf", "Jetta", "Touareg", "Arteon", "T-Roc", "Amarok", "Caddy", "Transporter", "Atlas", "Taos", "ID.4", "ID.6"]
+  },
+  {
+    "key": "honda",
+    "en": "Honda",
+    "ru": "Honda",
+    "uz": "Honda",
+    "models": ["Accord", "Civic", "CR-V", "Pilot", "Fit", "Odyssey", "HR-V", "City", "Ridgeline", "Passport", "Insight", "Jazz", "Legend", "CR-Z", "Element"]
+  },
+  {
+    "key": "nissan",
+    "en": "Nissan",
+    "ru": "Nissan",
+    "uz": "Nissan",
+    "models": ["Almera", "Qashqai", "X-Trail", "Patrol", "Teana", "Juke", "Murano", "Pathfinder", "Navara", "Tiida", "Note", "Maxima", "Kicks", "Sentra", "Sunny"]
+  },
+  {
+    "key": "lexus",
+    "en": "Lexus",
+    "ru": "Lexus",
+    "uz": "Lexus",
+    "models": ["RX", "LX", "ES", "NX", "GX", "LS", "IS", "UX", "LC", "LM", "TX", "RC", "GS", "RZ", "CT"]
+  },
+  {
+    "key": "mitsubishi",
+    "en": "Mitsubishi",
+    "ru": "Mitsubishi",
+    "uz": "Mitsubishi",
+    "models": ["Outlander", "Pajero", "Pajero Sport", "Lancer", "ASX", "L200", "Eclipse Cross", "Galant", "Montero", "Xpander", "Mirage", "Delica", "Grandis", "Colt", "Space Star"]
+  },
+  {
+    "key": "mazda",
+    "en": "Mazda",
+    "ru": "Mazda",
+    "uz": "Mazda",
+    "models": ["Mazda3", "Mazda6", "CX-5", "CX-9", "CX-30", "CX-3", "CX-60", "CX-90", "MX-5", "BT-50", "Mazda2", "CX-7", "RX-8", "Tribute", "MPV"]
+  },
+  {
+    "key": "ford",
+    "en": "Ford",
+    "ru": "Ford",
+    "uz": "Ford",
+    "models": ["Focus", "Fiesta", "Mustang", "Explorer", "Ranger", "Escape", "Edge", "Fusion", "Expedition", "Bronco", "Transit", "Mondeo", "Kuga", "EcoSport", "F-150"]
+  },
+  {
+    "key": "renault",
+    "en": "Renault",
+    "ru": "Renault",
+    "uz": "Renault",
+    "models": ["Duster", "Logan", "Sandero", "Kaptur", "Arkana", "Megane", "Koleos", "Fluence", "Symbol", "Scenic", "Kadjar", "Clio", "Trafic", "Master", "Talisman"]
+  },
+  {
+    "key": "chery",
+    "en": "Chery",
+    "ru": "Chery",
+    "uz": "Chery",
+    "models": ["Tiggo 2", "Tiggo 4", "Tiggo 7", "Tiggo 7 Pro", "Tiggo 8", "Tiggo 8 Pro", "Tiggo 9", "Arrizo 5", "Arrizo 6", "Arrizo 8", "Omoda 5", "QQ", "Fulwin", "Tiggo 3", "eQ7"]
+  },
+  {
+    "key": "lada",
+    "en": "Lada",
+    "ru": "Lada",
+    "uz": "Lada",
+    "models": ["Vesta", "Granta", "Niva", "Niva Travel", "Largus", "XRAY", "Priora", "Kalina", "2107", "2114", "4x4", "Iskra", "Aura", "Samara", "2106"]
+  },
+  {
+    "key": "geely",
+    "en": "Geely",
+    "ru": "Geely",
+    "uz": "Geely",
+    "models": ["Coolray", "Atlas", "Monjaro", "Emgrand", "Tugella", "Preface", "Okavango", "Azkarra", "Geometry C", "Emgrand X7", "Binrui", "Xingyue", "Boyue", "GX3 Pro", "Jiaji"]
+  }
+]

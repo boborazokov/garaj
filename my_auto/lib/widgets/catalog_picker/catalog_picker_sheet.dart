@@ -6,6 +6,7 @@ import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/features/create_product/data/models/category_node.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/form/field_label.dart';
+import 'package:my_auto/widgets/searchInput/index.dart';
 
 /// Searchable bottom sheet to pick a catalog item (brand, model, part category).
 Future<void> showCatalogPickerSheet(
@@ -25,6 +26,7 @@ Future<void> showCatalogPickerSheet(
     ),
     builder: (ctx) {
       var query = '';
+      final searchCtrl = TextEditingController();
       return StatefulBuilder(
         builder: (ctx, setState) {
           final filtered =
@@ -48,17 +50,9 @@ Future<void> showCatalogPickerSheet(
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: S.of(ctx).search,
-                      prefixIcon: const Icon(LucideIcons.search, size: 20),
-                      filled: true,
-                      fillColor: colors.surfaceMuted,
-                      border: OutlineInputBorder(
-                        borderRadius: AppRadius.rL,
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
+                  child: CustomSearchInput(
+                    controller: searchCtrl,
+                    hintText: S.of(ctx).search,
                     onChanged: (v) => setState(() => query = v),
                   ),
                 ),

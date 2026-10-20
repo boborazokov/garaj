@@ -79,6 +79,30 @@ export class EnvironmentVariables {
   @IsOptional()
   @IsString()
   WS_HANDSHAKE_MIN_INTERVAL_MS?: string;
+
+  @IsOptional()
+  @IsString()
+  ACCESS_TOKEN_TTL?: string;
+
+  @IsOptional()
+  @IsString()
+  REFRESH_TOKEN_TTL_MS?: string;
+
+  @IsOptional()
+  @IsString()
+  LEGACY_ACCESS_TOKEN_UNTIL?: string;
+
+  @IsOptional()
+  @IsIn(['log', 'http'])
+  SMS_PROVIDER?: string;
+
+  @IsOptional()
+  @IsString()
+  SMS_HTTP_URL?: string;
+
+  @IsOptional()
+  @IsString()
+  SMS_HTTP_TOKEN?: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

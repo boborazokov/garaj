@@ -44,10 +44,6 @@ class UpdateProfileProvider extends ChangeNotifier {
 
   void _applyUser(User user) {
     controller.nameController.text = user.name;
-    controller.usernameController.text = user.username ?? '';
-    controller.bioController.text = user.bio ?? '';
-    controller.descriptionController.text = user.description ?? '';
-    controller.emailController.text = user.email ?? '';
     controller.selectedRegion = uzbekistanRegionFromStored(user.region);
     controller.locationController.text =
         user.address ?? user.city ?? user.region ?? '';
@@ -62,7 +58,6 @@ class UpdateProfileProvider extends ChangeNotifier {
     controller.showPhone = privacy['showPhone'] == true;
     controller.showEmail = privacy['showEmail'] == true;
     controller.showLocation = privacy['showLocation'] != false;
-    controller.showFollowers = privacy['showFollowers'] != false;
     controller.allowMessages = privacy['allowMessages'] != false;
   }
 
@@ -80,10 +75,6 @@ class UpdateProfileProvider extends ChangeNotifier {
 
     final data = <String, dynamic>{
       'name': c.nameController.text.trim(),
-      'username': c.usernameController.text.trim(),
-      'bio': c.bioController.text.trim(),
-      'description': c.descriptionController.text.trim(),
-      'email': c.emailController.text.trim(),
       'country': 'Uzbekistan',
       'region': regionLabel,
       'city': regionLabel,
@@ -99,7 +90,6 @@ class UpdateProfileProvider extends ChangeNotifier {
         'showPhone': c.showPhone,
         'showEmail': c.showEmail,
         'showLocation': c.showLocation,
-        'showFollowers': c.showFollowers,
         'allowMessages': c.allowMessages,
       },
     };

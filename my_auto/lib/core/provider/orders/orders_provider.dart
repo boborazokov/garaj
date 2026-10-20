@@ -68,7 +68,7 @@ class OrdersProvider extends ChangeNotifier {
             'pagination': {'page': page, 'limit': _limit},
             'filter': filters ?? const {},
             'search': search,
-            'sort': 'RECOMMENDED',
+            'sort': 'NEWEST',
             if (viewerRegion != null && viewerRegion.isNotEmpty)
               'viewerRegion': viewerRegion,
           },
@@ -179,6 +179,7 @@ class OrdersProvider extends ChangeNotifier {
                   brand: o.brand,
                   carModel: o.carModel,
                   partCategory: o.partCategory,
+                  images: o.images,
                 )
               : o)
           .toList();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/constants/uzbekistan_regions.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
@@ -163,7 +164,6 @@ class VehicleStep extends StatelessWidget {
                     VehicleSelection(
                       brandId: n.id,
                       brandName: n.localizedName(lang),
-                      year: v.year,
                     ),
                   ),
                 ),
@@ -199,7 +199,6 @@ class VehicleStep extends StatelessWidget {
                           brandName: v.brandName,
                           modelId: n.id,
                           modelName: n.localizedName(lang),
-                          year: v.year,
                         ),
                       ),
                     ),
@@ -224,16 +223,70 @@ class VehicleStep extends StatelessWidget {
                 ),
           ),
         ),
-        SizedBox(height: compact ? 8 : 12),
-        _VehicleYearField(
-          initialYear: v.year,
-          onChanged: (year) => bloc.add(
-            CreateProductVehicleUpdated(v.copyWith(year: year)),
-          ),
+        _PickerTile(
+          label: '${s.region} *',
+          value: state.draft.region.trim().isEmpty
+              ? null
+              : state.draft.region.trim(),
+          icon: LucideIcons.mapPin,
+          onTap: () => _openRegionSheet(context),
         ),
       ],
     );
   }
+}
+
+void _openRegionSheet(BuildContext context) {
+  final colors = context.appColors;
+  final s = S.of(context);
+  final bloc = context.read<CreateProductBloc>();
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: colors.surface,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (ctx) {
+      return DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.65,
+        maxChildSize: 0.9,
+        minChildSize: 0.4,
+        builder: (_, controller) => Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                s.region,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                controller: controller,
+                itemCount: uzbekistanRegions.length,
+                itemBuilder: (_, i) {
+                  final region = uzbekistanRegions[i];
+                  final label = uzbekistanRegionLabel(s, region);
+                  return ListTile(
+                    title: Text(label),
+                    onTap: () {
+                      bloc.add(CreateProductRegionChanged(label));
+                      Navigator.pop(ctx);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 class _PickerTile extends StatelessWidget {
@@ -303,61 +356,3 @@ class _PickerTile extends StatelessWidget {
   }
 }
 
-class _VehicleYearField extends StatefulWidget {
-  const _VehicleYearField({
-    required this.initialYear,
-    required this.onChanged,
-  });
-
-  final int? initialYear;
-  final ValueChanged<int?> onChanged;
-
-  @override
-  State<_VehicleYearField> createState() => _VehicleYearFieldState();
-}
-
-class _VehicleYearFieldState extends State<_VehicleYearField> {
-  late final TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(
-      text: widget.initialYear?.toString() ?? '',
-    );
-  }
-
-  @override
-  void didUpdateWidget(covariant _VehicleYearField oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.initialYear != widget.initialYear) {
-      _controller.text = widget.initialYear?.toString() ?? '';
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final s = S.of(context);
-    final colors = context.appColors;
-    return TextField(
-      controller: _controller,
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: s.createProductYearOptional,
-        filled: true,
-        fillColor: colors.surface,
-        border: OutlineInputBorder(borderRadius: AppRadius.rL),
-      ),
-      onChanged: (v) {
-        final parsed = int.tryParse(v.trim());
-        widget.onChanged(parsed);
-      },
-    );
-  }
-}

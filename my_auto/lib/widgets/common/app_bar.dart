@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 
 /// Brand-styled app bar used across detail screens. Supports an optional
@@ -40,8 +41,10 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
       color: transparent
           ? Colors.transparent
           : (backgroundColor ?? colors.background),
-      child: SafeArea(
+      child: AppSafeArea(
         bottom: false,
+        left: false,
+        right: false,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -151,7 +154,11 @@ class CircleIconButton extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: colors.border),
           ),
-          child: Icon(icon, size: size * 0.5, color: foreground ?? colors.textPrimary),
+          child: Icon(
+            icon,
+            size: size * 0.5,
+            color: foreground ?? colors.textPrimary,
+          ),
         ),
       ),
     );

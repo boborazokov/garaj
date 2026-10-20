@@ -71,6 +71,19 @@ class _SignInScreenState extends State<SignInScreen> {
                 type: TextInputType.visiblePassword,
                 icon: Icon(LucideIcons.lock, color: Theme.of(context).colorScheme.primary),
               ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () => context.push(RoutesName.resetPassword),
+                  child: Text(
+                    switch (Localizations.localeOf(context).languageCode) {
+                      'ru' => 'Забыли пароль?',
+                      'en' => 'Forgot password?',
+                      _ => 'Parolni tiklash',
+                    },
+                  ),
+                ),
+              ),
               AuthFooterLink(
                 prompt: s.noAccount,
                 actionLabel: s.signUp,

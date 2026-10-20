@@ -96,7 +96,11 @@ export class WsConnectionLimiter {
   }
 }
 
-export type WsIdentity = { userId: Types.ObjectId; userRole: UserRoleEnum };
+export type WsIdentity = {
+  userId: Types.ObjectId;
+  userRole: UserRoleEnum;
+  sid?: string;
+};
 
 export function verifyWsToken(
   raw: string | undefined,
@@ -116,6 +120,9 @@ export function verifyWsToken(
     }
     payload = decoded as AuthTokenPayload;
   } catch (e) {
+    if (e instanceof jwt.TokenExpiredError) {
+      throw new Error('UNAUTHENTICATED');
+    }
     wsLogger.warn(
       `WS handshake rejected: ${(e as Error).message || 'jwt verify failed'}`,
     );
@@ -134,6 +141,7 @@ export function verifyWsToken(
   return {
     userId: new Types.ObjectId(payload.userId),
     userRole: payload.userRole,
+    sid: payload.sid,
   };
 }
 

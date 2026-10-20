@@ -23,6 +23,8 @@ dependencies:
   url_launcher: ^6.3.2
   flutter_dotenv: ^5.2.1
   graphql_flutter: ^5.2.0
+  gql: 1.0.1-alpha+1730759315362
+  cross_file: ^0.3.4
   shared_preferences: ^2.5.3
   multi_image_picker_view: ^3.0.0
   awesome_select: ^6.0.0
@@ -79,6 +81,7 @@ flutter_intl:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/logo_mark.png"
   adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/images/logo.png"
+  adaptive_icon_foreground: "assets/images/logo_mark.png"
+  adaptive_icon_foreground_inset: 0

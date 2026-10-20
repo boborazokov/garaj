@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
@@ -88,7 +89,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppTopBar(title: s.createOrder),
-      body: SafeArea(
+      body: AppSafeArea(
         child: Form(
           key: _formKey,
           child: ListView(

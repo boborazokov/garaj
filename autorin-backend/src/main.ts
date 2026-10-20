@@ -8,6 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { MinioService } from './utils/minio';
 import { CategoryService } from './modules/category/service';
+import { AppSettingsService } from './modules/app-settings/service/app-settings.service';
 import { ROUTES } from './constants';
 import { json } from 'express';
 import { graphqlUploadExpress } from 'graphql-upload-ts';
@@ -71,12 +72,46 @@ async function bootstrap() {
     Logger.log(`PART categories seeded/updated: ${seeded}`, 'Bootstrap');
   }
 
+  const vehicleSeeded = await categoryService.seedVehicleCatalog();
+  Logger.log(`Vehicle catalog brands/models upserted: ${vehicleSeeded}`, 'Bootstrap');
+
+  const appSettings = nestApp.get(AppSettingsService);
+  const moderationOn = await appSettings.isProductModerationEnabled();
+  Logger.log(
+    `Product moderation ${moderationOn ? 'enabled' : 'disabled'}`,
+    'Bootstrap',
+  );
+  if (
+    config.get<string>('NODE_ENV') === 'production' &&
+    (config.get<string>('SMS_PROVIDER') !== 'http' ||
+      !config.get<string>('SMS_HTTP_URL'))
+  ) {
+    Logger.error(
+      'Production SMS is not configured. Registration and password reset will fail until SMS_PROVIDER=http and SMS_HTTP_URL are set.',
+      'Bootstrap',
+    );
+  }
+
   const port = config.get<number>('PORT') ?? 7007;
-  await nestApp.listen(port);
-  Logger.log(`Application listening on port ${port}`, 'Bootstrap');
+
+  // Quiet probe noise from browsers / ngrok (`GET /`, `GET /json/version`).
+  const http = nestApp.getHttpAdapter().getInstance();
+  http.get('/', (_req, res) => {
+    res.status(200).json({
+      ok: true,
+      service: 'autorin-backend',
+      graphql: '/api',
+    });
+  });
+  http.get('/json/version', (_req, res) => {
+    res.status(200).json({ version: 'dev' });
+  });
+  http.get('/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+  });
+
+  await nestApp.listen(port, '0.0.0.0');
+  Logger.log(`Application listening on http://0.0.0.0:${port}`, 'Bootstrap');
 }
 
-bootstrap().then(async () => {
-  const { startBot } = await import('./bot/index');
-  await startBot();
-});
+void bootstrap();

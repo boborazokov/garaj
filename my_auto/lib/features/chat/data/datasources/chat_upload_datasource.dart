@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_auto/core/services/graphql/graphql_links.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/services/upload/image_multipart.dart';
+import 'package:my_auto/core/utils/resolve_media_url.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 
@@ -53,6 +54,7 @@ class ChatUploadDataSource {
     final token = await GraphQLLinks.readBearer();
     final uri = Uri.parse('$apiUrl/$endpoint');
     final request = http.MultipartRequest('POST', uri);
+    request.headers.addAll(mediaRequestHeaders(apiUrl));
     if (token != null) request.headers['Authorization'] = token;
     request.files.add(await multipart(file));
 

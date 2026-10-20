@@ -43,5 +43,14 @@ class OrderDetailState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, order?.id, responses.length, isSubmittingResponse];
+  List<Object?> get props => [
+        status,
+        orderId,
+        order?.id,
+        order?.status,
+        order?.responseCount,
+        responses.map((r) => r.id).join(','),
+        isSubmittingResponse,
+        failure,
+      ];
 }

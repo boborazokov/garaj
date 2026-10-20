@@ -46,31 +46,37 @@ class _MyProductsState extends State<MyProducts> {
         'seller': context.read<AuthProvider>().auth!.user.id,
       };
 
+  String get _query =>
+      context.read<ProductProvider>().searchController.text.trim();
+
   void _load({required bool reset}) {
     context.read<ProductProvider>().loadList(
           filters: _filters,
           reset: reset,
-          search: context.read<ProductProvider>().searchController.text.trim(),
+          search: _query,
+          sort: 'NEWEST',
         );
   }
 
   void _onScrollActive() {
     final provider = context.read<ProductProvider>();
+    final query = _query;
     if (_scrollControllerActive.position.pixels >=
             _scrollControllerActive.position.maxScrollExtent - 100 &&
-        !provider.isMoreLoadingFor(_filters) &&
-        provider.hasMoreFor(_filters)) {
-      provider.loadMore(filters: _filters);
+        !provider.isMoreLoadingFor(_filters, search: query, sort: 'NEWEST') &&
+        provider.hasMoreFor(_filters, search: query, sort: 'NEWEST')) {
+      provider.loadMore(filters: _filters, search: query, sort: 'NEWEST');
     }
   }
 
   void _onScrollInactive() {
     final provider = context.read<ProductProvider>();
+    final query = _query;
     if (_scrollControllerInactive.position.pixels >=
             _scrollControllerInactive.position.maxScrollExtent - 100 &&
-        !provider.isMoreLoadingFor(_filters) &&
-        provider.hasMoreFor(_filters)) {
-      provider.loadMore(filters: _filters);
+        !provider.isMoreLoadingFor(_filters, search: query, sort: 'NEWEST') &&
+        provider.hasMoreFor(_filters, search: query, sort: 'NEWEST')) {
+      provider.loadMore(filters: _filters, search: query, sort: 'NEWEST');
     }
   }
 
@@ -86,8 +92,15 @@ class _MyProductsState extends State<MyProducts> {
   Widget build(BuildContext context) {
     final provider = context.watch<ProductProvider>();
     final s = S.of(context);
-    final myProducts = provider.getProducts(_filters);
-    final isLoading = provider.isLoadingFor(_filters) && myProducts.isEmpty;
+    final query = provider.searchController.text.trim();
+    final myProducts =
+        provider.getProducts(_filters, search: query, sort: 'NEWEST');
+    final isLoading = provider.isLoadingFor(
+          _filters,
+          search: query,
+          sort: 'NEWEST',
+        ) &&
+        myProducts.isEmpty;
 
     final activeProducts =
         myProducts.where((p) => p.status == ItemStatusEnum.active).toList();

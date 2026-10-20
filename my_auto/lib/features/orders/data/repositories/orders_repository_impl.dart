@@ -5,6 +5,7 @@ import 'package:my_auto/core/provider/add/uploudImageService.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/order_response.dart';
 import '../../domain/entities/paginated_orders.dart';
+import '../../domain/entities/seller_matching_orders.dart';
 import '../../domain/repositories/orders_repository.dart';
 import '../datasources/orders_local_datasource.dart';
 import '../datasources/orders_remote_datasource.dart';
@@ -97,7 +98,12 @@ class OrdersRepositoryImpl implements OrdersRepository {
       if (offeredPrice != null) 'offeredPrice': offeredPrice,
       if (deliveryDays != null) 'deliveryDays': deliveryDays,
     });
-    await markResponded(orderId);
+    try {
+      await markResponded(orderId);
+    } catch (_) {
+      // The offer is already saved. A local bookmark failure must not
+      // hide it from the request screen.
+    }
     return dto.toEntity(orderId);
   }
 
@@ -132,5 +138,11 @@ class OrdersRepositoryImpl implements OrdersRepository {
     final ids = await getRespondedOrderIds();
     ids.add(orderId);
     await _local.saveRespondedOrderIds(ids);
+  }
+
+  @override
+  Future<SellerMatchingOrdersOverview> getSellerMatchingOrdersOverview() async {
+    final raw = await _remote.getSellerMatchingOrdersOverview();
+    return SellerMatchingOrdersOverview.fromJson(raw);
   }
 }

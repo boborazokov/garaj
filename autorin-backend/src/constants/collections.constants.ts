@@ -1,5 +1,6 @@
 export const COLLECTIONS = {
   USERS: 'users',
+  AUTH_SESSIONS: 'auth_sessions',
   ADVERTISEMENTS: 'advertisements',
   CATEGORIES: 'categories',
   PARTS: 'parts',
@@ -23,7 +24,6 @@ export const COLLECTIONS = {
   TRENDING_SNAPSHOTS: 'trending_snapshots',
   APP_SETTINGS: 'app_settings',
   DAILY_USER_VISITS: 'daily_user_visits',
-  SELLER_FOLLOWS: 'seller_follows',
   SELLER_PROFILE_VIEWS: 'seller_profile_views',
   USER_NOTIFICATIONS: 'user_notifications',
 };

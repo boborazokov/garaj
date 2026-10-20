@@ -56,6 +56,35 @@ class OrderOwnerActions extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(height: 12),
+        OutlinedButton.icon(
+          onPressed: () {
+            // Placeholder until promote-order billing is wired.
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(s.promoteToTop)),
+            );
+          },
+          icon: Icon(
+            LucideIcons.sparkles,
+            color: order.isPromoted ? colors.primary : colors.warning,
+          ),
+          label: Text(
+            order.isPromoted ? s.promotedTop : s.promoteToTop,
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              color: order.isPromoted ? colors.primary : colors.textPrimary,
+            ),
+          ),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(
+              color: order.isPromoted ? colors.primary : colors.warning,
+            ),
+            backgroundColor: order.isPromoted
+                ? colors.primary.withValues(alpha: 0.08)
+                : colors.warning.withValues(alpha: 0.14),
+            padding: const EdgeInsets.symmetric(vertical: 12),
+          ),
+        ),
         const SizedBox(height: 16),
         if (isClosed)
           FilledButton.icon(

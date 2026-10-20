@@ -15,11 +15,21 @@ import 'package:my_auto/features/orders/presentation/widgets/orders_empty_state.
 import 'package:my_auto/features/orders/presentation/widgets/orders_marketplace_header.dart';
 import 'package:my_auto/features/orders/presentation/widgets/premium_order_card.dart';
 import 'package:my_auto/core/errors/graphql_error_ui.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
+
 /// Marketplace-style requests feed (OLX / RFQ inspired).
 class OrdersScreen extends StatelessWidget {
-  const OrdersScreen({super.key, this.authorId, this.embedded = false});
+  const OrdersScreen({
+    super.key,
+    this.authorId,
+    this.partCategoryId,
+    this.matchSellerCategories = false,
+    this.embedded = false,
+  });
 
   final String? authorId;
+  final String? partCategoryId;
+  final bool matchSellerCategories;
   final bool embedded;
 
   @override
@@ -29,7 +39,11 @@ class OrdersScreen extends StatelessWidget {
       create: (_) => OrdersListBloc(
         repository: ordersRepository,
         currentUserId: userId,
-      )..add(OrdersListStarted(authorId: authorId)),
+      )..add(OrdersListStarted(
+          authorId: authorId,
+          partCategoryId: partCategoryId,
+          matchSellerCategories: matchSellerCategories,
+        )),
       child: _OrdersView(embedded: embedded),
     );
   }
@@ -84,110 +98,123 @@ class _OrdersViewState extends State<_OrdersView> {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final bottomPad = widget.embedded
+        ? 24.0
+        : listPaddingAboveBottomNav(context);
 
-    return Scaffold(
-      backgroundColor: colors.background,
-      body: RefreshIndicator(
-        color: colors.primary,
-        onRefresh: () async {
-          context.read<OrdersListBloc>().add(const OrdersListRefreshed());
-          await context.read<OrdersListBloc>().stream.firstWhere(
-                (st) =>
-                    st.status != OrdersListStatus.loading ||
-                    st.visibleOrders.isNotEmpty,
-              );
-        },
-        child: CustomScrollView(
-          controller: _scrollController,
-          physics: const AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics(),
-          ),
-          slivers: [
-            SliverToBoxAdapter(
-              child: BlocBuilder<OrdersListBloc, OrdersListState>(
-                buildWhen: (p, c) => p.stats.activeRequests != c.stats.activeRequests,
-                builder: (context, state) => OrdersMarketplaceHeader(
-                  searchController: _searchController,
-                  onSearchChanged: (v) => context
-                      .read<OrdersListBloc>()
-                      .add(OrdersListSearchChanged(v)),
-                  onCreate: _openCreate,
-                  activeCount: state.stats.activeRequests,
-                ),
+    final content = RefreshIndicator(
+      color: colors.primary,
+      onRefresh: () async {
+        context.read<OrdersListBloc>().add(const OrdersListRefreshed());
+        await context.read<OrdersListBloc>().stream.firstWhere(
+              (st) =>
+                  st.status != OrdersListStatus.loading ||
+                  st.visibleOrders.isNotEmpty,
+            );
+      },
+      child: CustomScrollView(
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(
+          parent: BouncingScrollPhysics(),
+        ),
+        slivers: [
+          SliverToBoxAdapter(
+            child: BlocBuilder<OrdersListBloc, OrdersListState>(
+              buildWhen: (p, c) =>
+                  p.stats.activeRequests != c.stats.activeRequests,
+              builder: (context, state) => OrdersMarketplaceHeader(
+                searchController: _searchController,
+                onSearchChanged: (v) => context
+                    .read<OrdersListBloc>()
+                    .add(OrdersListSearchChanged(v)),
+                onCreate: _openCreate,
+                activeCount: state.stats.activeRequests,
               ),
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 8)),
-            BlocBuilder<OrdersListBloc, OrdersListState>(
-              builder: (context, state) {
-                switch (state.status) {
-                  case OrdersListStatus.loading:
-                    return const SliverFillRemaining(
-                      child: OrderShimmerList(),
-                    );
-                  case OrdersListStatus.empty:
-                    return SliverFillRemaining(
-                      child: OrdersEmptyState(onCreate: _openCreate),
-                    );
-                  case OrdersListStatus.error:
-                    return SliverFillRemaining(
-                      child: Center(
-                        child: Text(
-                          GraphqlErrorUi.localizeRaw(
-                            context,
-                            state.failure?.message,
-                          ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 8)),
+          BlocBuilder<OrdersListBloc, OrdersListState>(
+            builder: (context, state) {
+              switch (state.status) {
+                case OrdersListStatus.loading:
+                  return const SliverFillRemaining(
+                    child: OrderShimmerList(),
+                  );
+                case OrdersListStatus.empty:
+                  return SliverFillRemaining(
+                    child: OrdersEmptyState(onCreate: _openCreate),
+                  );
+                case OrdersListStatus.error:
+                  return SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        GraphqlErrorUi.localizeRaw(
+                          context,
+                          state.failure?.message,
                         ),
                       ),
-                    );
-                  default:
-                    return SliverList(
+                    ),
+                  );
+                default:
+                  final orders = state.visibleOrders;
+                  final loadingMore =
+                      state.status == OrdersListStatus.loadingMore;
+                  return SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                    sliver: SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 0.78,
+                      ),
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                          if (index >= state.visibleOrders.length) {
-                            return const Padding(
-                              padding: EdgeInsets.all(24),
-                              child: Center(
+                          if (index >= orders.length) {
+                            return const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(12),
                                 child: CircularProgressIndicator.adaptive(),
                               ),
                             );
                           }
-                          final order = state.visibleOrders[index];
-                          final isMine = context
-                                  .read<AuthProvider>()
-                                  .auth
-                                  ?.user
-                                  .id ==
-                              order.author?.id;
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                            child: PremiumOrderCard(
-                              order: order,
-                              isFavorite:
-                                  state.favoriteIds.contains(order.id),
-                              onFavoriteToggle: () => context
-                                  .read<OrdersListBloc>()
-                                  .add(OrdersListFavoriteToggled(order.id)),
-                              onClose: isMine
-                                  ? () => context.read<OrdersListBloc>().add(
-                                        OrdersListCloseRequested(order.id),
-                                      )
-                                  : null,
-                            ),
+                          final order = orders[index];
+                          final isMine =
+                              context.read<AuthProvider>().auth?.user.id ==
+                                  order.author?.id;
+                          return PremiumOrderCard(
+                            order: order,
+                            compact: true,
+                            isFavorite:
+                                state.favoriteIds.contains(order.id),
+                            onFavoriteToggle: () => context
+                                .read<OrdersListBloc>()
+                                .add(OrdersListFavoriteToggled(order.id)),
+                            onClose: isMine
+                                ? () => context.read<OrdersListBloc>().add(
+                                      OrdersListCloseRequested(order.id),
+                                    )
+                                : null,
                           );
                         },
-                        childCount: state.visibleOrders.length +
-                            (state.status == OrdersListStatus.loadingMore
-                                ? 1
-                                : 0),
+                        childCount: orders.length + (loadingMore ? 1 : 0),
                       ),
-                    );
-                }
-              },
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 24)),
-          ],
-        ),
+                    ),
+                  );
+              }
+            },
+          ),
+          SliverToBoxAdapter(child: SizedBox(height: bottomPad)),
+        ],
       ),
+    );
+
+    return Scaffold(
+      backgroundColor: colors.background,
+      body: widget.embedded
+          ? content
+          : AppSafeArea(bottom: false, child: content),
     );
   }
 }

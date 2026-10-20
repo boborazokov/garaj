@@ -43,6 +43,39 @@ export class RedisCacheService implements OnModuleDestroy {
     await this.redis.del(key);
   }
 
+  private async ready() {
+    if (this.redis.status === 'wait' || this.redis.status === 'end') {
+      await this.redis.connect();
+    }
+    if (this.redis.status !== 'ready') {
+      throw new Error('Redis is not ready');
+    }
+  }
+
+  async getCount(key: string): Promise<number> {
+    await this.ready();
+    const raw = await this.redis.get(key);
+    const count = raw ? Number(raw) : 0;
+    return Number.isFinite(count) ? count : 0;
+  }
+
+  /** INCR plus TTL on the first increment. Shared across API processes. */
+  async incrementExpiring(key: string, ttlMs: number): Promise<number> {
+    await this.ready();
+    const count = await this.redis.incr(key);
+    if (count === 1) {
+      await this.redis.pexpire(key, ttlMs);
+    }
+    return count;
+  }
+
+  /** SET key NX PX. True when this caller won the consume. */
+  async consumeOnce(key: string, ttlMs: number): Promise<boolean> {
+    await this.ready();
+    const result = await this.redis.set(key, '1', 'PX', ttlMs, 'NX');
+    return result === 'OK';
+  }
+
   keys = {
     recommend: (userId: string) => `recommend:${userId}`,
     trendingGlobal: () => 'trending:global',

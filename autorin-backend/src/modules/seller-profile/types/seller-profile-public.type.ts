@@ -30,9 +30,6 @@ export class SellerStoreStats {
   categoriesCount: number;
 
   @Field()
-  followersCount: number;
-
-  @Field()
   profileViews: number;
 }
 
@@ -45,25 +42,13 @@ export class SellerStoreProfile {
   name: string;
 
   @Field({ nullable: true })
-  username?: string;
-
-  @Field({ nullable: true })
   image?: string;
 
   @Field({ nullable: true })
   banner?: string;
 
   @Field({ nullable: true })
-  bio?: string;
-
-  @Field({ nullable: true })
-  description?: string;
-
-  @Field({ nullable: true })
   phone?: string;
-
-  @Field({ nullable: true })
-  email?: string;
 
   @Field({ nullable: true })
   country?: string;
@@ -91,9 +76,6 @@ export class SellerStoreProfile {
 
   @Field(() => [SellerCategoryStat])
   categories: SellerCategoryStat[];
-
-  @Field()
-  isFollowing: boolean;
 
   @Field()
   isOwnProfile: boolean;

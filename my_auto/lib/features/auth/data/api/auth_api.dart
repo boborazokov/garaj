@@ -10,6 +10,10 @@ const String confirmSignUpMutation = r"""
 mutation ConfirmSignUp($token: String!, $code: String!) {
   confirmSignUp(token: $token, code: $code) {
     token
+    accessToken
+    refreshToken
+    sessionId
+    tokenVersion
     user {
       phone
       name
@@ -24,6 +28,10 @@ const String signInQuery = r"""
 query SignIn($data: SignInInput!) {
   signIn(data: $data) {
     token
+    accessToken
+    refreshToken
+    sessionId
+    tokenVersion
     user {
       name
       phone

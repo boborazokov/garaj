@@ -80,6 +80,7 @@ class _MessageComposerState extends State<MessageComposer> {
   final _picker = ImagePicker();
 
   bool _isTyping = false;
+  bool _hasText = false;
   String? _activeEditId;
   List<String> _pendingImagePaths = const [];
 
@@ -106,7 +107,10 @@ class _MessageComposerState extends State<MessageComposer> {
     }
     _controller.addListener(() {
       final hasText = _controller.text.trim().isNotEmpty;
-      if (mounted) setState(() {});
+      if (hasText != _hasText) {
+        _hasText = hasText;
+        if (mounted) setState(() {});
+      }
       _setTyping(hasText);
     });
   }
@@ -395,11 +399,17 @@ class _MessageComposerState extends State<MessageComposer> {
                                 focusNode: _focusNode,
                                 minLines: 1,
                                 maxLines: 5,
+                                scrollPadding: EdgeInsets.zero,
                                 textCapitalization:
                                     TextCapitalization.sentences,
                                 textInputAction: widget.isDesktop
                                     ? TextInputAction.newline
                                     : TextInputAction.send,
+                                onEditingComplete: widget.isDesktop
+                                    ? null
+                                    : () {
+                                        if (!widget.isSending) _submit();
+                                      },
                                 decoration: InputDecoration(
                                   hintText: widget.isDesktop
                                       ? (isEditing
@@ -459,7 +469,15 @@ class _MessageComposerState extends State<MessageComposer> {
           )
         : composer;
 
-    return SafeArea(top: false, child: wrapped);
+    final mq = MediaQuery.of(context);
+    return Padding(
+      padding: EdgeInsets.only(
+        left: mq.padding.left,
+        right: mq.padding.right,
+        bottom: mq.padding.bottom,
+      ),
+      child: wrapped,
+    );
   }
 
   void _showAttachSheet() {

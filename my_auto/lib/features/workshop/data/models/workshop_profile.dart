@@ -1,5 +1,6 @@
 import 'package:my_auto/core/map/geo_location.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
+import 'package:my_auto/core/utils/place_label.dart';
 import 'package:my_auto/core/utils/resolve_media_url.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_category.dart';
@@ -215,9 +216,13 @@ class WorkshopProfile {
   }
 
   String get displayAddress {
-    if (address.isNotEmpty) return address;
-    if (city.isNotEmpty) return city;
-    return location;
+    return humanPlaceLabel(
+      address: address,
+      city: city,
+      region: city,
+      location: location,
+      fallback: '',
+    );
   }
 
   bool get isPromotionActive {
