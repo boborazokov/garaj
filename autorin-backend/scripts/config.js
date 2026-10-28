@@ -20,7 +20,7 @@ const AUTO_START_DOCKER = getBooleanEnv('AUTO_START_DOCKER', true);
 
 const services = {
   // mongodb: 'autorin_mongodb',
-  // redis: 'autorin_redis',
+  redis: 'autorin_redis',
   minio: 'autorin_minio',
   meilisearch: 'autorin_meilisearch',
 };

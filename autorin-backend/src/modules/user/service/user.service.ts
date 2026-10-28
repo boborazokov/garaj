@@ -12,6 +12,11 @@ import { MinioService } from 'src/utils/minio';
 import { ItemStatusEnum } from 'src/modules/item/enums';
 import { DeleteAccountResult } from '../types';
 import { SessionService } from 'src/modules/auth/session/session.service';
+import {
+  normalizeUzPhone,
+  uzPhoneLookupVariants,
+} from 'src/shared/utils/normalize-uz-phone';
+import { DEFAULT_STAFF_ACCOUNTS } from '../seed/seed-default-accounts';
 
 @Injectable()
 export class UserService {
@@ -22,6 +27,38 @@ export class UserService {
     private minioService: MinioService,
     private sessions: SessionService,
   ) {}
+
+  async seedDefaultStaffAccounts(): Promise<number> {
+    let count = 0;
+
+    for (const account of DEFAULT_STAFF_ACCOUNTS) {
+      const phone = normalizeUzPhone(account.phone);
+      const existing = await this.userModel.findOne({
+        phone: { $in: uzPhoneLookupVariants(phone) },
+      });
+
+      if (!existing) {
+        const created = new this.userModel({
+          name: account.name,
+          phone,
+          password: account.password,
+          role: account.role,
+        });
+        await created.save();
+        count += 1;
+        continue;
+      }
+
+      existing.phone = phone;
+      existing.password = account.password;
+      existing.role = account.role;
+      existing.deletedAt = null;
+      await existing.save();
+      count += 1;
+    }
+
+    return count;
+  }
 
   async getProfile({ userId }: ContextType) {
     const foundUser = await this.userModel.findById(userId);

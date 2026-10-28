@@ -44,9 +44,8 @@ async function runContainer(
         `../containers/${containerName}.docker-compose.yml`,
       );
 
-      const command = `docker compose -p autorin -f "${composeFilePath}" --env-file ${
-        envFile
-      } up -d`;
+      const envFilePath = path.resolve(__dirname, '..', envFile);
+      const command = `docker compose -p autorin -f "${composeFilePath}" --env-file "${envFilePath}" up -d`;
 
       await runCommand(command, logger);
       logger.log('Container has been created and started.');

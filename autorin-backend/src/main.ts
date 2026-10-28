@@ -8,6 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { MinioService } from './utils/minio';
 import { CategoryService } from './modules/category/service';
+import { UserService } from './modules/user/service';
 import { AppSettingsService } from './modules/app-settings/service/app-settings.service';
 import { ROUTES } from './constants';
 import { json } from 'express';
@@ -65,6 +66,10 @@ async function bootstrap() {
 
   const minioService = nestApp.get(MinioService);
   await minioService.initializeBuckets();
+
+  const userService = nestApp.get(UserService);
+  const staffSeeded = await userService.seedDefaultStaffAccounts();
+  Logger.log(`Default staff accounts upserted: ${staffSeeded}`, 'Bootstrap');
 
   const categoryService = nestApp.get(CategoryService);
   const seeded = await categoryService.seedPartCategories();
