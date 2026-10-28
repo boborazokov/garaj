@@ -1,19 +1,18 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { AuthLayout } from './components/layout/AuthLayout'
-import { AdminLayout } from './components/layout/AdminLayout'
-import { ModeratorLayout } from './components/layout/ModeratorLayout'
-import { SignInPage } from './pages/SignInPage'
-import { AdminDashboardPage } from './admin/DashboardPage'
-import { AdminUsersPage } from './admin/UsersPage'
-import { AdminPartsPage } from './admin/PartsPage'
-import { AdminPartDetailPage } from './admin/PartDetailPage'
-import { AdminSettingsPage } from './admin/SettingsPage'
-import { AdminCategoriesPage } from './admin/CategoriesPage'
-import { AdminAdvertisementsPage } from './admin/AdvertisementsPage'
-import { AdminMessagesPage } from './admin/MessagesPage'
-import { AdminModerationPage } from './admin/ModerationPage'
-import { AdminOrdersPage } from './admin/OrdersPage'
-import { ModeratorQueuePage } from './moderator/QueuePage'
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AdminLayout } from "./components/layout/AdminLayout";
+import { ModeratorLayout } from "./components/layout/ModeratorLayout";
+import { SignInPage } from "./pages/sign-in";
+import { AdminDashboardPage } from "./admin/DashboardPage";
+import { AdminUsersPage } from "./admin/UsersPage";
+import { AdminPartsPage } from "./admin/PartsPage";
+import { AdminPartDetailPage } from "./admin/PartDetailPage";
+import { AdminSettingsPage } from "./admin/SettingsPage";
+import { AdminCategoriesPage } from "./admin/CategoriesPage";
+import { AdminAdvertisementsPage } from "./admin/AdvertisementsPage";
+import { AdminMessagesPage } from "./admin/MessagesPage";
+import { AdminModerationPage } from "./admin/ModerationPage";
+import { AdminOrdersPage } from "./admin/OrdersPage";
+import { ModeratorQueuePage } from "./moderator/QueuePage";
 
 export default function App() {
   return (
@@ -21,9 +20,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/admin" replace />} />
 
-        <Route element={<AuthLayout />}>
-          <Route path="signin" element={<SignInPage />} />
-        </Route>
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/signup" element={<Navigate to="/sign-in" replace />} />
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
@@ -45,5 +43,5 @@ export default function App() {
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }

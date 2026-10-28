@@ -1,30 +1,35 @@
-import { useQuery } from '@apollo/client/react'
-import { GET_PARTS } from '../graphql/operations'
-import { ProductCard } from '../components/ProductCard'
-import type { PaginatedParts } from '../types'
-import { Link } from 'react-router-dom'
-import { Search } from 'lucide-react'
+import { useQuery } from "@apollo/client/react";
+import { GET_PARTS } from "../../graphql/operations";
+import { ProductCard } from "../../components/ProductCard";
+import type { PaginatedParts } from "../../types";
+import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
 
 export function HomePage() {
-  const { data, loading, error, fetchMore } = useQuery<{ getParts: PaginatedParts }>(GET_PARTS, {
+  const { data, loading, error, fetchMore } = useQuery<{
+    getParts: PaginatedParts;
+  }>(GET_PARTS, {
     variables: {
       pagination: { page: 1, limit: 12 },
-      sort: 'RECOMMENDED',
+      sort: "RECOMMENDED",
     },
-  })
+  });
 
-  const result = data?.getParts
+  const result = data?.getParts;
 
   return (
     <div className="space-y-8">
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-carbon-900 via-carbon-800 to-carbon-900 px-6 py-12 text-white md:px-10 md:py-16">
         <div className="relative z-10 max-w-xl space-y-4">
-          <p className="text-sm font-semibold uppercase tracking-wider text-amber-400">AutoRin Web</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-amber-400">
+            AutoRin Web
+          </p>
           <h1 className="text-3xl font-bold leading-tight md:text-4xl">
             Запчасти и объявления для вашего авто
           </h1>
           <p className="text-carbon-100">
-            Каталог с проверкой качества. Покупайте и продавайте запчасти удобно с компьютера.
+            Каталог с проверкой качества. Покупайте и продавайте запчасти удобно
+            с компьютера.
           </p>
           <Link
             to="/search"
@@ -45,7 +50,10 @@ export function HomePage() {
         {loading && !result && (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="h-72 animate-pulse rounded-2xl bg-carbon-100" />
+              <div
+                key={i}
+                className="h-72 animate-pulse rounded-2xl bg-carbon-100"
+              />
             ))}
           </div>
         )}
@@ -71,10 +79,13 @@ export function HomePage() {
                   onClick={() =>
                     fetchMore({
                       variables: {
-                        pagination: { page: result.nextPage ?? result.page + 1, limit: 12 },
+                        pagination: {
+                          page: result.nextPage ?? result.page + 1,
+                          limit: 12,
+                        },
                       },
                       updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev
+                        if (!fetchMoreResult) return prev;
                         return {
                           getParts: {
                             ...fetchMoreResult.getParts,
@@ -83,7 +94,7 @@ export function HomePage() {
                               ...fetchMoreResult.getParts.payload,
                             ],
                           },
-                        }
+                        };
                       },
                     })
                   }
@@ -97,5 +108,5 @@ export function HomePage() {
         )}
       </section>
     </div>
-  )
+  );
 }

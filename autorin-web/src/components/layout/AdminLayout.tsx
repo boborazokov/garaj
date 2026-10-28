@@ -69,11 +69,8 @@ export function AdminLayout() {
 
 
   useEffect(() => {
-
-    if (!isAdmin(user)) navigate('/signin?redirect=/admin', { replace: true })
-
+    if (!isAdmin(user)) navigate('/sign-in', { replace: true })
   }, [user, navigate])
-
 
 
   const unreadQuery = useQuery<{ getConversations: PaginatedConversations }>(
@@ -188,7 +185,7 @@ export function AdminLayout() {
 
             clearSession()
 
-            navigate('/signin')
+            navigate('/sign-in')
 
           }}
 

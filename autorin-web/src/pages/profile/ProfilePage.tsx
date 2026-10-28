@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { clearSession, getUser, isAdmin, isModerator } from '../lib/auth'
+import { clearSession, getUser, isAdmin, isModerator } from '../../lib/auth'
 
 export function ProfilePage() {
   const user = getUser()
@@ -8,7 +8,7 @@ export function ProfilePage() {
   if (!user) {
     return (
       <p>
-        <Link to="/signin" className="text-amber-600 underline">
+        <Link to="/sign-in" className="text-amber-600 underline">
           Войдите
         </Link>{' '}
         в аккаунт

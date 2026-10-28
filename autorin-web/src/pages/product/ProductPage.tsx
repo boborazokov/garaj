@@ -1,8 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
 import { useQuery } from '@apollo/client/react'
-import { GET_PART_BY_ID } from '../graphql/operations'
-import type { Part } from '../types'
-import { mediaUrl } from '../lib/media'
+import { GET_PART_BY_ID } from '../../graphql/operations'
+import type { Part } from '../../types'
+import { mediaUrl } from '../../lib/media'
 import { Phone, MapPin } from 'lucide-react'
 
 export function ProductPage() {
