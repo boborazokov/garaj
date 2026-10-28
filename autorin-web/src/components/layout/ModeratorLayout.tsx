@@ -8,7 +8,7 @@ export function ModeratorLayout() {
   const user = getUser()
 
   useEffect(() => {
-    if (!isModerator(user)) navigate('/signin?redirect=/moderator', { replace: true })
+    if (!isModerator(user)) navigate('/sign-in', { replace: true })
   }, [user, navigate])
 
   if (!isModerator(user)) return null
@@ -28,7 +28,7 @@ export function ModeratorLayout() {
             type="button"
             onClick={() => {
               clearSession()
-              navigate('/signin')
+              navigate('/sign-in')
             }}
             className="flex items-center gap-2 rounded-xl border border-carbon-100 px-3 py-2 text-sm hover:bg-carbon-50"
           >

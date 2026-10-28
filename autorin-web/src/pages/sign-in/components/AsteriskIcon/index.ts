@@ -1,0 +1,1 @@
+export { AsteriskIcon } from "./AsteriskIcon";

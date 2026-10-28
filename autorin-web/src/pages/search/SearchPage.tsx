@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useQuery } from '@apollo/client/react'
-import { GET_PARTS } from '../graphql/operations'
-import { ProductCard } from '../components/ProductCard'
-import type { PaginatedParts } from '../types'
+import { GET_PARTS } from '../../graphql/operations'
+import { ProductCard } from '../../components/ProductCard'
+import type { PaginatedParts } from '../../types'
 import { Search } from 'lucide-react'
 
 export function SearchPage() {

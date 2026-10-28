@@ -11,13 +11,16 @@
   },
   "dependencies": {
     "@apollo/client": "^4.2.0",
+    "@types/styled-components": "^5.1.36",
+    "antd": "^6.6.8",
     "clsx": "^2.1.1",
     "graphql": "^16.14.0",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.16.0",
-    "recharts": "^3.8.1"
+    "recharts": "^3.8.1",
+    "styled-components": "^6.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

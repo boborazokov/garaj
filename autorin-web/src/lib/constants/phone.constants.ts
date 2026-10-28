@@ -1,0 +1,1 @@
+export const PHONE_NUMBER_COUNTRY_CODE = "+998";
