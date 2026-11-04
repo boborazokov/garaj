@@ -19,6 +19,8 @@ import {
   SetUserRoleArgs,
   AdminSetUserImageArgs,
   AdminSetUserVerifiedArgs,
+  AdminSetPartRecommendedArgs,
+  AdminSetPartViewsCountArgs,
 } from '../dto/args/admin.args';
 import { AdminDailyReport } from 'src/modules/analytics/types/admin-daily-report.type';
 import { AdminStats } from '../types/admin-stats.type';
@@ -150,5 +152,23 @@ export class AdminResolver {
     @Context() context: ContextType,
   ) {
     return this.adminService.rejectPart(args, context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => Part)
+  adminSetPartRecommended(
+    @Args() args: AdminSetPartRecommendedArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setPartRecommended(args, context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => Part)
+  adminSetPartViewsCount(
+    @Args() args: AdminSetPartViewsCountArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setPartViewsCount(args, context);
   }
 }

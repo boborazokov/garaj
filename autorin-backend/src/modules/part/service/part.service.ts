@@ -16,6 +16,7 @@ import { MinioService } from 'src/utils/minio';
 import { ContextType } from 'src/auth/interfaces';
 import { assertAuthenticated } from 'src/auth/utils/authenticated-context';
 import { isAdminRole, ownerScope } from 'src/auth/utils/admin-scope';
+import { UserRoleEnum } from 'src/modules/user/enums';
 import { POPULATIONS } from 'src/constants/populations.constants';
 import { ViewService } from 'src/modules/view/service';
 import { ViewTargetTypeEnum } from 'src/modules/view/enums';
@@ -224,12 +225,14 @@ export class PartService {
     const viewerId = context.userId;
     const isOwner =
       viewerId && foundPart.seller?.toString() === viewerId.toString();
+    const isStaff =
+      isAdminRole(context) || context.userRole === UserRoleEnum.MODERATOR;
 
     if (!isOwner && !isAdminRole(context) && foundPart.status !== ItemStatusEnum.ACTIVE) {
       throw new BadRequestException('Part not found');
     }
 
-    if (!isOwner) {
+    if (!isOwner && !isStaff) {
       const current = Number(foundPart.viewsCount ?? 0);
       foundPart.viewsCount = current + 1;
       await this.partModel.updateOne(
@@ -238,7 +241,7 @@ export class PartService {
       );
     }
 
-    if (viewerId && !isOwner) {
+    if (viewerId && !isOwner && !isStaff) {
       await this.viewService.incrementViewsCount(
         ViewTargetTypeEnum.PART,
         foundPart._id,

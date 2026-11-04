@@ -835,9 +835,9 @@ type Query {
   getAdminStats: AdminStats!
   getAdminDailyReport(days: Int = 14): AdminDailyReport!
   adminListUsers(pagination: PaginationInput, search: String): PaginatedUsers!
-  getPendingParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum): PaginatedParts!
+  getPendingParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum, status: ItemStatusEnum, category: ObjectId, sellerId: ObjectId, minPrice: Float, maxPrice: Float, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminPartsSortEnum): PaginatedParts!
   adminListOrders(pagination: PaginationInput, search: String): PaginatedOrders!
-  adminListParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum): PaginatedParts!
+  adminListParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum, status: ItemStatusEnum, category: ObjectId, sellerId: ObjectId, minPrice: Float, maxPrice: Float, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminPartsSortEnum): PaginatedParts!
   getSellerProfile(sellerId: ObjectId!): SellerStoreProfile!
 }
 
@@ -938,6 +938,15 @@ input OrderFilterInput {
   matchSellerCategories: Boolean
 }
 
+enum AdminPartsSortEnum {
+  NEWEST
+  OLDEST
+  VIEWS
+  PRICE_ASC
+  PRICE_DESC
+  RECOMMENDED
+}
+
 type Mutation {
   signUp(data: SignUpInput!): ConfirmationOutput!
   confirmSignUp(token: String!, code: String!): AuthOutput!
@@ -1002,6 +1011,8 @@ type Mutation {
   adminSetUserVerified(userId: ObjectId!, verified: Boolean!): User!
   approvePart(partId: ObjectId!, note: String): Part!
   rejectPart(partId: ObjectId!, note: String): Part!
+  adminSetPartRecommended(partId: ObjectId!, recommended: Boolean!): Part!
+  adminSetPartViewsCount(partId: ObjectId!, viewsCount: Int!): Part!
 }
 
 input SignUpInput {

@@ -24,11 +24,15 @@ import {
   AdminListOrdersArgs,
   AdminListPartsArgs,
   AdminListUsersArgs,
+  AdminSetPartRecommendedArgs,
+  AdminSetPartViewsCountArgs,
   AdminSetUserImageArgs,
   AdminSetUserVerifiedArgs,
   ModeratePartArgs,
   SetUserRoleArgs,
 } from '../dto/args/admin.args';
+import { AdminPartsSortEnum } from '../enums/admin-parts-sort.enum';
+import { ServicePromotionPlanEnum } from 'src/modules/service/enums/service-promotion-plan.enum';
 import { AdminStats } from '../types/admin-stats.type';
 import { AnalyticsService } from 'src/modules/analytics/service/analytics.service';
 import { AdminDailyReport } from 'src/modules/analytics/types/admin-daily-report.type';
@@ -229,14 +233,50 @@ export class AdminService {
     context: ContextType,
   ): Promise<PaginatedParts> {
     this.assertAdmin(context);
-    const { pagination, search, categoryType } = args;
+    const {
+      pagination,
+      search,
+      categoryType,
+      status,
+      category,
+      sellerId,
+      minPrice,
+      maxPrice,
+      createdFrom,
+      createdTo,
+      isPromoted,
+      sort,
+    } = args;
     const filter: Record<string, unknown> = {};
+
     if (search?.trim()) {
-      const regex = new RegExp(search.trim(), 'i');
-      filter.$or = [{ name: regex }, { description: regex }];
+      const term = search.trim();
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'i');
+      const sellers = await this.userModel
+        .find({ $or: [{ name: regex }, { phone: regex }] })
+        .select('_id')
+        .lean();
+      const sellerIds = sellers.map((row) => row._id);
+      filter.$or = [
+        { name: regex },
+        { description: regex },
+        ...(sellerIds.length ? [{ seller: { $in: sellerIds } }] : []),
+        {
+          $expr: {
+            $regexMatch: {
+              input: { $toString: '$_id' },
+              regex: escaped,
+              options: 'i',
+            },
+          },
+        },
+      ];
     }
 
-    if (categoryType) {
+    if (category) {
+      filter.category = category;
+    } else if (categoryType) {
       const categories = await this.categoryModel
         .find({ type: categoryType })
         .select('_id')
@@ -245,13 +285,121 @@ export class AdminService {
       filter.category = { $in: categoryIds.length ? categoryIds : [] };
     }
 
+    if (status) {
+      filter.status = status;
+    }
+    if (sellerId) {
+      filter.seller = sellerId;
+    }
+    if (minPrice != null || maxPrice != null) {
+      const price: Record<string, number> = {};
+      if (minPrice != null) price.$gte = minPrice;
+      if (maxPrice != null) price.$lte = maxPrice;
+      filter.price = price;
+    }
+    if (createdFrom || createdTo) {
+      const createdAt: Record<string, Date> = {};
+      if (createdFrom) createdAt.$gte = createdFrom;
+      if (createdTo) createdAt.$lte = createdTo;
+      filter.createdAt = createdAt;
+    }
+    if (isPromoted === true) {
+      filter.isPromoted = true;
+      filter.promotedUntil = { $gt: new Date() };
+    } else if (isPromoted === false) {
+      const notPromoted = {
+        $or: [
+          { isPromoted: { $ne: true } },
+          { promotedUntil: { $lte: new Date() } },
+          { promotedUntil: null },
+        ],
+      };
+      const existingAnd = Array.isArray(filter.$and) ? filter.$and : [];
+      filter.$and = [...existingAnd, notPromoted];
+    }
+
     const { docs, ...meta } = await this.partModel.paginate(filter, {
       ...pagination,
-      sort: { createdAt: -1 },
+      sort: this.partsSort(sort),
       populate: [...POPULATIONS.part, ...POPULATIONS.item],
     });
 
     return { payload: docs, ...meta };
+  }
+
+  private partsSort(
+    sort?: AdminPartsSortEnum,
+  ): Record<string, 1 | -1> {
+    switch (sort) {
+      case AdminPartsSortEnum.OLDEST:
+        return { createdAt: 1, _id: 1 };
+      case AdminPartsSortEnum.VIEWS:
+        return { viewsCount: -1, createdAt: -1 };
+      case AdminPartsSortEnum.PRICE_ASC:
+        return { price: 1, createdAt: -1 };
+      case AdminPartsSortEnum.PRICE_DESC:
+        return { price: -1, createdAt: -1 };
+      case AdminPartsSortEnum.RECOMMENDED:
+        return { isPromoted: -1, promotionPriority: -1, createdAt: -1 };
+      case AdminPartsSortEnum.NEWEST:
+      default:
+        return { createdAt: -1, _id: -1 };
+    }
+  }
+
+  async setPartRecommended(
+    args: AdminSetPartRecommendedArgs,
+    context: ContextType,
+  ): Promise<Part> {
+    this.assertAdmin(context);
+    const update = args.recommended
+      ? {
+          isPromoted: true,
+          promotedUntil: dayjs().add(1, 'year').toDate(),
+          promotionPlan: ServicePromotionPlanEnum.VIP,
+          promotionPriority: 4,
+        }
+      : {
+          isPromoted: false,
+          promotedUntil: null,
+          promotionPlan: null,
+          promotionPriority: 0,
+        };
+
+    const part = await this.partModel
+      .findByIdAndUpdate(args.partId, { $set: update }, { new: true })
+      .populate([...POPULATIONS.part, ...POPULATIONS.item]);
+
+    if (!part) {
+      throw new BadRequestException('Part not found');
+    }
+
+    void this.partIndexService.indexPartById(part._id);
+    return part;
+  }
+
+  async setPartViewsCount(
+    args: AdminSetPartViewsCountArgs,
+    context: ContextType,
+  ): Promise<Part> {
+    this.assertAdmin(context);
+    if (!Number.isFinite(args.viewsCount) || args.viewsCount < 0) {
+      throw new BadRequestException('viewsCount must be a non-negative integer');
+    }
+
+    const part = await this.partModel
+      .findByIdAndUpdate(
+        args.partId,
+        { $set: { viewsCount: Math.floor(args.viewsCount) } },
+        { new: true },
+      )
+      .populate([...POPULATIONS.part, ...POPULATIONS.item]);
+
+    if (!part) {
+      throw new BadRequestException('Part not found');
+    }
+
+    return part;
   }
 
   async listOrders(
