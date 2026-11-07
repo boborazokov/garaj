@@ -1,0 +1,22 @@
+.banner-antd-control.ant-select,
+.banner-antd-control.ant-picker {
+  width: 100%;
+}
+
+.banner-antd-control .ant-select-selector,
+.banner-antd-control.ant-picker {
+  min-height: 40px !important;
+  border-radius: 8px !important;
+  border-color: #e2e8f0 !important;
+}
+
+.banner-antd-control .ant-select-selection-item {
+  line-height: 28px !important;
+}
+
+/* Radix dialog uses transform; keep Ant popups clickable above content. */
+[data-slot="dialog-content"] .ant-select-dropdown,
+[data-slot="dialog-content"] .ant-picker-dropdown {
+  z-index: 100 !important;
+  pointer-events: auto !important;
+}

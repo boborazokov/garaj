@@ -8,12 +8,13 @@ import {
   Settings,
   ShieldCheck,
   Users,
+  Wrench,
 } from "lucide-react";
 import type { LocalizedText } from "@/lib/i18n";
 import type { AppNavGroup } from "../types";
 
 export const SHELL_COLORS = {
-  pageBg: "#eef1f4",
+  pageBg: "#ffffff",
   cardBg: "#ffffff",
   sidebarBorder: "#eef0f3",
   border: "#e2e8f0",
@@ -83,9 +84,14 @@ export const ADMIN_NAV_GROUPS: AppNavGroup[] = [
         icon: FolderTree,
       },
       {
-        to: "/admin/parts",
-        label: { uz: "E'lonlar", ru: "Объявления", en: "Listings" },
+        to: "/admin/products",
+        label: { uz: "Mahsulotlar", ru: "Товары", en: "Products" },
         icon: Package,
+      },
+      {
+        to: "/admin/workshops",
+        label: { uz: "Avtoservislar", ru: "Автосервисы", en: "Workshops" },
+        icon: Wrench,
       },
       {
         to: "/admin/advertisements",

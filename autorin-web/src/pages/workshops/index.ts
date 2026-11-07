@@ -1,0 +1,1 @@
+export { WorkshopsPage } from "./WorkshopsPage";

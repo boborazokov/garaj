@@ -2,17 +2,17 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AdminLayout } from "./components/layout/AdminLayout";
 import { ModeratorLayout } from "./components/layout/ModeratorLayout";
 import { SignInPage } from "./pages/sign-in";
-import { AdminDashboardPage } from "./admin/DashboardPage";
-import { AdminUsersPage } from "./admin/UsersPage";
-import { AdminPartsPage } from "./admin/PartsPage";
-import { AdminPartDetailPage } from "./admin/PartDetailPage";
+import { DashboardPage } from "./pages/dashboard";
+import { ProductsPage } from "./pages/products";
+import { WorkshopsPage } from "./pages/workshops";
+import { CategoriesPage } from "./pages/categories";
+import { BannersPage } from "./pages/banners";
 import { AdminSettingsPage } from "./admin/SettingsPage";
-import { AdminCategoriesPage } from "./admin/CategoriesPage";
-import { AdminAdvertisementsPage } from "./admin/AdvertisementsPage";
-import { AdminMessagesPage } from "./admin/MessagesPage";
-import { AdminModerationPage } from "./admin/ModerationPage";
-import { AdminOrdersPage } from "./admin/OrdersPage";
-import { ModeratorQueuePage } from "./moderator/QueuePage";
+import { MessagesPage } from "./pages/messages";
+import { ModerationPage } from "./pages/moderation";
+import { UserInfoPage } from "./pages/user-info";
+import { UsersPage } from "./pages/users";
+import { OrdersPage } from "./pages/orders";
 
 export default function App() {
   return (
@@ -24,20 +24,25 @@ export default function App() {
         <Route path="/signup" element={<Navigate to="/sign-in" replace />} />
 
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboardPage />} />
-          <Route path="categories" element={<AdminCategoriesPage />} />
-          <Route path="advertisements" element={<AdminAdvertisementsPage />} />
-          <Route path="moderation" element={<AdminModerationPage />} />
-          <Route path="orders" element={<AdminOrdersPage />} />
-          <Route path="messages" element={<AdminMessagesPage />} />
-          <Route path="users" element={<AdminUsersPage />} />
-          <Route path="parts" element={<AdminPartsPage />} />
-          <Route path="parts/:id" element={<AdminPartDetailPage />} />
+          <Route index element={<DashboardPage />} />
+          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="advertisements" element={<BannersPage />} />
+
+          <Route path="moderation" element={<ModerationPage />} />
+          <Route path="orders" element={<OrdersPage />} />
+          <Route path="messages" element={<MessagesPage />} />
+          <Route path="users" element={<UsersPage />} />
+          <Route path="users/:userId" element={<UserInfoPage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="products/:id" element={<Navigate to="/admin/products" replace />} />
+          <Route path="parts" element={<Navigate to="/admin/products" replace />} />
+          <Route path="parts/:id" element={<Navigate to="/admin/products" replace />} />
+          <Route path="workshops" element={<WorkshopsPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
 
         <Route path="/moderator" element={<ModeratorLayout />}>
-          <Route index element={<ModeratorQueuePage />} />
+          <Route index element={<ModerationPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/admin" replace />} />

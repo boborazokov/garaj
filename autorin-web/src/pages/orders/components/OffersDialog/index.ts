@@ -1,0 +1,1 @@
+export { OffersDialog } from "./OffersDialog";

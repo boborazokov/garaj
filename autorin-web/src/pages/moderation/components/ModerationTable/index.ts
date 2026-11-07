@@ -1,0 +1,1 @@
+export { ModerationTable } from "./ModerationTable";

@@ -1,0 +1,1 @@
+export { PlatformStrip } from "./PlatformStrip";

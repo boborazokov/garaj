@@ -91,7 +91,18 @@ const errorLink = new ErrorLink(({ error, operation, forward }) => {
 
 export const apolloClient = new ApolloClient({
   link: errorLink.concat(authLink).concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          // Nested filter must key the field — otherwise BRAND/PART lists overwrite each other.
+          getCategories: {
+            keyArgs: ['filter'],
+          },
+        },
+      },
+    },
+  }),
   defaultOptions: {
     watchQuery: { fetchPolicy: 'cache-and-network' },
     query: { fetchPolicy: 'network-only' },

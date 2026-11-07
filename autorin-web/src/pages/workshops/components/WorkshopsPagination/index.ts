@@ -1,0 +1,1 @@
+export { WorkshopsPagination } from "./WorkshopsPagination";

@@ -25,6 +25,8 @@ export const GET_PARTS = gql`
         status
         isPromoted
         isNew
+        viewsCount
+        quantity
         brand { _id name }
         carModel { _id name }
         category { _id name }
@@ -51,12 +53,28 @@ export const GET_PART_BY_ID = gql`
       region
       status
       isPromoted
+      promotedUntil
       isNew
       isNegotiable
+      deliveryCondition
+      viewsCount
+      quantity
       moderationNote
-      category { _id name }
-      brand { _id name }
-      carModel { _id name }
+      category {
+        _id
+        name
+        names { uz ru en }
+      }
+      brand {
+        _id
+        name
+        names { uz ru en }
+      }
+      carModel {
+        _id
+        name
+        names { uz ru en }
+      }
       seller { _id name phone address }
       createdAt
     }
@@ -66,6 +84,24 @@ export const GET_PART_BY_ID = gql`
 export const GET_CATEGORIES = gql`
   query GetCategories($filter: CategoryFilterInput) {
     getCategories(filter: $filter) {
+      _id
+      name
+      names {
+        en
+        ru
+        uz
+      }
+      iconUrl
+      type
+      parentId
+    }
+  }
+`
+
+/** Products filter: PART taxonomy only (avoids Apollo cache clash with other getCategories calls). */
+export const GET_PRODUCT_CATEGORIES = gql`
+  query GetProductCategories {
+    getCategories(filter: { type: PART }) {
       _id
       name
       names {
@@ -132,7 +168,15 @@ export const ADMIN_LIST_ADVERTISEMENTS = gql`
         title
         bannerImageUrl
         link
+        startsAt
+        endsAt
+        status
+        impressionCount
+        clickCount
+        ctr
+        isFree
         createdAt
+        updatedAt
       }
       page
       totalPages
@@ -150,6 +194,13 @@ export const CREATE_ADVERTISEMENT = gql`
       type
       bannerImageUrl
       link
+      startsAt
+      endsAt
+      status
+      impressionCount
+      clickCount
+      ctr
+      isFree
     }
   }
 `
@@ -162,6 +213,13 @@ export const UPDATE_ADVERTISEMENT = gql`
       type
       bannerImageUrl
       link
+      startsAt
+      endsAt
+      status
+      impressionCount
+      clickCount
+      ctr
+      isFree
     }
   }
 `
@@ -173,26 +231,82 @@ export const DELETE_ADVERTISEMENT = gql`
 `
 
 export const ADMIN_LIST_ORDERS = gql`
-  query AdminListOrders($pagination: PaginationInput, $search: String) {
-    adminListOrders(pagination: $pagination, search: $search) {
+  query AdminListOrders(
+    $pagination: PaginationInput
+    $search: String
+    $status: OrderStatusEnum
+    $partCategoryId: ObjectId
+    $authorId: ObjectId
+    $createdFrom: DateTime
+    $createdTo: DateTime
+    $isPromoted: Boolean
+    $sort: AdminOrdersSortEnum
+  ) {
+    adminListOrders(
+      pagination: $pagination
+      search: $search
+      status: $status
+      partCategoryId: $partCategoryId
+      authorId: $authorId
+      createdFrom: $createdFrom
+      createdTo: $createdTo
+      isPromoted: $isPromoted
+      sort: $sort
+    ) {
       payload {
         _id
         title
+        description
         phone
         status
         budget
         currency
         location
+        region
+        images
+        isPromoted
+        promotedUntil
+        urgency
+        year
         createdAt
         author { _id name phone }
-        brand { name }
-        carModel { name }
-        partCategory { name }
+        brand {
+          _id
+          name
+          names { en ru uz }
+        }
+        carModel {
+          _id
+          name
+          names { en ru uz }
+        }
+        partCategory {
+          _id
+          name
+          names { en ru uz }
+          type
+          parentId
+        }
       }
       page
       totalPages
       hasNextPage
       nextPage
+    }
+  }
+`
+
+export const GET_ORDER_RESPONSES = gql`
+  query GetOrderResponses($orderId: ObjectId!) {
+    getOrderResponses(orderId: $orderId) {
+      _id
+      text
+      offeredPrice
+      deliveryDays
+      isAccepted
+      createdAt
+      seller { _id name phone }
+      part { _id name price currency }
     }
   }
 `
@@ -246,6 +360,8 @@ export const GET_ADMIN_STATS = gql`
       activePartsCount
       pendingModerationCount
       ordersCount
+      workshopsCount
+      activeWorkshopsCount
     }
   }
 `
@@ -260,6 +376,8 @@ export const GET_ADMIN_DAILY_REPORT = gql`
       totalOrdersPublished
       todayVisits
       todayPartsPublished
+      todayOrdersPublished
+      todayNewUsers
       rows {
         date
         visits
@@ -353,25 +471,53 @@ export const ADMIN_LIST_PARTS = gql`
     $pagination: PaginationInput
     $search: String
     $categoryType: CategoryTypeEnum
+    $status: ItemStatusEnum
+    $category: ObjectId
+    $sellerId: ObjectId
+    $minPrice: Float
+    $maxPrice: Float
+    $createdFrom: DateTime
+    $createdTo: DateTime
+    $isPromoted: Boolean
+    $sort: AdminPartsSortEnum
   ) {
     adminListParts(
       pagination: $pagination
       search: $search
       categoryType: $categoryType
+      status: $status
+      category: $category
+      sellerId: $sellerId
+      minPrice: $minPrice
+      maxPrice: $maxPrice
+      createdFrom: $createdFrom
+      createdTo: $createdTo
+      isPromoted: $isPromoted
+      sort: $sort
     ) {
       payload {
         _id
         name
         price
         currency
+        quantity
+        viewsCount
         status
+        isPromoted
+        promotedUntil
         createdAt
         images
-        category { name type }
-        seller { name phone }
+        category {
+          _id
+          name
+          type
+          names { uz ru en }
+        }
+        seller { _id name phone }
       }
       page
       totalPages
+      totalDocs
       hasNextPage
       nextPage
     }
@@ -382,6 +528,117 @@ export const DELETE_PART = gql`
   mutation DeletePart($partId: ObjectId!) {
     deletePartById(partId: $partId) {
       _id
+    }
+  }
+`
+
+export const ADMIN_SET_PART_RECOMMENDED = gql`
+  mutation AdminSetPartRecommended($partId: ObjectId!, $recommended: Boolean!) {
+    adminSetPartRecommended(partId: $partId, recommended: $recommended) {
+      _id
+      isPromoted
+      promotedUntil
+    }
+  }
+`
+
+export const ADMIN_SET_PART_VIEWS_COUNT = gql`
+  mutation AdminSetPartViewsCount($partId: ObjectId!, $viewsCount: Int!) {
+    adminSetPartViewsCount(partId: $partId, viewsCount: $viewsCount) {
+      _id
+      viewsCount
+    }
+  }
+`
+
+export const ADMIN_LIST_WORKSHOPS = gql`
+  query AdminListWorkshops(
+    $pagination: PaginationInput
+    $search: String
+    $status: ItemStatusEnum
+    $categoryId: ObjectId
+    $ownerId: ObjectId
+    $createdFrom: DateTime
+    $createdTo: DateTime
+    $isPromoted: Boolean
+    $sort: AdminWorkshopsSortEnum
+  ) {
+    adminListWorkshops(
+      pagination: $pagination
+      search: $search
+      status: $status
+      categoryId: $categoryId
+      ownerId: $ownerId
+      createdFrom: $createdFrom
+      createdTo: $createdTo
+      isPromoted: $isPromoted
+      sort: $sort
+    ) {
+      payload {
+        _id
+        name
+        description
+        phone
+        city
+        address
+        location
+        coverImage
+        logo
+        gallery
+        status
+        verified
+        isPromoted
+        promotedUntil
+        promotionPlan
+        viewCount
+        phoneClickCount
+        bookingCount
+        rating
+        reviewCount
+        createdAt
+        categories {
+          _id
+          slug
+          name
+          names { uz ru en }
+        }
+        owner { _id name phone }
+      }
+      page
+      totalPages
+      totalDocs
+      hasNextPage
+      nextPage
+    }
+  }
+`
+
+export const WORKSHOP_CATEGORIES = gql`
+  query WorkshopCategories {
+    workshopCategories {
+      _id
+      slug
+      name
+      popular
+      names { uz ru en }
+    }
+  }
+`
+
+export const DELETE_WORKSHOP = gql`
+  mutation DeleteWorkshop($workshopId: ObjectId!) {
+    deleteWorkshopById(workshopId: $workshopId) {
+      _id
+    }
+  }
+`
+
+export const ADMIN_SET_WORKSHOP_RECOMMENDED = gql`
+  mutation AdminSetWorkshopRecommended($workshopId: ObjectId!, $recommended: Boolean!) {
+    adminSetWorkshopRecommended(workshopId: $workshopId, recommended: $recommended) {
+      _id
+      isPromoted
+      promotedUntil
     }
   }
 `
@@ -399,6 +656,25 @@ export const CLOSE_ORDER = gql`
     closeOrderById(orderId: $orderId) {
       _id
       status
+    }
+  }
+`
+
+export const REOPEN_ORDER = gql`
+  mutation ReopenOrder($orderId: ObjectId!) {
+    reopenOrderById(orderId: $orderId) {
+      _id
+      status
+    }
+  }
+`
+
+export const ADMIN_SET_ORDER_RECOMMENDED = gql`
+  mutation AdminSetOrderRecommended($orderId: ObjectId!, $recommended: Boolean!) {
+    adminSetOrderRecommended(orderId: $orderId, recommended: $recommended) {
+      _id
+      isPromoted
+      promotedUntil
     }
   }
 `

@@ -1,4 +1,4 @@
-import { API_URL } from './config'
+import { API_ORIGIN } from './config'
 import { getToken } from './auth'
 
 async function postFile(path: string, file: File): Promise<string> {
@@ -6,7 +6,8 @@ async function postFile(path: string, file: File): Promise<string> {
   formData.append('file', file)
 
   const token = getToken()
-  const res = await fetch(`${API_URL.replace(/\/$/, '')}${path}`, {
+  // REST uploads live at `/upload/...`, not under GraphQL `/api`.
+  const res = await fetch(`${API_ORIGIN}${path}`, {
     method: 'POST',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: formData,
