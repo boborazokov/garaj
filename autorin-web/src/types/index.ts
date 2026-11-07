@@ -16,6 +16,7 @@ export interface CategoryRef {
   names?: CategoryNames
   iconUrl?: string
   type?: CategoryType
+  parentId?: string | null
 }
 
 export type CategoryType =
@@ -26,6 +27,79 @@ export type CategoryType =
   | 'TUNING'
   | 'ANNOUNCEMENT'
 
+export type AdminPartsSort =
+  | 'NEWEST'
+  | 'OLDEST'
+  | 'VIEWS'
+  | 'PRICE_ASC'
+  | 'PRICE_DESC'
+  | 'RECOMMENDED'
+
+export type AdminWorkshopsSort =
+  | 'NEWEST'
+  | 'OLDEST'
+  | 'VIEWS'
+  | 'RECOMMENDED'
+
+export type AdminOrdersSort =
+  | 'NEWEST'
+  | 'OLDEST'
+  | 'BUDGET_ASC'
+  | 'BUDGET_DESC'
+  | 'RECOMMENDED'
+
+export type OrderStatus = 'ACTIVE' | 'CLOSED' | 'CANCELLED'
+
+export interface WorkshopCategoryRef {
+  _id: string
+  slug?: string
+  name?: string
+  popular?: boolean
+  names?: CategoryNames
+}
+
+export type WorkshopPromotionPlan =
+  | 'BASIC'
+  | 'STANDARD'
+  | 'PREMIUM'
+  | 'VIP'
+  | 'TOP'
+
+export interface WorkshopRow {
+  _id: string
+  name: string
+  description?: string
+  phone?: string
+  city?: string
+  address?: string
+  location?: string
+  coverImage?: string
+  logo?: string
+  gallery?: string[]
+  status: ItemStatus
+  verified?: boolean
+  isPromoted?: boolean
+  promotedUntil?: string | null
+  promotionPlan?: WorkshopPromotionPlan | null
+  viewCount?: number
+  phoneClickCount?: number
+  bookingCount?: number
+  rating?: number
+  reviewCount?: number
+  createdAt?: string
+  categories?: WorkshopCategoryRef[]
+  owner?: Seller
+}
+
+export interface PaginatedWorkshops {
+  payload: WorkshopRow[]
+  page: number
+  totalPages: number
+  totalDocs: number
+  hasNextPage: boolean
+  nextPage: number | null
+}
+
 export interface CategoryRow {
   _id: string
   name: string
@@ -35,13 +109,23 @@ export interface CategoryRow {
   parentId?: string | null
 }
 
+export type AdvertisementStatus = "ACTIVE" | "PAUSED" | "EXPIRED"
+
 export interface AdvertisementRow {
   _id: string
   type: CategoryType
   title: string
   bannerImageUrl: string
   link: string
+  startsAt?: string | null
+  endsAt?: string | null
+  status: AdvertisementStatus
+  impressionCount: number
+  clickCount: number
+  ctr: number
+  isFree: boolean
   createdAt?: string
+  updatedAt?: string
 }
 
 export interface PaginatedAdvertisements {
@@ -55,16 +139,34 @@ export interface PaginatedAdvertisements {
 export interface OrderRow {
   _id: string
   title: string
+  description?: string
   phone: string
-  status: string
+  status: OrderStatus
   budget?: number
   currency?: string
   location?: string
+  region?: string
+  images?: string[]
+  isPromoted?: boolean
+  promotedUntil?: string | null
+  urgency?: string
+  year?: number | null
   createdAt?: string
   author?: { _id: string; name: string; phone?: string }
-  brand?: { name: string }
-  carModel?: { name: string }
-  partCategory?: { name: string }
+  brand?: CategoryRef
+  carModel?: CategoryRef
+  partCategory?: CategoryRef
+}
+
+export interface OrderOfferRow {
+  _id: string
+  text: string
+  offeredPrice?: number | null
+  deliveryDays?: number | null
+  isAccepted: boolean
+  createdAt?: string
+  seller?: { _id: string; name: string; phone?: string }
+  part?: { _id: string; name: string; price?: number; currency?: string } | null
 }
 
 export interface PaginatedOrders {
@@ -88,13 +190,17 @@ export interface Part {
   description: string
   price: number
   currency: string
+  quantity?: number
+  viewsCount?: number
   images?: string[]
   location?: string
   region?: string
   status: ItemStatus
   isPromoted?: boolean
+  promotedUntil?: string | null
   isNew?: boolean
   isNegotiable?: boolean
+  deliveryCondition?: "INCLUDED" | "NOT_INCLUDED" | "UNDER_CONTRACT"
   category?: CategoryRef
   brand?: CategoryRef
   carModel?: CategoryRef
@@ -135,6 +241,8 @@ export interface AdminStats {
   activePartsCount: number
   pendingModerationCount: number
   ordersCount: number
+  workshopsCount: number
+  activeWorkshopsCount: number
 }
 
 export interface AppSettings {
@@ -160,6 +268,8 @@ export interface AdminDailyReport {
   totalOrdersPublished: number
   todayVisits: number
   todayPartsPublished: number
+  todayOrdersPublished: number
+  todayNewUsers: number
 }
 
 // ---------------------------------------------------------------------------

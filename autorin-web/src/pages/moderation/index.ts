@@ -1,0 +1,1 @@
+export { ModerationPage } from "./ModerationPage";

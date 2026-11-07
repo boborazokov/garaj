@@ -9,6 +9,7 @@ export const HeaderRoot = styled.header`
   min-height: 56px;
   padding: 8px 22px 4px;
   background: ${SHELL_COLORS.cardBg};
+  border-bottom: 1px solid ${SHELL_COLORS.sidebarBorder};
 
   @media (max-width: 900px) {
     padding: 8px 16px;

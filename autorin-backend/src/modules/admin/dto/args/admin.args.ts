@@ -3,6 +3,8 @@ import { ObjectIdScalar } from 'src/common';
 import { PaginationInput } from 'src/shared/inputs';
 import { UserRoleEnum } from 'src/modules/user/enums';
 import { CategoryTypeEnum } from 'src/modules/category/enums';
+import { ItemStatusEnum } from 'src/modules/item/enums';
+import { AdminPartsSortEnum } from '../../enums/admin-parts-sort.enum';
 import { Types } from 'mongoose';
 import { FileUpload, GraphQLUpload } from 'graphql-upload-ts';
 
@@ -82,6 +84,51 @@ export class AdminListPartsArgs {
 
   @Field(() => CategoryTypeEnum, { nullable: true })
   categoryType?: CategoryTypeEnum;
+
+  @Field(() => ItemStatusEnum, { nullable: true })
+  status?: ItemStatusEnum;
+
+  @Field(() => ObjectIdScalar, { nullable: true })
+  category?: Types.ObjectId;
+
+  @Field(() => ObjectIdScalar, { nullable: true })
+  sellerId?: Types.ObjectId;
+
+  @Field({ nullable: true })
+  minPrice?: number;
+
+  @Field({ nullable: true })
+  maxPrice?: number;
+
+  @Field(() => Date, { nullable: true })
+  createdFrom?: Date;
+
+  @Field(() => Date, { nullable: true })
+  createdTo?: Date;
+
+  @Field({ nullable: true })
+  isPromoted?: boolean;
+
+  @Field(() => AdminPartsSortEnum, { nullable: true })
+  sort?: AdminPartsSortEnum;
+}
+
+@ArgsType()
+export class AdminSetPartRecommendedArgs {
+  @Field(() => ObjectIdScalar)
+  partId: Types.ObjectId;
+
+  @Field()
+  recommended: boolean;
+}
+
+@ArgsType()
+export class AdminSetPartViewsCountArgs {
+  @Field(() => ObjectIdScalar)
+  partId: Types.ObjectId;
+
+  @Field(() => Int)
+  viewsCount: number;
 }
 
 @ArgsType()

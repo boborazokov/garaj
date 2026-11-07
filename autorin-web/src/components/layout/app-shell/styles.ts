@@ -5,6 +5,9 @@ export const PageFrame = styled.div`
   height: 100vh;
   overflow: hidden;
   background: ${SHELL_COLORS.cardBg};
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
 `;
 
 export const ShellCard = styled.div`
@@ -29,11 +32,11 @@ export const MainArea = styled.main`
   flex: 1;
   min-height: 0;
   overflow: auto;
-  padding: 8px 22px 24px;
+  padding: 12px 22px 28px;
   background: ${SHELL_COLORS.cardBg};
 
   @media (max-width: 900px) {
-    padding: 8px 16px 20px;
+    padding: 10px 16px 22px;
   }
 `;
 

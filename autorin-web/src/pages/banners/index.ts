@@ -1,0 +1,1 @@
+export { BannersPage } from "./BannersPage";

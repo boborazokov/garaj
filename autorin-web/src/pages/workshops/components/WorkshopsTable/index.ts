@@ -1,0 +1,1 @@
+export { WorkshopsTable } from "./WorkshopsTable";

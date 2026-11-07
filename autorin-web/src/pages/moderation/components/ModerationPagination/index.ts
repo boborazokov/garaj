@@ -1,0 +1,1 @@
+export { ModerationPagination } from "./ModerationPagination";

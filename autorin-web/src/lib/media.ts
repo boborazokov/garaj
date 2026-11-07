@@ -1,4 +1,4 @@
-import { API_URL, FILE_URL } from './config'
+import { API_ORIGIN, FILE_URL } from './config'
 
 /** MinIO path or full MinIO/CDN URL → storage key (bucket/rest). */
 export function toStoragePath(path: string): string {
@@ -31,6 +31,5 @@ export function mediaUrl(path?: string | null): string {
   const storagePath = toStoragePath(path)
   if (!storagePath) return ''
 
-  const api = API_URL.replace(/\/$/, '')
-  return `${api}/media/${storagePath}`
+  return `${API_ORIGIN}/media/${storagePath}`
 }
