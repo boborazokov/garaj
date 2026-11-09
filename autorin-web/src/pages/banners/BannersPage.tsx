@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   ADMIN_LIST_ADVERTISEMENTS,
+  ADVERTISEMENT_PLAN_PRICES,
   CREATE_ADVERTISEMENT,
   DELETE_ADVERTISEMENT,
   UPDATE_ADVERTISEMENT,
@@ -12,6 +13,7 @@ import { useLanguage } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
 import { uploadAdvertisementBanner } from "@/lib/upload";
 import type {
+  AdvertisementPlanPrice,
   AdvertisementRow,
   AdvertisementStatus,
   CategoryType,
@@ -21,11 +23,12 @@ import {
   BannerFormDialog,
   BannersPagination,
   BannersTable,
+  BannersTariffs,
   BannersToolbar,
   ConfirmDialog,
   StatsDialog,
 } from "./components";
-import { BANNERS_TEXTS } from "./constants";
+import { BANNERS_TEXTS, DURATION_OPTIONS } from "./constants";
 import {
   dateInputToIso,
   emptyBannerForm,
@@ -89,6 +92,17 @@ export function BannersPage() {
     },
   });
 
+  const {
+    data: tariffData,
+    loading: tariffsLoading,
+    refetch: refetchTariffs,
+  } = useQuery<{
+    advertisementPlanPrices: AdvertisementPlanPrice[];
+  }>(ADVERTISEMENT_PLAN_PRICES, {
+    fetchPolicy: "cache-and-network",
+  });
+  const planPrices = tariffData?.advertisementPlanPrices;
+
   const [createAd] = useMutation(CREATE_ADVERTISEMENT);
   const [updateAd] = useMutation(UPDATE_ADVERTISEMENT);
   const [deleteAd, { loading: deleting }] = useMutation(DELETE_ADVERTISEMENT);
@@ -117,16 +131,22 @@ export function BannersPage() {
   function openEdit(row: AdvertisementRow) {
     setEditing(row);
     setCreating(false);
+    const duration = inferDuration(
+      toDateInputValue(row.startsAt),
+      toDateInputValue(row.endsAt),
+    );
+    const plan =
+      row.plan ??
+      (DURATION_OPTIONS.find((item) => item.id === duration)?.plan ?? null);
     setForm({
       title: row.title,
       link: row.link,
       bannerImageUrl: row.bannerImageUrl,
       startsAt: toDateInputValue(row.startsAt),
       endsAt: toDateInputValue(row.endsAt),
-      duration: inferDuration(
-        toDateInputValue(row.startsAt),
-        toDateInputValue(row.endsAt),
-      ),
+      duration,
+      plan,
+      isFree: Boolean(row.isFree),
       status: writableStatus(row.status),
     });
     clearImagePreview();
@@ -198,6 +218,9 @@ export function BannersPage() {
         startsAt: dateInputToIso(form.startsAt),
         endsAt: endDateInputToIso(form.endsAt),
         status: form.status,
+        isFree: form.isFree,
+        plan: form.isFree ? null : form.plan,
+        amountPaid: form.isFree ? 0 : undefined,
       };
 
       if (editing) {
@@ -244,6 +267,14 @@ export function BannersPage() {
           {t(BANNERS_TEXTS.add)}
         </Button>
       </div>
+
+      <BannersTariffs
+        prices={planPrices}
+        loading={tariffsLoading}
+        onSaved={async () => {
+          await refetchTariffs();
+        }}
+      />
 
       <section className="overflow-hidden rounded-[10px] border border-border bg-card">
         <BannersToolbar
@@ -292,6 +323,7 @@ export function BannersPage() {
         error={error}
         busy={uploading}
         fileInputRef={fileInputRef}
+        planPrices={planPrices}
         onClose={closeModal}
         onFormChange={setForm}
         onPickImage={onPickImage}

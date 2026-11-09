@@ -27,10 +27,18 @@ import {
   AdminSetOrderRecommendedArgs,
   AdminSetPartViewsCountArgs,
   AdminSetWorkshopRecommendedArgs,
+  SetAdvertisementTariffArgs,
+  DeleteAdvertisementTariffArgs,
+  SetAdvertisementTariffsArgs,
+  SetPromotionTariffArgs,
+  DeletePromotionTariffArgs,
+  SetPromotionTariffsArgs,
 } from '../dto/args/admin.args';
 import { AdminDailyReport } from 'src/modules/analytics/types/admin-daily-report.type';
 import { AdminStats } from '../types/admin-stats.type';
 import { AdminService } from '../service/admin.service';
+import { AdvertisementPlanPrice } from 'src/modules/advertisement/schema';
+import { PromotionPlanPrice } from 'src/modules/promotion-payment/schema';
 
 @Resolver()
 export class AdminResolver {
@@ -62,6 +70,89 @@ export class AdminResolver {
       args.supportPhone,
       context,
     );
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => [AdvertisementPlanPrice], { name: 'setAdvertisementTariff' })
+  setAdvertisementTariff(
+    @Args() args: SetAdvertisementTariffArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setAdvertisementTariff(
+      args.placement,
+      args.plan,
+      args.amount,
+      context,
+    );
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => [AdvertisementPlanPrice], {
+    name: 'deleteAdvertisementTariff',
+  })
+  deleteAdvertisementTariff(
+    @Args() args: DeleteAdvertisementTariffArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.deleteAdvertisementTariff(
+      args.placement,
+      args.plan,
+      context,
+    );
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => [AdvertisementPlanPrice], { name: 'setAdvertisementTariffs' })
+  setAdvertisementTariffs(
+    @Args() args: SetAdvertisementTariffsArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setAdvertisementTariffs(args.rows, context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => [AdvertisementPlanPrice], {
+    name: 'resetAdvertisementTariffs',
+  })
+  resetAdvertisementTariffs(@Context() context: ContextType) {
+    return this.adminService.resetAdvertisementTariffs(context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => [PromotionPlanPrice], { name: 'setPromotionTariff' })
+  setPromotionTariff(
+    @Args() args: SetPromotionTariffArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setPromotionTariff(
+      args.plan,
+      args.amount,
+      context,
+    );
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => [PromotionPlanPrice], { name: 'deletePromotionTariff' })
+  deletePromotionTariff(
+    @Args() args: DeletePromotionTariffArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.deletePromotionTariff(args.plan, context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => [PromotionPlanPrice], { name: 'setPromotionTariffs' })
+  setPromotionTariffs(
+    @Args() args: SetPromotionTariffsArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setPromotionTariffs(args.rows, context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => [PromotionPlanPrice], { name: 'resetPromotionTariffs' })
+  resetPromotionTariffs(@Context() context: ContextType) {
+    return this.adminService.resetPromotionTariffs(context);
   }
 
   @UseRole(UserRoleEnum.ADMIN)

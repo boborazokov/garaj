@@ -18,14 +18,19 @@ import {
   PROMOTION_PLAN_WEIGHT,
   ServicePromotionPlanEnum,
 } from 'src/modules/service/enums/service-promotion-plan.enum';
-import { buildPromotionUpdate } from 'src/modules/service/utils/promotion';
+import {
+  buildPromotionClearUpdate,
+  buildPromotionUpdate,
+} from 'src/modules/service/utils/promotion';
 import { Workshop } from 'src/modules/workshop/schema';
 import { CurrencyEnum } from 'src/shared/enums';
 import { WalletService } from 'src/modules/wallet/service';
+import { AppSettingsService } from 'src/modules/app-settings/service';
 import { PROMOTION_PLAN_PRICES_UZS } from '../constants/plan-prices';
 import {
   AdminFulfillPromotionArgs,
   AdminRetryPromotionPaymentArgs,
+  CancelPromotionArgs,
   PurchasePromotionArgs,
 } from '../dto';
 import {
@@ -50,16 +55,33 @@ export class PromotionPaymentService {
     @InjectModel(COLLECTIONS.WORKSHOPS)
     private readonly workshopModel: Model<Workshop>,
     private readonly walletService: WalletService,
+    private readonly appSettingsService: AppSettingsService,
   ) {}
 
-  getPlanPrices(): PromotionPlanPrice[] {
+  async getPlanPrices(): Promise<PromotionPlanPrice[]> {
+    const overrides = await this.appSettingsService.getPromotionTariffs();
     return Object.values(ServicePromotionPlanEnum).map((plan) => ({
       plan,
-      amount: PROMOTION_PLAN_PRICES_UZS[plan],
+      amount:
+        typeof overrides[plan] === 'number'
+          ? overrides[plan]
+          : PROMOTION_PLAN_PRICES_UZS[plan],
       currency: CurrencyEnum.UZS,
       days: PROMOTION_PLAN_DAYS[plan],
       priority: PROMOTION_PLAN_WEIGHT[plan],
     }));
+  }
+
+  async priceForPlan(plan: ServicePromotionPlanEnum): Promise<number> {
+    const overrides = await this.appSettingsService.getPromotionTariffs();
+    const amount =
+      typeof overrides[plan] === 'number'
+        ? overrides[plan]
+        : PROMOTION_PLAN_PRICES_UZS[plan];
+    if (amount == null || amount < 0) {
+      throw new BadRequestException('Invalid promotion plan');
+    }
+    return amount;
   }
 
   /**
@@ -77,8 +99,8 @@ export class PromotionPaymentService {
 
     await this.assertOwnsTarget(targetType, targetId, userObjectId);
 
-    const amount = PROMOTION_PLAN_PRICES_UZS[plan];
-    if (!amount || amount <= 0) {
+    const amount = await this.priceForPlan(plan);
+    if (amount <= 0) {
       throw new BadRequestException('Invalid promotion plan');
     }
 
@@ -102,6 +124,8 @@ export class PromotionPaymentService {
         userId: userObjectId,
         amount,
         promotionPaymentId: payment._id,
+        plan,
+        targetType,
       });
       payment.provider = 'WALLET';
       payment.providerRef = walletTx._id.toString();
@@ -141,6 +165,77 @@ export class PromotionPaymentService {
     }
 
     return payment;
+  }
+
+  /**
+   * Admin Top / recommend: charge the listing owner's wallet, then caller
+   * applies the boost. Fails with INSUFFICIENT_WALLET_BALANCE if empty.
+   */
+  async adminChargeOwnerForBoost(params: {
+    targetType: PromotionTargetTypeEnum;
+    targetId: Types.ObjectId;
+    plan?: ServicePromotionPlanEnum;
+    context: ContextType;
+  }): Promise<PromotionPayment> {
+    this.assertAdmin(params.context);
+    const plan = params.plan ?? ServicePromotionPlanEnum.TOP;
+    const amount = await this.priceForPlan(plan);
+    if (amount <= 0) {
+      throw new BadRequestException('Invalid promotion plan');
+    }
+
+    const ownerId = await this.resolveOwnerId(
+      params.targetType,
+      params.targetId,
+    );
+
+    const payment = await this.paymentModel.create({
+      user: ownerId,
+      targetType: params.targetType,
+      targetId: params.targetId,
+      plan,
+      amount,
+      currency: CurrencyEnum.UZS,
+      status: PromotionPaymentStatusEnum.PENDING,
+      provider: 'WALLET_ADMIN',
+      providerRef: null,
+      paidAt: null,
+      promotedAt: null,
+      failureReason: null,
+    });
+
+    try {
+      const walletTx = await this.walletService.debitForPromotion({
+        userId: ownerId,
+        amount,
+        promotionPaymentId: payment._id,
+        plan,
+        targetType: params.targetType,
+      });
+      payment.providerRef = walletTx._id.toString();
+      payment.status = PromotionPaymentStatusEnum.PAID;
+      payment.paidAt = new Date();
+      await payment.save();
+      return payment;
+    } catch (err) {
+      payment.status = PromotionPaymentStatusEnum.FAILED;
+      const message =
+        err instanceof Error ? err.message : 'Wallet charge failed';
+      payment.failureReason = message;
+      await payment.save();
+      if (message === 'INSUFFICIENT_WALLET_BALANCE') {
+        throw new BadRequestException(
+          'INSUFFICIENT_WALLET_BALANCE: Owner wallet has insufficient funds for Top.',
+        );
+      }
+      throw new BadRequestException(message);
+    }
+  }
+
+  async markPromotionPaymentPromoted(paymentId: Types.ObjectId) {
+    await this.paymentModel.findByIdAndUpdate(paymentId, {
+      $set: { promotedAt: new Date(), failureReason: null },
+    });
   }
 
   /** Admin: force-boost a listing when auto-promote after pay failed. */
@@ -207,11 +302,10 @@ export class PromotionPaymentService {
     }
   }
 
-  private async assertOwnsTarget(
+  private async resolveOwnerId(
     targetType: PromotionTargetTypeEnum,
     targetId: Types.ObjectId,
-    userId: Types.ObjectId,
-  ) {
+  ): Promise<Types.ObjectId> {
     const { model, ownerField } = this.targetModel(targetType);
     const doc = await model
       .findById(targetId)
@@ -227,7 +321,19 @@ export class PromotionPaymentService {
         : owner && typeof owner === 'object' && '_id' in (owner as object)
           ? (owner as { _id: Types.ObjectId })._id
           : null;
-    if (!ownerId || ownerId.toString() !== userId.toString()) {
+    if (!ownerId) {
+      throw new BadRequestException('Listing owner not found');
+    }
+    return ownerId;
+  }
+
+  private async assertOwnsTarget(
+    targetType: PromotionTargetTypeEnum,
+    targetId: Types.ObjectId,
+    userId: Types.ObjectId,
+  ) {
+    const ownerId = await this.resolveOwnerId(targetType, targetId);
+    if (ownerId.toString() !== userId.toString()) {
       throw new ForbiddenException('You can only promote your own listings');
     }
   }
@@ -251,12 +357,46 @@ export class PromotionPaymentService {
     }
   }
 
+  /**
+   * Owner turns off an active boost. No wallet refund.
+   */
+  async cancelPromotion(
+    args: CancelPromotionArgs,
+    context: ContextType,
+  ): Promise<boolean> {
+    const { userId } = assertAuthenticated(context);
+    const userObjectId = new Types.ObjectId(userId);
+    await this.assertOwnsTarget(args.targetType, args.targetId, userObjectId);
+    await this.clearPromotion(args.targetType, args.targetId);
+    return true;
+  }
+
+  private async readCurrentPromotedUntil(
+    targetType: PromotionTargetTypeEnum,
+    targetId: Types.ObjectId,
+  ): Promise<Date | null> {
+    const { model } = this.targetModel(targetType);
+    const doc = await model
+      .findById(targetId)
+      .select({ promotedUntil: 1 })
+      .lean();
+    if (!doc) return null;
+    const raw = (doc as { promotedUntil?: Date | string | null }).promotedUntil;
+    if (!raw) return null;
+    const date = raw instanceof Date ? raw : new Date(raw);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
   private async applyPromotion(
     targetType: PromotionTargetTypeEnum,
     targetId: Types.ObjectId,
     plan: ServicePromotionPlanEnum,
   ) {
-    const update = buildPromotionUpdate(plan);
+    const currentUntil = await this.readCurrentPromotedUntil(
+      targetType,
+      targetId,
+    );
+    const update = buildPromotionUpdate(plan, currentUntil);
 
     switch (targetType) {
       case PromotionTargetTypeEnum.PART: {
@@ -290,6 +430,54 @@ export class PromotionPaymentService {
         const updated = await this.workshopModel.findByIdAndUpdate(
           targetId,
           { $set: { ...update, premium: true } },
+          { new: true },
+        );
+        if (!updated) throw new NotFoundException('Workshop not found');
+        return;
+      }
+      default:
+        throw new BadRequestException('Unsupported promotion target');
+    }
+  }
+
+  private async clearPromotion(
+    targetType: PromotionTargetTypeEnum,
+    targetId: Types.ObjectId,
+  ) {
+    const update = buildPromotionClearUpdate();
+
+    switch (targetType) {
+      case PromotionTargetTypeEnum.PART: {
+        const updated = await this.partModel.findByIdAndUpdate(
+          targetId,
+          { $set: update },
+          { new: true },
+        );
+        if (!updated) throw new NotFoundException('Part not found');
+        return;
+      }
+      case PromotionTargetTypeEnum.ORDER: {
+        const updated = await this.orderModel.findByIdAndUpdate(
+          targetId,
+          { $set: update },
+          { new: true },
+        );
+        if (!updated) throw new NotFoundException('Order not found');
+        return;
+      }
+      case PromotionTargetTypeEnum.SERVICE: {
+        const updated = await this.serviceModel.findByIdAndUpdate(
+          targetId,
+          { $set: update },
+          { new: true },
+        );
+        if (!updated) throw new NotFoundException('Service not found');
+        return;
+      }
+      case PromotionTargetTypeEnum.WORKSHOP: {
+        const updated = await this.workshopModel.findByIdAndUpdate(
+          targetId,
+          { $set: { ...update, premium: false } },
           { new: true },
         );
         if (!updated) throw new NotFoundException('Workshop not found');

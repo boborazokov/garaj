@@ -109,7 +109,33 @@ export interface CategoryRow {
   parentId?: string | null
 }
 
-export type AdvertisementStatus = "ACTIVE" | "PAUSED" | "EXPIRED"
+export type AdvertisementStatus = "ACTIVE" | "PAUSED" | "EXPIRED" | "QUEUED"
+
+export type AdvertisementPlan = "DAY" | "WEEK" | "MONTH" | "QUARTER"
+
+export interface AdvertisementPlanPrice {
+  placement: CategoryType
+  plan: AdvertisementPlan
+  amount: number
+  currency: string
+  days: number
+  priority: number
+}
+
+export type PromotionPlan =
+  | "BASIC"
+  | "STANDARD"
+  | "PREMIUM"
+  | "VIP"
+  | "TOP"
+
+export interface PromotionPlanPrice {
+  plan: PromotionPlan
+  amount: number
+  currency: string
+  days: number
+  priority: number
+}
 
 export interface AdvertisementRow {
   _id: string
@@ -124,6 +150,9 @@ export interface AdvertisementRow {
   clickCount: number
   ctr: number
   isFree: boolean
+  plan?: AdvertisementPlan | null
+  amountPaid?: number
+  queuePosition?: number
   createdAt?: string
   updatedAt?: string
 }

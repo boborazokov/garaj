@@ -1,9 +1,11 @@
-import { ArgsType, Field, Int } from '@nestjs/graphql';
+import { ArgsType, Field, InputType, Int } from '@nestjs/graphql';
 import { ObjectIdScalar } from 'src/common';
 import { PaginationInput } from 'src/shared/inputs';
 import { UserRoleEnum } from 'src/modules/user/enums';
 import { CategoryTypeEnum } from 'src/modules/category/enums';
 import { ItemStatusEnum } from 'src/modules/item/enums';
+import { AdvertisementPlanEnum } from 'src/modules/advertisement/enums';
+import { ServicePromotionPlanEnum } from 'src/modules/service/enums/service-promotion-plan.enum';
 import { AdminPartsSortEnum } from '../../enums/admin-parts-sort.enum';
 import { AdminWorkshopsSortEnum } from '../../enums/admin-workshops-sort.enum';
 import { AdminOrdersSortEnum } from '../../enums/admin-orders-sort.enum';
@@ -24,6 +26,75 @@ export class SetContactInfoArgs {
 
   @Field()
   supportPhone: string;
+}
+
+@InputType()
+export class AdvertisementTariffInput {
+  @Field(() => CategoryTypeEnum)
+  placement: CategoryTypeEnum;
+
+  @Field(() => AdvertisementPlanEnum)
+  plan: AdvertisementPlanEnum;
+
+  @Field(() => Int)
+  amount: number;
+}
+
+@ArgsType()
+export class SetAdvertisementTariffArgs {
+  @Field(() => CategoryTypeEnum)
+  placement: CategoryTypeEnum;
+
+  @Field(() => AdvertisementPlanEnum)
+  plan: AdvertisementPlanEnum;
+
+  @Field(() => Int)
+  amount: number;
+}
+
+@ArgsType()
+export class DeleteAdvertisementTariffArgs {
+  @Field(() => CategoryTypeEnum)
+  placement: CategoryTypeEnum;
+
+  @Field(() => AdvertisementPlanEnum)
+  plan: AdvertisementPlanEnum;
+}
+
+@ArgsType()
+export class SetAdvertisementTariffsArgs {
+  @Field(() => [AdvertisementTariffInput])
+  rows: AdvertisementTariffInput[];
+}
+
+@InputType()
+export class PromotionTariffInput {
+  @Field(() => ServicePromotionPlanEnum)
+  plan: ServicePromotionPlanEnum;
+
+  @Field(() => Int)
+  amount: number;
+}
+
+@ArgsType()
+export class SetPromotionTariffArgs {
+  @Field(() => ServicePromotionPlanEnum)
+  plan: ServicePromotionPlanEnum;
+
+  @Field(() => Int)
+  amount: number;
+}
+
+@ArgsType()
+export class DeletePromotionTariffArgs {
+  @Field(() => ServicePromotionPlanEnum)
+  plan: ServicePromotionPlanEnum;
+}
+
+@ArgsType()
+export class SetPromotionTariffsArgs {
+  @Field(() => [PromotionTariffInput])
+  rows: PromotionTariffInput[];
 }
 
 @ArgsType()

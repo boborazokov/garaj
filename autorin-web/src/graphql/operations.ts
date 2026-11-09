@@ -156,6 +156,81 @@ export const DELETE_CATEGORY = gql`
   }
 `
 
+export const ADVERTISEMENT_PLAN_PRICES = gql`
+  query AdvertisementPlanPrices {
+    advertisementPlanPrices {
+      placement
+      plan
+      amount
+      currency
+      days
+      priority
+    }
+  }
+`
+
+export const SET_ADVERTISEMENT_TARIFFS = gql`
+  mutation SetAdvertisementTariffs($rows: [AdvertisementTariffInput!]!) {
+    setAdvertisementTariffs(rows: $rows) {
+      placement
+      plan
+      amount
+      currency
+      days
+      priority
+    }
+  }
+`
+
+export const RESET_ADVERTISEMENT_TARIFFS = gql`
+  mutation ResetAdvertisementTariffs {
+    resetAdvertisementTariffs {
+      placement
+      plan
+      amount
+      currency
+      days
+      priority
+    }
+  }
+`
+
+export const PROMOTION_PLAN_PRICES = gql`
+  query PromotionPlanPrices {
+    promotionPlanPrices {
+      plan
+      amount
+      currency
+      days
+      priority
+    }
+  }
+`
+
+export const SET_PROMOTION_TARIFFS = gql`
+  mutation SetPromotionTariffs($rows: [PromotionTariffInput!]!) {
+    setPromotionTariffs(rows: $rows) {
+      plan
+      amount
+      currency
+      days
+      priority
+    }
+  }
+`
+
+export const RESET_PROMOTION_TARIFFS = gql`
+  mutation ResetPromotionTariffs {
+    resetPromotionTariffs {
+      plan
+      amount
+      currency
+      days
+      priority
+    }
+  }
+`
+
 export const ADMIN_LIST_ADVERTISEMENTS = gql`
   query AdminListAdvertisements(
     $pagination: PaginationInput
@@ -175,6 +250,9 @@ export const ADMIN_LIST_ADVERTISEMENTS = gql`
         clickCount
         ctr
         isFree
+        plan
+        amountPaid
+        queuePosition
         createdAt
         updatedAt
       }
@@ -201,6 +279,9 @@ export const CREATE_ADVERTISEMENT = gql`
       clickCount
       ctr
       isFree
+      plan
+      amountPaid
+      queuePosition
     }
   }
 `
@@ -220,6 +301,9 @@ export const UPDATE_ADVERTISEMENT = gql`
       clickCount
       ctr
       isFree
+      plan
+      amountPaid
+      queuePosition
     }
   }
 `

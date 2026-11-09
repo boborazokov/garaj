@@ -1,10 +1,11 @@
 import type { RefObject } from "react";
 import type {
+  AdvertisementPlanPrice,
   AdvertisementRow,
   AdvertisementStatus,
   CategoryType,
 } from "@/types";
-import type { DurationPreset } from "../constants";
+import type { AdvertisementPlanId, DurationPreset } from "../constants";
 
 export interface FilterSelectOption {
   value: string;
@@ -18,6 +19,8 @@ export interface BannerFormState {
   startsAt: string;
   endsAt: string;
   duration: DurationPreset;
+  plan: AdvertisementPlanId | null;
+  isFree: boolean;
   status: "ACTIVE" | "PAUSED";
 }
 
@@ -49,11 +52,18 @@ export interface BannerFormDialogProps {
   error: string | null;
   busy: boolean;
   fileInputRef: RefObject<HTMLInputElement | null>;
+  planPrices?: AdvertisementPlanPrice[];
   onClose: () => void;
   onFormChange: (next: BannerFormState) => void;
   onPickImage: (file: File | undefined) => void;
   onClearImage: () => void;
   onSave: () => void;
+}
+
+export interface BannersTariffsProps {
+  prices?: AdvertisementPlanPrice[];
+  loading?: boolean;
+  onSaved?: (prices?: AdvertisementPlanPrice[]) => void;
 }
 
 export interface StatsDialogProps {

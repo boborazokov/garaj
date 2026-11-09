@@ -7,6 +7,8 @@ import { OrderModel } from 'src/modules/order/model/order.model';
 import { CategoryModel } from 'src/modules/category/model';
 import { WorkshopModel } from 'src/modules/workshop/model';
 import { UserModule } from 'src/modules/user/module';
+import { PromotionPaymentModule } from 'src/modules/promotion-payment/module';
+import { AdvertisementModule } from 'src/modules/advertisement/module';
 import { PushModule } from 'src/services/push';
 import { AdminResolver } from '../resolver/admin.resolver';
 import { AdminService } from '../service/admin.service';
@@ -23,6 +25,8 @@ import { AdminService } from '../service/admin.service';
     SearchModule,
     UserModule,
     PushModule,
+    PromotionPaymentModule,
+    AdvertisementModule,
   ],
   providers: [AdminResolver, AdminService],
 })

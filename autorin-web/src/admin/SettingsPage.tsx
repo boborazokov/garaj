@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@apollo/client/react'
 import { GET_APP_SETTINGS, SET_CONTACT_INFO, SET_MODERATION } from '../graphql/operations'
 import type { AppSettings } from '../types'
 import { Link } from 'react-router-dom'
+import { PromotionTariffsCard } from './PromotionTariffsCard'
 
 export function AdminSettingsPage() {
   const { data, refetch } = useQuery<{ getAppSettings: AppSettings }>(GET_APP_SETTINGS)
@@ -21,8 +22,10 @@ export function AdminSettingsPage() {
   }, [settings])
 
   return (
-    <div className="max-w-xl space-y-6">
+    <div className="max-w-2xl space-y-6">
       <h1 className="text-2xl font-bold text-white">Настройки</h1>
+
+      <PromotionTariffsCard />
 
       <div className="rounded-2xl border border-carbon-600 bg-carbon-800 p-6">
         <h2 className="font-semibold text-white">Модерация товаров</h2>

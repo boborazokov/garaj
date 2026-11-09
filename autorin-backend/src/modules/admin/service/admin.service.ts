@@ -20,6 +20,7 @@ import { PaginatedUsers } from 'src/modules/user/types';
 import { PaginatedOrders } from 'src/modules/order/types/paginated-orders.type';
 import { Order } from 'src/modules/order/schema';
 import { Category } from 'src/modules/category/schema';
+import { CategoryTypeEnum } from 'src/modules/category/enums';
 import {
   AdminListOrdersArgs,
   AdminListPartsArgs,
@@ -38,6 +39,10 @@ import { AdminPartsSortEnum } from '../enums/admin-parts-sort.enum';
 import { AdminWorkshopsSortEnum } from '../enums/admin-workshops-sort.enum';
 import { AdminOrdersSortEnum } from '../enums/admin-orders-sort.enum';
 import { ServicePromotionPlanEnum } from 'src/modules/service/enums/service-promotion-plan.enum';
+import { PromotionPaymentService } from 'src/modules/promotion-payment/service';
+import { PromotionTargetTypeEnum } from 'src/modules/promotion-payment/enums';
+import { AdvertisementService } from 'src/modules/advertisement/service';
+import { AdvertisementPlanEnum } from 'src/modules/advertisement/enums';
 import { AdminStats } from '../types/admin-stats.type';
 import { AnalyticsService } from 'src/modules/analytics/service/analytics.service';
 import { AdminDailyReport } from 'src/modules/analytics/types/admin-daily-report.type';
@@ -73,6 +78,8 @@ export class AdminService {
     private analyticsService: AnalyticsService,
     private userService: UserService,
     private pushService: PushService,
+    private promotionPaymentService: PromotionPaymentService,
+    private advertisementService: AdvertisementService,
   ) {}
 
   private assertAdmin(context: ContextType) {
@@ -105,6 +112,84 @@ export class AdminService {
   async setContactInfo(email: string, phone: string, context: ContextType) {
     this.assertAdmin(context);
     return this.appSettingsService.setContactInfo(email, phone);
+  }
+
+  async setAdvertisementTariff(
+    placement: CategoryTypeEnum,
+    plan: AdvertisementPlanEnum,
+    amount: number,
+    context: ContextType,
+  ) {
+    this.assertAdmin(context);
+    await this.appSettingsService.setAdvertisementTariff(
+      placement,
+      plan,
+      amount,
+    );
+    return this.advertisementService.getPlanPrices();
+  }
+
+  async deleteAdvertisementTariff(
+    placement: CategoryTypeEnum,
+    plan: AdvertisementPlanEnum,
+    context: ContextType,
+  ) {
+    this.assertAdmin(context);
+    await this.appSettingsService.deleteAdvertisementTariff(placement, plan);
+    return this.advertisementService.getPlanPrices();
+  }
+
+  async setAdvertisementTariffs(
+    rows: Array<{
+      placement: CategoryTypeEnum;
+      plan: AdvertisementPlanEnum;
+      amount: number;
+    }>,
+    context: ContextType,
+  ) {
+    this.assertAdmin(context);
+    await this.appSettingsService.setAdvertisementTariffs(rows);
+    return this.advertisementService.getPlanPrices();
+  }
+
+  async resetAdvertisementTariffs(context: ContextType) {
+    this.assertAdmin(context);
+    await this.appSettingsService.resetAdvertisementTariffs();
+    return this.advertisementService.getPlanPrices();
+  }
+
+  async setPromotionTariff(
+    plan: ServicePromotionPlanEnum,
+    amount: number,
+    context: ContextType,
+  ) {
+    this.assertAdmin(context);
+    await this.appSettingsService.setPromotionTariff(plan, amount);
+    return this.promotionPaymentService.getPlanPrices();
+  }
+
+  async deletePromotionTariff(
+    plan: ServicePromotionPlanEnum,
+    context: ContextType,
+  ) {
+    this.assertAdmin(context);
+    await this.appSettingsService.deletePromotionTariff(plan);
+    return this.promotionPaymentService.getPlanPrices();
+  }
+
+  async setPromotionTariffs(
+    rows: Array<{ plan: ServicePromotionPlanEnum; amount: number }>,
+    context: ContextType,
+  ) {
+    this.assertAdmin(context);
+    await this.appSettingsService.setPromotionTariffs(rows);
+    return this.promotionPaymentService.getPlanPrices();
+  }
+
+  async resetPromotionTariffs(context: ContextType) {
+    this.assertAdmin(context);
+    await this.appSettingsService.resetPromotionTariffs();
+    return this.promotionPaymentService.getPlanPrices();
   }
 
   async getAdminDailyReport(
@@ -382,12 +467,24 @@ export class AdminService {
     context: ContextType,
   ): Promise<Part> {
     this.assertAdmin(context);
+    let paymentId: Types.ObjectId | null = null;
+    if (args.recommended) {
+      const payment =
+        await this.promotionPaymentService.adminChargeOwnerForBoost({
+          targetType: PromotionTargetTypeEnum.PART,
+          targetId: args.partId,
+          plan: ServicePromotionPlanEnum.TOP,
+          context,
+        });
+      paymentId = payment._id;
+    }
+
     const update = args.recommended
       ? {
           isPromoted: true,
           promotedUntil: dayjs().add(1, 'year').toDate(),
-          promotionPlan: ServicePromotionPlanEnum.VIP,
-          promotionPriority: 4,
+          promotionPlan: ServicePromotionPlanEnum.TOP,
+          promotionPriority: 5,
         }
       : {
           isPromoted: false,
@@ -404,6 +501,10 @@ export class AdminService {
       throw new BadRequestException('Part not found');
     }
 
+    if (paymentId) {
+      await this.promotionPaymentService.markPromotionPaymentPromoted(paymentId);
+    }
+
     void this.partIndexService.indexPartById(part._id);
     return part;
   }
@@ -413,12 +514,24 @@ export class AdminService {
     context: ContextType,
   ): Promise<Order> {
     this.assertAdmin(context);
+    let paymentId: Types.ObjectId | null = null;
+    if (args.recommended) {
+      const payment =
+        await this.promotionPaymentService.adminChargeOwnerForBoost({
+          targetType: PromotionTargetTypeEnum.ORDER,
+          targetId: args.orderId,
+          plan: ServicePromotionPlanEnum.TOP,
+          context,
+        });
+      paymentId = payment._id;
+    }
+
     const update = args.recommended
       ? {
           isPromoted: true,
           promotedUntil: dayjs().add(1, 'year').toDate(),
-          promotionPlan: ServicePromotionPlanEnum.VIP,
-          promotionPriority: 4,
+          promotionPlan: ServicePromotionPlanEnum.TOP,
+          promotionPriority: 5,
         }
       : {
           isPromoted: false,
@@ -438,6 +551,10 @@ export class AdminService {
 
     if (!order) {
       throw new BadRequestException('Order not found');
+    }
+
+    if (paymentId) {
+      await this.promotionPaymentService.markPromotionPaymentPromoted(paymentId);
     }
 
     return order;
@@ -575,13 +692,25 @@ export class AdminService {
     context: ContextType,
   ): Promise<Workshop> {
     this.assertAdmin(context);
+    let paymentId: Types.ObjectId | null = null;
+    if (args.recommended) {
+      const payment =
+        await this.promotionPaymentService.adminChargeOwnerForBoost({
+          targetType: PromotionTargetTypeEnum.WORKSHOP,
+          targetId: args.workshopId,
+          plan: ServicePromotionPlanEnum.TOP,
+          context,
+        });
+      paymentId = payment._id;
+    }
+
     const update = args.recommended
       ? {
           isPromoted: true,
           premium: true,
           promotedUntil: dayjs().add(1, 'year').toDate(),
-          promotionPlan: ServicePromotionPlanEnum.VIP,
-          promotionPriority: 4,
+          promotionPlan: ServicePromotionPlanEnum.TOP,
+          promotionPriority: 5,
         }
       : {
           isPromoted: false,
@@ -597,6 +726,10 @@ export class AdminService {
 
     if (!workshop) {
       throw new BadRequestException('Workshop not found');
+    }
+
+    if (paymentId) {
+      await this.promotionPaymentService.markPromotionPaymentPromoted(paymentId);
     }
 
     return normalizeWorkshops([workshop])[0];

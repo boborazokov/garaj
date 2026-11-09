@@ -24,6 +24,20 @@ export class AppSettings {
   @Prop({ default: '' })
   supportPhone?: string;
 
+  /**
+   * Admin overrides for banner tariffs.
+   * Key: `${placement}:${plan}` (e.g. BRAND:DAY) → amount UZS.
+   */
+  @Prop({ type: Object, default: {} })
+  advertisementTariffs?: Record<string, number>;
+
+  /**
+   * Admin overrides for listing boost tariffs.
+   * Key: plan enum (BASIC, STANDARD, …) → amount UZS.
+   */
+  @Prop({ type: Object, default: {} })
+  promotionTariffs?: Record<string, number>;
+
   @Field()
   updatedAt?: Date;
 }
