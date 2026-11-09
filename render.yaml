@@ -48,6 +48,9 @@ services:
         value: "0"
       - key: SMS_PROVIDER
         value: log
+      # Native mobile clients send no Origin (allowed). Browser/admin need explicit entries.
+      - key: ALLOWED_ORIGINS
+        value: https://autorin-backend.onrender.com,http://localhost:3000,http://localhost:5173
       - key: MINIO_ENDPOINT
         value: localhost
       - key: MINIO_PORT
