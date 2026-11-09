@@ -18,9 +18,9 @@ class MyProducts extends StatefulWidget {
 }
 
 class _MyProductsState extends State<MyProducts> {
-  final _scrollControllerActive = ScrollController();
-  final _scrollControllerInactive = ScrollController();
+  final _scrollController = ScrollController();
   Timer? _debounce;
+  MyListingsStatusFilter _status = MyListingsStatusFilter.all;
 
   @override
   void initState() {
@@ -30,12 +30,13 @@ class _MyProductsState extends State<MyProducts> {
       provider.searchController.clear();
       _load(reset: true);
 
-      _scrollControllerActive.addListener(_onScrollActive);
-      _scrollControllerInactive.addListener(_onScrollInactive);
+      _scrollController.addListener(_onScroll);
 
       provider.searchController.addListener(() {
         if (_debounce?.isActive ?? false) _debounce!.cancel();
-        _debounce = Timer(const Duration(milliseconds: 350), () {
+        _debounce = Timer(const Duration(milliseconds: 280), () {
+          if (!mounted) return;
+          setState(() {});
           _load(reset: true);
         });
       });
@@ -58,22 +59,11 @@ class _MyProductsState extends State<MyProducts> {
         );
   }
 
-  void _onScrollActive() {
+  void _onScroll() {
     final provider = context.read<ProductProvider>();
     final query = _query;
-    if (_scrollControllerActive.position.pixels >=
-            _scrollControllerActive.position.maxScrollExtent - 100 &&
-        !provider.isMoreLoadingFor(_filters, search: query, sort: 'NEWEST') &&
-        provider.hasMoreFor(_filters, search: query, sort: 'NEWEST')) {
-      provider.loadMore(filters: _filters, search: query, sort: 'NEWEST');
-    }
-  }
-
-  void _onScrollInactive() {
-    final provider = context.read<ProductProvider>();
-    final query = _query;
-    if (_scrollControllerInactive.position.pixels >=
-            _scrollControllerInactive.position.maxScrollExtent - 100 &&
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 100 &&
         !provider.isMoreLoadingFor(_filters, search: query, sort: 'NEWEST') &&
         provider.hasMoreFor(_filters, search: query, sort: 'NEWEST')) {
       provider.loadMore(filters: _filters, search: query, sort: 'NEWEST');
@@ -83,9 +73,35 @@ class _MyProductsState extends State<MyProducts> {
   @override
   void dispose() {
     _debounce?.cancel();
-    _scrollControllerActive.dispose();
-    _scrollControllerInactive.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  List<Part> _applyStatus(List<Part> products) {
+    switch (_status) {
+      case MyListingsStatusFilter.all:
+        return products;
+      case MyListingsStatusFilter.active:
+        return products
+            .where((p) => p.status == ItemStatusEnum.active)
+            .toList();
+      case MyListingsStatusFilter.inactive:
+        return products
+            .where((p) => p.status == ItemStatusEnum.archived)
+            .toList();
+    }
+  }
+
+  String _emptyMessage(S s, String query) {
+    if (query.isNotEmpty) return s.searchHubNoGroupedHits;
+    switch (_status) {
+      case MyListingsStatusFilter.all:
+        return s.myListingsEmptyActive;
+      case MyListingsStatusFilter.active:
+        return s.myListingsEmptyActive;
+      case MyListingsStatusFilter.inactive:
+        return s.myListingsEmptyInactive;
+    }
   }
 
   @override
@@ -102,39 +118,40 @@ class _MyProductsState extends State<MyProducts> {
         ) &&
         myProducts.isEmpty;
 
-    final activeProducts =
-        myProducts.where((p) => p.status == ItemStatusEnum.active).toList();
-    final inactiveProducts =
-        myProducts.where((p) => p.status == ItemStatusEnum.archived).toList();
+    final activeCount =
+        myProducts.where((p) => p.status == ItemStatusEnum.active).length;
+    final inactiveCount =
+        myProducts.where((p) => p.status == ItemStatusEnum.archived).length;
+    final visible = _applyStatus(myProducts);
 
     return MyListingsScaffold(
       title: s.myProducts,
-      activeCount: activeProducts.length,
-      inactiveCount: inactiveProducts.length,
+      activeCount: activeCount,
+      inactiveCount: inactiveCount,
       searchController: provider.searchController,
+      searchHint: s.searchSellerProducts,
       onSearch: (_) {},
+      showSummary: false,
       isLoading: isLoading,
       onRefresh: () async => _load(reset: true),
-      activeBody: activeProducts.isEmpty
+      belowSearch: MyListingsStatusFilters(
+        selected: _status,
+        allCount: myProducts.length,
+        activeCount: activeCount,
+        inactiveCount: inactiveCount,
+        onSelected: (value) => setState(() => _status = value),
+      ),
+      body: visible.isEmpty
           ? MyListingsEmptyState(
-              message: s.myListingsEmptyActive,
-              icon: LucideIcons.package,
+              message: _emptyMessage(s, query),
+              icon: query.isNotEmpty
+                  ? LucideIcons.searchX
+                  : LucideIcons.package,
             )
           : ProductGrid(
-              controller: _scrollControllerActive,
-              products: activeProducts,
+              controller: _scrollController,
+              products: visible,
               isMine: true,
-            ),
-      inactiveBody: inactiveProducts.isEmpty
-          ? MyListingsEmptyState(
-              message: s.myListingsEmptyInactive,
-              icon: LucideIcons.archive,
-            )
-          : ProductGrid(
-              controller: _scrollControllerInactive,
-              products: inactiveProducts,
-              isMine: true,
-              isDepleted: true,
             ),
     );
   }

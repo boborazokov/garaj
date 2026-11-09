@@ -175,13 +175,9 @@ class _Hero extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colors.primary, colors.primaryHover],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: colors.surface,
         borderRadius: AppRadius.rL,
-        boxShadow: AppShadows.glow(colors.primary),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
@@ -189,11 +185,15 @@ class _Hero extends StatelessWidget {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: colors.onPrimary.withOpacity(0.18),
+              color: colors.surfaceMuted,
               borderRadius: AppRadius.rM,
+              border: Border.all(color: colors.border),
             ),
-            child: Icon(LucideIcons.megaphone,
-                color: colors.onPrimary, size: 28),
+            child: Icon(
+              LucideIcons.megaphone,
+              color: colors.textSecondary,
+              size: 28,
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -203,15 +203,15 @@ class _Hero extends StatelessWidget {
                 Text(
                   s.didntFindWhatYouNeed,
                   style: theme.textTheme.titleMedium?.copyWith(
-                    color: colors.onPrimary,
-                    fontWeight: FontWeight.w800,
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   s.createRequestSubtitle,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.onPrimary.withOpacity(0.85),
+                    color: colors.textMuted,
                   ),
                 ),
               ],

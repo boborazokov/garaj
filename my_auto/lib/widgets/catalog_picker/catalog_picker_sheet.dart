@@ -44,7 +44,7 @@ Future<void> showCatalogPickerSheet(
                     title,
                     style: const TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),

@@ -7,10 +7,13 @@ import 'package:equatable/equatable.dart';
 import 'package:my_auto/core/model/product/index.dart';
 import 'package:my_auto/features/create_product/data/datasources/draft_storage.dart';
 import 'package:my_auto/features/create_product/data/models/category_node.dart';
+import 'package:my_auto/core/repository/part_repository/index.dart';
 import 'package:my_auto/features/create_product/domain/entities/create_product_draft.dart';
 import 'package:my_auto/features/create_product/domain/repositories/create_product_repository.dart';
 import 'package:my_auto/features/create_product/domain/create_product_messages.dart';
 import 'package:my_auto/features/create_product/domain/services/smart_listing_service.dart';
+import 'package:my_auto/features/services/data/models/service_listing.dart';
+import 'package:my_auto/features/wallet/data/wallet_repository.dart';
 
 part 'create_product_event.dart';
 part 'create_product_state.dart';
@@ -40,6 +43,7 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
     on<CreateProductCurrencyChanged>(_onCurrency);
     on<CreateProductNegotiableChanged>(_onNegotiable);
     on<CreateProductDeliveryChanged>(_onDelivery);
+    on<CreateProductPromotionPlanChanged>(_onPromotionPlan);
     on<CreateProductPublishRequested>(_onPublish);
     on<CreateProductDraftAutosave>(_onAutosave);
 
@@ -259,6 +263,19 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
     emit(state.copyWith(draft: state.draft.copyWith(delivery: event.delivery)));
   }
 
+  void _onPromotionPlan(
+    CreateProductPromotionPlanChanged event,
+    Emitter<CreateProductState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        draft: event.plan == null
+            ? state.draft.copyWith(clearPromotionPlan: true)
+            : state.draft.copyWith(promotionPlan: event.plan),
+      ),
+    );
+  }
+
   Future<void> _onPublish(
     CreateProductPublishRequested event,
     Emitter<CreateProductState> emit,
@@ -326,6 +343,18 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
         );
       }
 
+      String? promotionWarning;
+      final plan = draft.promotionPlan;
+      if (plan != null) {
+        try {
+          await partRepository.promotePart(partId: partId, plan: plan);
+        } on WalletInsufficientFundsException {
+          promotionWarning = CreateProductErrorCodes.promotionInsufficientFunds;
+        } catch (_) {
+          promotionWarning = CreateProductErrorCodes.promotionFailed;
+        }
+      }
+
       _recentTitles.add(draft.title.trim());
       await _draftStorage.clearDraft();
       await _draftStorage.pushRecentVehicle(draft.vehicle);
@@ -334,6 +363,7 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
         state.copyWith(
           status: CreateProductStatus.success,
           uploadProgress: 1,
+          errorMessage: promotionWarning,
         ),
       );
     } catch (e) {

@@ -161,7 +161,7 @@ class _WorkshopScreenState extends State<WorkshopScreen> {
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.w800),
+                                  ?.copyWith(fontWeight: FontWeight.w600),
                             ),
                             Text(
                               'Trusted auto businesses near you',
@@ -274,7 +274,7 @@ class _WorkshopScreenState extends State<WorkshopScreen> {
             child: Text(
               title,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w600,
                   ),
             ),
           ),
@@ -324,7 +324,7 @@ class _WorkshopScreenState extends State<WorkshopScreen> {
                 child: Text(
                   title,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                       ),
                 ),
               ),

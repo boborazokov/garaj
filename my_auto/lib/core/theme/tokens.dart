@@ -44,7 +44,7 @@ class AppMotion {
   static const Curve emphasized = Curves.easeOutBack;
 }
 
-/// Soft, layered shadows tuned for the Amber & Carbon palette.
+/// Quiet shadows for the web-aligned slate + blue palette.
 class AppShadows {
   AppShadows._();
 
@@ -53,22 +53,17 @@ class AppShadows {
     if (isDark) {
       return const [
         BoxShadow(
-          color: Color(0x66000000),
-          blurRadius: 20,
-          offset: Offset(0, 8),
+          color: Color(0x40000000),
+          blurRadius: 8,
+          offset: Offset(0, 2),
         ),
       ];
     }
     return const [
       BoxShadow(
-        color: Color(0x0F0B0F14),
-        blurRadius: 18,
-        offset: Offset(0, 6),
-      ),
-      BoxShadow(
-        color: Color(0x080B0F14),
-        blurRadius: 4,
-        offset: Offset(0, 1),
+        color: Color(0x0A0F172A),
+        blurRadius: 8,
+        offset: Offset(0, 2),
       ),
     ];
   }
@@ -78,30 +73,23 @@ class AppShadows {
     if (isDark) {
       return const [
         BoxShadow(
-          color: Color(0x99000000),
-          blurRadius: 28,
-          offset: Offset(0, 12),
+          color: Color(0x59000000),
+          blurRadius: 12,
+          offset: Offset(0, 4),
         ),
       ];
     }
     return const [
       BoxShadow(
-        color: Color(0x14000000),
-        blurRadius: 28,
-        offset: Offset(0, 14),
+        color: Color(0x0F0F172A),
+        blurRadius: 12,
+        offset: Offset(0, 4),
       ),
     ];
   }
 
-  static List<BoxShadow> glow(Color color) {
-    return [
-      BoxShadow(
-        color: color.withOpacity(0.35),
-        blurRadius: 24,
-        offset: const Offset(0, 8),
-      ),
-    ];
-  }
+  /// Deprecated slop helper — kept for call sites; returns no glow.
+  static List<BoxShadow> glow(Color color) => const [];
 }
 
 /// Convenience helper for reading semantic colors anywhere via

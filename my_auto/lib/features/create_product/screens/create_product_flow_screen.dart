@@ -18,6 +18,8 @@ import 'package:my_auto/features/create_product/widgets/sticky_continue_bar.dart
 import 'package:my_auto/features/create_product/widgets/unfinished_listing_sheet.dart';
 import 'package:my_auto/features/create_product/domain/create_product_messages.dart';
 import 'package:my_auto/features/create_product/widgets/vehicle_step.dart';
+import 'package:my_auto/features/promotion/presentation/boost_plan_picker.dart';
+import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/generated/l10n.dart';
 
@@ -127,12 +129,14 @@ class _CreateProductFlowView extends StatelessWidget {
         return state.draft.price != null && state.draft.price! > 0;
       case CreateProductStep.preview:
         return state.draft.canPublish;
+      case CreateProductStep.boost:
+        return state.draft.canPublish;
     }
   }
 
   String _continueLabel(BuildContext context, CreateProductState state) {
     final s = S.of(context);
-    if (state.draft.step == CreateProductStep.preview) {
+    if (state.draft.step == CreateProductStep.boost) {
       return state.draft.editingPartId != null
           ? s.createProductUpdateListing
           : s.createProductPublishNow;
@@ -154,10 +158,26 @@ class _CreateProductFlowView extends StatelessWidget {
         final s = S.of(context);
         if (state.status == CreateProductStatus.success) {
           HapticFeedback.mediumImpact();
-          ScaffoldMessenger.of(context).showSnackBar(
+          final messenger = ScaffoldMessenger.of(context);
+          final router = GoRouter.of(context);
+          messenger.showSnackBar(
             SnackBar(content: Text(s.createProductPublishedSuccess)),
           );
+          final promoMsg = state.errorMessage;
+          final needsWallet = promoMsg ==
+              CreateProductErrorCodes.promotionInsufficientFunds;
+          if (promoMsg != null) {
+            messenger.showSnackBar(
+              SnackBar(
+                content: Text(localizeCreateProductError(s, promoMsg)),
+                duration: const Duration(seconds: 5),
+              ),
+            );
+          }
           context.pop(true);
+          if (needsWallet) {
+            router.push(RoutesName.wallet);
+          }
           return;
         }
         if (state.errorMessage != null &&
@@ -271,7 +291,7 @@ class _CreateProductFlowView extends StatelessWidget {
                   ? () => bloc.add(const CreateProductPreviousStep())
                   : null,
               onPressed: () {
-                if (state.draft.step == CreateProductStep.preview) {
+                if (state.draft.step == CreateProductStep.boost) {
                   bloc.add(const CreateProductPublishRequested());
                 } else {
                   bloc.add(const CreateProductNextStep());
@@ -306,6 +326,17 @@ class _StepBody extends StatelessWidget {
       case CreateProductStep.preview:
         return PreviewStep(
           onEditStep: (s) => bloc.add(CreateProductStepChanged(s)),
+        );
+      case CreateProductStep.boost:
+        return BlocBuilder<CreateProductBloc, CreateProductState>(
+          buildWhen: (p, c) => p.draft.promotionPlan != c.draft.promotionPlan,
+          builder: (context, state) {
+            return BoostPlanPicker(
+              selected: state.draft.promotionPlan,
+              onChanged: (plan) =>
+                  bloc.add(CreateProductPromotionPlanChanged(plan)),
+            );
+          },
         );
     }
   }

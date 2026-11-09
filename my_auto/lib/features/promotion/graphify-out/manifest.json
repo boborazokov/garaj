@@ -1,0 +1,32 @@
+{
+  "presentation/boost_plan_picker.dart": {
+    "mtime": 1794229809.4808147,
+    "seen": 1794229835.3992493,
+    "ast_hash": "3e7f7d7ce733400cae453d6b543c34d3",
+    "semantic_hash": ""
+  },
+  "presentation/promote_plan_sheet.dart": {
+    "mtime": 1794229833.1650593,
+    "seen": 1794229835.3992493,
+    "ast_hash": "b7f5ad733e04cfc9592cee961ab2ad66",
+    "semantic_hash": ""
+  },
+  "presentation/promote_product_sheet.dart": {
+    "mtime": 1794229543.6883402,
+    "seen": 1794229835.3992493,
+    "ast_hash": "d000384b33dc8a1ac53ac95b7b3754d8",
+    "semantic_hash": ""
+  },
+  "presentation/promote_workshop_sheet.dart": {
+    "mtime": 1794229549.2996762,
+    "seen": 1794229835.3992493,
+    "ast_hash": "69f7d4caedccc26ce7e52e56181aa281",
+    "semantic_hash": ""
+  },
+  "presentation/promotion_plan_option_tile.dart": {
+    "mtime": 1794229737.7861412,
+    "seen": 1794229835.3992493,
+    "ast_hash": "dcc91e08059e9a646712c628e1ddb328",
+    "semantic_hash": ""
+  }
+}

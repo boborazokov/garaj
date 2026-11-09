@@ -30,7 +30,7 @@ class TrustBanner extends StatelessWidget {
                 Text(
                   s.createProductTrustTitle,
                   style: TextStyle(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w600,
                     color: colors.textPrimary,
                   ),
                 ),

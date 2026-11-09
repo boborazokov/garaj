@@ -22,14 +22,11 @@ class MapSearchAreaButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: busy ? null : onPressed,
-        borderRadius: BorderRadius.circular(AppRadius.pill),
+        borderRadius: BorderRadius.circular(12),
         child: Ink(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary, colors.primaryHover],
-            ),
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            boxShadow: AppShadows.glow(colors.primary),
+            color: colors.primary,
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 11),
@@ -52,7 +49,7 @@ class MapSearchAreaButton extends StatelessWidget {
                   'Search in this area',
                   style: TextStyle(
                     color: colors.onPrimary,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w600,
                     fontSize: 13,
                   ),
                 ),

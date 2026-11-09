@@ -13,12 +13,14 @@ class AdListSlot extends StatelessWidget {
     required this.surface,
     this.interval = 6,
     this.height = 120,
+    this.margin = const EdgeInsets.fromLTRB(16, 4, 16, 12),
   });
 
   final int listIndex;
   final AdSurface surface;
   final int interval;
   final double height;
+  final EdgeInsetsGeometry margin;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,8 @@ class AdListSlot extends StatelessWidget {
     return AdBanner(
       surface: surface,
       height: height,
-      margin: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+      margin: margin,
+      showPlaceholder: false,
     );
   }
 }

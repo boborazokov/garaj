@@ -93,7 +93,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                       child: Text(
                         s.privacyPolicy,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w600,
                             ),
                       ),
                     ),

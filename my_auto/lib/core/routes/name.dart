@@ -1,5 +1,6 @@
 class RoutesName {
   static const splash = "/";
+  static const onboarding = "/onboarding";
   static const signin = "/signin";
   static const signup = "/signup";
   static const resetPassword = "/reset-password";
@@ -20,7 +21,6 @@ class RoutesName {
   static const categoriesScreen = "/categoriesScreen";
   static const listOfItems = "/listOfItems";
   static const sellerProfile = '/sellerProfile';
-  static const storeAnalytics = '/storeAnalytics';
   static const search = "/search";
   static const favorites = "/favorites";
   static const service = "/service";
@@ -45,4 +45,6 @@ class RoutesName {
   static const inbox = "/inbox";
   static const notifications = "/notifications";
   static const wallet = "/wallet";
+  static const advertise = "/advertise";
+  static const purchaseAdvertisement = "/purchaseAdvertisement";
 }

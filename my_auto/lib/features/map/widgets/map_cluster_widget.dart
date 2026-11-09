@@ -31,7 +31,7 @@ class MapClusterWidget extends StatelessWidget {
             '$count',
             style: TextStyle(
               color: colors.onPrimary,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               fontSize: 15,
             ),
           ),

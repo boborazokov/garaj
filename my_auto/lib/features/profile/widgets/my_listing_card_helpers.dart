@@ -45,8 +45,8 @@ class MyListingStatusChip extends StatelessWidget {
               style: TextStyle(
                 color: fg,
                 fontSize: 11,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.2,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.1,
               ),
             ),
           ),
@@ -112,7 +112,7 @@ class MyListingActionButton extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: enabled ? accent : colors.textMuted,
                   ),
                 ),
@@ -151,34 +151,35 @@ class MyListingPromoteButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: AppRadius.rS,
+        borderRadius: AppRadius.rM,
         child: Ink(
           decoration: BoxDecoration(
             color: bg,
-            borderRadius: AppRadius.rS,
-            boxShadow: isActive ? AppShadows.glow(colors.primary) : null,
+            borderRadius: AppRadius.rM,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 11),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  isActive ? LucideIcons.badgeCheck : LucideIcons.sparkles,
-                  size: 16,
-                  color: fg,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  label,
-                  style: TextStyle(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 48),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    isActive ? LucideIcons.badgeCheck : LucideIcons.trendingUp,
+                    size: 16,
                     color: fg,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.3,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: fg,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

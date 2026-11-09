@@ -22,7 +22,7 @@ class UnreadBadge extends StatelessWidget {
         style: TextStyle(
           color: colors.onPrimary,
           fontSize: 11,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

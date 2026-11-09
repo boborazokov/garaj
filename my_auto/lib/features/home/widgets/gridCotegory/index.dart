@@ -123,12 +123,13 @@ class _CategoryTile extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.surfaceMuted,
                   borderRadius: AppRadius.rM,
+                  border: Border.all(color: colors.border),
                 ),
                 child: Center(
                   child: Icon(
                     lucideIcon,
-                    size: 22,
-                    color: colors.primary,
+                    size: 20,
+                    color: colors.textSecondary,
                   ),
                 ),
               ),
@@ -141,7 +142,7 @@ class _CategoryTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 10.5,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     height: 1.2,
                     color: colors.textPrimary,
                   ),
@@ -177,10 +178,15 @@ class _MoreTile extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: colors.primary.withValues(alpha: 0.12),
+                  color: colors.surfaceMuted,
                   borderRadius: AppRadius.rM,
+                  border: Border.all(color: colors.border),
                 ),
-                child: Icon(LucideIcons.layoutGrid, size: 22, color: colors.primary),
+                child: Icon(
+                  LucideIcons.layoutGrid,
+                  size: 20,
+                  color: colors.textSecondary,
+                ),
               ),
               const SizedBox(height: 4),
               Flexible(
@@ -190,10 +196,10 @@ class _MoreTile extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w600,
                     height: 1.15,
-                    color: colors.primary,
+                    color: colors.textPrimary,
                   ),
                 ),
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/routes/name.dart';
+import 'package:my_auto/features/onboarding/data/onboarding_prefs.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
     _scale = Tween<double>(begin: 0.92, end: 1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
     );
-    _checkAuth();
+    _bootstrap();
   }
 
   @override
@@ -37,9 +38,15 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  Future<void> _checkAuth() async {
+  Future<void> _bootstrap() async {
     final authProvider = context.read<AuthProvider>();
-    final authed = await authProvider.tryAutoLogin();
+    final results = await Future.wait([
+      authProvider.tryAutoLogin(),
+      OnboardingPrefs.isCompleted(),
+    ]);
+    final authed = results[0];
+    final onboardingDone = results[1];
+
     if (authed) {
       await authProvider.notifySessionRestored();
     }
@@ -48,6 +55,11 @@ class _SplashScreenState extends State<SplashScreen>
 
     await Future.delayed(const Duration(milliseconds: 900));
     if (!mounted) return;
+
+    if (!onboardingDone) {
+      context.go(RoutesName.onboarding);
+      return;
+    }
 
     context.go(RoutesName.buttonNavigationBar);
   }
@@ -62,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen>
           child: ScaleTransition(
             scale: _scale,
             child: Image.asset(
-              'assets/images/logo_mark.png',
+              'assets/images/logo.png',
               width: 280,
               fit: BoxFit.contain,
               filterQuality: FilterQuality.high,

@@ -98,7 +98,7 @@ class _ConditionCard extends StatelessWidget {
                     child: Text(
                       label,
                       style: TextStyle(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                         fontSize: 15,
                         color: colors.textPrimary,
                       ),

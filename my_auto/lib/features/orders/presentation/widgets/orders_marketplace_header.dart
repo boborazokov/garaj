@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/generated/l10n.dart';
+import 'package:my_auto/widgets/searchInput/index.dart';
 
-/// Buy-request hub header: title, subtitle, CTA, search.
+/// Buy-request hub header: title, search, filters, create CTA.
 class OrdersMarketplaceHeader extends StatelessWidget {
   const OrdersMarketplaceHeader({
     super.key,
@@ -12,12 +14,14 @@ class OrdersMarketplaceHeader extends StatelessWidget {
     required this.onSearchChanged,
     required this.onCreate,
     this.activeCount,
+    this.filters,
   });
 
   final TextEditingController searchController;
   final ValueChanged<String> onSearchChanged;
   final VoidCallback onCreate;
   final int? activeCount;
+  final Widget? filters;
 
   @override
   Widget build(BuildContext context) {
@@ -26,139 +30,71 @@ class OrdersMarketplaceHeader extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+      padding: const EdgeInsets.fromLTRB(
+        MarketUi.spacingMD,
+        AppSpacing.s,
+        MarketUi.spacingMD,
+        0,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            s.navWantToBuy,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.4,
-              height: 1.15,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            s.wantToBuySubtitle,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colors.textSecondary,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 14),
-          FilledButton(
-            onPressed: onCreate,
-            style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(borderRadius: AppRadius.rXl),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(LucideIcons.plus, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  s.wantToBuyCreateCta,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
-          ListenableBuilder(
-            listenable: searchController,
-            builder: (context, _) {
-              final hasQuery = searchController.text.trim().isNotEmpty;
-              return TextField(
-                controller: searchController,
-                onChanged: onSearchChanged,
-                textCapitalization: TextCapitalization.none,
-                textInputAction: TextInputAction.search,
-                onSubmitted: onSearchChanged,
-                decoration: InputDecoration(
-                  hintText: s.wantToBuySearchHint,
-                  hintStyle: TextStyle(
-                    color: colors.textMuted,
-                    fontSize: 14,
-                  ),
-                  prefixIcon: Icon(
-                    LucideIcons.search,
-                    size: 20,
-                    color: colors.textSecondary,
-                  ),
-                  suffixIcon: hasQuery
-                      ? IconButton(
-                          onPressed: () {
-                            searchController.clear();
-                            onSearchChanged('');
-                          },
-                          icon: Icon(
-                            LucideIcons.x,
-                            size: 18,
-                            color: colors.textMuted,
-                          ),
-                        )
-                      : null,
-                  filled: true,
-                  fillColor: colors.surface,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: AppRadius.rXl,
-                    borderSide: BorderSide(color: colors.border),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: AppRadius.rXl,
-                    borderSide: BorderSide(
-                      color: colors.border,
-                      width: 1.2,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: AppRadius.rXl,
-                    borderSide: BorderSide(color: colors.primary, width: 1.8),
-                  ),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 16),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
                 child: Text(
-                  s.wantToBuyFeedTitle,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
+                  s.navWantToBuy,
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.4,
+                    height: 1.1,
                   ),
                 ),
               ),
               if (activeCount != null && activeCount! > 0)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: colors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    s.wantToBuyRequestsCount(activeCount!),
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: colors.primary,
-                    ),
+                Text(
+                  s.wantToBuyRequestsCount(activeCount!),
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: colors.textMuted,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
             ],
+          ),
+          const SizedBox(height: AppSpacing.s),
+          Text(
+            s.wantToBuySubtitle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.textSecondary,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.l),
+          CustomSearchInput(
+            controller: searchController,
+            hintText: s.wantToBuySearchHint,
+            onChanged: onSearchChanged,
+            onSubmitted: onSearchChanged,
+          ),
+          if (filters != null) ...[
+            const SizedBox(height: AppSpacing.m),
+            filters!,
+          ],
+          const SizedBox(height: AppSpacing.m),
+          FilledButton.icon(
+            onPressed: onCreate,
+            icon: const Icon(LucideIcons.plus, size: 18),
+            label: Text(
+              s.wantToBuyCreateCta,
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(48),
+              shape: RoundedRectangleBorder(borderRadius: AppRadius.rM),
+            ),
           ),
         ],
       ),

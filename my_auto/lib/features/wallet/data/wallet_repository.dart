@@ -1,5 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
+import 'package:my_auto/features/promotion/data/promotion_repository.dart'
+    show PromotionTargetType;
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/wallet/data/wallet_api.dart';
 import 'package:my_auto/features/wallet/data/wallet_models.dart';
@@ -12,10 +14,22 @@ class WalletInsufficientFundsException implements Exception {
   String toString() => message;
 }
 
-class WalletRepository {
-  WalletRepository(this._client);
+class PromotionPlanPrice {
+  const PromotionPlanPrice({
+    required this.plan,
+    required this.amount,
+    required this.days,
+    required this.priority,
+  });
 
-  final GraphQLClient _client;
+  final ServicePromotionPlan plan;
+  final int amount;
+  final int days;
+  final int priority;
+}
+
+class WalletRepository {
+  GraphQLClient get _client => GraphQLConfig.client();
 
   Future<WalletBalance?> fetchWallet() async {
     final result = await _client.query(
@@ -43,6 +57,37 @@ class WalletRepository {
     return list
         .map((e) => WalletTx.fromJson(Map<String, dynamic>.from(e as Map)))
         .toList();
+  }
+
+  Future<Map<ServicePromotionPlan, PromotionPlanPrice>> fetchPlanPrices() async {
+    final result = await _client.query(
+      QueryOptions(
+        document: gql(promotionPlanPricesQuery),
+        fetchPolicy: FetchPolicy.networkOnly,
+      ),
+    );
+    if (result.hasException) return {};
+    final list = result.data?['promotionPlanPrices'] as List? ?? [];
+    final map = <ServicePromotionPlan, PromotionPlanPrice>{};
+    for (final raw in list) {
+      if (raw is! Map) continue;
+      final api = raw['plan']?.toString().toUpperCase() ?? '';
+      ServicePromotionPlan? plan;
+      for (final p in ServicePromotionPlan.values) {
+        if (p.api == api) {
+          plan = p;
+          break;
+        }
+      }
+      if (plan == null) continue;
+      map[plan] = PromotionPlanPrice(
+        plan: plan,
+        amount: (raw['amount'] as num?)?.toInt() ?? 0,
+        days: (raw['days'] as num?)?.toInt() ?? 0,
+        priority: (raw['priority'] as num?)?.toInt() ?? plan.weight,
+      );
+    }
+    return map;
   }
 
   Future<WalletTx?> topUp(int amount) async {
@@ -80,11 +125,30 @@ class WalletRepository {
       if (msg.contains('INSUFFICIENT_WALLET_BALANCE')) {
         throw WalletInsufficientFundsException(msg);
       }
-      return false;
+      throw Exception(msg);
     }
     final status = result.data?['purchasePromotion']?['status']?.toString();
     return status == 'PAID';
   }
+
+  Future<bool> cancelPromotion({
+    required PromotionTargetType targetType,
+    required String targetId,
+  }) async {
+    final result = await _client.mutate(
+      MutationOptions(
+        document: gql(cancelPromotionMutation),
+        variables: {
+          'targetType': targetType.api,
+          'targetId': targetId,
+        },
+      ),
+    );
+    if (result.hasException) {
+      throw Exception(result.exception.toString());
+    }
+    return result.data?['cancelPromotion'] == true;
+  }
 }
 
-final walletRepository = WalletRepository(GraphQLConfig.client());
+final walletRepository = WalletRepository();

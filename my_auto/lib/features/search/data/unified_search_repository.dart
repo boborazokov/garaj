@@ -103,7 +103,9 @@ class UnifiedSearchRepository {
     }
 
     workshops = _mergeWorkshops(workshops, mapWorkshops, workshopLimit);
+    mergedProducts = _dedupeProducts(mergedProducts);
 
+    // Prefer sections with the densest hits first for "All" UX.
     final sellers = _deriveSellers(mergedProducts);
 
     return UnifiedSearchSnapshot(
@@ -114,6 +116,15 @@ class UnifiedSearchRepository {
       services: services,
       sellers: sellers,
     );
+  }
+
+  List<Part> _dedupeProducts(List<Part> products) {
+    final byId = <String, Part>{};
+    for (final p in products) {
+      if (p.id.isEmpty) continue;
+      byId.putIfAbsent(p.id, () => p);
+    }
+    return byId.values.toList();
   }
 
   List<WorkshopProfile> _mergeWorkshops(

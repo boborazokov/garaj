@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:my_auto/core/map/geo_location.dart';
+import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/workshop/domain/workshop_weekly_schedule.dart';
 
 enum CreateWorkshopStep {
@@ -10,6 +11,7 @@ enum CreateWorkshopStep {
   hours,
   gallery,
   preview,
+  boost,
 }
 
 class CreateWorkshopDraft {
@@ -31,6 +33,7 @@ class CreateWorkshopDraft {
     this.fastResponse = false,
     this.open24Hours = false,
     this.responseTimeMinutes,
+    this.promotionPlan,
   });
 
   CreateWorkshopStep step;
@@ -50,6 +53,8 @@ class CreateWorkshopDraft {
   bool fastResponse;
   bool open24Hours;
   int? responseTimeMinutes;
+  /// null = publish free (no Top / promotion).
+  ServicePromotionPlan? promotionPlan;
 
   static List<Map<String, dynamic>> defaultWeeklySchedule() =>
       WorkshopWeeklySchedule.defaultSchedule();
@@ -61,6 +66,7 @@ class CreateWorkshopDraft {
   bool get canContinueHours =>
       open24Hours || WorkshopWeeklySchedule.hasOpenDay(weeklySchedule);
   bool get canContinueGallery => true;
+  bool get canContinueBoost => canPublish;
   bool get canPublish =>
       canContinueBasic && canContinueServices && canContinueLocation;
 

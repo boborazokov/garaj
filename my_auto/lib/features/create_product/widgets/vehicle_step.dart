@@ -47,7 +47,7 @@ class VehicleStep extends StatelessWidget {
                     padding: const EdgeInsets.all(16),
                     child: Text(title,
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w800)),
+                            fontSize: 18, fontWeight: FontWeight.w600)),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -124,7 +124,7 @@ class VehicleStep extends StatelessWidget {
         Text(
           s.createProductVehicleTitle,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w600,
               ),
         ),
         const SizedBox(height: 8),
@@ -261,7 +261,7 @@ void _openRegionSheet(BuildContext context) {
                 s.region,
                 style: const TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

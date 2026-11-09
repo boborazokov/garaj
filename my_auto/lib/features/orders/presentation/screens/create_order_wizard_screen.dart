@@ -512,16 +512,13 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colors.primary, colors.primaryHover],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: colors.surface,
         borderRadius: AppRadius.rL,
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
-          Icon(LucideIcons.megaphone, color: colors.onPrimary, size: 28),
+          Icon(LucideIcons.megaphone, color: colors.textSecondary, size: 28),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -530,8 +527,8 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
                 Text(
                   s.didntFindWhatYouNeed,
                   style: TextStyle(
-                    color: colors.onPrimary,
-                    fontWeight: FontWeight.w800,
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w600,
                     fontSize: 15,
                   ),
                 ),
@@ -539,7 +536,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
                 Text(
                   s.createRequestSubtitle,
                   style: TextStyle(
-                    color: colors.onPrimary.withValues(alpha: 0.9),
+                    color: colors.textMuted,
                     fontSize: 12,
                   ),
                 ),
@@ -558,7 +555,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
         _hero(colors, s),
         Text(
           s.createProductStepVehicle,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 4),
         Text(
@@ -611,7 +608,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
       children: [
         Text(
           s.partCategory,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 12),
         CatalogPickerTile(
@@ -665,7 +662,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
         const SizedBox(height: 20),
         Text(
           s.orderUrgencyTitle,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 4),
         Text(
@@ -702,7 +699,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
       children: [
         Text(
           s.budgetOptional,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 16),
         Text(
@@ -764,7 +761,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
       children: [
         Text(
           s.createProductStepPreview,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 16),
         Container(
@@ -799,7 +796,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
               ],
               Text(
                 _titleCtrl.text,
-                style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
               ),
               if (_vehicle.partCategoryName != null) ...[
                 const SizedBox(height: 6),

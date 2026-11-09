@@ -33,8 +33,8 @@ class WorkshopServicesGrid extends StatelessWidget {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: count,
             crossAxisSpacing: 8,
-            mainAxisSpacing: 10,
-            childAspectRatio: 0.88,
+            mainAxisSpacing: 8,
+            childAspectRatio: 0.78,
           ),
           itemCount: categories.length,
           itemBuilder: (context, index) {
@@ -67,33 +67,39 @@ class _ServiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: accent.withValues(alpha: 0.12),
-            borderRadius: AppRadius.rM,
-            border: Border.all(color: accent.withValues(alpha: 0.28)),
-          ),
-          child: Icon(icon, size: 22, color: accent),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
-            height: 1.15,
-            color: colors.textPrimary,
-          ),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: accent.withValues(alpha: 0.12),
+                borderRadius: AppRadius.rM,
+                border: Border.all(color: accent.withValues(alpha: 0.28)),
+              ),
+              child: Icon(icon, size: 20, color: accent),
+            ),
+            const SizedBox(height: 4),
+            Flexible(
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  height: 1.1,
+                  color: colors.textPrimary,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

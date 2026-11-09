@@ -74,7 +74,7 @@ class OrderOwnerActions extends StatelessWidget {
           label: Text(
             order.isPromoted ? s.promotedTop : s.promoteToTop,
             style: TextStyle(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
               color: order.isPromoted ? colors.primary : colors.textPrimary,
             ),
           ),

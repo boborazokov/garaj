@@ -12,6 +12,8 @@ import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/resolve_media_url.dart';
+import 'package:my_auto/features/advertisement/domain/advertisement.dart';
+import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/chat/chat_di.dart';
 import 'package:my_auto/features/chat/domain/failures/chat_failure.dart';
 import 'package:my_auto/features/sellerProfile/models/seller_store_profile.dart';
@@ -93,6 +95,11 @@ class _SellerProfileState extends State<SellerProfile> {
     try {
       final p = await sellerProfileRepository.fetchProfile(widget.sellerId);
       if (!mounted) return;
+      // Owner "My store" dashboard was removed — send owners to My products.
+      if (p.isOwnProfile) {
+        context.go(RoutesName.myProducts);
+        return;
+      }
       setState(() {
         _profile = p;
         _profileLoading = false;
@@ -191,16 +198,6 @@ class _SellerProfileState extends State<SellerProfile> {
     );
   }
 
-  void _openEditStore() => context.push(RoutesName.editProfile);
-
-  void _openAnalytics() {
-    final p = _profile;
-    if (p == null) return;
-    context.push(RoutesName.storeAnalytics, extra: p);
-  }
-
-  void _openAddProduct() => context.push(RoutesName.addProduct);
-
   String _initials(String name) {
     final parts = name.trim().split(RegExp(r'\s+'));
     if (parts.isEmpty || parts.first.isEmpty) return '?';
@@ -242,29 +239,12 @@ class _SellerProfileState extends State<SellerProfile> {
     );
     final profile = _profile;
 
-    final isOwner = profile?.isOwnProfile == true;
-
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppBar(
-        title: Text(isOwner ? s.myStore : s.sellerProfile),
+        title: Text(s.sellerProfile),
         centerTitle: false,
-        actions: isOwner
-            ? [
-                IconButton(
-                  onPressed: _shareProfile,
-                  icon: const Icon(LucideIcons.share2, size: 20),
-                  tooltip: s.shareProfile,
-                ),
-                IconButton(
-                  onPressed: _openEditStore,
-                  icon: const Icon(LucideIcons.pencil, size: 20),
-                  tooltip: s.editStore,
-                ),
-              ]
-            : null,
       ),
-      bottomNavigationBar: null,
       body: _profileLoading && profile == null
           ? const _ProfileSkeleton()
           : _profileError != null && profile == null
@@ -282,23 +262,11 @@ class _SellerProfileState extends State<SellerProfile> {
                     controller: _scrollController,
                     slivers: [
                       if (profile != null &&
-                          (profile.banner?.trim().isNotEmpty == true ||
-                              profile.isOwnProfile))
+                          profile.banner?.trim().isNotEmpty == true)
                         SliverToBoxAdapter(
-                          child: StoreBannerHeader(
-                            profile: profile,
-                            isOwner: profile.isOwnProfile,
-                            onChangeBanner: _openEditStore,
-                          ),
+                          child: StoreBannerHeader(profile: profile),
                         ),
-                      if (profile != null && profile.isOwnProfile)
-                        SliverToBoxAdapter(
-                          child: OwnerStoreIdentity(
-                            profile: profile,
-                            initials: _initials(profile.name),
-                          ),
-                        ),
-                      if (profile != null && !profile.isOwnProfile)
+                      if (profile != null)
                         SliverToBoxAdapter(
                           child: _VisitorProfileHeader(
                             profile: profile,
@@ -309,41 +277,23 @@ class _SellerProfileState extends State<SellerProfile> {
                             messageLoading: _openingChat,
                           ),
                         ),
-                      if (profile != null && profile.isOwnProfile)
-                        SliverToBoxAdapter(
-                          child: VerificationRequestCard(profile: profile),
+                      if (profile != null)
+                        const SliverToBoxAdapter(
+                          child: AdBanner(
+                            surface: AdSurface.model,
+                            height: 120,
+                            margin: EdgeInsets.fromLTRB(16, 8, 16, 4),
+                          ),
                         ),
                       if (profile != null && profile.verified)
-                        SliverToBoxAdapter(
-                          child: VerifiedAccountInfoCard(
-                            isOwner: profile.isOwnProfile,
-                          ),
+                        const SliverToBoxAdapter(
+                          child: VerifiedAccountInfoCard(),
                         ),
-                      if (profile != null && profile.isOwnProfile)
-                        SliverToBoxAdapter(
-                          child: ProfileCompletionStrip(
-                            profile: profile,
-                            onTap: _openEditStore,
-                          ),
-                        ),
-                      if (profile != null && profile.isOwnProfile)
-                        SliverToBoxAdapter(
-                          child: OwnerStatsPanel(
-                            profile: profile,
-                            onOpenAnalytics: _openAnalytics,
-                          ),
-                        ),
-                      if (profile != null && profile.isOwnProfile)
-                        SliverToBoxAdapter(
-                          child: OwnerQuickActionsRow(
-                            onOpenAnalytics: _openAnalytics,
-                          ),
-                        ),
-                      if (profile != null && !profile.isOwnProfile)
+                      if (profile != null)
                         SliverToBoxAdapter(
                           child: _StatsRow(stats: profile.stats),
                         ),
-                      if (!isOwner && profile?.locationLabel != null)
+                      if (profile?.locationLabel != null)
                         SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
@@ -363,7 +313,7 @@ class _SellerProfileState extends State<SellerProfile> {
                             ),
                           ),
                         ),
-                      if (!isOwner && profile?.socialLinks?.hasAny == true)
+                      if (profile?.socialLinks?.hasAny == true)
                         SliverToBoxAdapter(
                           child: _SocialLinksRow(
                             links: profile!.socialLinks!,
@@ -385,12 +335,10 @@ class _SellerProfileState extends State<SellerProfile> {
                         ),
                       SliverToBoxAdapter(
                         child: _ProductsToolbar(
-                          isOwner: isOwner,
                           tab: _tab,
                           gridView: _gridView,
                           searchController: _searchController,
                           sort: _sort,
-                          onAddProduct: _openAddProduct,
                           onTab: (t) {
                             setState(() => _tab = t);
                             _loadProducts(reset: true);
@@ -421,30 +369,17 @@ class _SellerProfileState extends State<SellerProfile> {
                                     size: 48, color: colors.textMuted),
                                 const SizedBox(height: 12),
                                 Text(
-                                  profile?.isOwnProfile == true
-                                      ? s.ownerStoreEmpty
-                                      : s.sellerStoreEmpty,
+                                  s.sellerStoreEmpty,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w700),
                                 ),
                                 const SizedBox(height: 6),
                                 Text(
-                                  profile?.isOwnProfile == true
-                                      ? s.addFirstProduct
-                                      : s.sellerStoreEmptyHint,
+                                  s.sellerStoreEmptyHint,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(color: colors.textMuted),
                                 ),
-                                if (profile?.isOwnProfile == true) ...[
-                                  const SizedBox(height: 16),
-                                  FilledButton.icon(
-                                    onPressed: _openAddProduct,
-                                    icon:
-                                        const Icon(LucideIcons.plus, size: 18),
-                                    label: Text(s.addFirstProduct),
-                                  ),
-                                ],
                               ],
                             ),
                           ),
@@ -544,17 +479,16 @@ class _VisitorProfileHeader extends StatelessWidget {
                           width: 72,
                           height: 72,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [colors.primary, colors.primaryHover],
-                            ),
+                            color: colors.surfaceMuted,
                             shape: BoxShape.circle,
+                            border: Border.all(color: colors.border),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             initials,
                             style: TextStyle(
-                              color: colors.onPrimary,
-                              fontWeight: FontWeight.w800,
+                              color: colors.textPrimary,
+                              fontWeight: FontWeight.w600,
                               fontSize: 26,
                             ),
                           ),
@@ -571,7 +505,7 @@ class _VisitorProfileHeader extends StatelessWidget {
                             child: Text(
                               profile.name,
                               style: const TextStyle(
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 20,
                               ),
                             ),
@@ -678,7 +612,7 @@ class _StatsRow extends StatelessWidget {
                         e.$2,
                         maxLines: 1,
                         style: const TextStyle(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           fontSize: 18,
                         ),
                       ),
@@ -726,7 +660,7 @@ class _SocialLinksRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(s.sellerSocialLinks,
-              style: const TextStyle(fontWeight: FontWeight.w800)),
+              style: const TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(height: 10),
           Wrap(
             spacing: 8,
@@ -767,7 +701,7 @@ class _CategoriesSection extends StatelessWidget {
         children: [
           Text(s.sellerCategories,
               style:
-                  const TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+                  const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
           const SizedBox(height: 10),
           SizedBox(
             height: 40,
@@ -795,23 +729,19 @@ class _CategoriesSection extends StatelessWidget {
 }
 
 class _ProductsToolbar extends StatelessWidget {
-  final bool isOwner;
   final _ProductTab tab;
   final bool gridView;
   final TextEditingController searchController;
   final String sort;
-  final VoidCallback onAddProduct;
   final ValueChanged<_ProductTab> onTab;
   final ValueChanged<String> onSort;
   final VoidCallback onToggleView;
 
   const _ProductsToolbar({
-    required this.isOwner,
     required this.tab,
     required this.gridView,
     required this.searchController,
     required this.sort,
-    required this.onAddProduct,
     required this.onTab,
     required this.onSort,
     required this.onToggleView,
@@ -825,47 +755,33 @@ class _ProductsToolbar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            s.allProducts,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 10),
           Row(
             children: [
-              Expanded(
-                child: Text(
-                  isOwner ? s.ownerMyListings : s.allProducts,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
+              for (final item in <(_ProductTab, String)>[
+                (_ProductTab.all, s.allProducts),
+                (_ProductTab.latest, s.latestProducts),
+                (_ProductTab.popular, s.popularProducts),
+              ])
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: _SellerTabChip(
+                      label: item.$2,
+                      selected: tab == item.$1,
+                      onTap: () => onTab(item.$1),
+                    ),
                   ),
-                ),
-              ),
-              if (isOwner)
-                FilledButton.tonalIcon(
-                  onPressed: onAddProduct,
-                  icon: const Icon(LucideIcons.plus, size: 18),
-                  label: Text(s.addProduct),
                 ),
             ],
           ),
-          if (!isOwner) ...[
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                for (final item in <(_ProductTab, String)>[
-                  (_ProductTab.all, s.allProducts),
-                  (_ProductTab.latest, s.latestProducts),
-                  (_ProductTab.popular, s.popularProducts),
-                ])
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3),
-                      child: _SellerTabChip(
-                        label: item.$2,
-                        selected: tab == item.$1,
-                        onTap: () => onTab(item.$1),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ],
           const SizedBox(height: 10),
           CustomSearchInput(
             controller: searchController,

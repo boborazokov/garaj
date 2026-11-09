@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class WalletBalance {
   const WalletBalance({
     required this.id,
@@ -31,7 +33,11 @@ class WalletTx {
     required this.pool,
     required this.amount,
     required this.status,
+    this.currency = 'UZS',
+    this.referenceType,
+    this.referenceId,
     this.note,
+    this.metaJson,
     this.createdAt,
   });
 
@@ -40,8 +46,24 @@ class WalletTx {
   final String pool;
   final int amount;
   final String status;
+  final String currency;
+  final String? referenceType;
+  final String? referenceId;
   final String? note;
+  final String? metaJson;
   final DateTime? createdAt;
+
+  Map<String, dynamic> get meta {
+    final raw = metaJson?.trim();
+    if (raw == null || raw.isEmpty) return const {};
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is Map) {
+        return Map<String, dynamic>.from(decoded);
+      }
+    } catch (_) {}
+    return const {};
+  }
 
   factory WalletTx.fromJson(Map<String, dynamic> json) {
     return WalletTx(
@@ -50,18 +72,13 @@ class WalletTx {
       pool: json['pool']?.toString() ?? '',
       amount: (json['amount'] as num?)?.toInt() ?? 0,
       status: json['status']?.toString() ?? '',
+      currency: json['currency']?.toString() ?? 'UZS',
+      referenceType: json['referenceType']?.toString(),
+      referenceId: json['referenceId']?.toString(),
       note: json['note']?.toString(),
+      metaJson: json['metaJson']?.toString(),
       createdAt: DateTime.tryParse(json['createdAt']?.toString() ?? ''),
     );
   }
 }
 
-enum PromotionTargetType {
-  part('PART'),
-  order('ORDER'),
-  service('SERVICE'),
-  workshop('WORKSHOP');
-
-  const PromotionTargetType(this.api);
-  final String api;
-}

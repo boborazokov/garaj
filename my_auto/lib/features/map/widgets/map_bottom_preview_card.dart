@@ -143,7 +143,7 @@ class MapBottomPreviewCard extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             fontSize: 17,
                             color: colors.textPrimary,
                           ),
@@ -319,7 +319,7 @@ class MapBottomPreviewCard extends StatelessWidget {
         label,
         style: TextStyle(
           fontSize: 9,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
           color: c,
           letterSpacing: 0.3,
         ),

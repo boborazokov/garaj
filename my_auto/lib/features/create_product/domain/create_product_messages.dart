@@ -13,6 +13,9 @@ abstract final class CreateProductErrorCodes {
   static const warnNoPrice = 'create_product/warn_no_price';
   static const warnNoCurrency = 'create_product/warn_no_currency';
   static const duplicateTitle = 'create_product/duplicate_title';
+  static const promotionInsufficientFunds =
+      'create_product/promotion_insufficient_funds';
+  static const promotionFailed = 'create_product/promotion_failed';
 }
 
 List<String> createProductValidationErrorCodes(CreateProductDraft draft) {
@@ -59,6 +62,10 @@ String localizeCreateProductError(S s, String message) {
       return s.createProductWarnNoCurrency;
     case CreateProductErrorCodes.duplicateTitle:
       return s.createProductDuplicateTitle;
+    case CreateProductErrorCodes.promotionInsufficientFunds:
+      return s.createProductBoostPublishNeedsWallet;
+    case CreateProductErrorCodes.promotionFailed:
+      return s.createProductBoostPublishFailed;
     default:
       return message;
   }

@@ -20,72 +20,99 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ru';
 
-  static String m0(date) => "Доступен до ${date}";
+  static String m0(amount) => "Итого: ${amount}";
 
-  static String m1(n) => "${n} д назад";
+  static String m1(amount) => "Кошелёк: ${amount}";
 
-  static String m2(n) => "${n} ч назад";
+  static String m2(pos) => "очередь #${pos}";
 
-  static String m3(n) => "${n} мин назад";
+  static String m3(used, max) => "Слоты ${used}/${max} — баннер выйдет сразу";
 
-  static String m4(time) => "Последний ответ · ${time}";
+  static String m4(pos, max) =>
+      "Все ${max} слотов заняты — вы #${pos} в очереди";
 
-  static String m5(name) => "Ответ ${name}";
+  static String m5(amount) => "от ${amount} UZS / нед.";
 
-  static String m6(price, currency) => "Ориентир: около ${price} ${currency}";
+  static String m6(date) => "Доступен до ${date}";
 
-  static String m7(percent) => "Публикация… ${percent}%";
+  static String m7(n) => "${n} д назад";
 
-  static String m8(current, total) => "Шаг ${current} из ${total}";
+  static String m8(n) => "${n} ч назад";
 
-  static String m9(count) =>
+  static String m9(n) => "${n} мин назад";
+
+  static String m10(time) => "Последний ответ · ${time}";
+
+  static String m11(name) => "Ответ ${name}";
+
+  static String m12(price, currency) => "Ориентир: около ${price} ${currency}";
+
+  static String m13(percent) => "Публикация… ${percent}%";
+
+  static String m14(current, total) => "Шаг ${current} из ${total}";
+
+  static String m15(count) =>
       "Типы услуг (${count}). Выберите всё, что подходит вашему сервису.";
 
-  static String m10(date) => "Подписался ${date}";
+  static String m16(date) => "Подписался ${date}";
 
-  static String m11(name) => "Привет, ${name}";
+  static String m17(name) => "Привет, ${name}";
 
-  static String m12(n) => "${n} объявлений";
+  static String m18(n) => "${n} объявлений";
 
-  static String m13(activeLabel, activeCount, inactiveLabel, inactiveCount) =>
+  static String m19(activeLabel, activeCount, inactiveLabel, inactiveCount) =>
       "${activeLabel} · ${activeCount} · ${inactiveLabel} · ${inactiveCount}";
 
-  static String m14(days) => "Доставка ~${days} дн.";
+  static String m20(plan) => "В Топ (${plan})";
 
-  static String m15(part) => "Нужна: ${part}";
+  static String m21(amount, reason) => "−${amount} · ${reason}";
 
-  static String m16(amount) => "Цена: ${amount}";
+  static String m22(amount) => "+${amount} зачислено на баланс";
 
-  static String m17(count) => "${count} предложений";
+  static String m23(current, total) => "Шаг ${current} из ${total}";
 
-  static String m18(date) => "Опубликовано ${date}";
+  static String m24(days) => "Доставка ~${days} дн.";
 
-  static String m19(days, priority) => "${days} дн. · приоритет ${priority}";
+  static String m25(part) => "Нужна: ${part}";
 
-  static String m20(username) => "@${username}";
+  static String m26(amount) => "Цена: ${amount}";
 
-  static String m21(followers, products, date) =>
+  static String m27(count) => "${count} предложений";
+
+  static String m28(date) => "Опубликовано ${date}";
+
+  static String m29(days, priority) => "${days} дн. · приоритет ${priority}";
+
+  static String m30(date) => "Активно до ${date}";
+
+  static String m31(username) => "@${username}";
+
+  static String m32(followers, products, date) =>
       "${followers} подписчиков • ${products} товаров • С ${date}";
 
-  static String m22(count) => "${count} ваших объявлений";
+  static String m33(count) => "${count} ваших объявлений";
 
-  static String m23(count) => "${count} открытых";
+  static String m34(count) => "${count} открытых";
 
-  static String m24(count) => "${count} активных заявок для вас";
+  static String m35(count) => "${count} активных заявок для вас";
 
-  static String m25(date) => "Продавец на Garage с ${date}";
+  static String m36(date) => "Продавец на Garage с ${date}";
 
-  static String m26(count) => "${count}";
+  static String m37(count) => "${count}";
 
-  static String m27(amount) => "Комиссия платформы: ${amount} UZS";
+  static String m38(amount) => "Комиссия платформы: ${amount} UZS";
 
-  static String m28(count) => "${count} предложений";
+  static String m39(method) => "${method} появится в ближайшее время.";
 
-  static String m29(count) => "${count} открыто";
+  static String m40(balance) => "Кошелёк: ${balance}";
 
-  static String m30(text) => "Владелец: ${text}";
+  static String m41(count) => "${count} предложений";
 
-  static String m31(amount, currency) => "от ${amount} ${currency}";
+  static String m42(count) => "${count} открыто";
+
+  static String m43(text) => "Владелец: ${text}";
+
+  static String m44(amount, currency) => "от ${amount} ${currency}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -95,6 +122,55 @@ class MessageLookup extends MessageLookupByLibrary {
       "Оплатить и поднять в топ",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Активен"),
+    "adMyBannersEmpty": MessageLookupByLibrary.simpleMessage(
+      "Пока нет баннеров. Купите, чтобы продвинуть предложение.",
+    ),
+    "adMyBannersTitle": MessageLookupByLibrary.simpleMessage("Мои баннеры"),
+    "adPauseCta": MessageLookupByLibrary.simpleMessage("Пауза"),
+    "adPlaceholderBadge": MessageLookupByLibrary.simpleMessage("Реклама"),
+    "adPlaceholderSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Нажмите — слоты и тарифы",
+    ),
+    "adPlaceholderTitle": MessageLookupByLibrary.simpleMessage(
+      "Рекламируйте свой товар здесь",
+    ),
+    "adPurchaseCreative": MessageLookupByLibrary.simpleMessage("Креатив"),
+    "adPurchaseFab": MessageLookupByLibrary.simpleMessage("Купить баннер"),
+    "adPurchaseLinkField": MessageLookupByLibrary.simpleMessage(
+      "Ссылка / deep link",
+    ),
+    "adPurchaseLiveSuccess": MessageLookupByLibrary.simpleMessage(
+      "Баннер в эфире",
+    ),
+    "adPurchasePayCta": MessageLookupByLibrary.simpleMessage(
+      "Оплатить с кошелька",
+    ),
+    "adPurchasePickImage": MessageLookupByLibrary.simpleMessage(
+      "Выбрать изображение",
+    ),
+    "adPurchasePlacement": MessageLookupByLibrary.simpleMessage("Размещение"),
+    "adPurchasePlan": MessageLookupByLibrary.simpleMessage("Срок"),
+    "adPurchasePreview": MessageLookupByLibrary.simpleMessage("Превью"),
+    "adPurchasePreviewCta": MessageLookupByLibrary.simpleMessage("Превью"),
+    "adPurchaseQueuedSuccess": MessageLookupByLibrary.simpleMessage(
+      "Баннер в очереди — выйдет, когда освободится слот",
+    ),
+    "adPurchaseTitle": MessageLookupByLibrary.simpleMessage("Купить баннер"),
+    "adPurchaseTitleField": MessageLookupByLibrary.simpleMessage(
+      "Заголовок баннера",
+    ),
+    "adPurchaseTotal": m0,
+    "adPurchaseWalletBalance": m1,
+    "adQueuePosition": m2,
+    "adSlotFree": m3,
+    "adSlotFull": m4,
+    "adStatClicks": MessageLookupByLibrary.simpleMessage("Клики"),
+    "adStatCtr": MessageLookupByLibrary.simpleMessage("CTR"),
+    "adStatImpressions": MessageLookupByLibrary.simpleMessage("Показы"),
+    "adStatusActive": MessageLookupByLibrary.simpleMessage("Активен"),
+    "adStatusExpired": MessageLookupByLibrary.simpleMessage("Истёк"),
+    "adStatusPaused": MessageLookupByLibrary.simpleMessage("Пауза"),
+    "adStatusQueued": MessageLookupByLibrary.simpleMessage("В очереди"),
     "add": MessageLookupByLibrary.simpleMessage("Добавить"),
     "addFirstProduct": MessageLookupByLibrary.simpleMessage(
       "Добавить первый товар",
@@ -103,6 +179,52 @@ class MessageLookup extends MessageLookupByLibrary {
     "addProduct": MessageLookupByLibrary.simpleMessage("Добавить товар"),
     "addService": MessageLookupByLibrary.simpleMessage("Добавить услугу"),
     "address": MessageLookupByLibrary.simpleMessage("Адрес"),
+    "advertiseBoostCta": MessageLookupByLibrary.simpleMessage(
+      "Поднять мой товар",
+    ),
+    "advertiseContactHint": MessageLookupByLibrary.simpleMessage(
+      "Баннеры пока подключает поддержка / админ. Top товара можно купить самому из объявления.",
+    ),
+    "advertiseFromWeek": m5,
+    "advertiseHowBody": MessageLookupByLibrary.simpleMessage(
+      "Выберите место, срок 1 день / 1 неделя / 1 месяц / 3 месяца — баннер увидят покупатели на этом экране.",
+    ),
+    "advertiseHowTitle": MessageLookupByLibrary.simpleMessage(
+      "Как это работает",
+    ),
+    "advertisePlacementAnnouncement": MessageLookupByLibrary.simpleMessage(
+      "Заявки — верх",
+    ),
+    "advertisePlacementBrand": MessageLookupByLibrary.simpleMessage(
+      "Главная — верхний баннер",
+    ),
+    "advertisePlacementModel": MessageLookupByLibrary.simpleMessage(
+      "Страница магазина",
+    ),
+    "advertisePlacementPart": MessageLookupByLibrary.simpleMessage(
+      "Товары — списки",
+    ),
+    "advertisePlacementService": MessageLookupByLibrary.simpleMessage(
+      "Сервисы — хаб и лента",
+    ),
+    "advertisePlacementTuning": MessageLookupByLibrary.simpleMessage(
+      "Поиск — explore",
+    ),
+    "advertisePlanDay": MessageLookupByLibrary.simpleMessage("1 день"),
+    "advertisePlanMonth": MessageLookupByLibrary.simpleMessage("1 месяц"),
+    "advertisePlanQuarter": MessageLookupByLibrary.simpleMessage("3 месяца"),
+    "advertisePlanWeek": MessageLookupByLibrary.simpleMessage("1 неделя"),
+    "advertiseSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Покажите предложение на главной, в товарах, сервисах и других экранах. Выберите слот и срок.",
+    ),
+    "advertiseTariffsHint": MessageLookupByLibrary.simpleMessage(
+      "Цены в UZS. Верх главной — самый заметный слот.",
+    ),
+    "advertiseTariffsTitle": MessageLookupByLibrary.simpleMessage("Тарифы"),
+    "advertiseTitle": MessageLookupByLibrary.simpleMessage("Реклама в Autorin"),
+    "advertiseWalletCta": MessageLookupByLibrary.simpleMessage(
+      "Открыть кошелёк",
+    ),
     "afternoon": MessageLookupByLibrary.simpleMessage("Добрый день"),
     "allProducts": MessageLookupByLibrary.simpleMessage("Все товары"),
     "allSellerProducts": MessageLookupByLibrary.simpleMessage(
@@ -132,7 +254,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Вы уверены, что хотите удалить эту мастерскую?",
     ),
     "available": MessageLookupByLibrary.simpleMessage("С доставкой"),
-    "availableUntil": m0,
+    "availableUntil": m6,
     "back": MessageLookupByLibrary.simpleMessage("Назад"),
     "badgeFast": MessageLookupByLibrary.simpleMessage("БЫСТРО"),
     "badgePremium": MessageLookupByLibrary.simpleMessage("ПРЕМИУМ"),
@@ -186,12 +308,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatConversationTitle": MessageLookupByLibrary.simpleMessage("Чат"),
     "chatCopied": MessageLookupByLibrary.simpleMessage("Скопировано"),
     "chatCopy": MessageLookupByLibrary.simpleMessage("Копировать"),
-    "chatDaysAgo": m1,
+    "chatDaysAgo": m7,
     "chatHeaderInChatOnlyHint": MessageLookupByLibrary.simpleMessage(
       "(только активность в этом чате)",
     ),
     "chatHeaderTyping": MessageLookupByLibrary.simpleMessage("Печатает…"),
-    "chatHoursAgo": m2,
+    "chatHoursAgo": m8,
     "chatJustNow": MessageLookupByLibrary.simpleMessage("только что"),
     "chatLastPhoto": MessageLookupByLibrary.simpleMessage("Фото"),
     "chatLastVoice": MessageLookupByLibrary.simpleMessage(
@@ -204,14 +326,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatMicPermissionRequired": MessageLookupByLibrary.simpleMessage(
       "Требуется доступ к микрофону для записи голосовых сообщений.",
     ),
-    "chatMinutesAgo": m3,
+    "chatMinutesAgo": m9,
     "chatNoConversationsYet": MessageLookupByLibrary.simpleMessage(
       "Пока нет переписок",
     ),
     "chatOriginalMessageNotLoaded": MessageLookupByLibrary.simpleMessage(
       "Исходное сообщение ещё не загружено. Прокрутите вверх, чтобы загрузить больше.",
     ),
-    "chatPeerLastSeenInChat": m4,
+    "chatPeerLastSeenInChat": m10,
     "chatPeerNoMessagesYet": MessageLookupByLibrary.simpleMessage(
       "Пока нет сообщений собеседника",
     ),
@@ -222,7 +344,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Переподключение…",
     ),
     "chatReply": MessageLookupByLibrary.simpleMessage("Ответить"),
-    "chatReplyingTo": m5,
+    "chatReplyingTo": m11,
     "chatSayHello": MessageLookupByLibrary.simpleMessage("Напишите первым"),
     "chatSelectConversation": MessageLookupByLibrary.simpleMessage(
       "Выберите диалог",
@@ -293,6 +415,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "createOrder": MessageLookupByLibrary.simpleMessage("Создать заявку"),
     "createProductAddMorePhotos": MessageLookupByLibrary.simpleMessage(
       "Добавить ещё фото",
+    ),
+    "createProductBoostFree": MessageLookupByLibrary.simpleMessage("Бесплатно"),
+    "createProductBoostFreeHint": MessageLookupByLibrary.simpleMessage(
+      "Опубликовать без продвижения",
+    ),
+    "createProductBoostPublishFailed": MessageLookupByLibrary.simpleMessage(
+      "Объявление опубликовано, но продвижение не активировалось. Попробуйте снова в Моих объявлениях.",
+    ),
+    "createProductBoostPublishNeedsWallet": MessageLookupByLibrary.simpleMessage(
+      "Объявление опубликовано. Пополните кошелёк, чтобы включить продвижение.",
+    ),
+    "createProductBoostSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Выберите тариф или опубликуйте бесплатно. Позже можно продвинуть из Моих объявлений.",
+    ),
+    "createProductBoostTitle": MessageLookupByLibrary.simpleMessage(
+      "Поднять в Топ",
     ),
     "createProductBrand": MessageLookupByLibrary.simpleMessage("Марка"),
     "createProductCamera": MessageLookupByLibrary.simpleMessage("Камера"),
@@ -378,7 +516,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "createProductPreviewTitle": MessageLookupByLibrary.simpleMessage(
       "Предпросмотр",
     ),
-    "createProductPriceSuggested": m6,
+    "createProductPriceHint": MessageLookupByLibrary.simpleMessage(
+      "Только цена объявления — продвижение можно включить позже в моих объявлениях.",
+    ),
+    "createProductPriceSuggested": m12,
     "createProductPriceTitle": MessageLookupByLibrary.simpleMessage(
       "Укажите цену",
     ),
@@ -388,7 +529,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createProductPublishedSuccess": MessageLookupByLibrary.simpleMessage(
       "Объявление опубликовано",
     ),
-    "createProductPublishing": m7,
+    "createProductPublishing": m13,
     "createProductQuickErrorPhoto": MessageLookupByLibrary.simpleMessage(
       "Добавьте фото",
     ),
@@ -409,6 +550,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createProductStartNew": MessageLookupByLibrary.simpleMessage(
       "Новое объявление",
     ),
+    "createProductStepBoost": MessageLookupByLibrary.simpleMessage("В Топ"),
     "createProductStepInfo": MessageLookupByLibrary.simpleMessage("Описание"),
     "createProductStepLocation": MessageLookupByLibrary.simpleMessage("Место"),
     "createProductStepPhotos": MessageLookupByLibrary.simpleMessage("Фото"),
@@ -416,7 +558,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Просмотр",
     ),
     "createProductStepPrice": MessageLookupByLibrary.simpleMessage("Цена"),
-    "createProductStepProgress": m8,
+    "createProductStepProgress": m14,
     "createProductStepVehicle": MessageLookupByLibrary.simpleMessage("Авто"),
     "createProductTapAddPhotos": MessageLookupByLibrary.simpleMessage(
       "Нажмите, чтобы добавить фото",
@@ -477,7 +619,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Все услуги",
     ),
     "createWorkshopPopular": MessageLookupByLibrary.simpleMessage("Популярные"),
-    "createWorkshopServicesHint": m9,
+    "createWorkshopServicesHint": m15,
     "createWorkshopServicesTitle": MessageLookupByLibrary.simpleMessage(
       "Выберите услуги",
     ),
@@ -703,7 +845,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fillAllFields": MessageLookupByLibrary.simpleMessage("Заполните все поля"),
     "filters": MessageLookupByLibrary.simpleMessage("Фильтры"),
     "follow": MessageLookupByLibrary.simpleMessage("Подписаться"),
-    "followedOn": m10,
+    "followedOn": m16,
     "following": MessageLookupByLibrary.simpleMessage("Подписка оформлена"),
     "forbiddenResource": MessageLookupByLibrary.simpleMessage(
       "Доступ запрещен",
@@ -727,11 +869,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeExploreNearbyTitle": MessageLookupByLibrary.simpleMessage(
       "Карта рядом",
     ),
-    "homeGreeting": m11,
+    "homeGreeting": m17,
     "homeHotOrdersPreview": MessageLookupByLibrary.simpleMessage(
       "Актуальные заявки",
     ),
-    "homeListingCountHint": m12,
+    "homeListingCountHint": m18,
     "homeNearbyWorkshopsPreview": MessageLookupByLibrary.simpleMessage(
       "Ближайшие мастерские",
     ),
@@ -832,7 +974,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ещё от этого продавца",
     ),
     "morning": MessageLookupByLibrary.simpleMessage("Доброе утро"),
-    "myListingsBreakdown": m13,
+    "myListingsBreakdown": m19,
     "myListingsEmptyActive": MessageLookupByLibrary.simpleMessage(
       "Пока нет активных объявлений",
     ),
@@ -937,6 +1079,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "notificationSellerResponseTitle": MessageLookupByLibrary.simpleMessage(
       "Ответ продавца",
     ),
+    "notificationWalletReasonAdmin": MessageLookupByLibrary.simpleMessage(
+      "Корректировка администратора",
+    ),
+    "notificationWalletReasonBooking": MessageLookupByLibrary.simpleMessage(
+      "Комиссия за запись на услугу",
+    ),
+    "notificationWalletReasonOther": MessageLookupByLibrary.simpleMessage(
+      "Списание",
+    ),
+    "notificationWalletReasonPromotion": m20,
+    "notificationWalletReasonPromotionGeneric":
+        MessageLookupByLibrary.simpleMessage("В Топ"),
+    "notificationWalletSpendBody": m21,
+    "notificationWalletSpendBodyFallback": MessageLookupByLibrary.simpleMessage(
+      "С кошелька списаны средства.",
+    ),
+    "notificationWalletSpendTitle": MessageLookupByLibrary.simpleMessage(
+      "Списание с кошелька",
+    ),
+    "notificationWalletTopUpBody": m22,
+    "notificationWalletTopUpBodyFallback": MessageLookupByLibrary.simpleMessage(
+      "Средства зачислены на кошелёк.",
+    ),
+    "notificationWalletTopUpTitle": MessageLookupByLibrary.simpleMessage(
+      "Кошелёк пополнен",
+    ),
     "notificationWorkshopBookingBody": MessageLookupByLibrary.simpleMessage(
       "Новая заявка или ответ от мастерской.",
     ),
@@ -994,6 +1162,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "notificationsWhatYouGet": MessageLookupByLibrary.simpleMessage(
       "Что вы будете получать",
     ),
+    "onboardingGetStarted": MessageLookupByLibrary.simpleMessage("Начать"),
+    "onboardingPartsBody": MessageLookupByLibrary.simpleMessage(
+      "Смотрите запчасти и аксессуары у продавцов рядом — или выставляйте свои.",
+    ),
+    "onboardingPartsTitle": MessageLookupByLibrary.simpleMessage(
+      "Найдите нужные запчасти",
+    ),
+    "onboardingProgress": m23,
+    "onboardingRequestsBody": MessageLookupByLibrary.simpleMessage(
+      "Не нашли деталь? Создайте запрос — продавцы сами свяжутся с вами.",
+    ),
+    "onboardingRequestsTitle": MessageLookupByLibrary.simpleMessage(
+      "Оставьте заявку — продавцы найдут вас",
+    ),
+    "onboardingServicesBody": MessageLookupByLibrary.simpleMessage(
+      "Находите мастерские, смотрите кто открыт и записывайтесь на услуги.",
+    ),
+    "onboardingServicesTitle": MessageLookupByLibrary.simpleMessage(
+      "Автосервисы рядом с вами",
+    ),
     "openAnalytics": MessageLookupByLibrary.simpleMessage("Открыть аналитику"),
     "openFrom": MessageLookupByLibrary.simpleMessage("Открыто с"),
     "order": MessageLookupByLibrary.simpleMessage("Заказ"),
@@ -1008,25 +1196,25 @@ class MessageLookup extends MessageLookupByLibrary {
       "Бюджет договорной",
     ),
     "orderDetailChatSeller": MessageLookupByLibrary.simpleMessage("Чат"),
-    "orderDetailDeliveryDays": m14,
+    "orderDetailDeliveryDays": m24,
     "orderDetailLookingFor": MessageLookupByLibrary.simpleMessage(
       "Нужна запчасть",
     ),
     "orderDetailMessageBuyer": MessageLookupByLibrary.simpleMessage(
       "Написать покупателю",
     ),
-    "orderDetailNeedsPart": m15,
+    "orderDetailNeedsPart": m25,
     "orderDetailNoOffers": MessageLookupByLibrary.simpleMessage(
       "Пока нет предложений. Продавцы укажут запчасть и цену по вашей заявке.",
     ),
     "orderDetailOfferMessageHint": MessageLookupByLibrary.simpleMessage(
       "Опишите, какую запчасть можете поставить по этой заявке…",
     ),
-    "orderDetailOfferPrice": m16,
+    "orderDetailOfferPrice": m26,
     "orderDetailOfferPriceHint": MessageLookupByLibrary.simpleMessage(
       "Ваша цена (необязательно)",
     ),
-    "orderDetailOffersCount": m17,
+    "orderDetailOffersCount": m27,
     "orderDetailOffersTitle": MessageLookupByLibrary.simpleMessage(
       "Предложения продавцов",
     ),
@@ -1089,7 +1277,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Номер телефона"),
     "photos": MessageLookupByLibrary.simpleMessage("Фотографии"),
     "popularProducts": MessageLookupByLibrary.simpleMessage("Популярные"),
-    "postedOn": m18,
+    "postedOn": m28,
     "price": MessageLookupByLibrary.simpleMessage("Цена"),
     "priceDescription": MessageLookupByLibrary.simpleMessage("Описание цены"),
     "priceDescriptionPlaceholder": MessageLookupByLibrary.simpleMessage(
@@ -1155,6 +1343,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "productUpdated": MessageLookupByLibrary.simpleMessage("Товар обновлен"),
     "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
+    "profileAdvertise": MessageLookupByLibrary.simpleMessage("Реклама"),
     "profileSectionAccount": MessageLookupByLibrary.simpleMessage("Аккаунт"),
     "profileSectionMyActivity": MessageLookupByLibrary.simpleMessage(
       "Моя активность",
@@ -1163,6 +1352,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Настройки",
     ),
     "profileSectionSupport": MessageLookupByLibrary.simpleMessage("Поддержка"),
+    "profileSubtitleAdvertise": MessageLookupByLibrary.simpleMessage(
+      "Баннеры, тарифы и статистика",
+    ),
     "profileSubtitleMessages": MessageLookupByLibrary.simpleMessage(
       "Чаты с продавцами",
     ),
@@ -1182,9 +1374,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Продвижение объявления",
     ),
     "promotePlanBasic": MessageLookupByLibrary.simpleMessage("Базовый"),
-    "promotePlanDuration": m19,
+    "promotePlanDuration": m29,
     "promotePlanPremium": MessageLookupByLibrary.simpleMessage("Премиум"),
     "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Стандарт"),
+    "promotePlanTop": MessageLookupByLibrary.simpleMessage("Топ"),
     "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
@@ -1201,6 +1394,31 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotedTop": MessageLookupByLibrary.simpleMessage("В топе"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
       "Оплата принята — объявление в топе",
+    ),
+    "promotionActiveUntil": m30,
+    "promotionCancelBody": MessageLookupByLibrary.simpleMessage(
+      "Объявление сразу уйдёт из Топа. Оплаченное время не возвращается.",
+    ),
+    "promotionCancelTitle": MessageLookupByLibrary.simpleMessage(
+      "Отключить продвижение?",
+    ),
+    "promotionCancelledSuccess": MessageLookupByLibrary.simpleMessage(
+      "Продвижение отключено",
+    ),
+    "promotionExtend": MessageLookupByLibrary.simpleMessage(
+      "Продлить / улучшить",
+    ),
+    "promotionExtendHint": MessageLookupByLibrary.simpleMessage(
+      "Повторная покупка добавит дни к текущей дате окончания.",
+    ),
+    "promotionExtendedSuccess": MessageLookupByLibrary.simpleMessage(
+      "Продвижение продлено",
+    ),
+    "promotionManage": MessageLookupByLibrary.simpleMessage(
+      "Управление продвижением",
+    ),
+    "promotionTurnOff": MessageLookupByLibrary.simpleMessage(
+      "Отключить продвижение",
     ),
     "publicVisibility": MessageLookupByLibrary.simpleMessage("Публично"),
     "publish": MessageLookupByLibrary.simpleMessage("Опубликовать"),
@@ -1348,7 +1566,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectPartCategory": MessageLookupByLibrary.simpleMessage(
       "Выберите категорию",
     ),
-    "sellerAtUsername": m20,
+    "sellerAtUsername": m31,
     "sellerBioSection": MessageLookupByLibrary.simpleMessage("О продавце"),
     "sellerCategories": MessageLookupByLibrary.simpleMessage(
       "Категории продавца",
@@ -1359,7 +1577,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellerDescriptionSection": MessageLookupByLibrary.simpleMessage(
       "Описание",
     ),
-    "sellerFollowersProducts": m21,
+    "sellerFollowersProducts": m32,
     "sellerInformation": MessageLookupByLibrary.simpleMessage(
       "Информация о продавце",
     ),
@@ -1375,8 +1593,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellerMatchingOrdersEmptyListingsHint": MessageLookupByLibrary.simpleMessage(
       "Добавьте товары в категориях, которыми торгуете — подходящие заявки появятся здесь.",
     ),
-    "sellerMatchingOrdersListingsHint": m22,
-    "sellerMatchingOrdersOpenCount": m23,
+    "sellerMatchingOrdersListingsHint": m33,
+    "sellerMatchingOrdersOpenCount": m34,
     "sellerMatchingOrdersStatusActive": MessageLookupByLibrary.simpleMessage(
       "Активна",
     ),
@@ -1389,9 +1607,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellerMatchingOrdersTitle": MessageLookupByLibrary.simpleMessage(
       "Реклама",
     ),
-    "sellerMatchingOrdersTotalHint": m24,
+    "sellerMatchingOrdersTotalHint": m35,
     "sellerProfile": MessageLookupByLibrary.simpleMessage("Профиль продавца"),
-    "sellerSince": m25,
+    "sellerSince": m36,
     "sellerSinceDescription": MessageLookupByLibrary.simpleMessage(
       "Показывает месяц и год регистрации продавца",
     ),
@@ -1560,14 +1778,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "viewProfile": MessageLookupByLibrary.simpleMessage("Профиль"),
     "views": MessageLookupByLibrary.simpleMessage("Просмотры"),
-    "viewsCountLabel": m26,
+    "viewsCountLabel": m37,
     "viewsOfPhone": MessageLookupByLibrary.simpleMessage("Просмотры телефона"),
-    "walletAvailable": MessageLookupByLibrary.simpleMessage("Доступно"),
+    "walletAvailable": MessageLookupByLibrary.simpleMessage("Доступный баланс"),
     "walletBonus": MessageLookupByLibrary.simpleMessage("Бонус"),
     "walletBookingDateTime": MessageLookupByLibrary.simpleMessage(
       "Дата и время",
     ),
-    "walletBookingFeeLabel": m27,
+    "walletBookingFeeLabel": m38,
     "walletBookingNotes": MessageLookupByLibrary.simpleMessage("Заметки"),
     "walletBookingPaid": MessageLookupByLibrary.simpleMessage(
       "Бронирование оплачено с кошелька",
@@ -1575,7 +1793,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletEmptyHistory": MessageLookupByLibrary.simpleMessage(
       "Пока нет транзакций",
     ),
-    "walletHistory": MessageLookupByLibrary.simpleMessage("Транзакции"),
+    "walletHistory": MessageLookupByLibrary.simpleMessage("История"),
     "walletInsufficientFunds": MessageLookupByLibrary.simpleMessage(
       "Недостаточно средств. Пополните кошелёк.",
     ),
@@ -1583,20 +1801,46 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletPayFromWallet": MessageLookupByLibrary.simpleMessage(
       "Оплатить с кошелька",
     ),
+    "walletPaymentComingSoonBody": m39,
+    "walletPaymentMethods": MessageLookupByLibrary.simpleMessage(
+      "Способы оплаты",
+    ),
+    "walletPromoteBalance": m40,
     "walletSignInToBook": MessageLookupByLibrary.simpleMessage(
       "Войдите, чтобы записаться",
     ),
     "walletSubtitle": MessageLookupByLibrary.simpleMessage(
       "Баланс, пополнение и история",
     ),
+    "walletTelegramAvailable": MessageLookupByLibrary.simpleMessage("Доступно"),
+    "walletTelegramHint": MessageLookupByLibrary.simpleMessage(
+      "Откройте Telegram, чтобы пополнить кошелёк через поддержку.",
+    ),
+    "walletTelegramOpen": MessageLookupByLibrary.simpleMessage(
+      "Пополнить через Telegram",
+    ),
     "walletTitle": MessageLookupByLibrary.simpleMessage("Кошелёк"),
     "walletTopUp": MessageLookupByLibrary.simpleMessage("Пополнить"),
     "walletTopUpHint": MessageLookupByLibrary.simpleMessage(
-      "Тестовое пополнение. Payme/Click подключится позже.",
+      "Выберите способ оплаты. Payme, Click и Paynet скоро — Telegram уже доступен.",
     ),
     "walletTopUpSuccess": MessageLookupByLibrary.simpleMessage(
       "Кошелёк пополнен",
     ),
+    "walletTxCopyId": MessageLookupByLibrary.simpleMessage("Скопировать ID"),
+    "walletTxDate": MessageLookupByLibrary.simpleMessage("Дата"),
+    "walletTxDetails": MessageLookupByLibrary.simpleMessage(
+      "Детали транзакции",
+    ),
+    "walletTxId": MessageLookupByLibrary.simpleMessage("ID транзакции"),
+    "walletTxOpenRelated": MessageLookupByLibrary.simpleMessage(
+      "Открыть связанное",
+    ),
+    "walletTxReason": MessageLookupByLibrary.simpleMessage("Назначение"),
+    "walletTxReference": MessageLookupByLibrary.simpleMessage("Ссылка"),
+    "walletTxSpend": MessageLookupByLibrary.simpleMessage("Списание"),
+    "walletTxStatus": MessageLookupByLibrary.simpleMessage("Статус"),
+    "walletTxTopUp": MessageLookupByLibrary.simpleMessage("Пополнение"),
     "wantToBuyBudget": MessageLookupByLibrary.simpleMessage("Бюджет"),
     "wantToBuyCreateCta": MessageLookupByLibrary.simpleMessage(
       "Оставить заявку",
@@ -1610,9 +1854,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "wantToBuyFeedTitle": MessageLookupByLibrary.simpleMessage(
       "Заявки покупателей",
     ),
-    "wantToBuyOffers": m28,
+    "wantToBuyOffers": m41,
     "wantToBuyRequestBadge": MessageLookupByLibrary.simpleMessage("Заявка"),
-    "wantToBuyRequestsCount": m29,
+    "wantToBuyRequestsCount": m42,
     "wantToBuyRespond": MessageLookupByLibrary.simpleMessage("Предложить"),
     "wantToBuySearchHint": MessageLookupByLibrary.simpleMessage(
       "Деталь, авто или город…",
@@ -1640,9 +1884,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "workshopOnRequest": MessageLookupByLibrary.simpleMessage("По запросу"),
     "workshopOpenNow": MessageLookupByLibrary.simpleMessage("Открыто"),
-    "workshopOwnerReply": m30,
+    "workshopOwnerReply": m43,
     "workshopPopular": MessageLookupByLibrary.simpleMessage("Популярные"),
-    "workshopPriceFrom": m31,
+    "workshopPriceFrom": m44,
     "workshopScreenSubtitle": MessageLookupByLibrary.simpleMessage(
       "Проверенные автосервисы рядом с вами",
     ),

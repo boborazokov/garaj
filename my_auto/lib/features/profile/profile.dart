@@ -100,6 +100,16 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 ProfileItem(
+                  iconPath: const Icon(LucideIcons.megaphone),
+                  title: s.profileAdvertise,
+                  subtitle: s.profileSubtitleAdvertise,
+                  onTap: () => _protectedTap(
+                    context,
+                    pending: const PendingRoute(path: RoutesName.advertise),
+                    onAuthed: () => context.push(RoutesName.advertise),
+                  ),
+                ),
+                ProfileItem(
                   iconPath: const Icon(LucideIcons.heart),
                   title: s.favorites,
                   onTap: () => _protectedTap(

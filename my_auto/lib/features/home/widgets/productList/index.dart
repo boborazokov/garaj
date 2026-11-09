@@ -29,10 +29,12 @@ class ProductGrid extends StatelessWidget {
         itemCount: products.length,
         itemBuilder: (context, index) {
           final product = products[index];
+          final depleted = isDepleted ||
+              product.status == ItemStatusEnum.archived;
           return MyProductCard(
             product: product,
             isMine: isMine,
-            isDepleted: isDepleted,
+            isDepleted: depleted,
           );
         },
       );

@@ -44,6 +44,7 @@ class FeaturedCarousel extends StatelessWidget {
           return DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: AppRadius.rL,
+              border: Border.all(color: colors.border),
               boxShadow: MarketUi.softElev(context),
             ),
             child: SizedBox(
@@ -83,27 +84,31 @@ class FeaturedCarousel extends StatelessWidget {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8,
-                                  vertical: 3,
+                                  vertical: 4,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: colors.primary,
+                                  color: colors.surface.withValues(alpha: 0.96),
                                   borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: colors.border),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(
-                                      LucideIcons.flame,
-                                      size: 11,
-                                      color: colors.onPrimary,
+                                    Container(
+                                      width: 6,
+                                      height: 6,
+                                      decoration: BoxDecoration(
+                                        color: colors.primary,
+                                        shape: BoxShape.circle,
+                                      ),
                                     ),
-                                    const SizedBox(width: 4),
+                                    const SizedBox(width: 6),
                                     Text(
                                       S.of(context).promotedBadge,
                                       style: TextStyle(
-                                        color: colors.onPrimary,
+                                        color: colors.textPrimary,
                                         fontSize: 10,
-                                        fontWeight: FontWeight.w800,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ],
@@ -114,7 +119,7 @@ class FeaturedCarousel extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 7, 10, 8),
+                        padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -124,7 +129,7 @@ class FeaturedCarousel extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w700,
                                 color: colors.primary,
                                 letterSpacing: -0.2,
                                 fontSize: 14,

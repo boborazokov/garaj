@@ -38,7 +38,7 @@ class FieldLabel extends StatelessWidget {
                 text: ' *',
                 style: base.copyWith(
                   color: colors.danger,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
           ],

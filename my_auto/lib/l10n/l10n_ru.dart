@@ -1194,6 +1194,30 @@ class SRu extends S {
   String get createProductStepPreview => 'Просмотр';
 
   @override
+  String get createProductStepBoost => 'В Топ';
+
+  @override
+  String get createProductBoostTitle => 'Поднять в Топ';
+
+  @override
+  String get createProductBoostSubtitle =>
+      'Выберите тариф или опубликуйте бесплатно. Позже можно продвинуть из Моих объявлений.';
+
+  @override
+  String get createProductBoostFree => 'Бесплатно';
+
+  @override
+  String get createProductBoostFreeHint => 'Опубликовать без продвижения';
+
+  @override
+  String get createProductBoostPublishNeedsWallet =>
+      'Объявление опубликовано. Пополните кошелёк, чтобы включить продвижение.';
+
+  @override
+  String get createProductBoostPublishFailed =>
+      'Объявление опубликовано, но продвижение не активировалось. Попробуйте снова в Моих объявлениях.';
+
+  @override
   String get createProductPreviewTitle => 'Предпросмотр';
 
   @override
@@ -1300,6 +1324,10 @@ class SRu extends S {
 
   @override
   String get createProductPriceTitle => 'Укажите цену';
+
+  @override
+  String get createProductPriceHint =>
+      'Только цена объявления — продвижение можно включить позже в моих объявлениях.';
 
   @override
   String createProductPriceSuggested(int price, String currency) {
@@ -2443,7 +2471,12 @@ class SRu extends S {
   String get promotePlanVip => 'VIP';
 
   @override
-  String get promotePlanTop => 'TOP';
+  String get promotePlanTop => 'Топ';
+
+  @override
+  String walletPromoteBalance(String balance) {
+    return 'Кошелёк: $balance';
+  }
 
   @override
   String promotePlanDuration(int days, int priority) {
@@ -2451,11 +2484,41 @@ class SRu extends S {
   }
 
   @override
-  String get activatePromotion => 'Оплатить и поднять в топ';
+  String get activatePromotion => 'Активировать продвижение';
 
   @override
-  String get promotionActivatedSuccess =>
-      'Оплата принята — объявление в топе';
+  String get promotionActivatedSuccess => 'Продвижение успешно активировано';
+
+  @override
+  String get promotionExtendedSuccess => 'Продвижение продлено';
+
+  @override
+  String get promotionCancelledSuccess => 'Продвижение отключено';
+
+  @override
+  String get promotionManage => 'Управление продвижением';
+
+  @override
+  String get promotionExtend => 'Продлить / улучшить';
+
+  @override
+  String get promotionTurnOff => 'Отключить продвижение';
+
+  @override
+  String get promotionCancelTitle => 'Отключить продвижение?';
+
+  @override
+  String get promotionCancelBody =>
+      'Объявление сразу уйдёт из Топа. Оплаченное время не возвращается.';
+
+  @override
+  String promotionActiveUntil(String date) {
+    return 'Активно до $date';
+  }
+
+  @override
+  String get promotionExtendHint =>
+      'Повторная покупка добавит дни к текущей дате окончания.';
 
   @override
   String get notificationAccountVerifiedTitle => 'Вы прошли проверку';
@@ -2513,6 +2576,47 @@ class SRu extends S {
   String get notificationGenericAlertBody => 'У вас новое уведомление.';
 
   @override
+  String get notificationWalletTopUpTitle => 'Кошелёк пополнен';
+
+  @override
+  String notificationWalletTopUpBody(String amount) {
+    return '+$amount зачислено на баланс';
+  }
+
+  @override
+  String get notificationWalletTopUpBodyFallback =>
+      'Средства зачислены на кошелёк.';
+
+  @override
+  String get notificationWalletSpendTitle => 'Списание с кошелька';
+
+  @override
+  String notificationWalletSpendBody(String amount, String reason) {
+    return '−$amount · $reason';
+  }
+
+  @override
+  String get notificationWalletSpendBodyFallback =>
+      'С кошелька списаны средства.';
+
+  @override
+  String notificationWalletReasonPromotion(String plan) {
+    return 'В Топ ($plan)';
+  }
+
+  @override
+  String get notificationWalletReasonPromotionGeneric => 'В Топ';
+
+  @override
+  String get notificationWalletReasonBooking => 'Комиссия за запись на услугу';
+
+  @override
+  String get notificationWalletReasonAdmin => 'Корректировка администратора';
+
+  @override
+  String get notificationWalletReasonOther => 'Списание';
+
+  @override
   String get pushChannelName => 'Уведомления Garage';
 
   @override
@@ -2528,7 +2632,7 @@ class SRu extends S {
   String get walletSubtitle => 'Баланс, пополнение и история';
 
   @override
-  String get walletAvailable => 'Доступно';
+  String get walletAvailable => 'Доступный баланс';
 
   @override
   String get walletMain => 'Основной';
@@ -2541,13 +2645,61 @@ class SRu extends S {
 
   @override
   String get walletTopUpHint =>
-      'Тестовое пополнение. Payme/Click подключится позже.';
+      'Выберите способ оплаты. Payme, Click и Paynet скоро — Telegram уже доступен.';
+
+  @override
+  String get walletPaymentMethods => 'Способы оплаты';
+
+  @override
+  String walletPaymentComingSoonBody(String method) {
+    return '$method появится в ближайшее время.';
+  }
+
+  @override
+  String get walletTelegramAvailable => 'Доступно';
+
+  @override
+  String get walletTelegramOpen => 'Пополнить через Telegram';
+
+  @override
+  String get walletTelegramHint =>
+      'Откройте Telegram, чтобы пополнить кошелёк через поддержку.';
+
+  @override
+  String get walletTxTopUp => 'Пополнение';
+
+  @override
+  String get walletTxSpend => 'Списание';
+
+  @override
+  String get walletTxDetails => 'Детали транзакции';
+
+  @override
+  String get walletTxId => 'ID транзакции';
+
+  @override
+  String get walletTxReference => 'Ссылка';
+
+  @override
+  String get walletTxDate => 'Дата';
+
+  @override
+  String get walletTxStatus => 'Статус';
+
+  @override
+  String get walletTxReason => 'Назначение';
+
+  @override
+  String get walletTxOpenRelated => 'Открыть связанное';
+
+  @override
+  String get walletTxCopyId => 'Скопировать ID';
 
   @override
   String get walletTopUpSuccess => 'Кошелёк пополнен';
 
   @override
-  String get walletHistory => 'Транзакции';
+  String get walletHistory => 'История';
 
   @override
   String get walletEmptyHistory => 'Пока нет транзакций';
@@ -2574,5 +2726,211 @@ class SRu extends S {
   @override
   String walletBookingFeeLabel(int amount) {
     return 'Комиссия платформы: $amount UZS';
+  }
+
+  @override
+  String get adPlaceholderBadge => 'Реклама';
+
+  @override
+  String get adPlaceholderTitle => 'Рекламируйте свой товар здесь';
+
+  @override
+  String get adPlaceholderSubtitle => 'Нажмите — слоты и тарифы';
+
+  @override
+  String get advertiseTitle => 'Реклама в Autorin';
+
+  @override
+  String get advertiseSubtitle =>
+      'Покажите предложение на главной, в товарах, сервисах и других экранах. Выберите слот и срок.';
+
+  @override
+  String get advertiseHowTitle => 'Как это работает';
+
+  @override
+  String get advertiseHowBody =>
+      'Выберите место, срок 1 день / 1 неделя / 1 месяц / 3 месяца — баннер увидят покупатели на этом экране.';
+
+  @override
+  String get advertiseTariffsTitle => 'Тарифы';
+
+  @override
+  String get advertiseTariffsHint =>
+      'Цены в UZS. Верх главной — самый заметный слот.';
+
+  @override
+  String advertiseFromWeek(String amount) {
+    return 'от $amount UZS / нед.';
+  }
+
+  @override
+  String get advertisePlanDay => '1 день';
+
+  @override
+  String get advertisePlanWeek => '1 неделя';
+
+  @override
+  String get advertisePlanMonth => '1 месяц';
+
+  @override
+  String get advertisePlanQuarter => '3 месяца';
+
+  @override
+  String get advertisePlacementBrand => 'Главная — верхний баннер';
+
+  @override
+  String get advertisePlacementPart => 'Товары — списки';
+
+  @override
+  String get advertisePlacementService => 'Сервисы — хаб и лента';
+
+  @override
+  String get advertisePlacementAnnouncement => 'Заявки — верх';
+
+  @override
+  String get advertisePlacementTuning => 'Поиск — explore';
+
+  @override
+  String get advertisePlacementModel => 'Страница магазина';
+
+  @override
+  String get advertiseBoostCta => 'Поднять мой товар';
+
+  @override
+  String get advertiseWalletCta => 'Открыть кошелёк';
+
+  @override
+  String get advertiseContactHint =>
+      'Баннеры пока подключает поддержка / админ. Top товара можно купить самому из объявления.';
+
+  @override
+  String get adPurchaseTitle => 'Купить баннер';
+
+  @override
+  String get adPurchaseFab => 'Купить баннер';
+
+  @override
+  String get adPurchasePlacement => 'Размещение';
+
+  @override
+  String get adPurchasePlan => 'Срок';
+
+  @override
+  String get adPurchaseTitleField => 'Заголовок баннера';
+
+  @override
+  String get adPurchaseLinkField => 'Ссылка / deep link';
+
+  @override
+  String get adPurchaseCreative => 'Креатив';
+
+  @override
+  String get adPurchasePickImage => 'Выбрать изображение';
+
+  @override
+  String get adPurchasePreview => 'Превью';
+
+  @override
+  String get adPurchasePreviewCta => 'Превью';
+
+  @override
+  String get adPurchasePayCta => 'Оплатить с кошелька';
+
+  @override
+  String adPurchaseWalletBalance(String amount) {
+    return 'Кошелёк: $amount';
+  }
+
+  @override
+  String adPurchaseTotal(String amount) {
+    return 'Итого: $amount';
+  }
+
+  @override
+  String get adPurchaseLiveSuccess => 'Баннер в эфире';
+
+  @override
+  String get adPurchaseQueuedSuccess =>
+      'Баннер в очереди — выйдет, когда освободится слот';
+
+  @override
+  String adSlotFree(String used, String max) {
+    return 'Слоты $used/$max — баннер выйдет сразу';
+  }
+
+  @override
+  String adSlotFull(String pos, String max) {
+    return 'Все $max слотов заняты — вы #$pos в очереди';
+  }
+
+  @override
+  String get adMyBannersTitle => 'Мои баннеры';
+
+  @override
+  String get adMyBannersEmpty =>
+      'Пока нет баннеров. Купите, чтобы продвинуть предложение.';
+
+  @override
+  String get adStatImpressions => 'Показы';
+
+  @override
+  String get adStatClicks => 'Клики';
+
+  @override
+  String get adStatCtr => 'CTR';
+
+  @override
+  String get adStatusActive => 'Активен';
+
+  @override
+  String get adStatusPaused => 'Пауза';
+
+  @override
+  String get adStatusExpired => 'Истёк';
+
+  @override
+  String get adStatusQueued => 'В очереди';
+
+  @override
+  String adQueuePosition(String pos) {
+    return 'очередь #$pos';
+  }
+
+  @override
+  String get adPauseCta => 'Пауза';
+
+  @override
+  String get profileAdvertise => 'Реклама';
+
+  @override
+  String get profileSubtitleAdvertise => 'Баннеры, тарифы и статистика';
+
+  @override
+  String get onboardingPartsTitle => 'Найдите нужные запчасти';
+
+  @override
+  String get onboardingPartsBody =>
+      'Смотрите запчасти и аксессуары у продавцов рядом — или выставляйте свои.';
+
+  @override
+  String get onboardingServicesTitle => 'Автосервисы рядом с вами';
+
+  @override
+  String get onboardingServicesBody =>
+      'Находите мастерские, смотрите кто открыт и записывайтесь на услуги.';
+
+  @override
+  String get onboardingRequestsTitle => 'Оставьте заявку — продавцы найдут вас';
+
+  @override
+  String get onboardingRequestsBody =>
+      'Не нашли деталь? Создайте запрос — продавцы сами свяжутся с вами.';
+
+  @override
+  String get onboardingGetStarted => 'Начать';
+
+  @override
+  String onboardingProgress(int current, int total) {
+    return 'Шаг $current из $total';
   }
 }

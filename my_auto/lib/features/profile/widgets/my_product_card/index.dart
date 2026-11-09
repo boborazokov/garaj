@@ -8,6 +8,7 @@ import 'package:my_auto/core/provider/profile/removePartsById/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/features/promotion/presentation/promote_product_sheet.dart';
 import 'package:my_auto/features/profile/widgets/my_listing_card_helpers.dart';
 import 'package:my_auto/generated/l10n.dart';
@@ -47,170 +48,176 @@ class MyProductCard extends StatelessWidget {
     void openDetail() =>
         context.push(RoutesName.productDetailScreen, extra: product.id);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
+    return MarketCardShell(
+      margin: const EdgeInsets.fromLTRB(
         AppSpacing.screenPadding,
         AppSpacing.s,
         AppSpacing.screenPadding,
         0,
       ),
-      child: Material(
-        color: colors.surface,
-        borderRadius: AppRadius.rL,
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: openDetail,
-          child: Ink(
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: AppRadius.rL,
-              border: Border.all(color: colors.border),
-              boxShadow: AppShadows.card(context),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+      onTap: openDetail,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.m),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(AppSpacing.m),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: AppRadius.rM,
-                        child: SizedBox(
-                          width: 92,
-                          height: 92,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              Container(
-                                color: colors.surfaceMuted,
-                                child: imageUrl != null
-                                    ? ImageCacheNetwork(url: imageUrl)
-                                    : Icon(
-                                        LucideIcons.imageOff,
-                                        size: 28,
-                                        color: colors.textMuted,
-                                      ),
-                              ),
-                              if (product.isPromotionActive)
-                                Positioned(
-                                  left: 6,
-                                  top: 6,
-                                  child: _PromotedRibbon(
-                                    colors: colors,
-                                    label: s.promotedBadge,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.m),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _formatPrice(product.price, product.currency),
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w900,
-                                color: colors.primary,
-                                height: 1.1,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              product.name,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                height: 1.25,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            MyListingStatusChip(
-                              label: statusLabel,
-                              isActive: !isDepleted,
-                            ),
-                            if (product.category?.name != null) ...[
-                              const SizedBox(height: 8),
-                              Text(
-                                product.category!.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.textTheme.labelSmall?.copyWith(
+                ClipRRect(
+                  borderRadius: AppRadius.rM,
+                  child: SizedBox(
+                    width: 96,
+                    height: 96,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        ColoredBox(
+                          color: colors.surfaceMuted,
+                          child: imageUrl != null
+                              ? ImageCacheNetwork(url: imageUrl)
+                              : Icon(
+                                  LucideIcons.imageOff,
+                                  size: 28,
                                   color: colors.textMuted,
                                 ),
-                              ),
-                            ],
-                          ],
                         ),
-                      ),
-                    ],
+                        if (product.isPromotionActive)
+                          Positioned(
+                            left: 6,
+                            top: 6,
+                            child: MarketBadgeChip(
+                              label: s.promotedBadge,
+                              emphasized: true,
+                              dense: true,
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
-                Divider(height: 1, color: colors.divider),
-                Padding(
-                  padding: const EdgeInsets.all(AppSpacing.m),
+                const SizedBox(width: AppSpacing.m),
+                Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (isMine && !isDepleted) ...[
-                        MyListingPromoteButton(
-                          label: product.isPromotionActive
-                              ? s.promotedTop
-                              : s.promoteToTop,
-                          isActive: product.isPromotionActive,
-                          onTap: () async {
-                            final ok = await showPromoteProductSheet(
-                              context,
-                              product: product,
-                            );
-                            if (ok != true || !context.mounted) return;
-                            final sellerId = product.seller?.id;
-                            if (sellerId == null || sellerId.isEmpty) return;
-                            await context.read<ProductProvider>().loadList(
-                                  filters: {'seller': sellerId},
-                                  reset: true,
-                                  sort: 'NEWEST',
-                                );
-                          },
+                      Text(
+                        _formatPrice(product.price, product.currency),
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: colors.primary,
+                          height: 1.1,
                         ),
-                        const SizedBox(height: AppSpacing.s),
-                      ],
-                      Row(
-                        children: [
-                          MyListingActionButton(
-                            icon: LucideIcons.pencil,
-                            label: s.edit,
-                            color: colors.primary,
-                            onTap: () => context.push(
-                              RoutesName.addProduct,
-                              extra: product,
-                            ),
-                          ),
-                          const SizedBox(width: AppSpacing.s),
-                          MyListingActionButton(
-                            icon: LucideIcons.trash2,
-                            label: s.delete,
-                            color: colors.danger,
-                            onTap: () => _showDeleteDialog(
-                              context,
-                              provider,
-                              providerRemove,
-                            ),
-                          ),
-                        ],
                       ),
+                      const SizedBox(height: 6),
+                      Text(
+                        product.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          height: 1.25,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      MyListingStatusChip(
+                        label: statusLabel,
+                        isActive: !isDepleted,
+                      ),
+                      if (product.category?.name != null) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          product.category!.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colors.textMuted,
+                          ),
+                        ),
+                      ],
+                      if (isMine) ...[
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Icon(
+                              LucideIcons.eye,
+                              size: 14,
+                              color: colors.textMuted,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${product.viewsCount} ${s.views}',
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: colors.textMuted,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),
               ],
             ),
           ),
-        ),
+          Divider(height: 1, color: colors.divider),
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (isMine && !isDepleted) ...[
+                  MyListingPromoteButton(
+                    label: product.isPromotionActive
+                        ? s.promotionManage
+                        : s.promoteToTop,
+                    isActive: product.isPromotionActive,
+                    onTap: () async {
+                      final ok = await showPromoteProductSheet(
+                        context,
+                        product: product,
+                      );
+                      if (ok != true || !context.mounted) return;
+                      final sellerId = product.seller?.id;
+                      if (sellerId == null || sellerId.isEmpty) return;
+                      await context.read<ProductProvider>().loadList(
+                            filters: {'seller': sellerId},
+                            reset: true,
+                            sort: 'NEWEST',
+                          );
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.s),
+                ],
+                Row(
+                  children: [
+                    MyListingActionButton(
+                      icon: LucideIcons.pencil,
+                      label: s.edit,
+                      color: colors.primary,
+                      onTap: () => context.push(
+                        RoutesName.addProduct,
+                        extra: product,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.s),
+                    MyListingActionButton(
+                      icon: LucideIcons.trash2,
+                      label: s.delete,
+                      color: colors.danger,
+                      onTap: () => _showDeleteDialog(
+                        context,
+                        provider,
+                        providerRemove,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -247,44 +254,6 @@ class MyProductCard extends StatelessWidget {
               context.pop(true);
             },
             child: Text(s.delete),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PromotedRibbon extends StatelessWidget {
-  const _PromotedRibbon({
-    required this.colors,
-    required this.label,
-  });
-
-  final AppColors colors;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colors.primary, colors.primaryHover],
-        ),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(LucideIcons.flame, size: 9, color: colors.onPrimary),
-          const SizedBox(width: 2),
-          Text(
-            label,
-            style: TextStyle(
-              color: colors.onPrimary,
-              fontSize: 9,
-              fontWeight: FontWeight.w800,
-            ),
           ),
         ],
       ),

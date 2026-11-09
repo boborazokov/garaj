@@ -53,33 +53,48 @@ class SetFavoriteProvider extends ChangeNotifier {
 
   Future<void> loadFavoritesFromServer() async {
     try {
-      final result = await GraphQLConfig.client().query(
-        QueryOptions(
-          document: gql(GET_FAVORITE_PARTS),
-          variables: {
-            'pagination': {'page': 1, 'limit': 200},
-          },
-          fetchPolicy: FetchPolicy.networkOnly,
-        ),
-      );
-      if (result.hasException) {
-        if (kDebugMode) {
-          debugPrint('[SetFavoriteProvider] loadFavorites: ${result.exception}');
-        }
-        return;
-      }
-
-      final payload = result.data?['getParts']?['payload'] as List?;
-      if (payload == null) return;
-
+      const pageSize = 100;
+      var page = 1;
       final ids = <String>[];
       final parts = <Part>[];
-      for (final raw in payload) {
-        final map = Map<String, dynamic>.from(raw as Map);
-        final id = map['_id']?.toString() ?? '';
-        if (id.isNotEmpty) ids.add(id);
-        parts.add(Part.fromJson(map));
+
+      while (page <= 50) {
+        final result = await GraphQLConfig.client().query(
+          QueryOptions(
+            document: gql(GET_FAVORITE_PARTS),
+            variables: {
+              'pagination': {'page': page, 'limit': pageSize},
+            },
+            fetchPolicy: FetchPolicy.networkOnly,
+          ),
+        );
+        if (result.hasException) {
+          if (kDebugMode) {
+            debugPrint(
+              '[SetFavoriteProvider] loadFavorites: ${result.exception}',
+            );
+          }
+          break;
+        }
+
+        final payload = result.data?['getParts']?['payload'] as List?;
+        if (payload == null) break;
+
+        for (final raw in payload) {
+          final map = Map<String, dynamic>.from(raw as Map);
+          final id = map['_id']?.toString() ?? '';
+          if (id.isNotEmpty) ids.add(id);
+          // Keep a light preview cache for empty-state fallback.
+          if (parts.length < pageSize) {
+            parts.add(Part.fromJson(map));
+          }
+        }
+
+        final hasNext = result.data?['getParts']?['hasNextPage'] == true;
+        if (!hasNext || payload.isEmpty) break;
+        page += 1;
       }
+
       syncFavoriteIds(ids);
       _cachedFavoriteParts
         ..clear()

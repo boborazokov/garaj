@@ -4,7 +4,8 @@ import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/features/add/api/index.dart';
 import 'package:my_auto/features/profile/screens/my_products/api/index.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
-import 'package:my_auto/features/wallet/data/wallet_models.dart';
+import 'package:my_auto/features/promotion/data/promotion_repository.dart'
+    show PromotionTargetType;
 import 'package:my_auto/features/wallet/data/wallet_repository.dart';
 
 class PartRepository {

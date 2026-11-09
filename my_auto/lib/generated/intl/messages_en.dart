@@ -20,72 +20,100 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(date) => "On the site until ${date}";
+  static String m0(amount) => "Total: ${amount}";
 
-  static String m1(n) => "${n} d ago";
+  static String m1(amount) => "Wallet: ${amount}";
 
-  static String m2(n) => "${n} h ago";
+  static String m2(pos) => "queue #${pos}";
 
-  static String m3(n) => "${n} min ago";
+  static String m3(used, max) =>
+      "Slots ${used}/${max} free — your banner goes live now";
 
-  static String m4(time) => "Last reply in chat · ${time}";
+  static String m4(pos, max) =>
+      "All ${max} slots full — you will be #${pos} in queue";
 
-  static String m5(name) => "Reply to ${name}";
+  static String m5(amount) => "from ${amount} UZS / week";
 
-  static String m6(price, currency) => "Suggested around ${price} ${currency}";
+  static String m6(date) => "On the site until ${date}";
 
-  static String m7(percent) => "Publishing… ${percent}%";
+  static String m7(n) => "${n} d ago";
 
-  static String m8(current, total) => "Step ${current} of ${total}";
+  static String m8(n) => "${n} h ago";
 
-  static String m9(count) =>
+  static String m9(n) => "${n} min ago";
+
+  static String m10(time) => "Last reply in chat · ${time}";
+
+  static String m11(name) => "Reply to ${name}";
+
+  static String m12(price, currency) => "Suggested around ${price} ${currency}";
+
+  static String m13(percent) => "Publishing… ${percent}%";
+
+  static String m14(current, total) => "Step ${current} of ${total}";
+
+  static String m15(count) =>
       "Service types (${count}). Pick all that apply to your business.";
 
-  static String m10(date) => "Followed on ${date}";
+  static String m16(date) => "Followed on ${date}";
 
-  static String m11(name) => "Hi, ${name}";
+  static String m17(name) => "Hi, ${name}";
 
-  static String m12(n) => "${n} listings";
+  static String m18(n) => "${n} listings";
 
-  static String m13(activeLabel, activeCount, inactiveLabel, inactiveCount) =>
+  static String m19(activeLabel, activeCount, inactiveLabel, inactiveCount) =>
       "${activeLabel} · ${activeCount} · ${inactiveLabel} · ${inactiveCount}";
 
-  static String m14(days) => "Delivery ~${days} days";
+  static String m20(plan) => "Move to Top (${plan})";
 
-  static String m15(part) => "Need: ${part}";
+  static String m21(amount, reason) => "−${amount} · ${reason}";
 
-  static String m16(amount) => "Offer: ${amount}";
+  static String m22(amount) => "+${amount} added to your balance";
 
-  static String m17(count) => "${count} offers";
+  static String m23(current, total) => "Step ${current} of ${total}";
 
-  static String m18(date) => "Posted on ${date}";
+  static String m24(days) => "Delivery ~${days} days";
 
-  static String m19(days, priority) => "${days} days · priority ${priority}";
+  static String m25(part) => "Need: ${part}";
 
-  static String m20(username) => "@${username}";
+  static String m26(amount) => "Offer: ${amount}";
 
-  static String m21(followers, products, date) =>
+  static String m27(count) => "${count} offers";
+
+  static String m28(date) => "Posted on ${date}";
+
+  static String m29(days, priority) => "${days} days · priority ${priority}";
+
+  static String m30(date) => "Active until ${date}";
+
+  static String m31(username) => "@${username}";
+
+  static String m32(followers, products, date) =>
       "${followers} followers • ${products} products • Joined ${date}";
 
-  static String m22(count) => "${count} of your listings";
+  static String m33(count) => "${count} of your listings";
 
-  static String m23(count) => "${count} open";
+  static String m34(count) => "${count} open";
 
-  static String m24(count) => "${count} active requests for you";
+  static String m35(count) => "${count} active requests for you";
 
-  static String m25(date) => "Seller on Garage since ${date}";
+  static String m36(date) => "Seller on Garage since ${date}";
 
-  static String m26(count) => "${count}";
+  static String m37(count) => "${count}";
 
-  static String m27(amount) => "Platform fee: ${amount} UZS";
+  static String m38(amount) => "Platform fee: ${amount} UZS";
 
-  static String m28(count) => "${count} offers";
+  static String m39(method) => "${method} will be available soon.";
 
-  static String m29(count) => "${count} open";
+  static String m40(balance) => "Wallet: ${balance}";
 
-  static String m30(text) => "Owner: ${text}";
+  static String m41(count) => "${count} offers";
 
-  static String m31(amount, currency) => "from ${amount} ${currency}";
+  static String m42(count) => "${count} open";
+
+  static String m43(text) => "Owner: ${text}";
+
+  static String m44(amount, currency) => "from ${amount} ${currency}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -95,6 +123,53 @@ class MessageLookup extends MessageLookupByLibrary {
       "Pay & move to top",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Active"),
+    "adMyBannersEmpty": MessageLookupByLibrary.simpleMessage(
+      "No banners yet. Buy one to promote your offer.",
+    ),
+    "adMyBannersTitle": MessageLookupByLibrary.simpleMessage("My banners"),
+    "adPauseCta": MessageLookupByLibrary.simpleMessage("Pause"),
+    "adPlaceholderBadge": MessageLookupByLibrary.simpleMessage("Ad slot"),
+    "adPlaceholderSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Tap to see placements and prices",
+    ),
+    "adPlaceholderTitle": MessageLookupByLibrary.simpleMessage(
+      "Advertise your product here",
+    ),
+    "adPurchaseCreative": MessageLookupByLibrary.simpleMessage("Creative"),
+    "adPurchaseFab": MessageLookupByLibrary.simpleMessage("Buy banner"),
+    "adPurchaseLinkField": MessageLookupByLibrary.simpleMessage(
+      "Link / deep link",
+    ),
+    "adPurchaseLiveSuccess": MessageLookupByLibrary.simpleMessage(
+      "Banner is live",
+    ),
+    "adPurchasePayCta": MessageLookupByLibrary.simpleMessage("Pay from wallet"),
+    "adPurchasePickImage": MessageLookupByLibrary.simpleMessage(
+      "Choose banner image",
+    ),
+    "adPurchasePlacement": MessageLookupByLibrary.simpleMessage("Placement"),
+    "adPurchasePlan": MessageLookupByLibrary.simpleMessage("Duration"),
+    "adPurchasePreview": MessageLookupByLibrary.simpleMessage("Preview"),
+    "adPurchasePreviewCta": MessageLookupByLibrary.simpleMessage("Preview"),
+    "adPurchaseQueuedSuccess": MessageLookupByLibrary.simpleMessage(
+      "Banner queued — goes live when a slot opens",
+    ),
+    "adPurchaseTitle": MessageLookupByLibrary.simpleMessage("Buy a banner"),
+    "adPurchaseTitleField": MessageLookupByLibrary.simpleMessage(
+      "Banner title",
+    ),
+    "adPurchaseTotal": m0,
+    "adPurchaseWalletBalance": m1,
+    "adQueuePosition": m2,
+    "adSlotFree": m3,
+    "adSlotFull": m4,
+    "adStatClicks": MessageLookupByLibrary.simpleMessage("Clicks"),
+    "adStatCtr": MessageLookupByLibrary.simpleMessage("CTR"),
+    "adStatImpressions": MessageLookupByLibrary.simpleMessage("Views"),
+    "adStatusActive": MessageLookupByLibrary.simpleMessage("Active"),
+    "adStatusExpired": MessageLookupByLibrary.simpleMessage("Expired"),
+    "adStatusPaused": MessageLookupByLibrary.simpleMessage("Paused"),
+    "adStatusQueued": MessageLookupByLibrary.simpleMessage("Queued"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "addFirstProduct": MessageLookupByLibrary.simpleMessage(
       "Add first product",
@@ -103,6 +178,50 @@ class MessageLookup extends MessageLookupByLibrary {
     "addProduct": MessageLookupByLibrary.simpleMessage("Add product"),
     "addService": MessageLookupByLibrary.simpleMessage("Add service"),
     "address": MessageLookupByLibrary.simpleMessage("Address"),
+    "advertiseBoostCta": MessageLookupByLibrary.simpleMessage(
+      "Boost my product",
+    ),
+    "advertiseContactHint": MessageLookupByLibrary.simpleMessage(
+      "Banner creatives are set up with support / admin for now. Product Top you can buy yourself from the listing.",
+    ),
+    "advertiseFromWeek": m5,
+    "advertiseHowBody": MessageLookupByLibrary.simpleMessage(
+      "Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.",
+    ),
+    "advertiseHowTitle": MessageLookupByLibrary.simpleMessage("How it works"),
+    "advertisePlacementAnnouncement": MessageLookupByLibrary.simpleMessage(
+      "Requests — top",
+    ),
+    "advertisePlacementBrand": MessageLookupByLibrary.simpleMessage(
+      "Home — top banner",
+    ),
+    "advertisePlacementModel": MessageLookupByLibrary.simpleMessage(
+      "Store page",
+    ),
+    "advertisePlacementPart": MessageLookupByLibrary.simpleMessage(
+      "Products — lists",
+    ),
+    "advertisePlacementService": MessageLookupByLibrary.simpleMessage(
+      "Services — hub & feed",
+    ),
+    "advertisePlacementTuning": MessageLookupByLibrary.simpleMessage(
+      "Search — explore",
+    ),
+    "advertisePlanDay": MessageLookupByLibrary.simpleMessage("1 day"),
+    "advertisePlanMonth": MessageLookupByLibrary.simpleMessage("1 month"),
+    "advertisePlanQuarter": MessageLookupByLibrary.simpleMessage("3 months"),
+    "advertisePlanWeek": MessageLookupByLibrary.simpleMessage("1 week"),
+    "advertiseSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Put your offer on home, products, services and more. Pick a slot and duration.",
+    ),
+    "advertiseTariffsHint": MessageLookupByLibrary.simpleMessage(
+      "Prices in UZS. Home top is the most visible slot.",
+    ),
+    "advertiseTariffsTitle": MessageLookupByLibrary.simpleMessage("Tariffs"),
+    "advertiseTitle": MessageLookupByLibrary.simpleMessage(
+      "Advertise on Autorin",
+    ),
+    "advertiseWalletCta": MessageLookupByLibrary.simpleMessage("Open wallet"),
     "afternoon": MessageLookupByLibrary.simpleMessage("Good Afternoon"),
     "allProducts": MessageLookupByLibrary.simpleMessage("All products"),
     "allSellerProducts": MessageLookupByLibrary.simpleMessage(
@@ -130,7 +249,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Are you sure you want to delete this workshop?",
     ),
     "available": MessageLookupByLibrary.simpleMessage("Available"),
-    "availableUntil": m0,
+    "availableUntil": m6,
     "back": MessageLookupByLibrary.simpleMessage("Back"),
     "badgeFast": MessageLookupByLibrary.simpleMessage("FAST"),
     "badgePremium": MessageLookupByLibrary.simpleMessage("PREMIUM"),
@@ -182,12 +301,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatConversationTitle": MessageLookupByLibrary.simpleMessage("Chat"),
     "chatCopied": MessageLookupByLibrary.simpleMessage("Copied"),
     "chatCopy": MessageLookupByLibrary.simpleMessage("Copy"),
-    "chatDaysAgo": m1,
+    "chatDaysAgo": m7,
     "chatHeaderInChatOnlyHint": MessageLookupByLibrary.simpleMessage(
       "(status is for this chat only)",
     ),
     "chatHeaderTyping": MessageLookupByLibrary.simpleMessage("Typing…"),
-    "chatHoursAgo": m2,
+    "chatHoursAgo": m8,
     "chatJustNow": MessageLookupByLibrary.simpleMessage("just now"),
     "chatLastPhoto": MessageLookupByLibrary.simpleMessage("Photo"),
     "chatLastVoice": MessageLookupByLibrary.simpleMessage("Voice message"),
@@ -198,14 +317,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatMicPermissionRequired": MessageLookupByLibrary.simpleMessage(
       "Microphone permission is required to record voice messages.",
     ),
-    "chatMinutesAgo": m3,
+    "chatMinutesAgo": m9,
     "chatNoConversationsYet": MessageLookupByLibrary.simpleMessage(
       "No conversations yet",
     ),
     "chatOriginalMessageNotLoaded": MessageLookupByLibrary.simpleMessage(
       "Original message isn\'t loaded yet. Scroll up to load more.",
     ),
-    "chatPeerLastSeenInChat": m4,
+    "chatPeerLastSeenInChat": m10,
     "chatPeerNoMessagesYet": MessageLookupByLibrary.simpleMessage(
       "No replies from them yet",
     ),
@@ -214,7 +333,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "chatReconnecting": MessageLookupByLibrary.simpleMessage("Reconnecting…"),
     "chatReply": MessageLookupByLibrary.simpleMessage("Reply"),
-    "chatReplyingTo": m5,
+    "chatReplyingTo": m11,
     "chatSayHello": MessageLookupByLibrary.simpleMessage("Say hello"),
     "chatSelectConversation": MessageLookupByLibrary.simpleMessage(
       "Select a conversation",
@@ -286,6 +405,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "createOrder": MessageLookupByLibrary.simpleMessage("Create request"),
     "createProductAddMorePhotos": MessageLookupByLibrary.simpleMessage(
       "Add more photos",
+    ),
+    "createProductBoostFree": MessageLookupByLibrary.simpleMessage("Free"),
+    "createProductBoostFreeHint": MessageLookupByLibrary.simpleMessage(
+      "Publish without promotion",
+    ),
+    "createProductBoostPublishFailed": MessageLookupByLibrary.simpleMessage(
+      "Listing published, but the boost could not be activated. Try again from My ads.",
+    ),
+    "createProductBoostPublishNeedsWallet":
+        MessageLookupByLibrary.simpleMessage(
+          "Listing published. Top up your wallet to activate the boost.",
+        ),
+    "createProductBoostSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Choose a boost plan or publish for free. You can promote later from My ads.",
+    ),
+    "createProductBoostTitle": MessageLookupByLibrary.simpleMessage(
+      "Move to Top",
     ),
     "createProductBrand": MessageLookupByLibrary.simpleMessage("Brand"),
     "createProductCamera": MessageLookupByLibrary.simpleMessage("Camera"),
@@ -371,7 +507,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "createProductPreviewTitle": MessageLookupByLibrary.simpleMessage(
       "Preview",
     ),
-    "createProductPriceSuggested": m6,
+    "createProductPriceHint": MessageLookupByLibrary.simpleMessage(
+      "Listing price only — promotion is optional later from your ads.",
+    ),
+    "createProductPriceSuggested": m12,
     "createProductPriceTitle": MessageLookupByLibrary.simpleMessage(
       "Set your price",
     ),
@@ -381,7 +520,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createProductPublishedSuccess": MessageLookupByLibrary.simpleMessage(
       "Listing published successfully",
     ),
-    "createProductPublishing": m7,
+    "createProductPublishing": m13,
     "createProductQuickErrorPhoto": MessageLookupByLibrary.simpleMessage(
       "Add a photo",
     ),
@@ -402,6 +541,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "createProductStartNew": MessageLookupByLibrary.simpleMessage(
       "New listing",
     ),
+    "createProductStepBoost": MessageLookupByLibrary.simpleMessage(
+      "Move to Top",
+    ),
     "createProductStepInfo": MessageLookupByLibrary.simpleMessage("Details"),
     "createProductStepLocation": MessageLookupByLibrary.simpleMessage(
       "Location",
@@ -409,7 +551,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createProductStepPhotos": MessageLookupByLibrary.simpleMessage("Photos"),
     "createProductStepPreview": MessageLookupByLibrary.simpleMessage("Preview"),
     "createProductStepPrice": MessageLookupByLibrary.simpleMessage("Price"),
-    "createProductStepProgress": m8,
+    "createProductStepProgress": m14,
     "createProductStepVehicle": MessageLookupByLibrary.simpleMessage("Vehicle"),
     "createProductTapAddPhotos": MessageLookupByLibrary.simpleMessage(
       "Tap to add photos",
@@ -468,7 +610,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "All services",
     ),
     "createWorkshopPopular": MessageLookupByLibrary.simpleMessage("Popular"),
-    "createWorkshopServicesHint": m9,
+    "createWorkshopServicesHint": m15,
     "createWorkshopServicesTitle": MessageLookupByLibrary.simpleMessage(
       "Select services you offer",
     ),
@@ -698,7 +840,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fillAllFields": MessageLookupByLibrary.simpleMessage("Fill all fields"),
     "filters": MessageLookupByLibrary.simpleMessage("Filters"),
     "follow": MessageLookupByLibrary.simpleMessage("Follow"),
-    "followedOn": m10,
+    "followedOn": m16,
     "following": MessageLookupByLibrary.simpleMessage("Following"),
     "forbiddenResource": MessageLookupByLibrary.simpleMessage(
       "Forbidden resource",
@@ -718,11 +860,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeExploreNearbyTitle": MessageLookupByLibrary.simpleMessage(
       "Live discovery map",
     ),
-    "homeGreeting": m11,
+    "homeGreeting": m17,
     "homeHotOrdersPreview": MessageLookupByLibrary.simpleMessage(
       "Open requests nearby",
     ),
-    "homeListingCountHint": m12,
+    "homeListingCountHint": m18,
     "homeNearbyWorkshopsPreview": MessageLookupByLibrary.simpleMessage(
       "Workshops nearby",
     ),
@@ -824,7 +966,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "More from this seller",
     ),
     "morning": MessageLookupByLibrary.simpleMessage("Good Morning"),
-    "myListingsBreakdown": m13,
+    "myListingsBreakdown": m19,
     "myListingsEmptyActive": MessageLookupByLibrary.simpleMessage(
       "No active listings yet",
     ),
@@ -929,6 +1071,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "notificationSellerResponseTitle": MessageLookupByLibrary.simpleMessage(
       "Seller replied",
     ),
+    "notificationWalletReasonAdmin": MessageLookupByLibrary.simpleMessage(
+      "Admin adjustment",
+    ),
+    "notificationWalletReasonBooking": MessageLookupByLibrary.simpleMessage(
+      "Service booking fee",
+    ),
+    "notificationWalletReasonOther": MessageLookupByLibrary.simpleMessage(
+      "Wallet charge",
+    ),
+    "notificationWalletReasonPromotion": m20,
+    "notificationWalletReasonPromotionGeneric":
+        MessageLookupByLibrary.simpleMessage("Move to Top"),
+    "notificationWalletSpendBody": m21,
+    "notificationWalletSpendBodyFallback": MessageLookupByLibrary.simpleMessage(
+      "Money was charged from your wallet.",
+    ),
+    "notificationWalletSpendTitle": MessageLookupByLibrary.simpleMessage(
+      "Wallet charge",
+    ),
+    "notificationWalletTopUpBody": m22,
+    "notificationWalletTopUpBodyFallback": MessageLookupByLibrary.simpleMessage(
+      "Funds were added to your wallet.",
+    ),
+    "notificationWalletTopUpTitle": MessageLookupByLibrary.simpleMessage(
+      "Wallet topped up",
+    ),
     "notificationWorkshopBookingBody": MessageLookupByLibrary.simpleMessage(
       "You have a new booking or service reply.",
     ),
@@ -984,6 +1152,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "notificationsWhatYouGet": MessageLookupByLibrary.simpleMessage(
       "What you’ll receive",
     ),
+    "onboardingGetStarted": MessageLookupByLibrary.simpleMessage("Get started"),
+    "onboardingPartsBody": MessageLookupByLibrary.simpleMessage(
+      "Browse spare parts and accessories from sellers near you — or list what you sell.",
+    ),
+    "onboardingPartsTitle": MessageLookupByLibrary.simpleMessage(
+      "Find the right auto parts",
+    ),
+    "onboardingProgress": m23,
+    "onboardingRequestsBody": MessageLookupByLibrary.simpleMessage(
+      "Can\'t find a part? Leave a request and sellers will contact you.",
+    ),
+    "onboardingRequestsTitle": MessageLookupByLibrary.simpleMessage(
+      "Post a request — sellers find you",
+    ),
+    "onboardingServicesBody": MessageLookupByLibrary.simpleMessage(
+      "Discover workshops, see who is open, and book the help your car needs.",
+    ),
+    "onboardingServicesTitle": MessageLookupByLibrary.simpleMessage(
+      "Trusted auto services nearby",
+    ),
     "openAnalytics": MessageLookupByLibrary.simpleMessage("Open analytics"),
     "openFrom": MessageLookupByLibrary.simpleMessage("Open from"),
     "order": MessageLookupByLibrary.simpleMessage("Order"),
@@ -1000,25 +1188,25 @@ class MessageLookup extends MessageLookupByLibrary {
       "Budget negotiable",
     ),
     "orderDetailChatSeller": MessageLookupByLibrary.simpleMessage("Chat"),
-    "orderDetailDeliveryDays": m14,
+    "orderDetailDeliveryDays": m24,
     "orderDetailLookingFor": MessageLookupByLibrary.simpleMessage(
       "Looking for",
     ),
     "orderDetailMessageBuyer": MessageLookupByLibrary.simpleMessage(
       "Message buyer",
     ),
-    "orderDetailNeedsPart": m15,
+    "orderDetailNeedsPart": m25,
     "orderDetailNoOffers": MessageLookupByLibrary.simpleMessage(
       "No offers yet. Sellers will propose parts and prices for your request here.",
     ),
     "orderDetailOfferMessageHint": MessageLookupByLibrary.simpleMessage(
       "Describe the part you can supply for this request…",
     ),
-    "orderDetailOfferPrice": m16,
+    "orderDetailOfferPrice": m26,
     "orderDetailOfferPriceHint": MessageLookupByLibrary.simpleMessage(
       "Your price (optional)",
     ),
-    "orderDetailOffersCount": m17,
+    "orderDetailOffersCount": m27,
     "orderDetailOffersTitle": MessageLookupByLibrary.simpleMessage(
       "Seller offers",
     ),
@@ -1080,7 +1268,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
     "photos": MessageLookupByLibrary.simpleMessage("Photos"),
     "popularProducts": MessageLookupByLibrary.simpleMessage("Popular"),
-    "postedOn": m18,
+    "postedOn": m28,
     "price": MessageLookupByLibrary.simpleMessage("Price"),
     "priceDescription": MessageLookupByLibrary.simpleMessage(
       "Price description",
@@ -1149,6 +1337,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Product updated successfully",
     ),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "profileAdvertise": MessageLookupByLibrary.simpleMessage("Advertise"),
     "profileSectionAccount": MessageLookupByLibrary.simpleMessage("Account"),
     "profileSectionMyActivity": MessageLookupByLibrary.simpleMessage(
       "My activity",
@@ -1157,6 +1346,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Preferences",
     ),
     "profileSectionSupport": MessageLookupByLibrary.simpleMessage("Support"),
+    "profileSubtitleAdvertise": MessageLookupByLibrary.simpleMessage(
+      "Banners, tariffs and stats",
+    ),
     "profileSubtitleMessages": MessageLookupByLibrary.simpleMessage(
       "Chats with sellers",
     ),
@@ -1176,9 +1368,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Promote listing",
     ),
     "promotePlanBasic": MessageLookupByLibrary.simpleMessage("Basic"),
-    "promotePlanDuration": m19,
+    "promotePlanDuration": m29,
     "promotePlanPremium": MessageLookupByLibrary.simpleMessage("Premium"),
     "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Standard"),
+    "promotePlanTop": MessageLookupByLibrary.simpleMessage("Top"),
     "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
@@ -1195,6 +1388,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotedTop": MessageLookupByLibrary.simpleMessage("Promoted"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
       "Payment received — listing is now on top",
+    ),
+    "promotionActiveUntil": m30,
+    "promotionCancelBody": MessageLookupByLibrary.simpleMessage(
+      "The listing leaves Top immediately. Paid time is not refunded.",
+    ),
+    "promotionCancelTitle": MessageLookupByLibrary.simpleMessage(
+      "Turn off promotion?",
+    ),
+    "promotionCancelledSuccess": MessageLookupByLibrary.simpleMessage(
+      "Promotion turned off",
+    ),
+    "promotionExtend": MessageLookupByLibrary.simpleMessage("Extend / upgrade"),
+    "promotionExtendHint": MessageLookupByLibrary.simpleMessage(
+      "Buy again to add days from the current end date.",
+    ),
+    "promotionExtendedSuccess": MessageLookupByLibrary.simpleMessage(
+      "Promotion extended",
+    ),
+    "promotionManage": MessageLookupByLibrary.simpleMessage("Manage promotion"),
+    "promotionTurnOff": MessageLookupByLibrary.simpleMessage(
+      "Turn off promotion",
     ),
     "publicVisibility": MessageLookupByLibrary.simpleMessage("Public"),
     "publish": MessageLookupByLibrary.simpleMessage("Publish"),
@@ -1338,7 +1552,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectPartCategory": MessageLookupByLibrary.simpleMessage(
       "Select part category",
     ),
-    "sellerAtUsername": m20,
+    "sellerAtUsername": m31,
     "sellerBioSection": MessageLookupByLibrary.simpleMessage("About"),
     "sellerCategories": MessageLookupByLibrary.simpleMessage(
       "Seller categories",
@@ -1349,7 +1563,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellerDescriptionSection": MessageLookupByLibrary.simpleMessage(
       "Description",
     ),
-    "sellerFollowersProducts": m21,
+    "sellerFollowersProducts": m32,
     "sellerInformation": MessageLookupByLibrary.simpleMessage(
       "Seller information",
     ),
@@ -1365,8 +1579,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellerMatchingOrdersEmptyListingsHint": MessageLookupByLibrary.simpleMessage(
       "Add products in categories you sell — matching buyer requests will appear here.",
     ),
-    "sellerMatchingOrdersListingsHint": m22,
-    "sellerMatchingOrdersOpenCount": m23,
+    "sellerMatchingOrdersListingsHint": m33,
+    "sellerMatchingOrdersOpenCount": m34,
     "sellerMatchingOrdersStatusActive": MessageLookupByLibrary.simpleMessage(
       "Active",
     ),
@@ -1377,9 +1591,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Matching buyer requests and their status",
     ),
     "sellerMatchingOrdersTitle": MessageLookupByLibrary.simpleMessage("Ads"),
-    "sellerMatchingOrdersTotalHint": m24,
+    "sellerMatchingOrdersTotalHint": m35,
     "sellerProfile": MessageLookupByLibrary.simpleMessage("Seller profile"),
-    "sellerSince": m25,
+    "sellerSince": m36,
     "sellerSinceDescription": MessageLookupByLibrary.simpleMessage(
       "Shows seller registration month and year",
     ),
@@ -1547,14 +1761,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "viewDetails": MessageLookupByLibrary.simpleMessage("View details"),
     "viewProfile": MessageLookupByLibrary.simpleMessage("View profile"),
     "views": MessageLookupByLibrary.simpleMessage("Views"),
-    "viewsCountLabel": m26,
+    "viewsCountLabel": m37,
     "viewsOfPhone": MessageLookupByLibrary.simpleMessage("Phone views"),
-    "walletAvailable": MessageLookupByLibrary.simpleMessage("Available"),
+    "walletAvailable": MessageLookupByLibrary.simpleMessage(
+      "Available balance",
+    ),
     "walletBonus": MessageLookupByLibrary.simpleMessage("Bonus"),
     "walletBookingDateTime": MessageLookupByLibrary.simpleMessage(
       "Date & time",
     ),
-    "walletBookingFeeLabel": m27,
+    "walletBookingFeeLabel": m38,
     "walletBookingNotes": MessageLookupByLibrary.simpleMessage("Notes"),
     "walletBookingPaid": MessageLookupByLibrary.simpleMessage(
       "Booking paid from wallet",
@@ -1570,20 +1786,46 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletPayFromWallet": MessageLookupByLibrary.simpleMessage(
       "Pay from wallet",
     ),
+    "walletPaymentComingSoonBody": m39,
+    "walletPaymentMethods": MessageLookupByLibrary.simpleMessage(
+      "Payment methods",
+    ),
+    "walletPromoteBalance": m40,
     "walletSignInToBook": MessageLookupByLibrary.simpleMessage(
       "Sign in to book this service",
     ),
     "walletSubtitle": MessageLookupByLibrary.simpleMessage(
       "Balance, top-up and history",
     ),
+    "walletTelegramAvailable": MessageLookupByLibrary.simpleMessage(
+      "Available",
+    ),
+    "walletTelegramHint": MessageLookupByLibrary.simpleMessage(
+      "Open Telegram to top up your wallet with our support.",
+    ),
+    "walletTelegramOpen": MessageLookupByLibrary.simpleMessage(
+      "Top up via Telegram",
+    ),
     "walletTitle": MessageLookupByLibrary.simpleMessage("Wallet"),
     "walletTopUp": MessageLookupByLibrary.simpleMessage("Top up"),
     "walletTopUpHint": MessageLookupByLibrary.simpleMessage(
-      "Mock top-up for testing. Real Payme/Click comes later.",
+      "Choose a payment method. Payme, Click and Paynet are coming soon — Telegram is available now.",
     ),
     "walletTopUpSuccess": MessageLookupByLibrary.simpleMessage(
       "Wallet topped up",
     ),
+    "walletTxCopyId": MessageLookupByLibrary.simpleMessage("Copy ID"),
+    "walletTxDate": MessageLookupByLibrary.simpleMessage("Date"),
+    "walletTxDetails": MessageLookupByLibrary.simpleMessage(
+      "Transaction details",
+    ),
+    "walletTxId": MessageLookupByLibrary.simpleMessage("Transaction ID"),
+    "walletTxOpenRelated": MessageLookupByLibrary.simpleMessage("Open related"),
+    "walletTxReason": MessageLookupByLibrary.simpleMessage("Reason"),
+    "walletTxReference": MessageLookupByLibrary.simpleMessage("Reference"),
+    "walletTxSpend": MessageLookupByLibrary.simpleMessage("Payment"),
+    "walletTxStatus": MessageLookupByLibrary.simpleMessage("Status"),
+    "walletTxTopUp": MessageLookupByLibrary.simpleMessage("Top up"),
     "wantToBuyBudget": MessageLookupByLibrary.simpleMessage("Budget"),
     "wantToBuyCreateCta": MessageLookupByLibrary.simpleMessage(
       "Post a request",
@@ -1597,9 +1839,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "wantToBuyFeedTitle": MessageLookupByLibrary.simpleMessage(
       "Buyer requests",
     ),
-    "wantToBuyOffers": m28,
+    "wantToBuyOffers": m41,
     "wantToBuyRequestBadge": MessageLookupByLibrary.simpleMessage("Request"),
-    "wantToBuyRequestsCount": m29,
+    "wantToBuyRequestsCount": m42,
     "wantToBuyRespond": MessageLookupByLibrary.simpleMessage("Make offer"),
     "wantToBuySearchHint": MessageLookupByLibrary.simpleMessage(
       "Part, car or city…",
@@ -1629,9 +1871,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "workshopOnRequest": MessageLookupByLibrary.simpleMessage("On request"),
     "workshopOpenNow": MessageLookupByLibrary.simpleMessage("Open now"),
-    "workshopOwnerReply": m30,
+    "workshopOwnerReply": m43,
     "workshopPopular": MessageLookupByLibrary.simpleMessage("Popular"),
-    "workshopPriceFrom": m31,
+    "workshopPriceFrom": m44,
     "workshopScreenSubtitle": MessageLookupByLibrary.simpleMessage(
       "Trusted auto businesses near you",
     ),

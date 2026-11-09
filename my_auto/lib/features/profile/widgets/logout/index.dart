@@ -60,7 +60,7 @@ void logOut(BuildContext context) {
             s.logoutDescription,
             textAlign: TextAlign.center,
             style: Theme.of(sheetCtx).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                 ),
           ),
           const SizedBox(height: 4),

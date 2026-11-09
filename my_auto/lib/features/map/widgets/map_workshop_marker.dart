@@ -142,7 +142,7 @@ class MapWorkshopMarker extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 10,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                   color: colors.textPrimary,
                 ),
               ),

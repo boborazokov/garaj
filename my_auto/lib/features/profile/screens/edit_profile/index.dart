@@ -147,7 +147,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   const SizedBox(height: 20),
                   Text(s.aboutSection,
-                      style: const TextStyle(fontWeight: FontWeight.w800)),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10),
                   CustomInput(
                     controller: c.nameController,
@@ -272,7 +272,7 @@ class _DangerZoneCard extends StatelessWidget {
               Text(
                 s.profileSectionAccount,
                 style: TextStyle(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                   color: colors.danger,
                 ),
               ),

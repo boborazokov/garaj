@@ -45,7 +45,6 @@ const _kInAppHeads = {
   'addProduct',
   'contactUs',
   'privacyPolicy',
-  'storeAnalytics',
 };
 
 /// Hosts whose paths may be resolved as in-app deep links.
@@ -328,13 +327,6 @@ bool _openInAppPath(
       return true;
     case 'privacyPolicy':
       context.push(RoutesName.privacyPolicy);
-      return true;
-    case 'storeAnalytics':
-      if (id != null) {
-        context.push(RoutesName.storeAnalytics, extra: id);
-        return true;
-      }
-      context.push(RoutesName.storeAnalytics);
       return true;
     default:
       // Never push unknown paths into GoRouter — that caused the banner errors.

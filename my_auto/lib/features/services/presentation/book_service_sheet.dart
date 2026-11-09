@@ -129,7 +129,7 @@ class _BookServiceSheetState extends State<_BookServiceSheet> {
             Text(
               s.bookServiceTitle,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w600,
                   ),
             ),
             Text(

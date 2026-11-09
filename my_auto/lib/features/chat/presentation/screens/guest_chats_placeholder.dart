@@ -30,7 +30,7 @@ class GuestChatsPlaceholder extends StatelessWidget {
             s.signInToContinue,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
               fontSize: 18,
             ),
           ),
@@ -61,7 +61,7 @@ class GuestChatsPlaceholder extends StatelessWidget {
               child: Text(
                 s.messages,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w600,
                     ),
               ),
             ),

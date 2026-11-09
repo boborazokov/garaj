@@ -32,8 +32,7 @@ import 'package:my_auto/features/notifications/presentation/notifications_center
 import 'package:my_auto/features/search/index.dart';
 import 'package:my_auto/features/search/presentation/global_search_hub_screen.dart';
 import 'package:my_auto/features/sellerProfile/index.dart';
-import 'package:my_auto/features/sellerProfile/models/seller_store_profile.dart';
-import 'package:my_auto/features/sellerProfile/screens/store_analytics_screen.dart';
+import 'package:my_auto/features/onboarding/index.dart';
 import 'package:my_auto/features/splash/index.dart';
 import 'package:my_auto/features/workshop/presentation/create_workshop/create_workshop_flow_screen.dart';
 import 'package:my_auto/features/workshop/presentation/edit_workshop_screen.dart';
@@ -45,6 +44,9 @@ import 'package:my_auto/core/map/geo_location.dart';
 import 'package:my_auto/features/map/presentation/nearby_map_screen.dart';
 import 'package:my_auto/features/services/presentation/service_details_screen.dart';
 import 'package:my_auto/features/services/presentation/services_screen.dart';
+import 'package:my_auto/features/advertisement/domain/advertisement.dart';
+import 'package:my_auto/features/advertisement/presentation/advertise_screen.dart';
+import 'package:my_auto/features/advertisement/presentation/purchase_advertisement_screen.dart';
 import 'package:my_auto/features/wallet/presentation/wallet_screen.dart';
 
 late GoRouter appRouter;
@@ -60,6 +62,10 @@ GoRouter createAppRouter(AuthProvider auth) {
       GoRoute(
         path: RoutesName.splash,
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: RoutesName.onboarding,
+        builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
         path: RoutesName.signin,
@@ -118,6 +124,28 @@ GoRouter createAppRouter(AuthProvider auth) {
       GoRoute(
         path: RoutesName.wallet,
         builder: (context, state) => const WalletScreen(),
+      ),
+      GoRoute(
+        path: RoutesName.advertise,
+        builder: (context, state) {
+          AdSurface? highlight;
+          final extra = state.extra;
+          if (extra is String && extra.trim().isNotEmpty) {
+            highlight = AdSurface.fromApi(extra);
+          }
+          return AdvertiseScreen(highlightSurface: highlight);
+        },
+      ),
+      GoRoute(
+        path: RoutesName.purchaseAdvertisement,
+        builder: (context, state) {
+          AdSurface? initial;
+          final extra = state.extra;
+          if (extra is String && extra.trim().isNotEmpty) {
+            initial = AdSurface.fromApi(extra);
+          }
+          return PurchaseAdvertisementScreen(initialSurface: initial);
+        },
       ),
       GoRoute(
         path: RoutesName.productDetailScreen,
@@ -211,19 +239,6 @@ GoRouter createAppRouter(AuthProvider auth) {
             );
           }
           return SellerProfile(sellerId: sellerId);
-        },
-      ),
-      GoRoute(
-        path: RoutesName.storeAnalytics,
-        builder: (context, state) {
-          final extra = state.extra;
-          if (extra is SellerStoreProfile) {
-            return StoreAnalyticsScreen(profile: extra);
-          }
-          if (extra is String && extra.isNotEmpty) {
-            return StoreAnalyticsScreen(sellerId: extra);
-          }
-          return const StoreAnalyticsScreen();
         },
       ),
       GoRoute(

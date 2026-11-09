@@ -121,7 +121,7 @@ class _ChatsView extends StatelessWidget {
               child: Text(
                 s.messages,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w600,
                     ),
               ),
             ),

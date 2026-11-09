@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
+import 'package:my_auto/core/errors/graphql_error_ui.dart';
+import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
+import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/features/advertisement/domain/advertisement.dart';
+import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/features/orders/bloc/orders_list/orders_list_bloc.dart';
 import 'package:my_auto/features/orders/bloc/orders_list/orders_list_event.dart';
 import 'package:my_auto/features/orders/bloc/orders_list/orders_list_state.dart';
@@ -13,11 +20,11 @@ import 'package:my_auto/features/orders/orders_di.dart';
 import 'package:my_auto/features/orders/presentation/widgets/order_shimmer_list.dart';
 import 'package:my_auto/features/orders/presentation/widgets/orders_empty_state.dart';
 import 'package:my_auto/features/orders/presentation/widgets/orders_marketplace_header.dart';
+import 'package:my_auto/features/orders/presentation/widgets/orders_tab_bar.dart';
 import 'package:my_auto/features/orders/presentation/widgets/premium_order_card.dart';
-import 'package:my_auto/core/errors/graphql_error_ui.dart';
-import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/generated/l10n.dart';
 
-/// Marketplace-style requests feed (OLX / RFQ inspired).
+/// Marketplace-style requests feed (I need).
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({
     super.key,
@@ -98,6 +105,7 @@ class _OrdersViewState extends State<_OrdersView> {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final s = S.of(context);
     final bottomPad = widget.embedded
         ? 24.0
         : listPaddingAboveBottomNav(context);
@@ -121,7 +129,8 @@ class _OrdersViewState extends State<_OrdersView> {
           SliverToBoxAdapter(
             child: BlocBuilder<OrdersListBloc, OrdersListState>(
               buildWhen: (p, c) =>
-                  p.stats.activeRequests != c.stats.activeRequests,
+                  p.stats.activeRequests != c.stats.activeRequests ||
+                  p.tab != c.tab,
               builder: (context, state) => OrdersMarketplaceHeader(
                 searchController: _searchController,
                 onSearchChanged: (v) => context
@@ -129,10 +138,23 @@ class _OrdersViewState extends State<_OrdersView> {
                     .add(OrdersListSearchChanged(v)),
                 onCreate: _openCreate,
                 activeCount: state.stats.activeRequests,
+                filters: OrdersTabBar(
+                  selected: state.tab,
+                  onChanged: (tab) => context
+                      .read<OrdersListBloc>()
+                      .add(OrdersListTabChanged(tab)),
+                ),
               ),
             ),
           ),
-          const SliverToBoxAdapter(child: SizedBox(height: 8)),
+          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.m)),
+          const SliverToBoxAdapter(
+            child: AdBanner(
+              surface: AdSurface.announcement,
+              height: 120,
+              margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
+            ),
+          ),
           BlocBuilder<OrdersListBloc, OrdersListState>(
             builder: (context, state) {
               switch (state.status) {
@@ -147,10 +169,33 @@ class _OrdersViewState extends State<_OrdersView> {
                 case OrdersListStatus.error:
                   return SliverFillRemaining(
                     child: Center(
-                      child: Text(
-                        GraphqlErrorUi.localizeRaw(
-                          context,
-                          state.failure?.message,
+                      child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              LucideIcons.wifiOff,
+                              size: 40,
+                              color: colors.textMuted,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              GraphqlErrorUi.localizeRaw(
+                                context,
+                                state.failure?.message,
+                              ),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: colors.textSecondary),
+                            ),
+                            const SizedBox(height: 16),
+                            FilledButton(
+                              onPressed: () => context
+                                  .read<OrdersListBloc>()
+                                  .add(const OrdersListRefreshed()),
+                              child: Text(s.update),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -160,14 +205,19 @@ class _OrdersViewState extends State<_OrdersView> {
                   final loadingMore =
                       state.status == OrdersListStatus.loadingMore;
                   return SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                    padding: const EdgeInsets.fromLTRB(
+                      MarketUi.spacingMD,
+                      0,
+                      MarketUi.spacingMD,
+                      0,
+                    ),
                     sliver: SliverGrid(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 0.78,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
+                        childAspectRatio: 0.72,
                       ),
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {

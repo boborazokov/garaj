@@ -398,6 +398,13 @@
   "createProductStepPrice": "Narx",
   "createProductStepLocation": "Joy",
   "createProductStepPreview": "Ko'rish",
+  "createProductStepBoost": "Topga",
+  "createProductBoostTitle": "Topga ko'tarish",
+  "createProductBoostSubtitle": "Tarifni tanlang yoki bepul e'lon qiling. Keyinroq Mening e'lonlarimdan ham ko'tarishingiz mumkin.",
+  "createProductBoostFree": "Bepul",
+  "createProductBoostFreeHint": "Reklamasiz e'lon qilish",
+  "createProductBoostPublishNeedsWallet": "E'lon chop etildi. Ko'tarish uchun hamyonni to'ldiring.",
+  "createProductBoostPublishFailed": "E'lon chop etildi, lekin ko'tarish ishlamadi. Mening e'lonlarimdan qayta urinib ko'ring.",
   "createProductPreviewTitle": "Oldindan ko'rish",
   "createProductPreviewSubtitle": "Xaridorlar e'loningizni shunday ko'radi.",
   "createProductLocationTitle": "Qayerda joylashgan?",
@@ -431,6 +438,7 @@
   "createProductSelect": "Tanlash",
   "createProductNoModels": "Bu brend uchun modellar yo'q. Boshqa brendni tanlang.",
   "createProductPriceTitle": "Narxni belgilang",
+  "createProductPriceHint": "Faqat e'lon narxi — reklama (TOP) keyinroq mening e'lonlarimdan yoqiladi.",
   "createProductPriceSuggested": "Taxminiy: {price} {currency} atrofida",
   "createProductNegotiableTitle": "Kelishiladi",
   "createProductNegotiableSubtitle": "Xaridor o'z narxini taklif qilishi mumkin",
@@ -816,7 +824,13 @@
   "promotePlanStandard": "Standart",
   "promotePlanPremium": "Premium",
   "promotePlanVip": "VIP",
-  "promotePlanTop": "TOP",
+  "promotePlanTop": "Top",
+  "walletPromoteBalance": "Hamyon: {balance}",
+  "@walletPromoteBalance": {
+    "placeholders": {
+      "balance": {"type": "String"}
+    }
+  },
   "promotePlanDuration": "{days} kun · ustuvorlik {priority}",
   "@promotePlanDuration": {
     "placeholders": {
@@ -824,8 +838,22 @@
       "priority": {"type": "int"}
     }
   },
-  "activatePromotion": "To'lash va topga chiqarish",
-  "promotionActivatedSuccess": "To'lov qabul qilindi — e'lon topga chiqdi",
+  "activatePromotion": "Targ'ibni yoqish",
+  "promotionActivatedSuccess": "Targ'ib muvaffaqiyatli yoqildi",
+  "promotionExtendedSuccess": "Targ'ib uzaytirildi",
+  "promotionCancelledSuccess": "Targ'ib o'chirildi",
+  "promotionManage": "Targ'ibni boshqarish",
+  "promotionExtend": "Uzaytirish / yaxshilash",
+  "promotionTurnOff": "Targ'ibni o'chirish",
+  "promotionCancelTitle": "Targ'ibni o'chirasizmi?",
+  "promotionCancelBody": "E'lon darhol Topdan chiqadi. To'langan vaqt qaytarilmaydi.",
+  "promotionActiveUntil": "{date} gacha faol",
+  "@promotionActiveUntil": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "promotionExtendHint": "Qayta xarid joriy tugash sanasiga kun qo'shadi.",
   "notificationAccountVerifiedTitle": "Siz tasdiqlandingiz",
   "notificationAccountVerifiedBody": "AutoRin jamoasi akkauntingizni tasdiqladi.",
   "notificationNewFollowerTitle": "Yangi obunachi",
@@ -843,18 +871,65 @@
   "notificationWorkshopBookingBody": "Yangi so'rov yoki xizmat javobi.",
   "notificationGenericAlertTitle": "Garage",
   "notificationGenericAlertBody": "Sizda yangi bildirishnoma bor.",
+  "notificationWalletTopUpTitle": "Hamyon to‘ldirildi",
+  "notificationWalletTopUpBody": "+{amount} balansingizga qo‘shildi",
+  "@notificationWalletTopUpBody": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "notificationWalletTopUpBodyFallback": "Mablag‘ hamyoningizga qo‘shildi.",
+  "notificationWalletSpendTitle": "Hamyondan yechib olindi",
+  "notificationWalletSpendBody": "−{amount} · {reason}",
+  "@notificationWalletSpendBody": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "reason": {"type": "String"}
+    }
+  },
+  "notificationWalletSpendBodyFallback": "Hamyoningizdan mablag‘ yechildi.",
+  "notificationWalletReasonPromotion": "Topga ({plan})",
+  "@notificationWalletReasonPromotion": {
+    "placeholders": {
+      "plan": {"type": "String"}
+    }
+  },
+  "notificationWalletReasonPromotionGeneric": "Topga",
+  "notificationWalletReasonBooking": "Xizmat bron komissiyasi",
+  "notificationWalletReasonAdmin": "Admin tuzatishi",
+  "notificationWalletReasonOther": "Hamyon yechimi",
   "pushChannelName": "Garage bildirishnomalari",
   "pushChannelDescription": "Xabarlar, buyurtmalar, xizmatlar va aksiyalar.",
   "notificationOpenAction": "Ochish",
   "walletTitle": "Hamyon",
   "walletSubtitle": "Balans, to‘ldirish va tarix",
-  "walletAvailable": "Mavjud",
+  "walletAvailable": "Mavjud balans",
   "walletMain": "Asosiy",
   "walletBonus": "Bonus",
   "walletTopUp": "To‘ldirish",
-  "walletTopUpHint": "Test to‘ldirish. Payme/Click keyinroq ulanadi.",
+  "walletTopUpHint": "To‘lov usulini tanlang. Payme, Click va Paynet tez orada — Telegram hozir ishlaydi.",
+  "walletPaymentMethods": "To‘lov usullari",
+  "walletPaymentComingSoonBody": "{method} tez orada qo‘shiladi.",
+  "@walletPaymentComingSoonBody": {
+    "placeholders": {
+      "method": {"type": "String"}
+    }
+  },
+  "walletTelegramAvailable": "Mavjud",
+  "walletTelegramOpen": "Telegram orqali to‘ldirish",
+  "walletTelegramHint": "Hamyonni to‘ldirish uchun Telegram’da qo‘llab-quvvatlashni oching.",
+  "walletTxTopUp": "To‘ldirish",
+  "walletTxSpend": "To‘lov",
+  "walletTxDetails": "Tranzaksiya tafsilotlari",
+  "walletTxId": "Tranzaksiya ID",
+  "walletTxReference": "Havola",
+  "walletTxDate": "Sana",
+  "walletTxStatus": "Holat",
+  "walletTxReason": "Sabab",
+  "walletTxOpenRelated": "Bog‘liqni ochish",
+  "walletTxCopyId": "ID ni nusxalash",
   "walletTopUpSuccess": "Hamyon to‘ldirildi",
-  "walletHistory": "Tranzaksiyalar",
+  "walletHistory": "Tarix",
   "walletEmptyHistory": "Hali tranzaksiyalar yo‘q",
   "walletInsufficientFunds": "Mablag‘ yetarli emas. Hamyonni to‘ldiring.",
   "walletPayFromWallet": "Hamyondan to‘lash",
@@ -866,6 +941,99 @@
   "@walletBookingFeeLabel": {
     "placeholders": {
       "amount": {"type": "int"}
+    }
+  },
+  "adPlaceholderBadge": "Reklama",
+  "adPlaceholderTitle": "Mahsulotingizni shu yerda reklama qiling",
+  "adPlaceholderSubtitle": "Bosib joylashuv va narxlarni ko‘ring",
+  "advertiseTitle": "Autorin’da reklama",
+  "advertiseSubtitle": "Taklifingizni bosh sahifa, mahsulotlar, servislar va boshqa ekranlarda ko‘rsating. Joy va muddatni tanlang.",
+  "advertiseHowTitle": "Qanday ishlaydi",
+  "advertiseHowBody": "Joy tanlang, 1 kun / 1 hafta / 1 oy / 3 oy muddatni belgilang — banner shu ekrandagi xaridorlarga chiqadi.",
+  "advertiseTariffsTitle": "Tariflar",
+  "advertiseTariffsHint": "Narxlar UZS’da. Bosh sahifa yuqorisi — eng ko‘rinadigan joy.",
+  "advertiseFromWeek": "{amount} UZS / haftadan",
+  "@advertiseFromWeek": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "advertisePlanDay": "1 kun",
+  "advertisePlanWeek": "1 hafta",
+  "advertisePlanMonth": "1 oy",
+  "advertisePlanQuarter": "3 oy",
+  "advertisePlacementBrand": "Bosh sahifa — yuqori banner",
+  "advertisePlacementPart": "Mahsulotlar — ro‘yxatlar",
+  "advertisePlacementService": "Servislar — hub va lenta",
+  "advertisePlacementAnnouncement": "Buyurtmalar — yuqori",
+  "advertisePlacementTuning": "Qidiruv — explore",
+  "advertisePlacementModel": "Do‘kon sahifasi",
+  "advertiseBoostCta": "Mahsulotimni ko‘tarish",
+  "advertiseWalletCta": "Hamyonni ochish",
+  "advertiseContactHint": "Bannerlarni hozircha support / admin ulaydi. Mahsulot Top’ini e’londan o‘zingiz sotib olishingiz mumkin.",
+  "adPurchaseTitle": "Banner sotib olish",
+  "adPurchaseFab": "Banner olish",
+  "adPurchasePlacement": "Joylashuv",
+  "adPurchasePlan": "Muddat",
+  "adPurchaseTitleField": "Banner sarlavhasi",
+  "adPurchaseLinkField": "Havola / deep link",
+  "adPurchaseCreative": "Kreativ",
+  "adPurchasePickImage": "Rasm tanlash",
+  "adPurchasePreview": "Preview",
+  "adPurchasePreviewCta": "Preview",
+  "adPurchasePayCta": "Hamyondan to‘lash",
+  "adPurchaseWalletBalance": "Hamyon: {amount}",
+  "@adPurchaseWalletBalance": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "adPurchaseTotal": "Jami: {amount}",
+  "@adPurchaseTotal": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "adPurchaseLiveSuccess": "Banner efirda",
+  "adPurchaseQueuedSuccess": "Banner navbatda — joy bo‘shaganda chiqadi",
+  "adSlotFree": "Slotlar {used}/{max} — banner darhol chiqadi",
+  "@adSlotFree": {
+    "placeholders": {
+      "used": { "type": "String" },
+      "max": { "type": "String" }
+    }
+  },
+  "adSlotFull": "Barcha {max} slot band — navbatda #{pos}",
+  "@adSlotFull": {
+    "placeholders": {
+      "pos": { "type": "String" },
+      "max": { "type": "String" }
+    }
+  },
+  "adMyBannersTitle": "Mening bannerlarim",
+  "adMyBannersEmpty": "Hali banner yo‘q. Taklifingizni ko‘tarish uchun sotib oling.",
+  "adStatImpressions": "Ko‘rishlar",
+  "adStatClicks": "Bosishlar",
+  "adStatCtr": "CTR",
+  "adStatusActive": "Faol",
+  "adStatusPaused": "Pauza",
+  "adStatusExpired": "Tugagan",
+  "adStatusQueued": "Navbatda",
+  "adQueuePosition": "navbat #{pos}",
+  "@adQueuePosition": {
+    "placeholders": { "pos": { "type": "String" } }
+  },
+  "adPauseCta": "Pauza",
+  "profileAdvertise": "Reklama",
+  "profileSubtitleAdvertise": "Bannerlar, tariflar va statistika",
+  "onboardingPartsTitle": "Kerakli ehtiyot qismlarni toping",
+  "onboardingPartsBody": "Yaqin atrofdagi sotuvchilardan ehtiyot qism va aksessuarlarni ko‘ring — yoki o‘zingiz soting.",
+  "onboardingServicesTitle": "Yaqin avto xizmatlar",
+  "onboardingServicesBody": "Ustaxonalarni toping, ochiqligini ko‘ring va mashinangiz uchun yordamga yoziling.",
+  "onboardingRequestsTitle": "So‘rov qoldiring — sotuvchilar topadi",
+  "onboardingRequestsBody": "Qism topilmadi? So‘rov qoldiring — sotuvchilar o‘zlari bog‘lanadi.",
+  "onboardingGetStarted": "Boshlash",
+  "onboardingProgress": "{current} / {total}-qadam",
+  "@onboardingProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
     }
   }
 }

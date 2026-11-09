@@ -90,6 +90,9 @@ class PushRouter {
         return (id != null && id.isNotEmpty)
             ? '${RoutesName.productDetailScreen}?id=$id'
             : null;
+      case PushEventTypes.walletTopUp:
+      case PushEventTypes.walletSpend:
+        return RoutesName.wallet;
       default:
         return null;
     }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/model/workshop/index.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/provider/workshop/getWorkshop/index.dart';
 import 'package:my_auto/features/profile/widgets/my_listings_scaffold.dart';
@@ -17,19 +18,17 @@ class MyServices extends StatefulWidget {
 }
 
 class _MyServicesState extends State<MyServices> {
-  final _scrollControllerActive = ScrollController();
-  final _scrollControllerInactive = ScrollController();
+  final _scrollController = ScrollController();
   final _searchController = TextEditingController();
   Timer? _debounce;
   String? _currentSearch;
+  MyListingsStatusFilter _status = MyListingsStatusFilter.all;
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() => _load(reset: true));
-
-    _scrollControllerActive.addListener(_onScrollActive);
-    _scrollControllerInactive.addListener(_onScrollInactive);
+    _scrollController.addListener(_onScroll);
   }
 
   Map<String, dynamic> get _filters => {
@@ -44,13 +43,10 @@ class _MyServicesState extends State<MyServices> {
         );
   }
 
-  void _onScrollActive() => _maybeLoadMore(_scrollControllerActive);
-  void _onScrollInactive() => _maybeLoadMore(_scrollControllerInactive);
-
-  void _maybeLoadMore(ScrollController controller) {
+  void _onScroll() {
     final provider = context.read<GetWorkshop>();
-    if (controller.position.pixels >=
-            controller.position.maxScrollExtent - 200 &&
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
         !provider.isLoadingFor(_filters, _currentSearch) &&
         provider.hasMoreFor(_filters, _currentSearch)) {
       provider.loadList(
@@ -65,9 +61,35 @@ class _MyServicesState extends State<MyServices> {
   void dispose() {
     _debounce?.cancel();
     _searchController.dispose();
-    _scrollControllerActive.dispose();
-    _scrollControllerInactive.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  bool _isActive(Workshop w) => w.status == 'ACTIVE';
+
+  bool _isInactive(Workshop w) =>
+      w.status == 'ARCHIVED' || w.status == 'INACTIVE';
+
+  List<Workshop> _applyStatus(List<Workshop> workshops) {
+    switch (_status) {
+      case MyListingsStatusFilter.all:
+        return workshops;
+      case MyListingsStatusFilter.active:
+        return workshops.where(_isActive).toList();
+      case MyListingsStatusFilter.inactive:
+        return workshops.where(_isInactive).toList();
+    }
+  }
+
+  String _emptyMessage(S s, String? query) {
+    if (query != null && query.isNotEmpty) return s.searchHubNoGroupedHits;
+    switch (_status) {
+      case MyListingsStatusFilter.all:
+      case MyListingsStatusFilter.active:
+        return s.noServices;
+      case MyListingsStatusFilter.inactive:
+        return s.myListingsEmptyInactive;
+    }
   }
 
   @override
@@ -79,75 +101,68 @@ class _MyServicesState extends State<MyServices> {
         provider.isLoadingFor(_filters, _currentSearch) && workshops.isEmpty;
     final isMoreLoading = provider.hasMoreFor(_filters, _currentSearch);
 
-    final active = workshops.where((w) => w.status == 'ACTIVE').toList();
-    final inactive = workshops.where((w) => w.status == 'ARCHIVED').toList();
+    final activeCount = workshops.where(_isActive).length;
+    final inactiveCount = workshops.where(_isInactive).length;
+    final visible = _applyStatus(workshops);
+    final query = _currentSearch;
 
     return MyListingsScaffold(
       title: s.myServices,
-      activeCount: active.length,
-      inactiveCount: inactive.length,
+      activeCount: activeCount,
+      inactiveCount: inactiveCount,
       searchController: _searchController,
+      searchHint: s.search,
       onSearch: (val) {
         if (_debounce?.isActive ?? false) _debounce!.cancel();
-        _debounce = Timer(const Duration(milliseconds: 350), () {
-          setState(() => _currentSearch = val.trim().isEmpty ? null : val.trim());
+        _debounce = Timer(const Duration(milliseconds: 280), () {
+          if (!mounted) return;
+          setState(
+            () => _currentSearch = val.trim().isEmpty ? null : val.trim(),
+          );
           _load(reset: true);
         });
       },
+      showSummary: false,
       isLoading: isLoading,
       onRefresh: () async => _load(reset: true),
-      activeBody: active.isEmpty
+      belowSearch: MyListingsStatusFilters(
+        selected: _status,
+        allCount: workshops.length,
+        activeCount: activeCount,
+        inactiveCount: inactiveCount,
+        onSelected: (value) => setState(() => _status = value),
+      ),
+      body: visible.isEmpty
           ? MyListingsEmptyState(
-              message: s.noServices,
-              icon: LucideIcons.wrench,
+              message: _emptyMessage(s, query),
+              icon: query != null && query.isNotEmpty
+                  ? LucideIcons.searchX
+                  : LucideIcons.wrench,
             )
-          : _workshopList(
-              active,
-              _scrollControllerActive,
-              isMoreLoading,
-              isDepleted: false,
+          : ListView.builder(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 32),
+              itemCount: visible.length + (isMoreLoading ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index >= visible.length) {
+                  return const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                  );
+                }
+                final workshop = visible[index];
+                return MyWorkshopCard(
+                  workshop: workshop,
+                  isMine: true,
+                  isDepleted: _isInactive(workshop),
+                  ownerFilters: _filters,
+                  search: _currentSearch,
+                );
+              },
             ),
-      inactiveBody: inactive.isEmpty
-          ? MyListingsEmptyState(
-              message: s.myListingsEmptyInactive,
-              icon: LucideIcons.archive,
-            )
-          : _workshopList(
-              inactive,
-              _scrollControllerInactive,
-              isMoreLoading,
-              isDepleted: true,
-            ),
-    );
-  }
-
-  Widget _workshopList(
-    List workshops,
-    ScrollController controller,
-    bool isMoreLoading, {
-    required bool isDepleted,
-  }) {
-    return ListView.builder(
-      controller: controller,
-      physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 32),
-      itemCount: workshops.length + (isMoreLoading ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index >= workshops.length) {
-          return const Padding(
-            padding: EdgeInsets.all(12),
-            child: Center(child: CircularProgressIndicator.adaptive()),
-          );
-        }
-        final workshop = workshops[index];
-        return MyWorkshopCard(
-          workshop: workshop,
-          isMine: true,
-          isDepleted: isDepleted,
-          ownerFilters: _filters,
-          search: _currentSearch,
-        );
-      },
     );
   }
 }

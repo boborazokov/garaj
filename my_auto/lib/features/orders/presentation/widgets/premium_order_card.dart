@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
-import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/card_date_region.dart';
@@ -51,12 +50,13 @@ class _CompactRequestCard extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: AppRadius.rL,
+        borderRadius: MarketUi.cardRadius,
+        border: Border.all(color: colors.border),
         boxShadow: MarketUi.softElev(context),
       ),
       child: Material(
         color: colors.surface,
-        borderRadius: AppRadius.rL,
+        borderRadius: MarketUi.cardRadius,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () {
@@ -72,7 +72,7 @@ class _CompactRequestCard extends StatelessWidget {
                   fit: StackFit.expand,
                   children: [
                     ColoredBox(
-                      color: colors.primary.withValues(alpha: 0.08),
+                      color: colors.surfaceMuted,
                       child: hasImage
                           ? OrderCardThumbnail(
                               imagePath: order.primaryImageUrl!,
@@ -83,7 +83,7 @@ class _CompactRequestCard extends StatelessWidget {
                               child: Icon(
                                 LucideIcons.imageOff,
                                 size: 28,
-                                color: colors.primary.withValues(alpha: 0.45),
+                                color: colors.textMuted,
                               ),
                             ),
                     ),
@@ -92,8 +92,16 @@ class _CompactRequestCard extends StatelessWidget {
                       left: 8,
                       child: _Pill(
                         label: s.wantToBuyRequestBadge,
-                        bg: colors.surface.withValues(alpha: 0.95),
-                        fg: colors.primary,
+                        bg: colors.surface.withValues(alpha: 0.96),
+                        fg: colors.textSecondary,
+                      ),
+                    ),
+                    Positioned(
+                      top: 4,
+                      right: 4,
+                      child: _FavoriteButton(
+                        isFavorite: parent.isFavorite,
+                        onTap: parent.onFavoriteToggle,
                       ),
                     ),
                   ],
@@ -101,20 +109,33 @@ class _CompactRequestCard extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        _budgetLabel(context, order),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: colors.textPrimary,
+                          height: 1.1,
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
                       Text(
                         order.title.replaceAll('\n', ' ').trim(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         softWrap: true,
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          height: 1.2,
+                          fontWeight: FontWeight.w500,
+                          height: 1.25,
                           fontSize: 13,
-                          letterSpacing: -0.2,
+                          color: colors.textSecondary,
                         ),
                       ),
                       if (order.vehicleLabel.trim().isNotEmpty) ...[
@@ -126,25 +147,12 @@ class _CompactRequestCard extends StatelessWidget {
                           softWrap: false,
                           style: TextStyle(
                             fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: colors.textMuted,
                           ),
                         ),
                       ],
                       const Spacer(),
-                      Text(
-                        _budgetLabel(context, order),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800,
-                          color: colors.primary,
-                          height: 1.1,
-                        ),
-                      ),
-                      const SizedBox(height: 3),
                       Row(
                         children: [
                           Expanded(
@@ -198,12 +206,13 @@ class _FullRequestCard extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: AppRadius.rL,
+        borderRadius: MarketUi.cardRadius,
+        border: Border.all(color: colors.border),
         boxShadow: MarketUi.softElev(context),
       ),
       child: Material(
         color: colors.surface,
-        borderRadius: AppRadius.rL,
+        borderRadius: MarketUi.cardRadius,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () {
@@ -219,8 +228,8 @@ class _FullRequestCard extends StatelessWidget {
                   width: 72,
                   height: 72,
                   decoration: BoxDecoration(
-                    color: colors.primary.withValues(alpha: 0.08),
-                    borderRadius: AppRadius.rL,
+                    color: colors.surfaceMuted,
+                    borderRadius: MarketUi.cardRadius,
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: order.primaryImageUrl != null
@@ -231,7 +240,7 @@ class _FullRequestCard extends StatelessWidget {
                         )
                       : Icon(
                           LucideIcons.clipboardList,
-                          color: colors.primary.withValues(alpha: 0.6),
+                          color: colors.textMuted,
                         ),
                 ),
                 const SizedBox(width: 12),
@@ -243,8 +252,9 @@ class _FullRequestCard extends StatelessWidget {
                         children: [
                           _Pill(
                             label: s.wantToBuyRequestBadge,
-                            bg: colors.primary.withValues(alpha: 0.12),
-                            fg: colors.primary,
+                            bg: colors.surfaceMuted,
+                            fg: colors.textPrimary,
+                            showBayDot: true,
                           ),
                         ],
                       ),
@@ -254,7 +264,7 @@ class _FullRequestCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           height: 1.25,
                         ),
                       ),
@@ -267,7 +277,7 @@ class _FullRequestCard extends StatelessWidget {
                           softWrap: false,
                           style: TextStyle(
                             fontSize: 12,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: colors.textSecondary,
                           ),
                         ),
@@ -278,10 +288,9 @@ class _FullRequestCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w800,
-                          color: colors.primary,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: colors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -301,32 +310,87 @@ class _FullRequestCard extends StatelessWidget {
   }
 }
 
+class _FavoriteButton extends StatelessWidget {
+  const _FavoriteButton({
+    required this.isFavorite,
+    required this.onTap,
+  });
+
+  final bool isFavorite;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    return Material(
+      color: colors.surface.withValues(alpha: 0.94),
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onTap();
+        },
+        child: SizedBox(
+          width: 36,
+          height: 36,
+          child: Icon(
+            isFavorite ? Icons.favorite : Icons.favorite_border,
+            size: 18,
+            color: isFavorite ? colors.danger : colors.textSecondary,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _Pill extends StatelessWidget {
   const _Pill({
     required this.label,
     required this.bg,
     required this.fg,
+    this.showBayDot = false,
   });
 
   final String label;
   final Color bg;
   final Color fg;
+  final bool showBayDot;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: colors.border),
       ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w800,
-          color: fg,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (showBayDot) ...[
+            Container(
+              width: 6,
+              height: 6,
+              decoration: BoxDecoration(
+                color: colors.primary,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(width: 6),
+          ],
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+              color: fg,
+            ),
+          ),
+        ],
       ),
     );
   }

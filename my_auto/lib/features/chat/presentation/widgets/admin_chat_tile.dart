@@ -55,17 +55,14 @@ class AdminChatTile extends StatelessWidget {
                   width: 52,
                   height: 52,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [colors.primary, colors.primaryHover],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    color: colors.surfaceMuted,
                     shape: BoxShape.circle,
+                    border: Border.all(color: colors.border),
                   ),
                   alignment: Alignment.center,
                   child: Icon(
                     LucideIcons.shieldCheck,
-                    color: colors.onPrimary,
+                    color: colors.textSecondary,
                     size: 24,
                   ),
                 ),
@@ -82,7 +79,7 @@ class AdminChatTile extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: colors.textPrimary,
                               ),
@@ -108,7 +105,7 @@ class AdminChatTile extends StatelessWidget {
                               'PINNED',
                               style: TextStyle(
                                 fontSize: 10,
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w600,
                                 color: colors.primary,
                                 letterSpacing: 0.6,
                               ),

@@ -92,28 +92,21 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colors.primary.withOpacity(0.12),
-                  colors.primary.withOpacity(0.04),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: colors.surface,
               borderRadius: AppRadius.rL,
-              border: Border.all(color: colors.primary.withOpacity(0.15)),
+              border: Border.all(color: colors.border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Icon(LucideIcons.headphones, color: colors.primary),
+                    Icon(LucideIcons.headphones, color: colors.textSecondary),
                     const SizedBox(width: 10),
                     Text(
                       s.contactUs,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                           ),
                     ),
                   ],

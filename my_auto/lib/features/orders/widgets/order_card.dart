@@ -75,7 +75,7 @@ class _CompactCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: AppRadius.rL,
         boxShadow: MarketUi.softElev(context),
-        border: Border.all(color: colors.border.withValues(alpha: 0.45)),
+        border: Border.all(color: colors.border),
       ),
       child: Material(
         color: colors.surface,
@@ -95,14 +95,14 @@ class _CompactCard extends StatelessWidget {
                   fit: StackFit.expand,
                   children: [
                     ColoredBox(
-                      color: colors.primary.withValues(alpha: 0.08),
+                      color: colors.surfaceMuted,
                       child: image != null
                           ? ImageCacheNetwork(url: image, fit: BoxFit.cover)
                           : Center(
                               child: Icon(
                                 LucideIcons.clipboardList,
                                 size: 28,
-                                color: colors.primary.withValues(alpha: 0.55),
+                                color: colors.textMuted,
                               ),
                             ),
                     ),
@@ -112,19 +112,34 @@ class _CompactCard extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
-                          vertical: 3,
+                          vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: colors.surface.withValues(alpha: 0.95),
+                          color: colors.surface.withValues(alpha: 0.96),
                           borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: colors.border),
                         ),
-                        child: Text(
-                          s.wantToBuyRequestBadge,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w800,
-                            color: colors.primary,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                color: colors.primary,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              s.wantToBuyRequestBadge,
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: colors.textPrimary,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -132,7 +147,7 @@ class _CompactCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 8, 10, 9),
+                padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -142,18 +157,18 @@ class _CompactCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: colors.primary,
-                        fontSize: 14.5,
+                        fontSize: 14,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 4),
                     Text(
                       order.title.replaceAll('\n', ' ').trim(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         height: 1.2,
                         fontSize: 13,
                       ),
@@ -228,7 +243,7 @@ class _FullCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           color: colors.primary,
                         ),
                       ),
@@ -247,7 +262,7 @@ class _FullCard extends StatelessWidget {
                           s.promotedBadge,
                           style: TextStyle(
                             color: colors.onPrimary,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             fontSize: 10,
                           ),
                         ),

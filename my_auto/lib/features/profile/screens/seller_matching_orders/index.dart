@@ -121,7 +121,7 @@ class _SellerMatchingOrdersScreenState
             s.sellerMatchingOrdersEmptyListings,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
               fontSize: 17,
               color: colors.textPrimary,
             ),
@@ -177,7 +177,7 @@ class _SellerMatchingOrdersScreenState
                         Text(
                           s.sellerMatchingOrdersAll,
                           style: TextStyle(
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             fontSize: 16,
                             color: colors.textPrimary,
                           ),
@@ -228,7 +228,7 @@ class _SellerMatchingOrdersScreenState
         Text(
           s.sellerMatchingOrdersByCategory,
           style: TextStyle(
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w600,
             fontSize: 15,
             color: colors.textPrimary,
           ),
@@ -351,7 +351,7 @@ class _CountBadge extends StatelessWidget {
         '$count',
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
           fontSize: 13,
           color: count > 0 ? colors.primary : colors.textMuted,
         ),
@@ -378,7 +378,7 @@ class _StatusChip extends StatelessWidget {
         label,
         style: TextStyle(
           fontSize: 11,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
           color: color,
         ),
       ),

@@ -3184,6 +3184,76 @@ class S {
     );
   }
 
+  /// `Move to Top`
+  String get createProductStepBoost {
+    return Intl.message(
+      'Move to Top',
+      name: 'createProductStepBoost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move to Top`
+  String get createProductBoostTitle {
+    return Intl.message(
+      'Move to Top',
+      name: 'createProductBoostTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a boost plan or publish for free. You can promote later from My ads.`
+  String get createProductBoostSubtitle {
+    return Intl.message(
+      'Choose a boost plan or publish for free. You can promote later from My ads.',
+      name: 'createProductBoostSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free`
+  String get createProductBoostFree {
+    return Intl.message(
+      'Free',
+      name: 'createProductBoostFree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Publish without promotion`
+  String get createProductBoostFreeHint {
+    return Intl.message(
+      'Publish without promotion',
+      name: 'createProductBoostFreeHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Listing published. Top up your wallet to activate the boost.`
+  String get createProductBoostPublishNeedsWallet {
+    return Intl.message(
+      'Listing published. Top up your wallet to activate the boost.',
+      name: 'createProductBoostPublishNeedsWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Listing published, but the boost could not be activated. Try again from My ads.`
+  String get createProductBoostPublishFailed {
+    return Intl.message(
+      'Listing published, but the boost could not be activated. Try again from My ads.',
+      name: 'createProductBoostPublishFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Preview`
   String get createProductPreviewTitle {
     return Intl.message(
@@ -3509,6 +3579,16 @@ class S {
     return Intl.message(
       'Set your price',
       name: 'createProductPriceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Listing price only — promotion is optional later from your ads.`
+  String get createProductPriceHint {
+    return Intl.message(
+      'Listing price only — promotion is optional later from your ads.',
+      name: 'createProductPriceHint',
       desc: '',
       args: [],
     );
@@ -6763,6 +6843,21 @@ class S {
     return Intl.message('VIP', name: 'promotePlanVip', desc: '', args: []);
   }
 
+  /// `Top`
+  String get promotePlanTop {
+    return Intl.message('Top', name: 'promotePlanTop', desc: '', args: []);
+  }
+
+  /// `Wallet: {balance}`
+  String walletPromoteBalance(String balance) {
+    return Intl.message(
+      'Wallet: $balance',
+      name: 'walletPromoteBalance',
+      desc: '',
+      args: [balance],
+    );
+  }
+
   /// `{days} days · priority {priority}`
   String promotePlanDuration(int days, int priority) {
     return Intl.message(
@@ -6788,6 +6883,96 @@ class S {
     return Intl.message(
       'Promotion activated successfully',
       name: 'promotionActivatedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promotion extended`
+  String get promotionExtendedSuccess {
+    return Intl.message(
+      'Promotion extended',
+      name: 'promotionExtendedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promotion turned off`
+  String get promotionCancelledSuccess {
+    return Intl.message(
+      'Promotion turned off',
+      name: 'promotionCancelledSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage promotion`
+  String get promotionManage {
+    return Intl.message(
+      'Manage promotion',
+      name: 'promotionManage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extend / upgrade`
+  String get promotionExtend {
+    return Intl.message(
+      'Extend / upgrade',
+      name: 'promotionExtend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn off promotion`
+  String get promotionTurnOff {
+    return Intl.message(
+      'Turn off promotion',
+      name: 'promotionTurnOff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn off promotion?`
+  String get promotionCancelTitle {
+    return Intl.message(
+      'Turn off promotion?',
+      name: 'promotionCancelTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The listing leaves Top immediately. Paid time is not refunded.`
+  String get promotionCancelBody {
+    return Intl.message(
+      'The listing leaves Top immediately. Paid time is not refunded.',
+      name: 'promotionCancelBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active until {date}`
+  String promotionActiveUntil(String date) {
+    return Intl.message(
+      'Active until $date',
+      name: 'promotionActiveUntil',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `Buy again to add days from the current end date.`
+  String get promotionExtendHint {
+    return Intl.message(
+      'Buy again to add days from the current end date.',
+      name: 'promotionExtendHint',
       desc: '',
       args: [],
     );
@@ -6963,6 +7148,116 @@ class S {
     );
   }
 
+  /// `Wallet topped up`
+  String get notificationWalletTopUpTitle {
+    return Intl.message(
+      'Wallet topped up',
+      name: 'notificationWalletTopUpTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `+{amount} added to your balance`
+  String notificationWalletTopUpBody(String amount) {
+    return Intl.message(
+      '+$amount added to your balance',
+      name: 'notificationWalletTopUpBody',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Funds were added to your wallet.`
+  String get notificationWalletTopUpBodyFallback {
+    return Intl.message(
+      'Funds were added to your wallet.',
+      name: 'notificationWalletTopUpBodyFallback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet charge`
+  String get notificationWalletSpendTitle {
+    return Intl.message(
+      'Wallet charge',
+      name: 'notificationWalletSpendTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `−{amount} · {reason}`
+  String notificationWalletSpendBody(String amount, String reason) {
+    return Intl.message(
+      '−$amount · $reason',
+      name: 'notificationWalletSpendBody',
+      desc: '',
+      args: [amount, reason],
+    );
+  }
+
+  /// `Money was charged from your wallet.`
+  String get notificationWalletSpendBodyFallback {
+    return Intl.message(
+      'Money was charged from your wallet.',
+      name: 'notificationWalletSpendBodyFallback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move to Top ({plan})`
+  String notificationWalletReasonPromotion(String plan) {
+    return Intl.message(
+      'Move to Top ($plan)',
+      name: 'notificationWalletReasonPromotion',
+      desc: '',
+      args: [plan],
+    );
+  }
+
+  /// `Move to Top`
+  String get notificationWalletReasonPromotionGeneric {
+    return Intl.message(
+      'Move to Top',
+      name: 'notificationWalletReasonPromotionGeneric',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service booking fee`
+  String get notificationWalletReasonBooking {
+    return Intl.message(
+      'Service booking fee',
+      name: 'notificationWalletReasonBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Admin adjustment`
+  String get notificationWalletReasonAdmin {
+    return Intl.message(
+      'Admin adjustment',
+      name: 'notificationWalletReasonAdmin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet charge`
+  String get notificationWalletReasonOther {
+    return Intl.message(
+      'Wallet charge',
+      name: 'notificationWalletReasonOther',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Garage alerts`
   String get pushChannelName {
     return Intl.message(
@@ -7008,10 +7303,10 @@ class S {
     );
   }
 
-  /// `Available`
+  /// `Available balance`
   String get walletAvailable {
     return Intl.message(
-      'Available',
+      'Available balance',
       name: 'walletAvailable',
       desc: '',
       args: [],
@@ -7033,14 +7328,134 @@ class S {
     return Intl.message('Top up', name: 'walletTopUp', desc: '', args: []);
   }
 
-  /// `Mock top-up for testing. Real Payme/Click comes later.`
+  /// `Choose a payment method. Payme, Click and Paynet are coming soon — Telegram is available now.`
   String get walletTopUpHint {
     return Intl.message(
-      'Mock top-up for testing. Real Payme/Click comes later.',
+      'Choose a payment method. Payme, Click and Paynet are coming soon — Telegram is available now.',
       name: 'walletTopUpHint',
       desc: '',
       args: [],
     );
+  }
+
+  /// `Payment methods`
+  String get walletPaymentMethods {
+    return Intl.message(
+      'Payment methods',
+      name: 'walletPaymentMethods',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{method} will be available soon.`
+  String walletPaymentComingSoonBody(String method) {
+    return Intl.message(
+      '$method will be available soon.',
+      name: 'walletPaymentComingSoonBody',
+      desc: '',
+      args: [method],
+    );
+  }
+
+  /// `Available`
+  String get walletTelegramAvailable {
+    return Intl.message(
+      'Available',
+      name: 'walletTelegramAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top up via Telegram`
+  String get walletTelegramOpen {
+    return Intl.message(
+      'Top up via Telegram',
+      name: 'walletTelegramOpen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Telegram to top up your wallet with our support.`
+  String get walletTelegramHint {
+    return Intl.message(
+      'Open Telegram to top up your wallet with our support.',
+      name: 'walletTelegramHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top up`
+  String get walletTxTopUp {
+    return Intl.message('Top up', name: 'walletTxTopUp', desc: '', args: []);
+  }
+
+  /// `Payment`
+  String get walletTxSpend {
+    return Intl.message('Payment', name: 'walletTxSpend', desc: '', args: []);
+  }
+
+  /// `Transaction details`
+  String get walletTxDetails {
+    return Intl.message(
+      'Transaction details',
+      name: 'walletTxDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction ID`
+  String get walletTxId {
+    return Intl.message(
+      'Transaction ID',
+      name: 'walletTxId',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reference`
+  String get walletTxReference {
+    return Intl.message(
+      'Reference',
+      name: 'walletTxReference',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get walletTxDate {
+    return Intl.message('Date', name: 'walletTxDate', desc: '', args: []);
+  }
+
+  /// `Status`
+  String get walletTxStatus {
+    return Intl.message('Status', name: 'walletTxStatus', desc: '', args: []);
+  }
+
+  /// `Reason`
+  String get walletTxReason {
+    return Intl.message('Reason', name: 'walletTxReason', desc: '', args: []);
+  }
+
+  /// `Open related`
+  String get walletTxOpenRelated {
+    return Intl.message(
+      'Open related',
+      name: 'walletTxOpenRelated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy ID`
+  String get walletTxCopyId {
+    return Intl.message('Copy ID', name: 'walletTxCopyId', desc: '', args: []);
   }
 
   /// `Wallet topped up`
@@ -7140,6 +7555,566 @@ class S {
       name: 'walletBookingFeeLabel',
       desc: '',
       args: [amount],
+    );
+  }
+
+  /// `Ad slot`
+  String get adPlaceholderBadge {
+    return Intl.message(
+      'Ad slot',
+      name: 'adPlaceholderBadge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advertise your product here`
+  String get adPlaceholderTitle {
+    return Intl.message(
+      'Advertise your product here',
+      name: 'adPlaceholderTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to see placements and prices`
+  String get adPlaceholderSubtitle {
+    return Intl.message(
+      'Tap to see placements and prices',
+      name: 'adPlaceholderSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advertise on Autorin`
+  String get advertiseTitle {
+    return Intl.message(
+      'Advertise on Autorin',
+      name: 'advertiseTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Put your offer on home, products, services and more. Pick a slot and duration.`
+  String get advertiseSubtitle {
+    return Intl.message(
+      'Put your offer on home, products, services and more. Pick a slot and duration.',
+      name: 'advertiseSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How it works`
+  String get advertiseHowTitle {
+    return Intl.message(
+      'How it works',
+      name: 'advertiseHowTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.`
+  String get advertiseHowBody {
+    return Intl.message(
+      'Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.',
+      name: 'advertiseHowBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tariffs`
+  String get advertiseTariffsTitle {
+    return Intl.message(
+      'Tariffs',
+      name: 'advertiseTariffsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Prices in UZS. Home top is the most visible slot.`
+  String get advertiseTariffsHint {
+    return Intl.message(
+      'Prices in UZS. Home top is the most visible slot.',
+      name: 'advertiseTariffsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `from {amount} UZS / week`
+  String advertiseFromWeek(String amount) {
+    return Intl.message(
+      'from $amount UZS / week',
+      name: 'advertiseFromWeek',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `1 day`
+  String get advertisePlanDay {
+    return Intl.message('1 day', name: 'advertisePlanDay', desc: '', args: []);
+  }
+
+  /// `1 week`
+  String get advertisePlanWeek {
+    return Intl.message(
+      '1 week',
+      name: 'advertisePlanWeek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 month`
+  String get advertisePlanMonth {
+    return Intl.message(
+      '1 month',
+      name: 'advertisePlanMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3 months`
+  String get advertisePlanQuarter {
+    return Intl.message(
+      '3 months',
+      name: 'advertisePlanQuarter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home — top banner`
+  String get advertisePlacementBrand {
+    return Intl.message(
+      'Home — top banner',
+      name: 'advertisePlacementBrand',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products — lists`
+  String get advertisePlacementPart {
+    return Intl.message(
+      'Products — lists',
+      name: 'advertisePlacementPart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services — hub & feed`
+  String get advertisePlacementService {
+    return Intl.message(
+      'Services — hub & feed',
+      name: 'advertisePlacementService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requests — top`
+  String get advertisePlacementAnnouncement {
+    return Intl.message(
+      'Requests — top',
+      name: 'advertisePlacementAnnouncement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search — explore`
+  String get advertisePlacementTuning {
+    return Intl.message(
+      'Search — explore',
+      name: 'advertisePlacementTuning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Store page`
+  String get advertisePlacementModel {
+    return Intl.message(
+      'Store page',
+      name: 'advertisePlacementModel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Boost my product`
+  String get advertiseBoostCta {
+    return Intl.message(
+      'Boost my product',
+      name: 'advertiseBoostCta',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open wallet`
+  String get advertiseWalletCta {
+    return Intl.message(
+      'Open wallet',
+      name: 'advertiseWalletCta',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Banner creatives are set up with support / admin for now. Product Top you can buy yourself from the listing.`
+  String get advertiseContactHint {
+    return Intl.message(
+      'Banner creatives are set up with support / admin for now. Product Top you can buy yourself from the listing.',
+      name: 'advertiseContactHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buy a banner`
+  String get adPurchaseTitle {
+    return Intl.message(
+      'Buy a banner',
+      name: 'adPurchaseTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buy banner`
+  String get adPurchaseFab {
+    return Intl.message(
+      'Buy banner',
+      name: 'adPurchaseFab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Placement`
+  String get adPurchasePlacement {
+    return Intl.message(
+      'Placement',
+      name: 'adPurchasePlacement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duration`
+  String get adPurchasePlan {
+    return Intl.message('Duration', name: 'adPurchasePlan', desc: '', args: []);
+  }
+
+  /// `Banner title`
+  String get adPurchaseTitleField {
+    return Intl.message(
+      'Banner title',
+      name: 'adPurchaseTitleField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link / deep link`
+  String get adPurchaseLinkField {
+    return Intl.message(
+      'Link / deep link',
+      name: 'adPurchaseLinkField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Creative`
+  String get adPurchaseCreative {
+    return Intl.message(
+      'Creative',
+      name: 'adPurchaseCreative',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose banner image`
+  String get adPurchasePickImage {
+    return Intl.message(
+      'Choose banner image',
+      name: 'adPurchasePickImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preview`
+  String get adPurchasePreview {
+    return Intl.message(
+      'Preview',
+      name: 'adPurchasePreview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preview`
+  String get adPurchasePreviewCta {
+    return Intl.message(
+      'Preview',
+      name: 'adPurchasePreviewCta',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay from wallet`
+  String get adPurchasePayCta {
+    return Intl.message(
+      'Pay from wallet',
+      name: 'adPurchasePayCta',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet: {amount}`
+  String adPurchaseWalletBalance(String amount) {
+    return Intl.message(
+      'Wallet: $amount',
+      name: 'adPurchaseWalletBalance',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Total: {amount}`
+  String adPurchaseTotal(String amount) {
+    return Intl.message(
+      'Total: $amount',
+      name: 'adPurchaseTotal',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Banner is live`
+  String get adPurchaseLiveSuccess {
+    return Intl.message(
+      'Banner is live',
+      name: 'adPurchaseLiveSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Banner queued — goes live when a slot opens`
+  String get adPurchaseQueuedSuccess {
+    return Intl.message(
+      'Banner queued — goes live when a slot opens',
+      name: 'adPurchaseQueuedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slots {used}/{max} free — your banner goes live now`
+  String adSlotFree(String used, String max) {
+    return Intl.message(
+      'Slots $used/$max free — your banner goes live now',
+      name: 'adSlotFree',
+      desc: '',
+      args: [used, max],
+    );
+  }
+
+  /// `All {max} slots full — you will be #{pos} in queue`
+  String adSlotFull(String pos, String max) {
+    return Intl.message(
+      'All $max slots full — you will be #$pos in queue',
+      name: 'adSlotFull',
+      desc: '',
+      args: [pos, max],
+    );
+  }
+
+  /// `My banners`
+  String get adMyBannersTitle {
+    return Intl.message(
+      'My banners',
+      name: 'adMyBannersTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No banners yet. Buy one to promote your offer.`
+  String get adMyBannersEmpty {
+    return Intl.message(
+      'No banners yet. Buy one to promote your offer.',
+      name: 'adMyBannersEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Views`
+  String get adStatImpressions {
+    return Intl.message('Views', name: 'adStatImpressions', desc: '', args: []);
+  }
+
+  /// `Clicks`
+  String get adStatClicks {
+    return Intl.message('Clicks', name: 'adStatClicks', desc: '', args: []);
+  }
+
+  /// `CTR`
+  String get adStatCtr {
+    return Intl.message('CTR', name: 'adStatCtr', desc: '', args: []);
+  }
+
+  /// `Active`
+  String get adStatusActive {
+    return Intl.message('Active', name: 'adStatusActive', desc: '', args: []);
+  }
+
+  /// `Paused`
+  String get adStatusPaused {
+    return Intl.message('Paused', name: 'adStatusPaused', desc: '', args: []);
+  }
+
+  /// `Expired`
+  String get adStatusExpired {
+    return Intl.message('Expired', name: 'adStatusExpired', desc: '', args: []);
+  }
+
+  /// `Queued`
+  String get adStatusQueued {
+    return Intl.message('Queued', name: 'adStatusQueued', desc: '', args: []);
+  }
+
+  /// `queue #{pos}`
+  String adQueuePosition(String pos) {
+    return Intl.message(
+      'queue #$pos',
+      name: 'adQueuePosition',
+      desc: '',
+      args: [pos],
+    );
+  }
+
+  /// `Pause`
+  String get adPauseCta {
+    return Intl.message('Pause', name: 'adPauseCta', desc: '', args: []);
+  }
+
+  /// `Advertise`
+  String get profileAdvertise {
+    return Intl.message(
+      'Advertise',
+      name: 'profileAdvertise',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Banners, tariffs and stats`
+  String get profileSubtitleAdvertise {
+    return Intl.message(
+      'Banners, tariffs and stats',
+      name: 'profileSubtitleAdvertise',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find the right auto parts`
+  String get onboardingPartsTitle {
+    return Intl.message(
+      'Find the right auto parts',
+      name: 'onboardingPartsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse spare parts and accessories from sellers near you — or list what you sell.`
+  String get onboardingPartsBody {
+    return Intl.message(
+      'Browse spare parts and accessories from sellers near you — or list what you sell.',
+      name: 'onboardingPartsBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trusted auto services nearby`
+  String get onboardingServicesTitle {
+    return Intl.message(
+      'Trusted auto services nearby',
+      name: 'onboardingServicesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover workshops, see who is open, and book the help your car needs.`
+  String get onboardingServicesBody {
+    return Intl.message(
+      'Discover workshops, see who is open, and book the help your car needs.',
+      name: 'onboardingServicesBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Post a request — sellers find you`
+  String get onboardingRequestsTitle {
+    return Intl.message(
+      'Post a request — sellers find you',
+      name: 'onboardingRequestsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Can't find a part? Leave a request and sellers will contact you.`
+  String get onboardingRequestsBody {
+    return Intl.message(
+      'Can\'t find a part? Leave a request and sellers will contact you.',
+      name: 'onboardingRequestsBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get started`
+  String get onboardingGetStarted {
+    return Intl.message(
+      'Get started',
+      name: 'onboardingGetStarted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Step {current} of {total}`
+  String onboardingProgress(int current, int total) {
+    return Intl.message(
+      'Step $current of $total',
+      name: 'onboardingProgress',
+      desc: '',
+      args: [current, total],
     );
   }
 }

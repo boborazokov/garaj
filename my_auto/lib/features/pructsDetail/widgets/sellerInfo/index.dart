@@ -4,7 +4,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
+import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/resolve_media_url.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/features/sellerProfile/repository/seller_profile_repository.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
@@ -68,98 +70,88 @@ class _SellerInfoState extends State<SellerInfo> {
         resolveMediaUrl(widget.sellerImage, mediaBase: fileUrl);
 
     return SliverToBoxAdapter(
-      child: Container(
-        width: double.infinity,
-        margin: const EdgeInsets.only(top: 8),
-        color: colors.surface,
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              s.sellerInformation,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w800,
-              ),
+      child: ProductSection(
+        title: s.sellerInformation,
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+        child: Material(
+          color: colors.surfaceMuted,
+          shape: RoundedRectangleBorder(
+            borderRadius: AppRadius.rM,
+            side: BorderSide(color: colors.border),
+          ),
+          child: InkWell(
+            borderRadius: AppRadius.rM,
+            onTap: () => context.push(
+              RoutesName.sellerProfile,
+              extra: widget.sellerId,
             ),
-            const SizedBox(height: 12),
-            Material(
-              color: colors.surfaceMuted,
-              borderRadius: BorderRadius.circular(14),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(14),
-                onTap: () => context.push(
-                  RoutesName.sellerProfile,
-                  extra: widget.sellerId,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      ClipOval(
-                        child: avatarUrl != null
-                            ? ImageCacheNetwork(
-                                url: avatarUrl,
-                                width: 48,
-                                height: 48,
-                              )
-                            : Container(
-                                width: 48,
-                                height: 48,
-                                decoration: BoxDecoration(
-                                  color: colors.primary,
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  _initials(widget.sellerName),
-                                  style: TextStyle(
-                                    color: colors.onPrimary,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.sellerName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w800,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  ClipOval(
+                    child: avatarUrl != null
+                        ? ImageCacheNetwork(
+                            url: avatarUrl,
+                            width: 48,
+                            height: 48,
+                          )
+                        : Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: colors.surface,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: colors.border),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              _initials(widget.sellerName),
+                              style: TextStyle(
+                                color: colors.textPrimary,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              _products != null
-                                  ? '$_products ${s.sellerStatProducts.toLowerCase()}'
-                                  : (_isOwnProfile
-                                      ? s.editStore
-                                      : s.viewProfile),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: colors.textMuted,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Icon(
-                        LucideIcons.chevronRight,
-                        size: 20,
-                        color: colors.textMuted,
-                      ),
-                    ],
+                          ),
                   ),
-                ),
+                  const SizedBox(width: AppSpacing.m),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.sellerName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          _products != null
+                              ? '$_products ${s.sellerStatProducts.toLowerCase()}'
+                              : (_isOwnProfile
+                                  ? s.editStore
+                                  : s.viewProfile),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.textMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    LucideIcons.chevronRight,
+                    size: 20,
+                    color: colors.textMuted,
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

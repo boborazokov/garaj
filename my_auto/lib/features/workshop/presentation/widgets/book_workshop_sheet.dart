@@ -87,7 +87,7 @@ class _BookWorkshopSheetState extends State<BookWorkshopSheet> {
           Text(
             'Book ${widget.workshop.name}',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                 ),
           ),
           const SizedBox(height: 16),

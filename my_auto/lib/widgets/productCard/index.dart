@@ -4,15 +4,13 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/model/product/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
-import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/card_date_region.dart';
 import 'package:my_auto/widgets/favorite_heart_button.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 
-/// Clear marketplace product card.
-/// Hierarchy: photo → price → title → place · time.
+/// Marketplace product card — photo, price, title, place · time.
 class ProductCardGrid extends StatelessWidget {
   final Part product;
   final bool isMine;
@@ -42,102 +40,91 @@ class ProductCardGrid extends StatelessWidget {
     final showPrice =
         !(product.negotiable == true && product.price <= 0);
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: AppRadius.rL,
-        boxShadow: MarketUi.softElev(context),
-      ),
-      child: Material(
-        color: colors.surface,
-        borderRadius: AppRadius.rL,
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: () =>
-              context.push(RoutesName.productDetailScreen, extra: product.id),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final bounded = constraints.maxHeight.isFinite;
+    return MarketCardShell(
+      onTap: () =>
+          context.push(RoutesName.productDetailScreen, extra: product.id),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final bounded = constraints.maxHeight.isFinite;
 
-              final image = _ProductCardImage(
-                imageUrl: imageUrl,
-                product: product,
-                colors: colors,
-              );
+          final image = _ProductCardImage(
+            imageUrl: imageUrl,
+            product: product,
+            colors: colors,
+          );
 
-              final body = Padding(
-                padding: const EdgeInsets.fromLTRB(8, 6, 8, 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      showPrice
-                          ? _formatPrice(product.price, product.currency)
-                          : s.negotiable,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: colors.primary,
-                        fontSize: 15,
-                        height: 1.1,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    if (product.negotiable == true && showPrice) ...[
-                      const SizedBox(height: 1),
-                      Text(
-                        s.negotiable,
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: colors.textMuted,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10.5,
-                        ),
-                      ),
-                    ],
-                    const SizedBox(height: 3),
-                    Text(
-                      product.name,
-                      maxLines: bounded ? 1 : 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colors.textPrimary,
-                        fontWeight: FontWeight.w600,
-                        height: 1.25,
-                        fontSize: 13,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    CardDateRegion(
-                      createdAt: product.createdAt,
-                      region: product.region,
-                    ),
-                  ],
+          final body = Padding(
+            padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  showPrice
+                      ? _formatPrice(product.price, product.currency)
+                      : s.negotiable,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colors.textPrimary,
+                    fontSize: 15,
+                    height: 1.15,
+                    letterSpacing: -0.2,
+                  ),
                 ),
-              );
-
-              if (bounded) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(child: image),
-                    body,
-                  ],
-                );
-              }
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AspectRatio(aspectRatio: 1, child: image),
-                  body,
+                if (product.negotiable == true && showPrice) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    s.negotiable,
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: colors.primary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11,
+                    ),
+                  ),
                 ],
-              );
-            },
-          ),
-        ),
+                const SizedBox(height: 4),
+                Text(
+                  product.name,
+                  maxLines: bounded ? 2 : 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.textSecondary,
+                    fontWeight: FontWeight.w500,
+                    height: 1.25,
+                    fontSize: 13,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                CardDateRegion(
+                  createdAt: product.createdAt,
+                  region: product.region,
+                ),
+              ],
+            ),
+          );
+
+          if (bounded) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: image),
+                body,
+              ],
+            );
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AspectRatio(aspectRatio: 1, child: image),
+              body,
+            ],
+          );
+        },
       ),
     );
   }
@@ -170,27 +157,21 @@ class _ProductCardImage extends StatelessWidget {
               ? ImageCacheNetwork(url: url, fit: BoxFit.cover)
               : Icon(LucideIcons.imageOff, size: 36, color: colors.textMuted),
         ),
-        Positioned(
-          left: 8,
-          top: 8,
-          child: product.isPromotionActive
-              ? _Chip(
-                  label: s.promotedBadge,
-                  icon: LucideIcons.flame,
-                  background: colors.primary,
-                  foreground: colors.onPrimary,
-                )
-              : const SizedBox.shrink(),
-        ),
+        if (product.isPromotionActive)
+          Positioned(
+            left: 8,
+            top: 8,
+            child: MarketBadgeChip(
+              label: s.promotedBadge,
+              emphasized: true,
+              dense: true,
+            ),
+          ),
         if (isNew)
           Positioned(
             left: 8,
             bottom: 8,
-            child: _Chip(
-              label: s.newPart,
-              background: colors.success,
-              foreground: Colors.white,
-            ),
+            child: MarketBadgeChip(label: s.newPart, dense: true),
           ),
         Positioned(
           right: 6,
@@ -201,48 +182,6 @@ class _ProductCardImage extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _Chip extends StatelessWidget {
-  const _Chip({
-    required this.label,
-    required this.background,
-    required this.foreground,
-    this.icon,
-  });
-
-  final String label;
-  final Color background;
-  final Color foreground;
-  final IconData? icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[
-            Icon(icon, size: 10, color: foreground),
-            const SizedBox(width: 3),
-          ],
-          Text(
-            label,
-            style: TextStyle(
-              color: foreground,
-              fontSize: 10,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

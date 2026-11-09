@@ -42,7 +42,7 @@ class PreviewStep extends StatelessWidget {
         Text(
           s.createProductPreviewTitle,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w600,
               ),
         ),
         const SizedBox(height: 6),
@@ -68,38 +68,36 @@ class PreviewStep extends StatelessWidget {
         ],
         const SizedBox(height: 16),
         _ListingPreviewCard(draft: draft),
-        if (draft.editingPartId != null) ...[
-          const SizedBox(height: 20),
-          Text(
-            s.edit,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              color: colors.textMuted,
-              fontSize: 12,
-            ),
+        const SizedBox(height: 20),
+        Text(
+          s.edit,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: colors.textMuted,
+            fontSize: 12,
           ),
-          const SizedBox(height: 8),
-          _EditRow(
-            icon: LucideIcons.image,
-            label: s.createProductStepPhotos,
-            onTap: () => onEditStep(CreateProductStep.photos),
-          ),
-          _EditRow(
-            icon: LucideIcons.car,
-            label: s.createProductStepVehicle,
-            onTap: () => onEditStep(CreateProductStep.vehicle),
-          ),
-          _EditRow(
-            icon: LucideIcons.fileText,
-            label: s.createProductStepInfo,
-            onTap: () => onEditStep(CreateProductStep.info),
-          ),
-          _EditRow(
-            icon: LucideIcons.banknote,
-            label: s.createProductStepPrice,
-            onTap: () => onEditStep(CreateProductStep.price),
-          ),
-        ],
+        ),
+        const SizedBox(height: 8),
+        _EditRow(
+          icon: LucideIcons.image,
+          label: s.createProductStepPhotos,
+          onTap: () => onEditStep(CreateProductStep.photos),
+        ),
+        _EditRow(
+          icon: LucideIcons.car,
+          label: s.createProductStepVehicle,
+          onTap: () => onEditStep(CreateProductStep.vehicle),
+        ),
+        _EditRow(
+          icon: LucideIcons.fileText,
+          label: s.createProductStepInfo,
+          onTap: () => onEditStep(CreateProductStep.info),
+        ),
+        _EditRow(
+          icon: LucideIcons.banknote,
+          label: s.createProductStepPrice,
+          onTap: () => onEditStep(CreateProductStep.price),
+        ),
         if (state.isPublishing) ...[
           const SizedBox(height: 16),
           LinearProgressIndicator(value: state.uploadProgress),
@@ -198,8 +196,10 @@ class _ListingPreviewCard extends StatelessWidget {
                     top: 10,
                     child: _PreviewBadge(
                       label: conditionLabel,
-                      background: conditionColor,
-                      foreground: isNew ? colors.onDark : Colors.white,
+                      background: colors.surface.withValues(alpha: 0.96),
+                      foreground: colors.textPrimary,
+                      borderColor: colors.border,
+                      bayDotColor: conditionColor,
                     ),
                   ),
                   if (draft.negotiable)
@@ -208,9 +208,9 @@ class _ListingPreviewCard extends StatelessWidget {
                       bottom: 10,
                       child: _PreviewBadge(
                         label: s.negotiable,
-                        background: colors.primary,
-                        foreground: colors.onPrimary,
-                        icon: LucideIcons.percent,
+                        background: colors.surface.withValues(alpha: 0.96),
+                        foreground: colors.textPrimary,
+                        borderColor: colors.border,
                       ),
                     ),
                   if (draft.photos.length > 1)
@@ -219,8 +219,9 @@ class _ListingPreviewCard extends StatelessWidget {
                       bottom: 10,
                       child: _PreviewBadge(
                         label: '${draft.photos.length}',
-                        background: colors.onDark.withValues(alpha: 0.72),
-                        foreground: Colors.white,
+                        background: colors.surface.withValues(alpha: 0.96),
+                        foreground: colors.textPrimary,
+                        borderColor: colors.border,
                         icon: LucideIcons.image,
                       ),
                     ),
@@ -235,7 +236,7 @@ class _ListingPreviewCard extends StatelessWidget {
                   Text(
                     _formatPrice(context),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                         ),
                   ),
                   const SizedBox(height: 4),
@@ -298,12 +299,16 @@ class _PreviewBadge extends StatelessWidget {
     required this.label,
     required this.background,
     required this.foreground,
+    this.borderColor,
+    this.bayDotColor,
     this.icon,
   });
 
   final String label;
   final Color background;
   final Color foreground;
+  final Color? borderColor;
+  final Color? bayDotColor;
   final IconData? icon;
 
   @override
@@ -313,10 +318,22 @@ class _PreviewBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: borderColor ?? background),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (bayDotColor != null) ...[
+            Container(
+              width: 6,
+              height: 6,
+              decoration: BoxDecoration(
+                color: bayDotColor,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(width: 6),
+          ],
           if (icon != null) ...[
             Icon(icon, size: 11, color: foreground),
             const SizedBox(width: 4),
@@ -326,7 +343,7 @@ class _PreviewBadge extends StatelessWidget {
             style: TextStyle(
               color: foreground,
               fontSize: 11,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -351,14 +368,14 @@ class _EditRow extends StatelessWidget {
     final colors = context.appColors;
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: Icon(icon, color: colors.primary),
+      leading: Icon(icon, color: colors.textSecondary),
       title: Text(
         label,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(fontWeight: FontWeight.w600),
       ),
-      trailing: Icon(LucideIcons.pencil, size: 18, color: colors.textMuted),
+      trailing: Icon(LucideIcons.chevronRight, size: 18, color: colors.textMuted),
       onTap: onTap,
     );
   }

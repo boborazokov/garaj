@@ -78,7 +78,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
       height: 56,
       textStyle: TextStyle(
         fontSize: 22,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w600,
         color: colors.textPrimary,
       ),
       decoration: BoxDecoration(

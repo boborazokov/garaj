@@ -319,6 +319,9 @@ class PushService {
           orderId != null &&
           orderId.isNotEmpty) {
         out[PushDataKeys.deepLink] = '${RoutesName.orderDetail}/$orderId';
+      } else if (type == PushEventTypes.walletTopUp ||
+          type == PushEventTypes.walletSpend) {
+        out[PushDataKeys.deepLink] = RoutesName.wallet;
       }
     }
 

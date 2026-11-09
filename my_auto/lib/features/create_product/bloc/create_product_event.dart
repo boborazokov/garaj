@@ -125,6 +125,14 @@ final class CreateProductDeliveryChanged extends CreateProductEvent {
   List<Object?> get props => [delivery];
 }
 
+final class CreateProductPromotionPlanChanged extends CreateProductEvent {
+  const CreateProductPromotionPlanChanged(this.plan);
+  /// null = publish without Top / promotion.
+  final ServicePromotionPlan? plan;
+  @override
+  List<Object?> get props => [plan];
+}
+
 final class CreateProductPublishRequested extends CreateProductEvent {
   const CreateProductPublishRequested();
 }

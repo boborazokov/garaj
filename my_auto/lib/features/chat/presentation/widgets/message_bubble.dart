@@ -701,7 +701,7 @@ class _ImageGrid extends StatelessWidget {
                           '+${images.length - 4}',
                           style: const TextStyle(
                             color: Colors.white,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),
                         ),

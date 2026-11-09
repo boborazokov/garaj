@@ -1192,6 +1192,30 @@ class SEn extends S {
   String get createProductStepPreview => 'Preview';
 
   @override
+  String get createProductStepBoost => 'Move to Top';
+
+  @override
+  String get createProductBoostTitle => 'Move to Top';
+
+  @override
+  String get createProductBoostSubtitle =>
+      'Choose a boost plan or publish for free. You can promote later from My ads.';
+
+  @override
+  String get createProductBoostFree => 'Free';
+
+  @override
+  String get createProductBoostFreeHint => 'Publish without promotion';
+
+  @override
+  String get createProductBoostPublishNeedsWallet =>
+      'Listing published. Top up your wallet to activate the boost.';
+
+  @override
+  String get createProductBoostPublishFailed =>
+      'Listing published, but the boost could not be activated. Try again from My ads.';
+
+  @override
   String get createProductPreviewTitle => 'Preview';
 
   @override
@@ -1296,6 +1320,10 @@ class SEn extends S {
 
   @override
   String get createProductPriceTitle => 'Set your price';
+
+  @override
+  String get createProductPriceHint =>
+      'Listing price only — promotion is optional later from your ads.';
 
   @override
   String createProductPriceSuggested(int price, String currency) {
@@ -2440,7 +2468,12 @@ class SEn extends S {
   String get promotePlanVip => 'VIP';
 
   @override
-  String get promotePlanTop => 'TOP';
+  String get promotePlanTop => 'Top';
+
+  @override
+  String walletPromoteBalance(String balance) {
+    return 'Wallet: $balance';
+  }
 
   @override
   String promotePlanDuration(int days, int priority) {
@@ -2448,11 +2481,41 @@ class SEn extends S {
   }
 
   @override
-  String get activatePromotion => 'Pay & move to top';
+  String get activatePromotion => 'Activate promotion';
 
   @override
-  String get promotionActivatedSuccess =>
-      'Payment received — listing is now on top';
+  String get promotionActivatedSuccess => 'Promotion activated successfully';
+
+  @override
+  String get promotionExtendedSuccess => 'Promotion extended';
+
+  @override
+  String get promotionCancelledSuccess => 'Promotion turned off';
+
+  @override
+  String get promotionManage => 'Manage promotion';
+
+  @override
+  String get promotionExtend => 'Extend / upgrade';
+
+  @override
+  String get promotionTurnOff => 'Turn off promotion';
+
+  @override
+  String get promotionCancelTitle => 'Turn off promotion?';
+
+  @override
+  String get promotionCancelBody =>
+      'The listing leaves Top immediately. Paid time is not refunded.';
+
+  @override
+  String promotionActiveUntil(String date) {
+    return 'Active until $date';
+  }
+
+  @override
+  String get promotionExtendHint =>
+      'Buy again to add days from the current end date.';
 
   @override
   String get notificationAccountVerifiedTitle => 'You are verified';
@@ -2511,6 +2574,47 @@ class SEn extends S {
   String get notificationGenericAlertBody => 'You have a new alert.';
 
   @override
+  String get notificationWalletTopUpTitle => 'Wallet topped up';
+
+  @override
+  String notificationWalletTopUpBody(String amount) {
+    return '+$amount added to your balance';
+  }
+
+  @override
+  String get notificationWalletTopUpBodyFallback =>
+      'Funds were added to your wallet.';
+
+  @override
+  String get notificationWalletSpendTitle => 'Wallet charge';
+
+  @override
+  String notificationWalletSpendBody(String amount, String reason) {
+    return '−$amount · $reason';
+  }
+
+  @override
+  String get notificationWalletSpendBodyFallback =>
+      'Money was charged from your wallet.';
+
+  @override
+  String notificationWalletReasonPromotion(String plan) {
+    return 'Move to Top ($plan)';
+  }
+
+  @override
+  String get notificationWalletReasonPromotionGeneric => 'Move to Top';
+
+  @override
+  String get notificationWalletReasonBooking => 'Service booking fee';
+
+  @override
+  String get notificationWalletReasonAdmin => 'Admin adjustment';
+
+  @override
+  String get notificationWalletReasonOther => 'Wallet charge';
+
+  @override
   String get pushChannelName => 'Garage alerts';
 
   @override
@@ -2527,7 +2631,7 @@ class SEn extends S {
   String get walletSubtitle => 'Balance, top-up and history';
 
   @override
-  String get walletAvailable => 'Available';
+  String get walletAvailable => 'Available balance';
 
   @override
   String get walletMain => 'Main';
@@ -2540,7 +2644,55 @@ class SEn extends S {
 
   @override
   String get walletTopUpHint =>
-      'Mock top-up for testing. Real Payme/Click comes later.';
+      'Choose a payment method. Payme, Click and Paynet are coming soon — Telegram is available now.';
+
+  @override
+  String get walletPaymentMethods => 'Payment methods';
+
+  @override
+  String walletPaymentComingSoonBody(String method) {
+    return '$method will be available soon.';
+  }
+
+  @override
+  String get walletTelegramAvailable => 'Available';
+
+  @override
+  String get walletTelegramOpen => 'Top up via Telegram';
+
+  @override
+  String get walletTelegramHint =>
+      'Open Telegram to top up your wallet with our support.';
+
+  @override
+  String get walletTxTopUp => 'Top up';
+
+  @override
+  String get walletTxSpend => 'Payment';
+
+  @override
+  String get walletTxDetails => 'Transaction details';
+
+  @override
+  String get walletTxId => 'Transaction ID';
+
+  @override
+  String get walletTxReference => 'Reference';
+
+  @override
+  String get walletTxDate => 'Date';
+
+  @override
+  String get walletTxStatus => 'Status';
+
+  @override
+  String get walletTxReason => 'Reason';
+
+  @override
+  String get walletTxOpenRelated => 'Open related';
+
+  @override
+  String get walletTxCopyId => 'Copy ID';
 
   @override
   String get walletTopUpSuccess => 'Wallet topped up';
@@ -2573,5 +2725,211 @@ class SEn extends S {
   @override
   String walletBookingFeeLabel(int amount) {
     return 'Platform fee: $amount UZS';
+  }
+
+  @override
+  String get adPlaceholderBadge => 'Ad slot';
+
+  @override
+  String get adPlaceholderTitle => 'Advertise your product here';
+
+  @override
+  String get adPlaceholderSubtitle => 'Tap to see placements and prices';
+
+  @override
+  String get advertiseTitle => 'Advertise on Autorin';
+
+  @override
+  String get advertiseSubtitle =>
+      'Put your offer on home, products, services and more. Pick a slot and duration.';
+
+  @override
+  String get advertiseHowTitle => 'How it works';
+
+  @override
+  String get advertiseHowBody =>
+      'Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.';
+
+  @override
+  String get advertiseTariffsTitle => 'Tariffs';
+
+  @override
+  String get advertiseTariffsHint =>
+      'Prices in UZS. Home top is the most visible slot.';
+
+  @override
+  String advertiseFromWeek(String amount) {
+    return 'from $amount UZS / week';
+  }
+
+  @override
+  String get advertisePlanDay => '1 day';
+
+  @override
+  String get advertisePlanWeek => '1 week';
+
+  @override
+  String get advertisePlanMonth => '1 month';
+
+  @override
+  String get advertisePlanQuarter => '3 months';
+
+  @override
+  String get advertisePlacementBrand => 'Home — top banner';
+
+  @override
+  String get advertisePlacementPart => 'Products — lists';
+
+  @override
+  String get advertisePlacementService => 'Services — hub & feed';
+
+  @override
+  String get advertisePlacementAnnouncement => 'Requests — top';
+
+  @override
+  String get advertisePlacementTuning => 'Search — explore';
+
+  @override
+  String get advertisePlacementModel => 'Store page';
+
+  @override
+  String get advertiseBoostCta => 'Boost my product';
+
+  @override
+  String get advertiseWalletCta => 'Open wallet';
+
+  @override
+  String get advertiseContactHint =>
+      'Banner creatives are set up with support / admin for now. Product Top you can buy yourself from the listing.';
+
+  @override
+  String get adPurchaseTitle => 'Buy a banner';
+
+  @override
+  String get adPurchaseFab => 'Buy banner';
+
+  @override
+  String get adPurchasePlacement => 'Placement';
+
+  @override
+  String get adPurchasePlan => 'Duration';
+
+  @override
+  String get adPurchaseTitleField => 'Banner title';
+
+  @override
+  String get adPurchaseLinkField => 'Link / deep link';
+
+  @override
+  String get adPurchaseCreative => 'Creative';
+
+  @override
+  String get adPurchasePickImage => 'Choose banner image';
+
+  @override
+  String get adPurchasePreview => 'Preview';
+
+  @override
+  String get adPurchasePreviewCta => 'Preview';
+
+  @override
+  String get adPurchasePayCta => 'Pay from wallet';
+
+  @override
+  String adPurchaseWalletBalance(String amount) {
+    return 'Wallet: $amount';
+  }
+
+  @override
+  String adPurchaseTotal(String amount) {
+    return 'Total: $amount';
+  }
+
+  @override
+  String get adPurchaseLiveSuccess => 'Banner is live';
+
+  @override
+  String get adPurchaseQueuedSuccess =>
+      'Banner queued — goes live when a slot opens';
+
+  @override
+  String adSlotFree(String used, String max) {
+    return 'Slots $used/$max free — your banner goes live now';
+  }
+
+  @override
+  String adSlotFull(String pos, String max) {
+    return 'All $max slots full — you will be #$pos in queue';
+  }
+
+  @override
+  String get adMyBannersTitle => 'My banners';
+
+  @override
+  String get adMyBannersEmpty =>
+      'No banners yet. Buy one to promote your offer.';
+
+  @override
+  String get adStatImpressions => 'Views';
+
+  @override
+  String get adStatClicks => 'Clicks';
+
+  @override
+  String get adStatCtr => 'CTR';
+
+  @override
+  String get adStatusActive => 'Active';
+
+  @override
+  String get adStatusPaused => 'Paused';
+
+  @override
+  String get adStatusExpired => 'Expired';
+
+  @override
+  String get adStatusQueued => 'Queued';
+
+  @override
+  String adQueuePosition(String pos) {
+    return 'queue #$pos';
+  }
+
+  @override
+  String get adPauseCta => 'Pause';
+
+  @override
+  String get profileAdvertise => 'Advertise';
+
+  @override
+  String get profileSubtitleAdvertise => 'Banners, tariffs and stats';
+
+  @override
+  String get onboardingPartsTitle => 'Find the right auto parts';
+
+  @override
+  String get onboardingPartsBody =>
+      'Browse spare parts and accessories from sellers near you — or list what you sell.';
+
+  @override
+  String get onboardingServicesTitle => 'Trusted auto services nearby';
+
+  @override
+  String get onboardingServicesBody =>
+      'Discover workshops, see who is open, and book the help your car needs.';
+
+  @override
+  String get onboardingRequestsTitle => 'Post a request — sellers find you';
+
+  @override
+  String get onboardingRequestsBody =>
+      'Can\'t find a part? Leave a request and sellers will contact you.';
+
+  @override
+  String get onboardingGetStarted => 'Get started';
+
+  @override
+  String onboardingProgress(int current, int total) {
+    return 'Step $current of $total';
   }
 }

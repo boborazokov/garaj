@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
+import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/generated/l10n.dart';
 
-/// Compact facts row under the title — delivery + quantity/negotiable.
+/// Compact facts under the title — delivery + quantity/negotiable.
 class ProductInfo extends StatelessWidget {
   final String delivery;
   final bool condition;
@@ -44,11 +46,8 @@ class ProductInfo extends StatelessWidget {
     ];
 
     return SliverToBoxAdapter(
-      child: Container(
-        width: double.infinity,
-        margin: const EdgeInsets.only(top: 8),
-        color: colors.surface,
-        padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+      child: ProductSection(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Column(
           children: [
             for (var i = 0; i < rows.length; i++) ...[
@@ -58,7 +57,7 @@ class ProductInfo extends StatelessWidget {
                   height: 1,
                   indent: 16,
                   endIndent: 16,
-                  color: colors.border.withValues(alpha: 0.6),
+                  color: colors.divider,
                 ),
             ],
           ],
@@ -88,18 +87,28 @@ class _FactRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       child: Row(
         children: [
-          Icon(fact.icon, size: 18, color: colors.primary),
-          const SizedBox(width: 12),
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: colors.surfaceMuted,
+              borderRadius: AppRadius.rS,
+              border: Border.all(color: colors.border),
+            ),
+            alignment: Alignment.center,
+            child: Icon(fact.icon, size: 18, color: colors.textSecondary),
+          ),
+          const SizedBox(width: AppSpacing.m),
           Expanded(
             child: Text(
               fact.label,
-              style: TextStyle(
+              style: theme.textTheme.bodyMedium?.copyWith(
                 color: colors.textMuted,
-                fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -110,9 +119,8 @@ class _FactRow extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.end,
-              style: TextStyle(
+              style: theme.textTheme.bodyMedium?.copyWith(
                 color: colors.textPrimary,
-                fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
             ),

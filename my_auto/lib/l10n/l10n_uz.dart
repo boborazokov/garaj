@@ -1200,6 +1200,30 @@ class SUz extends S {
   String get createProductStepPreview => 'Ko\'rish';
 
   @override
+  String get createProductStepBoost => 'Topga';
+
+  @override
+  String get createProductBoostTitle => 'Topga ko\'tarish';
+
+  @override
+  String get createProductBoostSubtitle =>
+      'Tarifni tanlang yoki bepul e\'lon qiling. Keyinroq Mening e\'lonlarimdan ham ko\'tarishingiz mumkin.';
+
+  @override
+  String get createProductBoostFree => 'Bepul';
+
+  @override
+  String get createProductBoostFreeHint => 'Reklamasiz e\'lon qilish';
+
+  @override
+  String get createProductBoostPublishNeedsWallet =>
+      'E\'lon chop etildi. Ko\'tarish uchun hamyonni to\'ldiring.';
+
+  @override
+  String get createProductBoostPublishFailed =>
+      'E\'lon chop etildi, lekin ko\'tarish ishlamadi. Mening e\'lonlarimdan qayta urinib ko\'ring.';
+
+  @override
   String get createProductPreviewTitle => 'Oldindan ko\'rish';
 
   @override
@@ -1306,6 +1330,10 @@ class SUz extends S {
 
   @override
   String get createProductPriceTitle => 'Narxni belgilang';
+
+  @override
+  String get createProductPriceHint =>
+      'Faqat e\'lon narxi — reklama (TOP) keyinroq mening e\'lonlarimdan yoqiladi.';
 
   @override
   String createProductPriceSuggested(int price, String currency) {
@@ -2453,7 +2481,12 @@ class SUz extends S {
   String get promotePlanVip => 'VIP';
 
   @override
-  String get promotePlanTop => 'TOP';
+  String get promotePlanTop => 'Top';
+
+  @override
+  String walletPromoteBalance(String balance) {
+    return 'Hamyon: $balance';
+  }
 
   @override
   String promotePlanDuration(int days, int priority) {
@@ -2461,11 +2494,41 @@ class SUz extends S {
   }
 
   @override
-  String get activatePromotion => 'To\'lash va topga chiqarish';
+  String get activatePromotion => 'Targ\'ibni yoqish';
 
   @override
-  String get promotionActivatedSuccess =>
-      'To\'lov qabul qilindi — e\'lon topga chiqdi';
+  String get promotionActivatedSuccess => 'Targ\'ib muvaffaqiyatli yoqildi';
+
+  @override
+  String get promotionExtendedSuccess => 'Targ\'ib uzaytirildi';
+
+  @override
+  String get promotionCancelledSuccess => 'Targ\'ib o\'chirildi';
+
+  @override
+  String get promotionManage => 'Targ\'ibni boshqarish';
+
+  @override
+  String get promotionExtend => 'Uzaytirish / yaxshilash';
+
+  @override
+  String get promotionTurnOff => 'Targ\'ibni o\'chirish';
+
+  @override
+  String get promotionCancelTitle => 'Targ\'ibni o\'chirasizmi?';
+
+  @override
+  String get promotionCancelBody =>
+      'E\'lon darhol Topdan chiqadi. To\'langan vaqt qaytarilmaydi.';
+
+  @override
+  String promotionActiveUntil(String date) {
+    return '$date gacha faol';
+  }
+
+  @override
+  String get promotionExtendHint =>
+      'Qayta xarid joriy tugash sanasiga kun qo\'shadi.';
 
   @override
   String get notificationAccountVerifiedTitle => 'Siz tasdiqlandingiz';
@@ -2525,6 +2588,47 @@ class SUz extends S {
   String get notificationGenericAlertBody => 'Sizda yangi bildirishnoma bor.';
 
   @override
+  String get notificationWalletTopUpTitle => 'Hamyon to‘ldirildi';
+
+  @override
+  String notificationWalletTopUpBody(String amount) {
+    return '+$amount balansingizga qo‘shildi';
+  }
+
+  @override
+  String get notificationWalletTopUpBodyFallback =>
+      'Mablag‘ hamyoningizga qo‘shildi.';
+
+  @override
+  String get notificationWalletSpendTitle => 'Hamyondan yechib olindi';
+
+  @override
+  String notificationWalletSpendBody(String amount, String reason) {
+    return '−$amount · $reason';
+  }
+
+  @override
+  String get notificationWalletSpendBodyFallback =>
+      'Hamyoningizdan mablag‘ yechildi.';
+
+  @override
+  String notificationWalletReasonPromotion(String plan) {
+    return 'Topga ($plan)';
+  }
+
+  @override
+  String get notificationWalletReasonPromotionGeneric => 'Topga';
+
+  @override
+  String get notificationWalletReasonBooking => 'Xizmat bron komissiyasi';
+
+  @override
+  String get notificationWalletReasonAdmin => 'Admin tuzatishi';
+
+  @override
+  String get notificationWalletReasonOther => 'Hamyon yechimi';
+
+  @override
   String get pushChannelName => 'Garage bildirishnomalari';
 
   @override
@@ -2541,7 +2645,7 @@ class SUz extends S {
   String get walletSubtitle => 'Balans, to‘ldirish va tarix';
 
   @override
-  String get walletAvailable => 'Mavjud';
+  String get walletAvailable => 'Mavjud balans';
 
   @override
   String get walletMain => 'Asosiy';
@@ -2554,13 +2658,61 @@ class SUz extends S {
 
   @override
   String get walletTopUpHint =>
-      'Test to‘ldirish. Payme/Click keyinroq ulanadi.';
+      'To‘lov usulini tanlang. Payme, Click va Paynet tez orada — Telegram hozir ishlaydi.';
+
+  @override
+  String get walletPaymentMethods => 'To‘lov usullari';
+
+  @override
+  String walletPaymentComingSoonBody(String method) {
+    return '$method tez orada qo‘shiladi.';
+  }
+
+  @override
+  String get walletTelegramAvailable => 'Mavjud';
+
+  @override
+  String get walletTelegramOpen => 'Telegram orqali to‘ldirish';
+
+  @override
+  String get walletTelegramHint =>
+      'Hamyonni to‘ldirish uchun Telegram’da qo‘llab-quvvatlashni oching.';
+
+  @override
+  String get walletTxTopUp => 'To‘ldirish';
+
+  @override
+  String get walletTxSpend => 'To‘lov';
+
+  @override
+  String get walletTxDetails => 'Tranzaksiya tafsilotlari';
+
+  @override
+  String get walletTxId => 'Tranzaksiya ID';
+
+  @override
+  String get walletTxReference => 'Havola';
+
+  @override
+  String get walletTxDate => 'Sana';
+
+  @override
+  String get walletTxStatus => 'Holat';
+
+  @override
+  String get walletTxReason => 'Sabab';
+
+  @override
+  String get walletTxOpenRelated => 'Bog‘liqni ochish';
+
+  @override
+  String get walletTxCopyId => 'ID ni nusxalash';
 
   @override
   String get walletTopUpSuccess => 'Hamyon to‘ldirildi';
 
   @override
-  String get walletHistory => 'Tranzaksiyalar';
+  String get walletHistory => 'Tarix';
 
   @override
   String get walletEmptyHistory => 'Hali tranzaksiyalar yo‘q';
@@ -2587,5 +2739,211 @@ class SUz extends S {
   @override
   String walletBookingFeeLabel(int amount) {
     return 'Platforma to‘lovi: $amount UZS';
+  }
+
+  @override
+  String get adPlaceholderBadge => 'Reklama';
+
+  @override
+  String get adPlaceholderTitle => 'Mahsulotingizni shu yerda reklama qiling';
+
+  @override
+  String get adPlaceholderSubtitle => 'Bosib joylashuv va narxlarni ko‘ring';
+
+  @override
+  String get advertiseTitle => 'Autorin’da reklama';
+
+  @override
+  String get advertiseSubtitle =>
+      'Taklifingizni bosh sahifa, mahsulotlar, servislar va boshqa ekranlarda ko‘rsating. Joy va muddatni tanlang.';
+
+  @override
+  String get advertiseHowTitle => 'Qanday ishlaydi';
+
+  @override
+  String get advertiseHowBody =>
+      'Joy tanlang, 1 kun / 1 hafta / 1 oy / 3 oy muddatni belgilang — banner shu ekrandagi xaridorlarga chiqadi.';
+
+  @override
+  String get advertiseTariffsTitle => 'Tariflar';
+
+  @override
+  String get advertiseTariffsHint =>
+      'Narxlar UZS’da. Bosh sahifa yuqorisi — eng ko‘rinadigan joy.';
+
+  @override
+  String advertiseFromWeek(String amount) {
+    return '$amount UZS / haftadan';
+  }
+
+  @override
+  String get advertisePlanDay => '1 kun';
+
+  @override
+  String get advertisePlanWeek => '1 hafta';
+
+  @override
+  String get advertisePlanMonth => '1 oy';
+
+  @override
+  String get advertisePlanQuarter => '3 oy';
+
+  @override
+  String get advertisePlacementBrand => 'Bosh sahifa — yuqori banner';
+
+  @override
+  String get advertisePlacementPart => 'Mahsulotlar — ro‘yxatlar';
+
+  @override
+  String get advertisePlacementService => 'Servislar — hub va lenta';
+
+  @override
+  String get advertisePlacementAnnouncement => 'Buyurtmalar — yuqori';
+
+  @override
+  String get advertisePlacementTuning => 'Qidiruv — explore';
+
+  @override
+  String get advertisePlacementModel => 'Do‘kon sahifasi';
+
+  @override
+  String get advertiseBoostCta => 'Mahsulotimni ko‘tarish';
+
+  @override
+  String get advertiseWalletCta => 'Hamyonni ochish';
+
+  @override
+  String get advertiseContactHint =>
+      'Bannerlarni hozircha support / admin ulaydi. Mahsulot Top’ini e’londan o‘zingiz sotib olishingiz mumkin.';
+
+  @override
+  String get adPurchaseTitle => 'Banner sotib olish';
+
+  @override
+  String get adPurchaseFab => 'Banner olish';
+
+  @override
+  String get adPurchasePlacement => 'Joylashuv';
+
+  @override
+  String get adPurchasePlan => 'Muddat';
+
+  @override
+  String get adPurchaseTitleField => 'Banner sarlavhasi';
+
+  @override
+  String get adPurchaseLinkField => 'Havola / deep link';
+
+  @override
+  String get adPurchaseCreative => 'Kreativ';
+
+  @override
+  String get adPurchasePickImage => 'Rasm tanlash';
+
+  @override
+  String get adPurchasePreview => 'Preview';
+
+  @override
+  String get adPurchasePreviewCta => 'Preview';
+
+  @override
+  String get adPurchasePayCta => 'Hamyondan to‘lash';
+
+  @override
+  String adPurchaseWalletBalance(String amount) {
+    return 'Hamyon: $amount';
+  }
+
+  @override
+  String adPurchaseTotal(String amount) {
+    return 'Jami: $amount';
+  }
+
+  @override
+  String get adPurchaseLiveSuccess => 'Banner efirda';
+
+  @override
+  String get adPurchaseQueuedSuccess =>
+      'Banner navbatda — joy bo‘shaganda chiqadi';
+
+  @override
+  String adSlotFree(String used, String max) {
+    return 'Slotlar $used/$max — banner darhol chiqadi';
+  }
+
+  @override
+  String adSlotFull(String pos, String max) {
+    return 'Barcha $max slot band — navbatda #$pos';
+  }
+
+  @override
+  String get adMyBannersTitle => 'Mening bannerlarim';
+
+  @override
+  String get adMyBannersEmpty =>
+      'Hali banner yo‘q. Taklifingizni ko‘tarish uchun sotib oling.';
+
+  @override
+  String get adStatImpressions => 'Ko‘rishlar';
+
+  @override
+  String get adStatClicks => 'Bosishlar';
+
+  @override
+  String get adStatCtr => 'CTR';
+
+  @override
+  String get adStatusActive => 'Faol';
+
+  @override
+  String get adStatusPaused => 'Pauza';
+
+  @override
+  String get adStatusExpired => 'Tugagan';
+
+  @override
+  String get adStatusQueued => 'Navbatda';
+
+  @override
+  String adQueuePosition(String pos) {
+    return 'navbat #$pos';
+  }
+
+  @override
+  String get adPauseCta => 'Pauza';
+
+  @override
+  String get profileAdvertise => 'Reklama';
+
+  @override
+  String get profileSubtitleAdvertise => 'Bannerlar, tariflar va statistika';
+
+  @override
+  String get onboardingPartsTitle => 'Kerakli ehtiyot qismlarni toping';
+
+  @override
+  String get onboardingPartsBody =>
+      'Yaqin atrofdagi sotuvchilardan ehtiyot qism va aksessuarlarni ko‘ring — yoki o‘zingiz soting.';
+
+  @override
+  String get onboardingServicesTitle => 'Yaqin avto xizmatlar';
+
+  @override
+  String get onboardingServicesBody =>
+      'Ustaxonalarni toping, ochiqligini ko‘ring va mashinangiz uchun yordamga yoziling.';
+
+  @override
+  String get onboardingRequestsTitle => 'So‘rov qoldiring — sotuvchilar topadi';
+
+  @override
+  String get onboardingRequestsBody =>
+      'Qism topilmadi? So‘rov qoldiring — sotuvchilar o‘zlari bog‘lanadi.';
+
+  @override
+  String get onboardingGetStarted => 'Boshlash';
+
+  @override
+  String onboardingProgress(int current, int total) {
+    return '$current / $total-qadam';
   }
 }

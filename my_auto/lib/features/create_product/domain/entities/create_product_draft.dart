@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:my_auto/features/create_product/domain/entities/product_photo.dart';
+import 'package:my_auto/features/services/data/models/service_listing.dart';
 
 export 'product_photo.dart';
 
-enum CreateProductStep { photos, vehicle, info, price, preview }
+enum CreateProductStep { photos, vehicle, info, price, preview, boost }
 
 enum ProductCondition { newPart, used }
 
@@ -139,6 +140,7 @@ class CreateProductDraft extends Equatable {
     this.region = '',
     this.mapPoint,
     this.tags = const [],
+    this.promotionPlan,
     this.updatedAt,
   });
 
@@ -158,6 +160,8 @@ class CreateProductDraft extends Equatable {
   final String region;
   final LatLng? mapPoint;
   final List<String> tags;
+  /// null = publish free (no Top / promotion).
+  final ServicePromotionPlan? promotionPlan;
   final DateTime? updatedAt;
 
   String? get categoryId =>
@@ -209,6 +213,8 @@ class CreateProductDraft extends Equatable {
     String? region,
     LatLng? mapPoint,
     List<String>? tags,
+    ServicePromotionPlan? promotionPlan,
+    bool clearPromotionPlan = false,
     DateTime? updatedAt,
   }) {
     return CreateProductDraft(
@@ -228,6 +234,8 @@ class CreateProductDraft extends Equatable {
       region: region ?? this.region,
       mapPoint: mapPoint ?? this.mapPoint,
       tags: tags ?? this.tags,
+      promotionPlan:
+          clearPromotionPlan ? null : (promotionPlan ?? this.promotionPlan),
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
@@ -257,6 +265,7 @@ class CreateProductDraft extends Equatable {
       'mapLat': mapPoint?.latitude,
       'mapLng': mapPoint?.longitude,
       'tags': tags,
+      'promotionPlan': promotionPlan?.api,
       'updatedAt': updatedAt?.toIso8601String(),
     };
   }
@@ -301,6 +310,7 @@ class CreateProductDraft extends Equatable {
             )
           : null,
       tags: (json['tags'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      promotionPlan: _planFromJson(json['promotionPlan'] as String?),
       updatedAt: json['updatedAt'] != null
           ? DateTime.tryParse(json['updatedAt'] as String)
           : null,
@@ -325,8 +335,18 @@ class CreateProductDraft extends Equatable {
         region,
         mapPoint,
         tags,
+        promotionPlan,
         updatedAt,
       ];
+}
+
+ServicePromotionPlan? _planFromJson(String? api) {
+  if (api == null || api.isEmpty) return null;
+  final normalized = api.toUpperCase();
+  for (final p in ServicePromotionPlan.values) {
+    if (p.api == normalized) return p;
+  }
+  return null;
 }
 
 CreateProductStep _stepFromJson(String? name) {

@@ -31,7 +31,7 @@ class SellerProfileError extends StatelessWidget {
             Text(
               s.unableToLoadStore,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
             ),
             const SizedBox(height: 8),
             Text(

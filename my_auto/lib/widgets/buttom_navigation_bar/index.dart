@@ -115,14 +115,14 @@ class _CenterFab extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 54,
-        height: 54,
+        width: 52,
+        height: 52,
         decoration: BoxDecoration(
           color: colors.primary,
           shape: BoxShape.circle,
-          border: Border.all(color: colors.background, width: 4),
+          border: Border.all(color: colors.surface, width: 3),
         ),
-        child: Icon(LucideIcons.plus, color: colors.background, size: 24),
+        child: Icon(LucideIcons.plus, color: colors.onPrimary, size: 22),
       ),
     );
   }
@@ -151,7 +151,6 @@ class _AppBottomBar extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: colors.surface,
-          boxShadow: AppShadows.floating(context),
           border: Border(top: BorderSide(color: colors.border)),
         ),
         padding: const EdgeInsets.only(top: 8, bottom: 8),
@@ -229,22 +228,12 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AnimatedContainer(
-              duration: AppMotion.fast,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-              decoration: BoxDecoration(
-                color: isActive
-                    ? colors.primary.withOpacity(0.15)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(999),
-              ),
-              child: Icon(
-                isActive ? activeIcon : icon,
-                size: 22,
-                color: color,
-              ),
+            Icon(
+              isActive ? activeIcon : icon,
+              size: 22,
+              color: color,
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 4),
             Text(
               label,
               maxLines: 1,
@@ -252,7 +241,7 @@ class _NavItem extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 10.5,
-                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                 color: color,
               ),
             ),
@@ -326,7 +315,7 @@ class _AddActionSheet extends StatelessWidget {
           Text(
             s.whatDoYouWantSell,
             style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 4),
@@ -338,8 +327,6 @@ class _AddActionSheet extends StatelessWidget {
           _AddOptionTile(
             colors: colors,
             icon: LucideIcons.packagePlus,
-            iconColor: colors.primary,
-            iconBg: colors.primary.withValues(alpha: 0.15),
             title: s.homeQuickSellProduct,
             subtitle: s.parts,
             onTap: () => _runProtected(
@@ -348,12 +335,10 @@ class _AddActionSheet extends StatelessWidget {
               route: RoutesName.addProduct,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           _AddOptionTile(
             colors: colors,
             icon: LucideIcons.clipboardList,
-            iconColor: colors.success,
-            iconBg: colors.success.withValues(alpha: 0.15),
             title: s.createOrder,
             subtitle: s.createRequestSubtitle,
             onTap: () => _runProtected(
@@ -362,12 +347,10 @@ class _AddActionSheet extends StatelessWidget {
               route: RoutesName.createOrder,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           _AddOptionTile(
             colors: colors,
             icon: LucideIcons.wrench,
-            iconColor: colors.info,
-            iconBg: colors.info.withValues(alpha: 0.12),
             title: s.homeQuickAddWorkshop,
             subtitle: s.services,
             onTap: () => _runProtected(
@@ -385,8 +368,6 @@ class _AddActionSheet extends StatelessWidget {
 class _AddOptionTile extends StatelessWidget {
   final AppColors colors;
   final IconData icon;
-  final Color iconColor;
-  final Color iconBg;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
@@ -394,8 +375,6 @@ class _AddOptionTile extends StatelessWidget {
   const _AddOptionTile({
     required this.colors,
     required this.icon,
-    required this.iconColor,
-    required this.iconBg,
     required this.title,
     required this.subtitle,
     required this.onTap,
@@ -405,23 +384,28 @@ class _AddOptionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      color: colors.surfaceMuted,
+      color: colors.surface,
       borderRadius: AppRadius.rL,
       child: InkWell(
         onTap: onTap,
         borderRadius: AppRadius.rL,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: AppRadius.rL,
+            border: Border.all(color: colors.border),
+          ),
           child: Row(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: 44,
+                height: 44,
                 decoration: BoxDecoration(
-                  color: iconBg,
+                  color: colors.surfaceMuted,
                   borderRadius: AppRadius.rM,
+                  border: Border.all(color: colors.border),
                 ),
-                child: Icon(icon, color: iconColor, size: 22),
+                child: Icon(icon, color: colors.textSecondary, size: 20),
               ),
               const SizedBox(width: AppSpacing.m),
               Expanded(
@@ -431,7 +415,7 @@ class _AddOptionTile extends StatelessWidget {
                     Text(
                       title,
                       style: theme.textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 2),
                     Text(

@@ -110,7 +110,7 @@ class _OrderDetailView extends StatelessWidget {
                       surfaceTintColor: Colors.transparent,
                       title: Text(
                         s.wantToBuyRequestBadge,
-                        style: const TextStyle(fontWeight: FontWeight.w800),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
                     if (hasImages)
@@ -151,14 +151,14 @@ class _OrderDetailView extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.w800),
+                                    ?.copyWith(fontWeight: FontWeight.w600),
                               ),
                             ),
                             Text(
                               s.orderDetailOffersCount(state.responses.length),
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w500,
                                 color: colors.textMuted,
                               ),
                             ),
@@ -316,9 +316,9 @@ class _RequestHeader extends StatelessWidget {
           Text(
             _budgetLabel(context, order),
             style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               color: colors.primary,
-              letterSpacing: -0.6,
+              letterSpacing: -0.4,
               height: 1.1,
             ),
           ),
@@ -327,7 +327,7 @@ class _RequestHeader extends StatelessWidget {
             s.wantToBuyBudget,
             style: TextStyle(
               fontSize: 12,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               color: colors.textMuted,
             ),
           ),
@@ -335,8 +335,8 @@ class _RequestHeader extends StatelessWidget {
           Text(
             order.title,
             style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.3,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -0.2,
               height: 1.25,
               color: colors.textPrimary,
             ),
@@ -407,7 +407,7 @@ class _DescriptionBlock extends StatelessWidget {
           Text(
             s.description,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                 ),
           ),
           const SizedBox(height: 8),
@@ -573,7 +573,7 @@ class _MetaChip extends StatelessWidget {
         label,
         style: TextStyle(
           fontSize: 12,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
           color: fg,
         ),
       ),
@@ -682,7 +682,7 @@ class _SellerBottomBar extends StatelessWidget {
                   child: Text(
                     s.wantToBuyRespond,
                     style: const TextStyle(
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                       fontSize: 15,
                     ),
                   ),
@@ -806,7 +806,7 @@ class _OfferSheetState extends State<_OfferSheet> {
                 s.orderDetailYourOffer,
                 style: const TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 6),
@@ -940,7 +940,7 @@ class _SimilarOrdersSectionState extends State<_SimilarOrdersSection> {
           Text(
             s.similarOrders,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                 ),
           ),
           const SizedBox(height: 12),

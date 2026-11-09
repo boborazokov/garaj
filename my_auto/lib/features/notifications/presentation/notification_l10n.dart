@@ -43,6 +43,7 @@ LocalizedNotificationCopy localizeRemoteMessage(
     type: type,
     title: title,
     body: body,
+    data: data,
   );
 }
 
@@ -52,7 +53,17 @@ LocalizedNotificationCopy localizePushPayload(
   required String type,
   required String title,
   required String body,
+  Map<String, dynamic>? data,
 }) {
+  final walletCopy = _localizeWallet(
+    s,
+    type: type,
+    title: title,
+    body: body,
+    data: data,
+  );
+  if (walletCopy != null) return walletCopy;
+
   return localizeNotification(
     s,
     AppNotification(
@@ -131,6 +142,16 @@ LocalizedNotificationCopy localizeNotification(S s, AppNotification n) {
       return LocalizedNotificationCopy(
         title: _nonEmpty(title, s.notificationWorkshopBookingTitle),
         body: _nonEmpty(body, s.notificationWorkshopBookingBody),
+      );
+    case PushEventTypes.walletTopUp:
+      return LocalizedNotificationCopy(
+        title: s.notificationWalletTopUpTitle,
+        body: _nonEmpty(body, s.notificationWalletTopUpBodyFallback),
+      );
+    case PushEventTypes.walletSpend:
+      return LocalizedNotificationCopy(
+        title: s.notificationWalletSpendTitle,
+        body: _nonEmpty(body, s.notificationWalletSpendBodyFallback),
       );
     default:
       final legacy = _matchLegacyEnglish(s, title, body);
@@ -272,4 +293,69 @@ LocalizedNotificationCopy? _matchLegacyEnglish(
 String _nonEmpty(String value, String fallback) {
   final trimmed = value.trim();
   return trimmed.isEmpty ? fallback : trimmed;
+}
+
+LocalizedNotificationCopy? _localizeWallet(
+  S s, {
+  required String type,
+  required String title,
+  required String body,
+  Map<String, dynamic>? data,
+}) {
+  final normalized = type.trim();
+  final isTopUp = normalized == PushEventTypes.walletTopUp;
+  final isSpend = normalized == PushEventTypes.walletSpend;
+  if (!isTopUp && !isSpend) return null;
+
+  final amountLabel = data?[PushDataKeys.amountLabel]?.toString().trim();
+  final amount = data?[PushDataKeys.amount]?.toString().trim();
+  final currency = data?[PushDataKeys.currency]?.toString().trim() ?? 'UZS';
+  final resolvedAmount = (amountLabel != null && amountLabel.isNotEmpty)
+      ? amountLabel
+      : (amount != null && amount.isNotEmpty)
+          ? '$amount $currency'
+          : '';
+
+  if (isTopUp) {
+    return LocalizedNotificationCopy(
+      title: s.notificationWalletTopUpTitle,
+      body: resolvedAmount.isNotEmpty
+          ? s.notificationWalletTopUpBody(resolvedAmount)
+          : _nonEmpty(body, s.notificationWalletTopUpBodyFallback),
+    );
+  }
+
+  final reasonCode = data?[PushDataKeys.reasonCode]?.toString().trim() ?? '';
+  final plan = data?[PushDataKeys.plan]?.toString().trim() ?? '';
+  final rawReason = data?[PushDataKeys.reason]?.toString().trim() ?? '';
+  final reason = _walletReasonLabel(s, reasonCode, plan, rawReason);
+
+  return LocalizedNotificationCopy(
+    title: s.notificationWalletSpendTitle,
+    body: resolvedAmount.isNotEmpty
+        ? s.notificationWalletSpendBody(resolvedAmount, reason)
+        : _nonEmpty(body, s.notificationWalletSpendBodyFallback),
+  );
+}
+
+String _walletReasonLabel(
+  S s,
+  String reasonCode,
+  String plan,
+  String rawReason,
+) {
+  switch (reasonCode) {
+    case 'promotion':
+      return plan.isNotEmpty
+          ? s.notificationWalletReasonPromotion(plan)
+          : s.notificationWalletReasonPromotionGeneric;
+    case 'booking':
+      return s.notificationWalletReasonBooking;
+    case 'admin':
+      return s.notificationWalletReasonAdmin;
+    default:
+      return rawReason.isNotEmpty
+          ? rawReason
+          : s.notificationWalletReasonOther;
+  }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/provider/add/getCotegories.dart';
+import 'package:my_auto/features/advertisement/domain/advertisement.dart';
+import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/home/widgets/gridCotegory/index.dart';
-import 'package:my_auto/features/home/widgets/slider/index.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -35,7 +36,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           child: Column(
             children: [
               const SizedBox(height: 8),
-              const SliderHome(),
+              const AdBanner(
+                surface: AdSurface.part,
+                height: 140,
+                margin: EdgeInsets.zero,
+              ),
               const SizedBox(height: 16),
               Expanded(
                 child: provider.isLoading && provider.categories.isEmpty

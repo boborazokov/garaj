@@ -2349,6 +2349,48 @@ abstract class S {
   /// **'Preview'**
   String get createProductStepPreview;
 
+  /// No description provided for @createProductStepBoost.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to Top'**
+  String get createProductStepBoost;
+
+  /// No description provided for @createProductBoostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to Top'**
+  String get createProductBoostTitle;
+
+  /// No description provided for @createProductBoostSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a boost plan or publish for free. You can promote later from My ads.'**
+  String get createProductBoostSubtitle;
+
+  /// No description provided for @createProductBoostFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get createProductBoostFree;
+
+  /// No description provided for @createProductBoostFreeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish without promotion'**
+  String get createProductBoostFreeHint;
+
+  /// No description provided for @createProductBoostPublishNeedsWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing published. Top up your wallet to activate the boost.'**
+  String get createProductBoostPublishNeedsWallet;
+
+  /// No description provided for @createProductBoostPublishFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing published, but the boost could not be activated. Try again from My ads.'**
+  String get createProductBoostPublishFailed;
+
   /// No description provided for @createProductPreviewTitle.
   ///
   /// In en, this message translates to:
@@ -2546,6 +2588,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Set your price'**
   String get createProductPriceTitle;
+
+  /// No description provided for @createProductPriceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing price only — promotion is optional later from your ads.'**
+  String get createProductPriceHint;
 
   /// No description provided for @createProductPriceSuggested.
   ///
@@ -4679,6 +4727,18 @@ abstract class S {
   /// **'VIP'**
   String get promotePlanVip;
 
+  /// No description provided for @promotePlanTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Top'**
+  String get promotePlanTop;
+
+  /// No description provided for @walletPromoteBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet: {balance}'**
+  String walletPromoteBalance(String balance);
+
   /// No description provided for @promotePlanDuration.
   ///
   /// In en, this message translates to:
@@ -4696,6 +4756,60 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Promotion activated successfully'**
   String get promotionActivatedSuccess;
+
+  /// No description provided for @promotionExtendedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Promotion extended'**
+  String get promotionExtendedSuccess;
+
+  /// No description provided for @promotionCancelledSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Promotion turned off'**
+  String get promotionCancelledSuccess;
+
+  /// No description provided for @promotionManage.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage promotion'**
+  String get promotionManage;
+
+  /// No description provided for @promotionExtend.
+  ///
+  /// In en, this message translates to:
+  /// **'Extend / upgrade'**
+  String get promotionExtend;
+
+  /// No description provided for @promotionTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off promotion'**
+  String get promotionTurnOff;
+
+  /// No description provided for @promotionCancelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off promotion?'**
+  String get promotionCancelTitle;
+
+  /// No description provided for @promotionCancelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The listing leaves Top immediately. Paid time is not refunded.'**
+  String get promotionCancelBody;
+
+  /// No description provided for @promotionActiveUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Active until {date}'**
+  String promotionActiveUntil(String date);
+
+  /// No description provided for @promotionExtendHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy again to add days from the current end date.'**
+  String get promotionExtendHint;
 
   /// No description provided for @notificationAccountVerifiedTitle.
   ///
@@ -4799,6 +4913,72 @@ abstract class S {
   /// **'You have a new alert.'**
   String get notificationGenericAlertBody;
 
+  /// No description provided for @notificationWalletTopUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet topped up'**
+  String get notificationWalletTopUpTitle;
+
+  /// No description provided for @notificationWalletTopUpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'+{amount} added to your balance'**
+  String notificationWalletTopUpBody(String amount);
+
+  /// No description provided for @notificationWalletTopUpBodyFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Funds were added to your wallet.'**
+  String get notificationWalletTopUpBodyFallback;
+
+  /// No description provided for @notificationWalletSpendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet charge'**
+  String get notificationWalletSpendTitle;
+
+  /// No description provided for @notificationWalletSpendBody.
+  ///
+  /// In en, this message translates to:
+  /// **'−{amount} · {reason}'**
+  String notificationWalletSpendBody(String amount, String reason);
+
+  /// No description provided for @notificationWalletSpendBodyFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Money was charged from your wallet.'**
+  String get notificationWalletSpendBodyFallback;
+
+  /// No description provided for @notificationWalletReasonPromotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to Top ({plan})'**
+  String notificationWalletReasonPromotion(String plan);
+
+  /// No description provided for @notificationWalletReasonPromotionGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to Top'**
+  String get notificationWalletReasonPromotionGeneric;
+
+  /// No description provided for @notificationWalletReasonBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Service booking fee'**
+  String get notificationWalletReasonBooking;
+
+  /// No description provided for @notificationWalletReasonAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin adjustment'**
+  String get notificationWalletReasonAdmin;
+
+  /// No description provided for @notificationWalletReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet charge'**
+  String get notificationWalletReasonOther;
+
   /// No description provided for @pushChannelName.
   ///
   /// In en, this message translates to:
@@ -4832,7 +5012,7 @@ abstract class S {
   /// No description provided for @walletAvailable.
   ///
   /// In en, this message translates to:
-  /// **'Available'**
+  /// **'Available balance'**
   String get walletAvailable;
 
   /// No description provided for @walletMain.
@@ -4856,8 +5036,98 @@ abstract class S {
   /// No description provided for @walletTopUpHint.
   ///
   /// In en, this message translates to:
-  /// **'Mock top-up for testing. Real Payme/Click comes later.'**
+  /// **'Choose a payment method. Payme, Click and Paynet are coming soon — Telegram is available now.'**
   String get walletTopUpHint;
+
+  /// No description provided for @walletPaymentMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment methods'**
+  String get walletPaymentMethods;
+
+  /// No description provided for @walletPaymentComingSoonBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{method} will be available soon.'**
+  String walletPaymentComingSoonBody(String method);
+
+  /// No description provided for @walletTelegramAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get walletTelegramAvailable;
+
+  /// No description provided for @walletTelegramOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Top up via Telegram'**
+  String get walletTelegramOpen;
+
+  /// No description provided for @walletTelegramHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Telegram to top up your wallet with our support.'**
+  String get walletTelegramHint;
+
+  /// No description provided for @walletTxTopUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Top up'**
+  String get walletTxTopUp;
+
+  /// No description provided for @walletTxSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get walletTxSpend;
+
+  /// No description provided for @walletTxDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction details'**
+  String get walletTxDetails;
+
+  /// No description provided for @walletTxId.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction ID'**
+  String get walletTxId;
+
+  /// No description provided for @walletTxReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference'**
+  String get walletTxReference;
+
+  /// No description provided for @walletTxDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get walletTxDate;
+
+  /// No description provided for @walletTxStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get walletTxStatus;
+
+  /// No description provided for @walletTxReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get walletTxReason;
+
+  /// No description provided for @walletTxOpenRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'Open related'**
+  String get walletTxOpenRelated;
+
+  /// No description provided for @walletTxCopyId.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy ID'**
+  String get walletTxCopyId;
 
   /// No description provided for @walletTopUpSuccess.
   ///
@@ -4918,6 +5188,372 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Platform fee: {amount} UZS'**
   String walletBookingFeeLabel(int amount);
+
+  /// No description provided for @adPlaceholderBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad slot'**
+  String get adPlaceholderBadge;
+
+  /// No description provided for @adPlaceholderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Advertise your product here'**
+  String get adPlaceholderTitle;
+
+  /// No description provided for @adPlaceholderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to see placements and prices'**
+  String get adPlaceholderSubtitle;
+
+  /// No description provided for @advertiseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Advertise on Autorin'**
+  String get advertiseTitle;
+
+  /// No description provided for @advertiseSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Put your offer on home, products, services and more. Pick a slot and duration.'**
+  String get advertiseSubtitle;
+
+  /// No description provided for @advertiseHowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How it works'**
+  String get advertiseHowTitle;
+
+  /// No description provided for @advertiseHowBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.'**
+  String get advertiseHowBody;
+
+  /// No description provided for @advertiseTariffsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tariffs'**
+  String get advertiseTariffsTitle;
+
+  /// No description provided for @advertiseTariffsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices in UZS. Home top is the most visible slot.'**
+  String get advertiseTariffsHint;
+
+  /// No description provided for @advertiseFromWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'from {amount} UZS / week'**
+  String advertiseFromWeek(String amount);
+
+  /// No description provided for @advertisePlanDay.
+  ///
+  /// In en, this message translates to:
+  /// **'1 day'**
+  String get advertisePlanDay;
+
+  /// No description provided for @advertisePlanWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'1 week'**
+  String get advertisePlanWeek;
+
+  /// No description provided for @advertisePlanMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'1 month'**
+  String get advertisePlanMonth;
+
+  /// No description provided for @advertisePlanQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'3 months'**
+  String get advertisePlanQuarter;
+
+  /// No description provided for @advertisePlacementBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Home — top banner'**
+  String get advertisePlacementBrand;
+
+  /// No description provided for @advertisePlacementPart.
+  ///
+  /// In en, this message translates to:
+  /// **'Products — lists'**
+  String get advertisePlacementPart;
+
+  /// No description provided for @advertisePlacementService.
+  ///
+  /// In en, this message translates to:
+  /// **'Services — hub & feed'**
+  String get advertisePlacementService;
+
+  /// No description provided for @advertisePlacementAnnouncement.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests — top'**
+  String get advertisePlacementAnnouncement;
+
+  /// No description provided for @advertisePlacementTuning.
+  ///
+  /// In en, this message translates to:
+  /// **'Search — explore'**
+  String get advertisePlacementTuning;
+
+  /// No description provided for @advertisePlacementModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Store page'**
+  String get advertisePlacementModel;
+
+  /// No description provided for @advertiseBoostCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Boost my product'**
+  String get advertiseBoostCta;
+
+  /// No description provided for @advertiseWalletCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Open wallet'**
+  String get advertiseWalletCta;
+
+  /// No description provided for @advertiseContactHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Banner creatives are set up with support / admin for now. Product Top you can buy yourself from the listing.'**
+  String get advertiseContactHint;
+
+  /// No description provided for @adPurchaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy a banner'**
+  String get adPurchaseTitle;
+
+  /// No description provided for @adPurchaseFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy banner'**
+  String get adPurchaseFab;
+
+  /// No description provided for @adPurchasePlacement.
+  ///
+  /// In en, this message translates to:
+  /// **'Placement'**
+  String get adPurchasePlacement;
+
+  /// No description provided for @adPurchasePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get adPurchasePlan;
+
+  /// No description provided for @adPurchaseTitleField.
+  ///
+  /// In en, this message translates to:
+  /// **'Banner title'**
+  String get adPurchaseTitleField;
+
+  /// No description provided for @adPurchaseLinkField.
+  ///
+  /// In en, this message translates to:
+  /// **'Link / deep link'**
+  String get adPurchaseLinkField;
+
+  /// No description provided for @adPurchaseCreative.
+  ///
+  /// In en, this message translates to:
+  /// **'Creative'**
+  String get adPurchaseCreative;
+
+  /// No description provided for @adPurchasePickImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose banner image'**
+  String get adPurchasePickImage;
+
+  /// No description provided for @adPurchasePreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get adPurchasePreview;
+
+  /// No description provided for @adPurchasePreviewCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get adPurchasePreviewCta;
+
+  /// No description provided for @adPurchasePayCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay from wallet'**
+  String get adPurchasePayCta;
+
+  /// No description provided for @adPurchaseWalletBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet: {amount}'**
+  String adPurchaseWalletBalance(String amount);
+
+  /// No description provided for @adPurchaseTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: {amount}'**
+  String adPurchaseTotal(String amount);
+
+  /// No description provided for @adPurchaseLiveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Banner is live'**
+  String get adPurchaseLiveSuccess;
+
+  /// No description provided for @adPurchaseQueuedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Banner queued — goes live when a slot opens'**
+  String get adPurchaseQueuedSuccess;
+
+  /// No description provided for @adSlotFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Slots {used}/{max} free — your banner goes live now'**
+  String adSlotFree(String used, String max);
+
+  /// No description provided for @adSlotFull.
+  ///
+  /// In en, this message translates to:
+  /// **'All {max} slots full — you will be #{pos} in queue'**
+  String adSlotFull(String pos, String max);
+
+  /// No description provided for @adMyBannersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My banners'**
+  String get adMyBannersTitle;
+
+  /// No description provided for @adMyBannersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No banners yet. Buy one to promote your offer.'**
+  String get adMyBannersEmpty;
+
+  /// No description provided for @adStatImpressions.
+  ///
+  /// In en, this message translates to:
+  /// **'Views'**
+  String get adStatImpressions;
+
+  /// No description provided for @adStatClicks.
+  ///
+  /// In en, this message translates to:
+  /// **'Clicks'**
+  String get adStatClicks;
+
+  /// No description provided for @adStatCtr.
+  ///
+  /// In en, this message translates to:
+  /// **'CTR'**
+  String get adStatCtr;
+
+  /// No description provided for @adStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get adStatusActive;
+
+  /// No description provided for @adStatusPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get adStatusPaused;
+
+  /// No description provided for @adStatusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get adStatusExpired;
+
+  /// No description provided for @adStatusQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Queued'**
+  String get adStatusQueued;
+
+  /// No description provided for @adQueuePosition.
+  ///
+  /// In en, this message translates to:
+  /// **'queue #{pos}'**
+  String adQueuePosition(String pos);
+
+  /// No description provided for @adPauseCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get adPauseCta;
+
+  /// No description provided for @profileAdvertise.
+  ///
+  /// In en, this message translates to:
+  /// **'Advertise'**
+  String get profileAdvertise;
+
+  /// No description provided for @profileSubtitleAdvertise.
+  ///
+  /// In en, this message translates to:
+  /// **'Banners, tariffs and stats'**
+  String get profileSubtitleAdvertise;
+
+  /// No description provided for @onboardingPartsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find the right auto parts'**
+  String get onboardingPartsTitle;
+
+  /// No description provided for @onboardingPartsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse spare parts and accessories from sellers near you — or list what you sell.'**
+  String get onboardingPartsBody;
+
+  /// No description provided for @onboardingServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted auto services nearby'**
+  String get onboardingServicesTitle;
+
+  /// No description provided for @onboardingServicesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover workshops, see who is open, and book the help your car needs.'**
+  String get onboardingServicesBody;
+
+  /// No description provided for @onboardingRequestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Post a request — sellers find you'**
+  String get onboardingRequestsTitle;
+
+  /// No description provided for @onboardingRequestsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t find a part? Leave a request and sellers will contact you.'**
+  String get onboardingRequestsBody;
+
+  /// No description provided for @onboardingGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingGetStarted;
+
+  /// No description provided for @onboardingProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String onboardingProgress(int current, int total);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

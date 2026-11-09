@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/model/categoryCar/index.dart';
 import 'package:my_auto/core/provider/language/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
+import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/place_label.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/card_date_region.dart';
 import 'package:provider/provider.dart';
@@ -71,113 +72,116 @@ class ProductTitle extends StatelessWidget {
       if (carModel != null) carModel!.localizedName(lang),
     ].where(_hasVehicleName).join(' · ');
     final categoryName = category?.localizedName(lang).trim() ?? '';
+    final place = regionOnlyLabel(location);
 
     return SliverToBoxAdapter(
-      child: Container(
-        width: double.infinity,
-        color: colors.surface,
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+      child: ProductSection(
+        margin: const EdgeInsets.fromLTRB(
+          MarketUi.spacingMD,
+          MarketUi.sectionGap,
+          MarketUi.spacingMD,
+          0,
+        ),
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               showPrice ? _formatPrice() : s.negotiable,
               style: theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w900,
-                color: colors.primary,
-                letterSpacing: -0.6,
-                height: 1.1,
+                fontWeight: FontWeight.w700,
+                color: colors.textPrimary,
+                letterSpacing: -0.5,
+                height: 1.05,
               ),
             ),
             if (negotiable && showPrice) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: AppSpacing.xs),
               Text(
                 s.negotiable,
-                style: TextStyle(
-                  color: colors.textMuted,
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: colors.primary,
                   fontWeight: FontWeight.w600,
-                  fontSize: 13,
                 ),
               ),
             ],
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.m),
             Text(
               name,
               style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w800,
-                letterSpacing: -0.3,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.25,
                 height: 1.25,
                 color: colors.textPrimary,
               ),
             ),
             if (vehicle.isNotEmpty) ...[
-              const SizedBox(height: 6),
+              const SizedBox(height: AppSpacing.s),
               Text(
                 vehicle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   color: colors.textSecondary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.m),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: AppSpacing.s,
+              runSpacing: AppSpacing.s,
               children: [
                 if (isPromoted)
                   _MetaChip(
-                    icon: LucideIcons.flame,
                     label: s.promotedBadge,
-                    foreground: colors.onPrimary,
-                    background: colors.primary,
+                    foreground: colors.primary,
+                    background: colors.primary.withValues(alpha: 0.1),
+                    borderColor: colors.primary.withValues(alpha: 0.22),
+                    showBayDot: true,
                   ),
                 if (condition != null)
                   _MetaChip(
-                    icon: condition!
-                        ? LucideIcons.sparkles
-                        : LucideIcons.package,
                     label: condition! ? s.newPart : s.used,
-                    foreground: Colors.white,
-                    background: condition! ? colors.success : colors.warning,
+                    foreground: colors.textSecondary,
+                    background: colors.surfaceMuted,
                   ),
                 if (categoryName.isNotEmpty)
                   _MetaChip(
-                    icon: LucideIcons.tag,
                     label: categoryName,
-                    foreground: colors.primary,
-                    background: colors.primary.withValues(alpha: 0.12),
+                    foreground: colors.textSecondary,
+                    background: colors.surfaceMuted,
                   ),
               ],
             ),
-            const SizedBox(height: 12),
-            CardDateRegion(
-              createdAt: createdDate,
-              region: region,
-              fontSize: 13,
+            const SizedBox(height: AppSpacing.m),
+            Row(
+              children: [
+                Expanded(
+                  child: CardDateRegion(
+                    createdAt: createdDate,
+                    region: region,
+                    fontSize: 13,
+                  ),
+                ),
+                Text(
+                  '$viewsCount ${s.views}',
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: colors.textMuted,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 6),
-            Text(
-              '$viewsCount ${s.views}',
-              style: TextStyle(
-                color: colors.textMuted,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            if (regionOnlyLabel(location).isNotEmpty &&
-                regionOnlyLabel(location) != regionOnlyLabel(region)) ...[
-              const SizedBox(height: 4),
+            if (place.isNotEmpty &&
+                place != regionOnlyLabel(region)) ...[
+              const SizedBox(height: AppSpacing.s),
               Text(
                 location.trim(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.textSecondary,
-                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -191,36 +195,49 @@ class ProductTitle extends StatelessWidget {
 
 class _MetaChip extends StatelessWidget {
   const _MetaChip({
-    required this.icon,
     required this.label,
     required this.foreground,
     required this.background,
+    this.borderColor,
+    this.showBayDot = false,
   });
 
-  final IconData icon;
   final String label;
   final Color foreground;
   final Color background;
+  final Color? borderColor;
+  final bool showBayDot;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: AppRadius.rS,
+        border: Border.all(color: borderColor ?? colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 13, color: foreground),
-          const SizedBox(width: 5),
+          if (showBayDot) ...[
+            Container(
+              width: 6,
+              height: 6,
+              decoration: BoxDecoration(
+                color: colors.primary,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(width: 6),
+          ],
           Text(
             label,
             style: TextStyle(
               color: foreground,
               fontSize: 12,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],

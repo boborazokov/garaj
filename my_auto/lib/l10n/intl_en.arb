@@ -422,6 +422,13 @@
   "createProductStepPrice": "Price",
   "createProductStepLocation": "Location",
   "createProductStepPreview": "Preview",
+  "createProductStepBoost": "Move to Top",
+  "createProductBoostTitle": "Move to Top",
+  "createProductBoostSubtitle": "Choose a boost plan or publish for free. You can promote later from My ads.",
+  "createProductBoostFree": "Free",
+  "createProductBoostFreeHint": "Publish without promotion",
+  "createProductBoostPublishNeedsWallet": "Listing published. Top up your wallet to activate the boost.",
+  "createProductBoostPublishFailed": "Listing published, but the boost could not be activated. Try again from My ads.",
   "createProductPreviewTitle": "Preview",
   "createProductPreviewSubtitle": "This is how buyers will see your listing.",
   "createProductLocationTitle": "Where is the part?",
@@ -461,6 +468,7 @@
   "createProductSelect": "Select",
   "createProductNoModels": "No models for this brand. Pick another brand or add models in admin.",
   "createProductPriceTitle": "Set your price",
+  "createProductPriceHint": "Listing price only — promotion is optional later from your ads.",
   "createProductPriceSuggested": "Suggested around {price} {currency}",
   "@createProductPriceSuggested": {
     "placeholders": {
@@ -890,7 +898,13 @@
   "promotePlanStandard": "Standard",
   "promotePlanPremium": "Premium",
   "promotePlanVip": "VIP",
-  "promotePlanTop": "TOP",
+  "promotePlanTop": "Top",
+  "walletPromoteBalance": "Wallet: {balance}",
+  "@walletPromoteBalance": {
+    "placeholders": {
+      "balance": {"type": "String"}
+    }
+  },
   "promotePlanDuration": "{days} days · priority {priority}",
   "@promotePlanDuration": {
     "placeholders": {
@@ -898,8 +912,22 @@
       "priority": {"type": "int"}
     }
   },
-  "activatePromotion": "Pay & move to top",
-  "promotionActivatedSuccess": "Payment received — listing is now on top",
+  "activatePromotion": "Activate promotion",
+  "promotionActivatedSuccess": "Promotion activated successfully",
+  "promotionExtendedSuccess": "Promotion extended",
+  "promotionCancelledSuccess": "Promotion turned off",
+  "promotionManage": "Manage promotion",
+  "promotionExtend": "Extend / upgrade",
+  "promotionTurnOff": "Turn off promotion",
+  "promotionCancelTitle": "Turn off promotion?",
+  "promotionCancelBody": "The listing leaves Top immediately. Paid time is not refunded.",
+  "promotionActiveUntil": "Active until {date}",
+  "@promotionActiveUntil": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "promotionExtendHint": "Buy again to add days from the current end date.",
   "notificationAccountVerifiedTitle": "You are verified",
   "notificationAccountVerifiedBody": "Your account is now verified by the AutoRin team.",
   "notificationNewFollowerTitle": "New follower",
@@ -917,16 +945,63 @@
   "notificationWorkshopBookingBody": "You have a new booking or service reply.",
   "notificationGenericAlertTitle": "Garage",
   "notificationGenericAlertBody": "You have a new alert.",
+  "notificationWalletTopUpTitle": "Wallet topped up",
+  "notificationWalletTopUpBody": "+{amount} added to your balance",
+  "@notificationWalletTopUpBody": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "notificationWalletTopUpBodyFallback": "Funds were added to your wallet.",
+  "notificationWalletSpendTitle": "Wallet charge",
+  "notificationWalletSpendBody": "−{amount} · {reason}",
+  "@notificationWalletSpendBody": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "reason": {"type": "String"}
+    }
+  },
+  "notificationWalletSpendBodyFallback": "Money was charged from your wallet.",
+  "notificationWalletReasonPromotion": "Move to Top ({plan})",
+  "@notificationWalletReasonPromotion": {
+    "placeholders": {
+      "plan": {"type": "String"}
+    }
+  },
+  "notificationWalletReasonPromotionGeneric": "Move to Top",
+  "notificationWalletReasonBooking": "Service booking fee",
+  "notificationWalletReasonAdmin": "Admin adjustment",
+  "notificationWalletReasonOther": "Wallet charge",
   "pushChannelName": "Garage alerts",
   "pushChannelDescription": "Chat messages, orders, workshops and deals.",
   "notificationOpenAction": "Open",
   "walletTitle": "Wallet",
   "walletSubtitle": "Balance, top-up and history",
-  "walletAvailable": "Available",
+  "walletAvailable": "Available balance",
   "walletMain": "Main",
   "walletBonus": "Bonus",
   "walletTopUp": "Top up",
-  "walletTopUpHint": "Mock top-up for testing. Real Payme/Click comes later.",
+  "walletTopUpHint": "Choose a payment method. Payme, Click and Paynet are coming soon — Telegram is available now.",
+  "walletPaymentMethods": "Payment methods",
+  "walletPaymentComingSoonBody": "{method} will be available soon.",
+  "@walletPaymentComingSoonBody": {
+    "placeholders": {
+      "method": {"type": "String"}
+    }
+  },
+  "walletTelegramAvailable": "Available",
+  "walletTelegramOpen": "Top up via Telegram",
+  "walletTelegramHint": "Open Telegram to top up your wallet with our support.",
+  "walletTxTopUp": "Top up",
+  "walletTxSpend": "Payment",
+  "walletTxDetails": "Transaction details",
+  "walletTxId": "Transaction ID",
+  "walletTxReference": "Reference",
+  "walletTxDate": "Date",
+  "walletTxStatus": "Status",
+  "walletTxReason": "Reason",
+  "walletTxOpenRelated": "Open related",
+  "walletTxCopyId": "Copy ID",
   "walletTopUpSuccess": "Wallet topped up",
   "walletHistory": "Transactions",
   "walletEmptyHistory": "No transactions yet",
@@ -940,6 +1015,99 @@
   "@walletBookingFeeLabel": {
     "placeholders": {
       "amount": {"type": "int"}
+    }
+  },
+  "adPlaceholderBadge": "Ad slot",
+  "adPlaceholderTitle": "Advertise your product here",
+  "adPlaceholderSubtitle": "Tap to see placements and prices",
+  "advertiseTitle": "Advertise on Autorin",
+  "advertiseSubtitle": "Put your offer on home, products, services and more. Pick a slot and duration.",
+  "advertiseHowTitle": "How it works",
+  "advertiseHowBody": "Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.",
+  "advertiseTariffsTitle": "Tariffs",
+  "advertiseTariffsHint": "Prices in UZS. Home top is the most visible slot.",
+  "advertiseFromWeek": "from {amount} UZS / week",
+  "@advertiseFromWeek": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "advertisePlanDay": "1 day",
+  "advertisePlanWeek": "1 week",
+  "advertisePlanMonth": "1 month",
+  "advertisePlanQuarter": "3 months",
+  "advertisePlacementBrand": "Home — top banner",
+  "advertisePlacementPart": "Products — lists",
+  "advertisePlacementService": "Services — hub & feed",
+  "advertisePlacementAnnouncement": "Requests — top",
+  "advertisePlacementTuning": "Search — explore",
+  "advertisePlacementModel": "Store page",
+  "advertiseBoostCta": "Boost my product",
+  "advertiseWalletCta": "Open wallet",
+  "advertiseContactHint": "Banner creatives are set up with support / admin for now. Product Top you can buy yourself from the listing.",
+  "adPurchaseTitle": "Buy a banner",
+  "adPurchaseFab": "Buy banner",
+  "adPurchasePlacement": "Placement",
+  "adPurchasePlan": "Duration",
+  "adPurchaseTitleField": "Banner title",
+  "adPurchaseLinkField": "Link / deep link",
+  "adPurchaseCreative": "Creative",
+  "adPurchasePickImage": "Choose banner image",
+  "adPurchasePreview": "Preview",
+  "adPurchasePreviewCta": "Preview",
+  "adPurchasePayCta": "Pay from wallet",
+  "adPurchaseWalletBalance": "Wallet: {amount}",
+  "@adPurchaseWalletBalance": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "adPurchaseTotal": "Total: {amount}",
+  "@adPurchaseTotal": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "adPurchaseLiveSuccess": "Banner is live",
+  "adPurchaseQueuedSuccess": "Banner queued — goes live when a slot opens",
+  "adSlotFree": "Slots {used}/{max} free — your banner goes live now",
+  "@adSlotFree": {
+    "placeholders": {
+      "used": { "type": "String" },
+      "max": { "type": "String" }
+    }
+  },
+  "adSlotFull": "All {max} slots full — you will be #{pos} in queue",
+  "@adSlotFull": {
+    "placeholders": {
+      "pos": { "type": "String" },
+      "max": { "type": "String" }
+    }
+  },
+  "adMyBannersTitle": "My banners",
+  "adMyBannersEmpty": "No banners yet. Buy one to promote your offer.",
+  "adStatImpressions": "Views",
+  "adStatClicks": "Clicks",
+  "adStatCtr": "CTR",
+  "adStatusActive": "Active",
+  "adStatusPaused": "Paused",
+  "adStatusExpired": "Expired",
+  "adStatusQueued": "Queued",
+  "adQueuePosition": "queue #{pos}",
+  "@adQueuePosition": {
+    "placeholders": { "pos": { "type": "String" } }
+  },
+  "adPauseCta": "Pause",
+  "profileAdvertise": "Advertise",
+  "profileSubtitleAdvertise": "Banners, tariffs and stats",
+  "onboardingPartsTitle": "Find the right auto parts",
+  "onboardingPartsBody": "Browse spare parts and accessories from sellers near you — or list what you sell.",
+  "onboardingServicesTitle": "Trusted auto services nearby",
+  "onboardingServicesBody": "Discover workshops, see who is open, and book the help your car needs.",
+  "onboardingRequestsTitle": "Post a request — sellers find you",
+  "onboardingRequestsBody": "Can't find a part? Leave a request and sellers will contact you.",
+  "onboardingGetStarted": "Get started",
+  "onboardingProgress": "Step {current} of {total}",
+  "@onboardingProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
     }
   }
 }

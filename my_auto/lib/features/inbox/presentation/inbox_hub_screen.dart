@@ -163,7 +163,7 @@ class _NotificationsTab extends StatelessWidget {
                                   ? 'Push enabled'
                                   : 'Alerts paused',
                               style: TextStyle(
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 17,
                                 color: colors.textPrimary,
                               ),

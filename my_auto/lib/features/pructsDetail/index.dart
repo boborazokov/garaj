@@ -10,6 +10,7 @@ import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/errors/graphql_error_ui.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
@@ -381,101 +382,95 @@ class _BottomActionBarState extends State<_BottomActionBar> {
   Widget build(BuildContext context) {
     final colors = context.appColors;
     final s = S.of(context);
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        16,
-        8,
-        16,
-        stickyBottomPadding(context, keyboardExtra: 0, homeExtra: 12),
-      ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: colors.surface,
-          borderRadius: AppRadius.rXl,
-          boxShadow: AppShadows.floating(context),
+    return Material(
+      color: colors.background,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+          MarketUi.spacingMD,
+          AppSpacing.s,
+          MarketUi.spacingMD,
+          stickyBottomPadding(context, keyboardExtra: 0, homeExtra: 12),
         ),
-        child: widget.isOwner
-            ? SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  onPressed: widget.onPromote,
-                  icon: Icon(
-                    widget.product.isPromotionActive
-                        ? LucideIcons.sparkles
-                        : LucideIcons.trendingUp,
-                    size: 18,
-                  ),
-                  label: Text(
-                    s.promoteListingTitle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.w800),
-                  ),
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                    backgroundColor: colors.primary,
-                    foregroundColor: colors.onPrimary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: MarketUi.actionDock(context, colors),
+          child: widget.isOwner
+              ? SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: widget.onPromote,
+                    icon: const Icon(LucideIcons.trendingUp, size: 18),
+                    label: Text(
+                      s.promoteListingTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(52),
+                      backgroundColor: colors.primary,
+                      foregroundColor: colors.onPrimary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: AppRadius.rM,
+                      ),
                     ),
                   ),
+                )
+              : Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: _openingChat ? null : _writeSeller,
+                        icon: _openingChat
+                            ? SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: colors.primary,
+                                ),
+                              )
+                            : const Icon(LucideIcons.messageSquare, size: 18),
+                        label: Text(
+                          s.writeSeller,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(52),
+                          foregroundColor: colors.textPrimary,
+                          side: BorderSide(color: colors.border),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: AppRadius.rM,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.m),
+                    Expanded(
+                      child: FilledButton.icon(
+                        onPressed: widget.onCall,
+                        icon: const Icon(LucideIcons.phone, size: 18),
+                        label: Text(
+                          s.callSeller,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size.fromHeight(52),
+                          backgroundColor: colors.primary,
+                          foregroundColor: colors.onPrimary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: AppRadius.rM,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              )
-            : Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: _openingChat ? null : _writeSeller,
-                      icon: _openingChat
-                          ? SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: colors.primary,
-                              ),
-                            )
-                          : const Icon(LucideIcons.messageSquare, size: 18),
-                      label: Text(
-                        s.writeSeller,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50),
-                        foregroundColor: colors.textPrimary,
-                        side: BorderSide(color: colors.border),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: FilledButton.icon(
-                      onPressed: widget.onCall,
-                      icon: const Icon(LucideIcons.phone, size: 18),
-                      label: Text(
-                        s.callSeller,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50),
-                        backgroundColor: colors.primary,
-                        foregroundColor: colors.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+        ),
       ),
     );
   }

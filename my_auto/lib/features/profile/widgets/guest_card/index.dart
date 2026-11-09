@@ -21,7 +21,6 @@ class GuestProfileCard extends StatelessWidget {
         color: colors.surface,
         borderRadius: AppRadius.rXl,
         border: Border.all(color: colors.border),
-        boxShadow: AppShadows.card(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +44,7 @@ class GuestProfileCard extends StatelessWidget {
                     Text(
                       s.guest,
                       style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -76,7 +75,7 @@ class GuestProfileCard extends StatelessWidget {
               ),
               child: Text(
                 s.signIn,
-                style: const TextStyle(fontWeight: FontWeight.w800),
+                style: const TextStyle(fontWeight: FontWeight.w700),
               ),
             ),
           ),

@@ -261,7 +261,7 @@ class _NearbyMapScreenState extends State<NearbyMapScreen>
                         child: Text(
                           S.of(context).mapFiltersTitle,
                           style: tc.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
@@ -384,7 +384,7 @@ class _NearbyMapScreenState extends State<NearbyMapScreen>
       Text(
         'Recommended',
         style: TextStyle(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
           fontSize: 15,
           color: colors.textPrimary,
         ),
@@ -408,7 +408,7 @@ class _NearbyMapScreenState extends State<NearbyMapScreen>
       Text(
         'All workshops',
         style: TextStyle(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
           fontSize: 15,
           color: colors.textPrimary,
         ),
@@ -430,7 +430,7 @@ class _NearbyMapScreenState extends State<NearbyMapScreen>
         Text(
           'Trending',
           style: TextStyle(
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w600,
             fontSize: 15,
             color: colors.textPrimary,
           ),
@@ -850,7 +850,7 @@ class _NearbyMapScreenState extends State<NearbyMapScreen>
                                     child: Text(
                                       'Nearby',
                                       style: TextStyle(
-                                        fontWeight: FontWeight.w800,
+                                        fontWeight: FontWeight.w600,
                                         fontSize: 17,
                                         color: colors.textPrimary,
                                       ),

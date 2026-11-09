@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/model/workshop/index.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
@@ -8,6 +7,8 @@ import 'package:my_auto/core/provider/workshop/getWorkshop/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/core/utils/place_label.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/features/promotion/presentation/promote_workshop_sheet.dart';
 import 'package:my_auto/features/profile/widgets/my_listing_card_helpers.dart';
 import 'package:my_auto/features/workshop/data/workshops_repository.dart';
@@ -86,6 +87,17 @@ class _MyWorkshopCardState extends State<MyWorkshopCard> {
     }
   }
 
+  Future<void> _reloadOwnerList() async {
+    final auth = context.read<AuthProvider>();
+    final ownerId = auth.auth?.user.id;
+    if (ownerId == null) return;
+    await context.read<GetWorkshop>().loadList(
+          reset: true,
+          filters: {'owner': ownerId},
+          search: widget.search,
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -93,169 +105,84 @@ class _MyWorkshopCardState extends State<MyWorkshopCard> {
     final theme = Theme.of(context);
     final imageUrl =
         widget.workshop.images.isNotEmpty ? widget.workshop.images.first : null;
+    final place = widget.workshop.displayPlace;
+    final hours =
+        '${_formatTime(widget.workshop.openFrom)} – ${_formatTime(widget.workshop.openUntil)}';
 
+    final lang = Localizations.localeOf(context).languageCode;
+    final until = widget.workshop.activeUntil != null
+        ? DateTime.tryParse(widget.workshop.activeUntil!)
+        : null;
     final statusLabel = widget.isDepleted
         ? s.depleted
-        : (widget.workshop.activeUntil != null
+        : (until != null
             ? s.availableUntil(
-                DateFormat('d MMMM')
-                    .format(DateTime.parse(widget.workshop.activeUntil!)),
+                cardPostedLabel(until, languageCode: lang),
               )
-            : s.availableUntil('—'));
+            : s.active);
 
     void openDetail() => context.push(
           '${RoutesName.workshopDetailScreen}/${widget.workshop.id}',
         );
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
+    return MarketCardShell(
+      margin: const EdgeInsets.fromLTRB(
         AppSpacing.screenPadding,
         AppSpacing.s,
         AppSpacing.screenPadding,
         0,
       ),
-      child: Material(
-        color: colors.surface,
-        borderRadius: AppRadius.rL,
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: openDetail,
-          child: Ink(
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: AppRadius.rL,
-              border: Border.all(color: colors.border),
-              boxShadow: AppShadows.card(context),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+      onTap: openDetail,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.m),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AspectRatio(
-                  aspectRatio: 2.1,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Container(
-                        color: colors.surfaceMuted,
-                        child: imageUrl != null && imageUrl.isNotEmpty
-                            ? ImageCacheNetwork(url: imageUrl)
-                            : Icon(
-                                LucideIcons.wrench,
-                                size: 40,
-                                color: colors.textMuted,
-                              ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.black.withValues(alpha: 0.05),
-                              Colors.black.withValues(alpha: 0.55),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 10,
-                        top: 10,
-                        child: MyListingStatusChip(
-                          label: statusLabel,
-                          isActive: !widget.isDepleted,
-                        ),
-                      ),
-                      Positioned(
-                        left: 12,
-                        right: 12,
-                        bottom: 10,
-                        child: Text(
-                          widget.workshop.title ?? s.workshopUntitled,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                            height: 1.2,
-                            shadows: const [
-                              Shadow(
-                                color: Colors.black54,
-                                blurRadius: 8,
-                                offset: Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                ClipRRect(
+                  borderRadius: AppRadius.rM,
+                  child: SizedBox(
+                    width: 96,
+                    height: 96,
+                    child: ColoredBox(
+                      color: colors.surfaceMuted,
+                      child: imageUrl != null && imageUrl.isNotEmpty
+                          ? ImageCacheNetwork(url: imageUrl)
+                          : Icon(
+                              LucideIcons.wrench,
+                              size: 28,
+                              color: colors.textMuted,
+                            ),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+                const SizedBox(width: AppSpacing.m),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _MetaRow(
-                        icon: LucideIcons.clock,
-                        text:
-                            '${_formatTime(widget.workshop.openFrom)} – ${_formatTime(widget.workshop.openUntil)}',
+                      Text(
+                        widget.workshop.title ?? s.workshopUntitled,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          height: 1.25,
+                          color: colors.textPrimary,
+                        ),
                       ),
-                      if (widget.workshop.location != null) ...[
+                      const SizedBox(height: 8),
+                      MyListingStatusChip(
+                        label: statusLabel,
+                        isActive: !widget.isDepleted,
+                      ),
+                      const SizedBox(height: 8),
+                      _MetaRow(icon: LucideIcons.clock, text: hours),
+                      if (place.isNotEmpty) ...[
                         const SizedBox(height: 6),
-                        _MetaRow(
-                          icon: LucideIcons.mapPin,
-                          text: widget.workshop.location!,
-                        ),
-                      ],
-                      if (widget.isMine) ...[
-                        const SizedBox(height: AppSpacing.m),
-                        MyListingPromoteButton(
-                          label: s.promotedTop,
-                          onTap: _deleting
-                              ? null
-                              : () async {
-                                  await showPromoteWorkshopByIdSheet(
-                                    context,
-                                    workshopId: widget.workshop.id,
-                                    title:
-                                        widget.workshop.title ?? s.workshopUntitled,
-                                  );
-                                },
-                        ),
-                        const SizedBox(height: AppSpacing.s),
-                        Row(
-                          children: [
-                            MyListingActionButton(
-                              icon: LucideIcons.pencil,
-                              label: s.edit,
-                              color: colors.primary,
-                              onTap: _deleting
-                                  ? null
-                                  : () async {
-                                      final updated = await context.push<bool>(
-                                        '${RoutesName.editWorkshop}/${widget.workshop.id}',
-                                      );
-                                      if (!mounted || updated != true) return;
-                                      final auth = context.read<AuthProvider>();
-                                      final ownerId = auth.auth?.user.id;
-                                      if (ownerId == null) return;
-                                      context.read<GetWorkshop>().loadList(
-                                            reset: true,
-                                            filters: {'owner': ownerId},
-                                            search: widget.search,
-                                          );
-                                    },
-                            ),
-                            const SizedBox(width: AppSpacing.s),
-                            MyListingActionButton(
-                              icon: LucideIcons.trash2,
-                              label: s.delete,
-                              color: colors.danger,
-                              isLoading: _deleting,
-                              onTap: _deleting ? null : _confirmDelete,
-                            ),
-                          ],
-                        ),
+                        _MetaRow(icon: LucideIcons.mapPin, text: place),
                       ],
                     ],
                   ),
@@ -263,7 +190,63 @@ class _MyWorkshopCardState extends State<MyWorkshopCard> {
               ],
             ),
           ),
-        ),
+          if (widget.isMine) ...[
+            Divider(height: 1, color: colors.divider),
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.m),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (!widget.isDepleted) ...[
+                    MyListingPromoteButton(
+                      label: s.promotionManage,
+                      isActive: true,
+                      onTap: _deleting
+                          ? null
+                          : () async {
+                              await showPromoteWorkshopByIdSheet(
+                                context,
+                                workshopId: widget.workshop.id,
+                                title: widget.workshop.title ??
+                                    s.workshopUntitled,
+                              );
+                              if (!mounted) return;
+                              await _reloadOwnerList();
+                            },
+                    ),
+                    const SizedBox(height: AppSpacing.s),
+                  ],
+                  Row(
+                    children: [
+                      MyListingActionButton(
+                        icon: LucideIcons.pencil,
+                        label: s.edit,
+                        color: colors.primary,
+                        onTap: _deleting
+                            ? null
+                            : () async {
+                                final updated = await context.push<bool>(
+                                  '${RoutesName.editWorkshop}/${widget.workshop.id}',
+                                );
+                                if (!mounted || updated != true) return;
+                                await _reloadOwnerList();
+                              },
+                      ),
+                      const SizedBox(width: AppSpacing.s),
+                      MyListingActionButton(
+                        icon: LucideIcons.trash2,
+                        label: s.delete,
+                        color: colors.danger,
+                        isLoading: _deleting,
+                        onTap: _deleting ? null : _confirmDelete,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

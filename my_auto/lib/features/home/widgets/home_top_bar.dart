@@ -91,6 +91,21 @@ class _HomeTopBarState extends State<HomeTopBar> {
       padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
       child: Row(
         children: [
+          Semantics(
+            label: s.appTitle,
+            image: true,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                'assets/images/logo_mark.png',
+                height: 36,
+                width: 36,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
           Expanded(
             child: GestureDetector(
               onTap: _openSearch,
@@ -105,9 +120,7 @@ class _HomeTopBarState extends State<HomeTopBar> {
               ),
             ),
           ),
-          SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           _HeaderActions(
             hasUnreadMessages: hasUnreadMessages,
             chatUnread: _chatUnread,
@@ -276,13 +289,6 @@ class _TopBarBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: 0.35),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
       child: Text(
@@ -290,7 +296,7 @@ class _TopBarBadge extends StatelessWidget {
         style: const TextStyle(
           color: Colors.white,
           fontSize: 10,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
         ),
         textAlign: TextAlign.center,
       ),

@@ -111,7 +111,7 @@ class _SubmitReviewSheetBodyState extends State<_SubmitReviewSheetBody> {
               widget.title ?? s.writeReview,
               style: const TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 16),

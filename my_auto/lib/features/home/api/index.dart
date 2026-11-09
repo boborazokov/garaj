@@ -57,8 +57,8 @@ query GetParts(
 """;
 
 const String GET_PRODUCT_BY_ID = r"""
-query GetPartById($partId: ObjectId!) {
-  getPartById(partId: $partId) {
+query GetPartById($partId: ObjectId!, $deviceId: String) {
+  getPartById(partId: $partId, deviceId: $deviceId) {
     _id
     category { _id iconUrl icon key names { en ru uz } }
     brand { _id name }

@@ -22,6 +22,8 @@ class UnfinishedListingSheet {
         return s.createProductStepPrice;
       case CreateProductStep.preview:
         return s.createProductStepPreview;
+      case CreateProductStep.boost:
+        return s.createProductStepBoost;
     }
   }
 

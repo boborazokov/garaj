@@ -31,13 +31,9 @@ class UserCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colors.primary, colors.primaryHover],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: colors.surface,
         borderRadius: AppRadius.rXl,
-        boxShadow: AppShadows.glow(colors.primary),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
@@ -45,9 +41,9 @@ class UserCard extends StatelessWidget {
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: colors.surfaceMuted,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white.withOpacity(0.4), width: 2),
+              border: Border.all(color: colors.border),
             ),
             clipBehavior: Clip.antiAlias,
             child: avatarUrl != null
@@ -61,8 +57,8 @@ class UserCard extends StatelessWidget {
                     child: Text(
                       _initials(user.name),
                       style: theme.textTheme.headlineSmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
+                        color: colors.textPrimary,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -77,21 +73,24 @@ class UserCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w600,
                     letterSpacing: -0.2,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(LucideIcons.phone,
-                        size: 14, color: Colors.white.withOpacity(0.9)),
+                    Icon(
+                      LucideIcons.phone,
+                      size: 14,
+                      color: colors.textMuted,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       user.phone,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: Colors.white.withOpacity(0.9),
+                        color: colors.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -107,12 +106,15 @@ class UserCard extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: colors.surfaceMuted,
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white.withOpacity(0.4)),
+                border: Border.all(color: colors.border),
               ),
-              child: const Icon(LucideIcons.edit2,
-                  size: 18, color: Colors.white),
+              child: Icon(
+                LucideIcons.edit2,
+                size: 18,
+                color: colors.textSecondary,
+              ),
             ),
           ),
         ],

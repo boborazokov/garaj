@@ -13,6 +13,8 @@ import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/create_product/widgets/sticky_continue_bar.dart';
+import 'package:my_auto/features/promotion/presentation/boost_plan_picker.dart';
+import 'package:my_auto/features/wallet/data/wallet_repository.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_category.dart';
 import 'package:my_auto/features/workshop/data/workshops_repository.dart';
 import 'package:my_auto/core/forms/form_validators.dart';
@@ -85,6 +87,8 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
         return _draft.canContinueGallery;
       case CreateWorkshopStep.preview:
         return _draft.canPublish;
+      case CreateWorkshopStep.boost:
+        return _draft.canContinueBoost;
     }
   }
 
@@ -134,7 +138,7 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
   }
 
   void _next() {
-    if (_draft.step == CreateWorkshopStep.preview) {
+    if (_draft.step == CreateWorkshopStep.boost) {
       _publish();
       return;
     }
@@ -191,6 +195,32 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
     try {
       final id = await workshopsRepository.createWorkshop(_draft);
       if (!mounted) return;
+
+      final plan = _draft.promotionPlan;
+      if (plan != null) {
+        try {
+          await workshopsRepository.promoteWorkshop(
+            workshopId: id,
+            plan: plan,
+          );
+        } on WalletInsufficientFundsException {
+          if (!mounted) return;
+          Toaster.error(S.of(context).createProductBoostPublishNeedsWallet);
+          HapticFeedback.mediumImpact();
+          context.go(RoutesName.buttonNavigationBar);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            context.push(RoutesName.wallet);
+          });
+          return;
+        } catch (_) {
+          if (mounted) {
+            Toaster.error(S.of(context).createProductBoostPublishFailed);
+          }
+        }
+      }
+
+      if (!mounted) return;
       HapticFeedback.mediumImpact();
       Toaster.success('Workshop published');
       context.go(RoutesName.buttonNavigationBar);
@@ -235,6 +265,8 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
         return 'Photos';
       case CreateWorkshopStep.preview:
         return 'Preview';
+      case CreateWorkshopStep.boost:
+        return S.of(context).createProductStepBoost;
     }
   }
 
@@ -287,8 +319,8 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
             ),
           ),
           StickyContinueBar(
-            label: _draft.step == CreateWorkshopStep.preview
-                ? 'Publish workshop'
+            label: _draft.step == CreateWorkshopStep.boost
+                ? S.of(context).createProductPublishNow
                 : 'Continue',
             enabled: _canContinue() && !_publishing,
             isLoading: _publishing,
@@ -313,6 +345,11 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
         return _galleryStep(colors);
       case CreateWorkshopStep.preview:
         return _previewStep(colors);
+      case CreateWorkshopStep.boost:
+        return BoostPlanPicker(
+          selected: _draft.promotionPlan,
+          onChanged: (plan) => setState(() => _draft.promotionPlan = plan),
+        );
     }
   }
 
@@ -589,7 +626,7 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
         Text(
           _nameCtrl.text.isEmpty ? 'Your workshop' : _nameCtrl.text,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w600,
               ),
         ),
         const SizedBox(height: 8),

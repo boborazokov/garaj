@@ -61,7 +61,7 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
         Text(
           s.createProductInfoTitle,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w600,
               ),
         ),
         const SizedBox(height: 16),

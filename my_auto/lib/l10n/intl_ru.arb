@@ -398,6 +398,13 @@
   "createProductStepPrice": "Цена",
   "createProductStepLocation": "Место",
   "createProductStepPreview": "Просмотр",
+  "createProductStepBoost": "В Топ",
+  "createProductBoostTitle": "Поднять в Топ",
+  "createProductBoostSubtitle": "Выберите тариф или опубликуйте бесплатно. Позже можно продвинуть из Моих объявлений.",
+  "createProductBoostFree": "Бесплатно",
+  "createProductBoostFreeHint": "Опубликовать без продвижения",
+  "createProductBoostPublishNeedsWallet": "Объявление опубликовано. Пополните кошелёк, чтобы включить продвижение.",
+  "createProductBoostPublishFailed": "Объявление опубликовано, но продвижение не активировалось. Попробуйте снова в Моих объявлениях.",
   "createProductPreviewTitle": "Предпросмотр",
   "createProductPreviewSubtitle": "Так покупатели увидят ваше объявление.",
   "createProductLocationTitle": "Где находится запчасть?",
@@ -431,6 +438,7 @@
   "createProductSelect": "Выбрать",
   "createProductNoModels": "Нет моделей для этой марки. Выберите другую марку.",
   "createProductPriceTitle": "Укажите цену",
+  "createProductPriceHint": "Только цена объявления — продвижение можно включить позже в моих объявлениях.",
   "createProductPriceSuggested": "Ориентир: около {price} {currency}",
   "createProductNegotiableTitle": "Договорная цена",
   "createProductNegotiableSubtitle": "Покупатель может предложить свою цену",
@@ -816,7 +824,13 @@
   "promotePlanStandard": "Стандарт",
   "promotePlanPremium": "Премиум",
   "promotePlanVip": "VIP",
-  "promotePlanTop": "TOP",
+  "promotePlanTop": "Топ",
+  "walletPromoteBalance": "Кошелёк: {balance}",
+  "@walletPromoteBalance": {
+    "placeholders": {
+      "balance": {"type": "String"}
+    }
+  },
   "promotePlanDuration": "{days} дн. · приоритет {priority}",
   "@promotePlanDuration": {
     "placeholders": {
@@ -824,8 +838,22 @@
       "priority": {"type": "int"}
     }
   },
-  "activatePromotion": "Оплатить и поднять в топ",
-  "promotionActivatedSuccess": "Оплата принята — объявление в топе",
+  "activatePromotion": "Активировать продвижение",
+  "promotionActivatedSuccess": "Продвижение успешно активировано",
+  "promotionExtendedSuccess": "Продвижение продлено",
+  "promotionCancelledSuccess": "Продвижение отключено",
+  "promotionManage": "Управление продвижением",
+  "promotionExtend": "Продлить / улучшить",
+  "promotionTurnOff": "Отключить продвижение",
+  "promotionCancelTitle": "Отключить продвижение?",
+  "promotionCancelBody": "Объявление сразу уйдёт из Топа. Оплаченное время не возвращается.",
+  "promotionActiveUntil": "Активно до {date}",
+  "@promotionActiveUntil": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "promotionExtendHint": "Повторная покупка добавит дни к текущей дате окончания.",
   "notificationAccountVerifiedTitle": "Вы прошли проверку",
   "notificationAccountVerifiedBody": "Ваш аккаунт подтверждён командой AutoRin.",
   "notificationNewFollowerTitle": "Новый подписчик",
@@ -843,18 +871,65 @@
   "notificationWorkshopBookingBody": "Новая заявка или ответ от мастерской.",
   "notificationGenericAlertTitle": "Garage",
   "notificationGenericAlertBody": "У вас новое уведомление.",
+  "notificationWalletTopUpTitle": "Кошелёк пополнен",
+  "notificationWalletTopUpBody": "+{amount} зачислено на баланс",
+  "@notificationWalletTopUpBody": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "notificationWalletTopUpBodyFallback": "Средства зачислены на кошелёк.",
+  "notificationWalletSpendTitle": "Списание с кошелька",
+  "notificationWalletSpendBody": "−{amount} · {reason}",
+  "@notificationWalletSpendBody": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "reason": {"type": "String"}
+    }
+  },
+  "notificationWalletSpendBodyFallback": "С кошелька списаны средства.",
+  "notificationWalletReasonPromotion": "В Топ ({plan})",
+  "@notificationWalletReasonPromotion": {
+    "placeholders": {
+      "plan": {"type": "String"}
+    }
+  },
+  "notificationWalletReasonPromotionGeneric": "В Топ",
+  "notificationWalletReasonBooking": "Комиссия за запись на услугу",
+  "notificationWalletReasonAdmin": "Корректировка администратора",
+  "notificationWalletReasonOther": "Списание",
   "pushChannelName": "Уведомления Garage",
   "pushChannelDescription": "Сообщения, заказы, сервисы и акции.",
   "notificationOpenAction": "Открыть",
   "walletTitle": "Кошелёк",
   "walletSubtitle": "Баланс, пополнение и история",
-  "walletAvailable": "Доступно",
+  "walletAvailable": "Доступный баланс",
   "walletMain": "Основной",
   "walletBonus": "Бонус",
   "walletTopUp": "Пополнить",
-  "walletTopUpHint": "Тестовое пополнение. Payme/Click подключится позже.",
+  "walletTopUpHint": "Выберите способ оплаты. Payme, Click и Paynet скоро — Telegram уже доступен.",
+  "walletPaymentMethods": "Способы оплаты",
+  "walletPaymentComingSoonBody": "{method} появится в ближайшее время.",
+  "@walletPaymentComingSoonBody": {
+    "placeholders": {
+      "method": {"type": "String"}
+    }
+  },
+  "walletTelegramAvailable": "Доступно",
+  "walletTelegramOpen": "Пополнить через Telegram",
+  "walletTelegramHint": "Откройте Telegram, чтобы пополнить кошелёк через поддержку.",
+  "walletTxTopUp": "Пополнение",
+  "walletTxSpend": "Списание",
+  "walletTxDetails": "Детали транзакции",
+  "walletTxId": "ID транзакции",
+  "walletTxReference": "Ссылка",
+  "walletTxDate": "Дата",
+  "walletTxStatus": "Статус",
+  "walletTxReason": "Назначение",
+  "walletTxOpenRelated": "Открыть связанное",
+  "walletTxCopyId": "Скопировать ID",
   "walletTopUpSuccess": "Кошелёк пополнен",
-  "walletHistory": "Транзакции",
+  "walletHistory": "История",
   "walletEmptyHistory": "Пока нет транзакций",
   "walletInsufficientFunds": "Недостаточно средств. Пополните кошелёк.",
   "walletPayFromWallet": "Оплатить с кошелька",
@@ -866,6 +941,99 @@
   "@walletBookingFeeLabel": {
     "placeholders": {
       "amount": {"type": "int"}
+    }
+  },
+  "adPlaceholderBadge": "Реклама",
+  "adPlaceholderTitle": "Рекламируйте свой товар здесь",
+  "adPlaceholderSubtitle": "Нажмите — слоты и тарифы",
+  "advertiseTitle": "Реклама в Autorin",
+  "advertiseSubtitle": "Покажите предложение на главной, в товарах, сервисах и других экранах. Выберите слот и срок.",
+  "advertiseHowTitle": "Как это работает",
+  "advertiseHowBody": "Выберите место, срок 1 день / 1 неделя / 1 месяц / 3 месяца — баннер увидят покупатели на этом экране.",
+  "advertiseTariffsTitle": "Тарифы",
+  "advertiseTariffsHint": "Цены в UZS. Верх главной — самый заметный слот.",
+  "advertiseFromWeek": "от {amount} UZS / нед.",
+  "@advertiseFromWeek": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "advertisePlanDay": "1 день",
+  "advertisePlanWeek": "1 неделя",
+  "advertisePlanMonth": "1 месяц",
+  "advertisePlanQuarter": "3 месяца",
+  "advertisePlacementBrand": "Главная — верхний баннер",
+  "advertisePlacementPart": "Товары — списки",
+  "advertisePlacementService": "Сервисы — хаб и лента",
+  "advertisePlacementAnnouncement": "Заявки — верх",
+  "advertisePlacementTuning": "Поиск — explore",
+  "advertisePlacementModel": "Страница магазина",
+  "advertiseBoostCta": "Поднять мой товар",
+  "advertiseWalletCta": "Открыть кошелёк",
+  "advertiseContactHint": "Баннеры пока подключает поддержка / админ. Top товара можно купить самому из объявления.",
+  "adPurchaseTitle": "Купить баннер",
+  "adPurchaseFab": "Купить баннер",
+  "adPurchasePlacement": "Размещение",
+  "adPurchasePlan": "Срок",
+  "adPurchaseTitleField": "Заголовок баннера",
+  "adPurchaseLinkField": "Ссылка / deep link",
+  "adPurchaseCreative": "Креатив",
+  "adPurchasePickImage": "Выбрать изображение",
+  "adPurchasePreview": "Превью",
+  "adPurchasePreviewCta": "Превью",
+  "adPurchasePayCta": "Оплатить с кошелька",
+  "adPurchaseWalletBalance": "Кошелёк: {amount}",
+  "@adPurchaseWalletBalance": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "adPurchaseTotal": "Итого: {amount}",
+  "@adPurchaseTotal": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "adPurchaseLiveSuccess": "Баннер в эфире",
+  "adPurchaseQueuedSuccess": "Баннер в очереди — выйдет, когда освободится слот",
+  "adSlotFree": "Слоты {used}/{max} — баннер выйдет сразу",
+  "@adSlotFree": {
+    "placeholders": {
+      "used": { "type": "String" },
+      "max": { "type": "String" }
+    }
+  },
+  "adSlotFull": "Все {max} слотов заняты — вы #{pos} в очереди",
+  "@adSlotFull": {
+    "placeholders": {
+      "pos": { "type": "String" },
+      "max": { "type": "String" }
+    }
+  },
+  "adMyBannersTitle": "Мои баннеры",
+  "adMyBannersEmpty": "Пока нет баннеров. Купите, чтобы продвинуть предложение.",
+  "adStatImpressions": "Показы",
+  "adStatClicks": "Клики",
+  "adStatCtr": "CTR",
+  "adStatusActive": "Активен",
+  "adStatusPaused": "Пауза",
+  "adStatusExpired": "Истёк",
+  "adStatusQueued": "В очереди",
+  "adQueuePosition": "очередь #{pos}",
+  "@adQueuePosition": {
+    "placeholders": { "pos": { "type": "String" } }
+  },
+  "adPauseCta": "Пауза",
+  "profileAdvertise": "Реклама",
+  "profileSubtitleAdvertise": "Баннеры, тарифы и статистика",
+  "onboardingPartsTitle": "Найдите нужные запчасти",
+  "onboardingPartsBody": "Смотрите запчасти и аксессуары у продавцов рядом — или выставляйте свои.",
+  "onboardingServicesTitle": "Автосервисы рядом с вами",
+  "onboardingServicesBody": "Находите мастерские, смотрите кто открыт и записывайтесь на услуги.",
+  "onboardingRequestsTitle": "Оставьте заявку — продавцы найдут вас",
+  "onboardingRequestsBody": "Не нашли деталь? Создайте запрос — продавцы сами свяжутся с вами.",
+  "onboardingGetStarted": "Начать",
+  "onboardingProgress": "Шаг {current} из {total}",
+  "@onboardingProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
     }
   }
 }

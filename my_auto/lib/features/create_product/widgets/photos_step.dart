@@ -56,7 +56,7 @@ class PhotosStep extends StatelessWidget {
         Text(
           s.createProductPhotosTitle,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w600,
               ),
         ),
         const SizedBox(height: 6),
@@ -75,6 +75,7 @@ class PhotosStep extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             buildDefaultDragHandles: false,
+            padding: EdgeInsets.zero,
             itemCount: photos.length,
             onReorder: (oldIndex, newIndex) {
               HapticFeedback.selectionClick();
@@ -215,7 +216,7 @@ class _PhotoTile extends StatelessWidget {
                           s.createProductCover.toUpperCase(),
                           style: TextStyle(
                             fontSize: 10,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             color: colors.primary,
                           ),
                         ),
@@ -227,18 +228,34 @@ class _PhotoTile extends StatelessWidget {
                           index: index,
                           child: Padding(
                             padding: const EdgeInsets.all(4),
-                            child: Icon(LucideIcons.gripVertical,
-                                size: 18, color: colors.textMuted),
+                            child: Icon(
+                              LucideIcons.gripVertical,
+                              size: 18,
+                              color: colors.textMuted,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 4),
-                        Text(s.createProductDragReorder,
+                        Expanded(
+                          child: Text(
+                            s.createProductDragReorder,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 12, color: colors.textMuted)),
-                        const Spacer(),
+                              fontSize: 12,
+                              color: colors.textMuted,
+                            ),
+                          ),
+                        ),
                         IconButton(
                           tooltip: s.delete,
                           onPressed: onRemove,
+                          visualDensity: VisualDensity.compact,
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 36,
+                            minHeight: 36,
+                          ),
                           icon: Icon(LucideIcons.trash2, color: colors.danger),
                         ),
                       ],

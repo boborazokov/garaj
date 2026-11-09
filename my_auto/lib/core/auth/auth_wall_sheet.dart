@@ -74,7 +74,7 @@ class _AuthWallSheet extends StatelessWidget {
             title ?? s.signInToContinue,
             textAlign: TextAlign.center,
             style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 8),
@@ -103,7 +103,7 @@ class _AuthWallSheet extends StatelessWidget {
               ),
               child: Text(
                 s.signIn,
-                style: const TextStyle(fontWeight: FontWeight.w800),
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
           ),

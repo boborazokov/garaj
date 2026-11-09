@@ -67,7 +67,7 @@ class OrderResponseCard extends StatelessWidget {
                     seller.name.isNotEmpty ? seller.name[0].toUpperCase() : '?',
                     style: TextStyle(
                       color: colors.primary,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -78,7 +78,7 @@ class OrderResponseCard extends StatelessWidget {
                     children: [
                       Text(
                         seller.name,
-                        style: const TextStyle(fontWeight: FontWeight.w800),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                       Text(
                         _formatDate(response.createdAt),
@@ -99,7 +99,7 @@ class OrderResponseCard extends StatelessWidget {
                       s.orderDetailAcceptedOffer,
                       style: TextStyle(
                         fontSize: 11,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                         color: colors.success,
                       ),
                     ),
@@ -115,7 +115,7 @@ class OrderResponseCard extends StatelessWidget {
                 priceLabel,
                 style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w600,
                   color: colors.primary,
                 ),
               ),

@@ -28,6 +28,12 @@ class PushDataKeys {
   static const String orderId = 'orderId';
   static const String partId = 'partId';
   static const String sellerId = 'sellerId';
+  static const String amount = 'amount';
+  static const String amountLabel = 'amountLabel';
+  static const String currency = 'currency';
+  static const String reason = 'reason';
+  static const String reasonCode = 'reasonCode';
+  static const String plan = 'plan';
 }
 
 /// Event type identifiers — match `PushEventType` on the backend.
@@ -41,4 +47,6 @@ class PushEventTypes {
   static const String sellerResponse = 'sellerResponse';
   static const String accountVerified = 'accountVerified';
   static const String workshopBooking = 'workshopBooking';
+  static const String walletTopUp = 'walletTopUp';
+  static const String walletSpend = 'walletSpend';
 }

@@ -8,6 +8,8 @@ import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/features/advertisement/domain/advertisement.dart';
+import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/home/widgets/productList/index.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/common/app_bar.dart';
@@ -166,7 +168,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 8),
+            const AdBanner(
+              surface: AdSurface.part,
+              height: 120,
+              margin: EdgeInsets.fromLTRB(16, 0, 16, 8),
+            ),
             Expanded(
               child: isLoading && products.isEmpty
                   ? const Center(child: CircularProgressIndicator.adaptive())
@@ -246,7 +252,7 @@ class _EmptyWithCTA extends StatelessWidget {
           Text(
             s.noProducts,
             style: theme.textTheme.titleLarge
-                ?.copyWith(fontWeight: FontWeight.w800),
+                ?.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
           Text(
@@ -260,25 +266,24 @@ class _EmptyWithCTA extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [colors.primary, colors.primaryHover],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: colors.surface,
               borderRadius: AppRadius.rL,
-              boxShadow: AppShadows.glow(colors.primary),
+              border: Border.all(color: colors.border),
             ),
             child: Column(
               children: [
-                Icon(LucideIcons.megaphone,
-                    color: colors.onPrimary, size: 32),
+                Icon(
+                  LucideIcons.megaphone,
+                  color: colors.textSecondary,
+                  size: 32,
+                ),
                 const SizedBox(height: 12),
                 Text(
                   s.didntFindWhatYouNeed,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.titleMedium?.copyWith(
-                    color: colors.onPrimary,
-                    fontWeight: FontWeight.w800,
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -286,7 +291,7 @@ class _EmptyWithCTA extends StatelessWidget {
                   s.createRequestSubtitle,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.onPrimary.withOpacity(0.85),
+                    color: colors.textMuted,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -294,14 +299,14 @@ class _EmptyWithCTA extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
-                      backgroundColor: colors.onPrimary,
-                      foregroundColor: colors.primary,
+                      backgroundColor: colors.primary,
+                      foregroundColor: colors.onPrimary,
                     ),
                     onPressed: onCreate,
                     icon: const Icon(LucideIcons.plus, size: 18),
                     label: Text(
                       s.createRequest,
-                      style: const TextStyle(fontWeight: FontWeight.w800),
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

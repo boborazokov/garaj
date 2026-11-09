@@ -28,7 +28,7 @@ class MapRadiusSelector extends StatelessWidget {
           Text(
             'Search radius',
             style: TextStyle(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
               fontSize: 18,
               color: colors.textPrimary,
             ),

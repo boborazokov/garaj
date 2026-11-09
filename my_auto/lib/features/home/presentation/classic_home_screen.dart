@@ -11,6 +11,8 @@ import 'package:my_auto/core/provider/orders/orders_provider.dart';
 import 'package:my_auto/core/provider/workshop/getWorkshop/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
+import 'package:my_auto/features/advertisement/domain/advertisement.dart';
+import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/home/widgets/featuredCarousel/index.dart';
 import 'package:my_auto/features/home/widgets/gridCotegory/index.dart';
 import 'package:my_auto/features/home/widgets/home_top_bar.dart';
@@ -32,6 +34,7 @@ class ClassicHomeScreen extends StatefulWidget {
 
 class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
   late final ScrollController _scrollController;
+  int _adRefreshToken = 0;
   static const Map<String, dynamic> _workshopFilters = {};
   static const Map<String, dynamic> _promoFilters = {'isPromoted': true};
   static const String _sort = 'NEWEST';
@@ -80,6 +83,7 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
   }
 
   Future<void> _onRefresh() async {
+    setState(() => _adRefreshToken++);
     await Future.wait([
       context.read<ProductProvider>().loadList(
             filters: _promoFilters,
@@ -169,6 +173,15 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
                   child: const HomeTopBar(),
                 ),
               ),
+              // Top home banner (admin placement: BRAND)
+              SliverToBoxAdapter(
+                child: AdBanner(
+                  surface: AdSurface.brand,
+                  height: 148,
+                  margin: const EdgeInsets.fromLTRB(12, 10, 12, 4),
+                  refreshToken: _adRefreshToken,
+                ),
+              ),
               // Kategoriya
               SliverToBoxAdapter(
                 child: _WhiteBlock(
@@ -224,6 +237,14 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
               // Buyurtmalar
               const SliverToBoxAdapter(child: _BlockGap()),
               SliverToBoxAdapter(
+                child: AdBanner(
+                  surface: AdSurface.announcement,
+                  height: 110,
+                  margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                  refreshToken: _adRefreshToken,
+                ),
+              ),
+              SliverToBoxAdapter(
                 child: _WhiteBlock(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -252,6 +273,14 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
 
               // Barcha mahsulotlar
               const SliverToBoxAdapter(child: _BlockGap()),
+              SliverToBoxAdapter(
+                child: AdBanner(
+                  surface: AdSurface.part,
+                  height: 120,
+                  margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                  refreshToken: _adRefreshToken,
+                ),
+              ),
               SliverToBoxAdapter(
                 child: _WhiteBlock(
                   child: Column(
@@ -288,6 +317,15 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
               // Avtoservis
               if (workshopsLoading || workshopList.isNotEmpty) ...[
                 const SliverToBoxAdapter(child: _BlockGap()),
+                // Services strip banner (admin placement: SERVICE)
+                SliverToBoxAdapter(
+                  child: AdBanner(
+                    surface: AdSurface.service,
+                    height: 120,
+                    margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                    refreshToken: _adRefreshToken,
+                  ),
+                ),
                 SliverToBoxAdapter(
                   child: _WhiteBlock(
                     child: Column(
@@ -396,7 +434,7 @@ class _MarketHeader extends StatelessWidget {
     final s = S.of(context);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 14, 8, 10),
+      padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
       child: Row(
         children: [
           Expanded(
@@ -405,9 +443,9 @@ class _MarketHeader extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-                letterSpacing: -0.4,
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.3,
                 height: 1.15,
                 color: colors.textPrimary,
               ),
@@ -419,22 +457,22 @@ class _MarketHeader extends StatelessWidget {
               behavior: HitTestBehavior.opaque,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       s.seeAll,
                       style: TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w600,
-                        color: colors.primary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: colors.textSecondary,
                       ),
                     ),
                     Icon(
                       LucideIcons.chevronRight,
                       size: 16,
-                      color: colors.primary,
+                      color: colors.textSecondary,
                     ),
                   ],
                 ),

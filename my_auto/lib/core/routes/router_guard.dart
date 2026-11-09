@@ -26,11 +26,11 @@ class RouterGuard {
     RoutesName.chats,
     RoutesName.inbox,
     RoutesName.notifications,
-    RoutesName.storeAnalytics,
   };
 
   static const _publicAuthRoutes = {
     RoutesName.splash,
+    RoutesName.onboarding,
     RoutesName.signin,
     RoutesName.signup,
     RoutesName.resetPassword,

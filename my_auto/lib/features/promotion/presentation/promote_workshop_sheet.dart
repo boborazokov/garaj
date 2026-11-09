@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_auto/features/promotion/data/promotion_repository.dart';
 import 'package:my_auto/features/promotion/presentation/promote_plan_sheet.dart';
+import 'package:my_auto/features/wallet/data/wallet_repository.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
 import 'package:my_auto/features/workshop/data/workshops_repository.dart';
 import 'package:my_auto/generated/l10n.dart';
@@ -14,11 +15,16 @@ Future<bool?> showPromoteWorkshopSheet(
     listingTitle: workshop.name,
     isPromotionActive: workshop.isPromotionActive,
     activePlan: workshop.promotionPlan,
+    promotedUntil: workshop.promotedUntil,
     sheetTitle: S.of(context).promoteWorkshopTitle,
     onPromote: (plan) => promotionRepository.purchasePromotion(
       targetType: PromotionTargetType.workshop,
       targetId: workshop.id,
       plan: plan,
+    ),
+    onCancelPromotion: () => walletRepository.cancelPromotion(
+      targetType: PromotionTargetType.workshop,
+      targetId: workshop.id,
     ),
   );
 }

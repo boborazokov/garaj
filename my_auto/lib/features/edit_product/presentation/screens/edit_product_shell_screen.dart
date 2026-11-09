@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/layout/layout.dart';
 import 'package:my_auto/core/model/product/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
@@ -14,6 +13,7 @@ import 'package:my_auto/features/create_product/widgets/preview_step.dart';
 import 'package:my_auto/features/create_product/widgets/price_step.dart';
 import 'package:my_auto/features/create_product/widgets/product_info_step.dart';
 import 'package:my_auto/features/create_product/widgets/vehicle_step.dart';
+import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/generated/l10n.dart';
 
@@ -106,29 +106,53 @@ class _EditProductShellScreenState extends State<EditProductShellScreen> {
                   slivers: [
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                        padding: const EdgeInsets.fromLTRB(
+                          MarketUi.spacingMD,
+                          AppSpacing.s,
+                          MarketUi.spacingMD,
+                          AppSpacing.s,
+                        ),
                         child: Text(
-                          'Edit your listing in sections. Changes publish when you tap save.',
+                          S.of(context).createProductPreviewSubtitle,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: colors.textMuted,
                               ),
                         ),
                       ),
                     ),
-                    SliverToBoxAdapter(child: _section(colors, title: 'Photos', child: const PhotosStep(compact: true))),
-                    SliverToBoxAdapter(
-                      child: _section(colors, title: 'Basic info', subtitle: 'Title, description & condition',
-                          child: const ProductInfoStep(compact: true)),
-                    ),
-                    SliverToBoxAdapter(
-                      child: _section(colors, title: 'Vehicle & category', subtitle: 'Helps filtering & search',
-                          child: const VehicleStep(compact: true)),
-                    ),
-                    SliverToBoxAdapter(child: _section(colors, title: 'Price & delivery', child: const PriceStep(compact: true))),
                     SliverToBoxAdapter(
                       child: _section(
                         colors,
-                        title: 'Preview',
+                        title: S.of(context).photos,
+                        child: const PhotosStep(compact: true),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: _section(
+                        colors,
+                        title: S.of(context).createProductStepInfo,
+                        subtitle: S.of(context).description,
+                        child: const ProductInfoStep(compact: true),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: _section(
+                        colors,
+                        title: S.of(context).createProductStepVehicle,
+                        child: const VehicleStep(compact: true),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: _section(
+                        colors,
+                        title: S.of(context).createProductStepPrice,
+                        child: const PriceStep(compact: true),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: _section(
+                        colors,
+                        title: S.of(context).createProductStepPreview,
                         child: PreviewStep(
                           compact: true,
                           onEditStep: (_) {},
@@ -140,24 +164,41 @@ class _EditProductShellScreenState extends State<EditProductShellScreen> {
                 ),
               ),
               ),
-              bottomNavigationBar: BottomSafeButton(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: state.isPublishing
-                            ? null
-                            : () => _bloc.add(const CreateProductPublishRequested()),
-                        child: state.isPublishing
-                            ? const SizedBox(
-                                height: 22,
-                                width: 22,
-                                child: CircularProgressIndicator.adaptive(strokeWidth: 2),
-                              )
-                            : const Text('Save changes'),
+              bottomNavigationBar: Material(
+                color: colors.background,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    MarketUi.spacingMD,
+                    AppSpacing.s,
+                    MarketUi.spacingMD,
+                    stickyBottomPadding(context, keyboardExtra: 8, homeExtra: 12),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: MarketUi.actionDock(context, colors),
+                    child: FilledButton(
+                      onPressed: state.isPublishing
+                          ? null
+                          : () => _bloc.add(
+                                const CreateProductPublishRequested(),
+                              ),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(52),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: AppRadius.rM,
+                        ),
                       ),
+                      child: state.isPublishing
+                          ? const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator.adaptive(
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(S.of(context).save),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -173,57 +214,10 @@ class _EditProductShellScreenState extends State<EditProductShellScreen> {
     String? subtitle,
     required Widget child,
   }) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Material(
-        color: colors.surface,
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: AppRadius.rL,
-          side: BorderSide(color: colors.border),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  Icon(LucideIcons.layoutList, color: colors.primary, size: 20),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        if (subtitle != null) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            subtitle,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: colors.textMuted,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              child,
-            ],
-          ),
-        ),
-      ),
+    return ProductSection(
+      title: title,
+      subtitle: subtitle,
+      child: child,
     );
   }
 }

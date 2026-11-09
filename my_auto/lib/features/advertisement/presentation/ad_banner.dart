@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/advertisement/data/advertisement_repository.dart';
 import 'package:my_auto/features/advertisement/domain/advertisement.dart';
+import 'package:my_auto/features/advertisement/presentation/ad_placeholder_banner.dart';
 import 'package:my_auto/features/advertisement/utils/ad_link_launcher.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 
 /// Reusable banner slot. Fetches ads for [surface], auto-rotates when there
 /// are 2+ banners, and opens [Advertisement.link] on tap when a link exists.
+///
+/// When no active campaign exists and [showPlaceholder] is true, shows a
+/// localized “advertise here” CTA that opens the tariffs screen.
 class AdBanner extends StatefulWidget {
   const AdBanner({
     super.key,
@@ -21,6 +25,8 @@ class AdBanner extends StatefulWidget {
     this.repository,
     /// Bump this (e.g. on pull-to-refresh) to force a network reload.
     this.refreshToken = 0,
+    /// Empty-slot self-promo. Keep false for mid-list injectors.
+    this.showPlaceholder = true,
   });
 
   final AdSurface surface;
@@ -30,6 +36,7 @@ class AdBanner extends StatefulWidget {
   final int maxItems;
   final AdvertisementRepository? repository;
   final int refreshToken;
+  final bool showPlaceholder;
 
   @override
   State<AdBanner> createState() => _AdBannerState();
@@ -45,6 +52,8 @@ class _AdBannerState extends State<AdBanner>
 
   late List<Advertisement> _ads;
   bool _loading = false;
+  bool _resolved = false;
+  final Set<String> _impressed = {};
 
   @override
   bool get wantKeepAlive => true;
@@ -52,8 +61,10 @@ class _AdBannerState extends State<AdBanner>
   @override
   void initState() {
     super.initState();
-    _ads = List<Advertisement>.from(_memoryCache[widget.surface] ?? const []);
-    _loading = _ads.isEmpty;
+    final cached = _memoryCache[widget.surface];
+    _ads = List<Advertisement>.from(cached ?? const []);
+    _resolved = cached != null;
+    _loading = cached == null;
     unawaited(_load(forceNetwork: false));
   }
 
@@ -61,8 +72,10 @@ class _AdBannerState extends State<AdBanner>
   void didUpdateWidget(covariant AdBanner oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.surface != widget.surface) {
-      _ads = List<Advertisement>.from(_memoryCache[widget.surface] ?? const []);
-      _loading = _ads.isEmpty;
+      final cached = _memoryCache[widget.surface];
+      _ads = List<Advertisement>.from(cached ?? const []);
+      _resolved = cached != null;
+      _loading = cached == null;
       unawaited(_load(forceNetwork: false));
       return;
     }
@@ -75,9 +88,7 @@ class _AdBannerState extends State<AdBanner>
   }
 
   Future<void> _load({required bool forceNetwork}) async {
-    // Never clear visible ads while refreshing — that causes the flicker
-    // when the list rebuilds or the user scrolls back to the top.
-    if (_ads.isEmpty && mounted) {
+    if (_ads.isEmpty && !_resolved && mounted) {
       setState(() => _loading = true);
     }
 
@@ -88,29 +99,32 @@ class _AdBannerState extends State<AdBanner>
       );
       if (!mounted) return;
 
-      if (result.isNotEmpty) {
-        _memoryCache[widget.surface] = result;
-        setState(() {
-          _ads = result;
-          _loading = false;
-        });
-      } else {
-        setState(() {
-          if (forceNetwork) {
-            _memoryCache.remove(widget.surface);
-            _ads = const [];
-          }
-          _loading = false;
-        });
-      }
+      _memoryCache[widget.surface] = result;
+      setState(() {
+        _ads = result;
+        _loading = false;
+        _resolved = true;
+      });
     } catch (_) {
       if (!mounted) return;
-      setState(() => _loading = false);
+      setState(() {
+        _loading = false;
+        _resolved = true;
+      });
     }
   }
 
   Future<void> _onTap(Advertisement ad) async {
+    unawaited(_repo.recordClick(ad.id));
     await openAdvertisementLink(context, ad.link);
+  }
+
+  void _trackImpressions(List<Advertisement> items) {
+    for (final ad in items) {
+      if (_impressed.contains(ad.id)) continue;
+      _impressed.add(ad.id);
+      unawaited(_repo.recordImpression(ad.id));
+    }
   }
 
   @override
@@ -119,15 +133,26 @@ class _AdBannerState extends State<AdBanner>
     final colors = context.appColors;
     final items = _ads.take(widget.maxItems).toList(growable: false);
 
-    if (!_loading && items.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    // While first load has no cache yet, reserve no space — avoids a grey
-    // flash that then "suddenly" becomes the real banner.
     if (_loading && items.isEmpty) {
       return const SizedBox.shrink();
     }
+
+    if (_resolved && items.isEmpty) {
+      if (!widget.showPlaceholder) return const SizedBox.shrink();
+      return AdPlaceholderBanner(
+        surface: widget.surface,
+        height: widget.height,
+        margin: widget.margin,
+        borderRadius: widget.borderRadius,
+      );
+    }
+
+    if (items.isEmpty) return const SizedBox.shrink();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _trackImpressions(items);
+    });
 
     final multiple = items.length > 1;
 
@@ -247,7 +272,7 @@ class _AdSlide extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           letterSpacing: 0.6,
                         ),
                       ),

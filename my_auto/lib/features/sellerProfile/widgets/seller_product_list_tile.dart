@@ -99,7 +99,7 @@ class SellerProductListTile extends StatelessWidget {
                           Text(
                             _price(product.price, product.currency),
                             style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w600,
                               color: colors.primary,
                             ),
                           ),

@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
 
-/// Garage brand palette — aligned to the Muskun / Pickolab design system.
+/// Garage brand palette — aligned to autorin-web `src/index.css`.
 ///
-/// Scales: Primary (green), Secondary (neutral grey), Success, Error,
-/// Warning, Information, plus Soft / Light / Stroke helpers.
+/// Primary blue `#226df7`, slate neutrals, amber warning, red destructive.
 class AppPalette {
   AppPalette._();
 
-  // ── Primary (Neutral green) ──────────────────────────────────────────
-  static const primary100 = Color(0xFFD0F1D2);
-  static const primary200 = Color(0xFFB8ECBC);
-  static const primary300 = Color(0xFF9AE39E);
-  static const primary400 = Color(0xFF86DD8E);
-  static const primary500 = Color(0xFF67D570);
-  static const primary600 = Color(0xFF5EC266);
-  static const primary700 = Color(0xFF4E9455);
-  static const primary800 = Color(0xFF39753F);
-  static const primary900 = Color(0xFF2C5930);
+  // ── Primary (web --primary #226df7) ──────────────────────────────────
+  static const primary100 = Color(0xFFDBE8FE);
+  static const primary200 = Color(0xFFBDD4FD);
+  static const primary300 = Color(0xFF8BB4FB);
+  static const primary400 = Color(0xFF5A93F9);
+  static const primary500 = Color(0xFF226DF7);
+  static const primary600 = Color(0xFF1E62DE);
+  static const primary700 = Color(0xFF184DB0);
+  static const primary800 = Color(0xFF123A85);
+  static const primary900 = Color(0xFF0C285C);
 
-  // ── Secondary (Neutral grey) ─────────────────────────────────────────
+  // ── Secondary / slate (web carbon + muted) ───────────────────────────
   static const secondary0 = Color(0xFFFFFFFF);
-  static const secondary100 = Color(0xFFE5E5E5);
-  static const secondary200 = Color(0xFFBDBEC0);
-  static const secondary300 = Color(0xFF9D9EA2);
-  static const secondary400 = Color(0xFF717276);
-  static const secondary500 = Color(0xFF53565B);
-  static const secondary600 = Color(0xFF292C31);
-  static const secondary700 = Color(0xFF1C1F24);
-  static const secondary800 = Color(0xFF18191D);
-  static const secondary900 = Color(0xFF121315);
+  static const secondary100 = Color(0xFFE2E8F0);
+  static const secondary200 = Color(0xFFCBD5E1);
+  static const secondary300 = Color(0xFF94A3B8);
+  static const secondary400 = Color(0xFF64748B);
+  static const secondary500 = Color(0xFF475569);
+  static const secondary600 = Color(0xFF334155);
+  static const secondary700 = Color(0xFF1E293B);
+  static const secondary800 = Color(0xFF1E293B);
+  static const secondary900 = Color(0xFF0F172A);
 
-  /// Legacy carbon aliases → secondary scale (existing call sites).
+  /// Legacy carbon aliases → slate scale (existing call sites).
   static const carbon900 = secondary900;
-  static const carbon850 = Color(0xFF15161A);
+  static const carbon850 = Color(0xFF152033);
   static const carbon800 = secondary800;
   static const carbon700 = secondary700;
   static const carbon600 = secondary600;
@@ -57,43 +56,43 @@ class AppPalette {
   static const success = success500;
   static const successSoft = success200;
 
-  // ── Error ────────────────────────────────────────────────────────────
-  static const error100 = Color(0xFFFBE8D9);
-  static const error200 = Color(0xFFF7CBB2);
-  static const error300 = Color(0xFFF2A88B);
-  static const error400 = Color(0xFFF0886F);
-  static const error500 = Color(0xFFEC5741);
-  static const error600 = Color(0xFFCA3C32);
-  static const error700 = Color(0xFFA43627);
-  static const error800 = Color(0xFF871F26);
-  static const error900 = Color(0xFF701826);
+  // ── Error / destructive (web --destructive #ef4444) ──────────────────
+  static const error100 = Color(0xFFFEE2E2);
+  static const error200 = Color(0xFFFECACA);
+  static const error300 = Color(0xFFFCA5A5);
+  static const error400 = Color(0xFFF87171);
+  static const error500 = Color(0xFFEF4444);
+  static const error600 = Color(0xFFDC2626);
+  static const error700 = Color(0xFFB91C1C);
+  static const error800 = Color(0xFF991B1B);
+  static const error900 = Color(0xFF7F1D1D);
 
-  static const danger = error600;
+  static const danger = error500;
   static const dangerSoft = error100;
 
-  // ── Warning ──────────────────────────────────────────────────────────
-  static const warning100 = Color(0xFFFEF4AF);
-  static const warning200 = Color(0xFFFFED89);
-  static const warning300 = Color(0xFFFFE455);
-  static const warning400 = Color(0xFFFFDF34);
-  static const warning500 = Color(0xFFFFD801);
-  static const warning600 = Color(0xFFE9C501);
-  static const warning700 = Color(0xFFB59600);
-  static const warning800 = Color(0xFF92843B);
-  static const warning900 = Color(0xFF6B5C01);
+  // ── Warning (web amber-500 #f59e0b) ──────────────────────────────────
+  static const warning100 = Color(0xFFFEF3C7);
+  static const warning200 = Color(0xFFFDE68A);
+  static const warning300 = Color(0xFFFCD34D);
+  static const warning400 = Color(0xFFFBBF24);
+  static const warning500 = Color(0xFFF59E0B);
+  static const warning600 = Color(0xFFD97706);
+  static const warning700 = Color(0xFFB45309);
+  static const warning800 = Color(0xFF92400E);
+  static const warning900 = Color(0xFF78350F);
 
   static const warning = warning500;
 
-  // ── Information ──────────────────────────────────────────────────────
-  static const info100 = Color(0xFFE5F3FE);
-  static const info200 = Color(0xFF8AC7FE);
-  static const info300 = Color(0xFF54ADFF);
-  static const info400 = Color(0xFF329DFF);
-  static const info500 = Color(0xFF0183FF);
-  static const info600 = Color(0xFF0079E8);
-  static const info700 = Color(0xFF005DB1);
-  static const info800 = Color(0xFF0A4A94);
-  static const info900 = Color(0xFF00386B);
+  // ── Information (tinted primary) ─────────────────────────────────────
+  static const info100 = Color(0xFFDBE8FE);
+  static const info200 = Color(0xFFBDD4FD);
+  static const info300 = Color(0xFF8BB4FB);
+  static const info400 = Color(0xFF5A93F9);
+  static const info500 = Color(0xFF226DF7);
+  static const info600 = Color(0xFF1E62DE);
+  static const info700 = Color(0xFF184DB0);
+  static const info800 = Color(0xFF123A85);
+  static const info900 = Color(0xFF0C285C);
 
   static const info = info600;
 
@@ -103,10 +102,10 @@ class AppPalette {
   static const transparent20 = Color(0x33000000);
   static const transparent10 = Color(0x1A000000);
 
-  // ── Other ────────────────────────────────────────────────────────────
-  static const softGrey = Color(0xFFF4F4F4);
-  static const lightGrey = Color(0xFFF9F9F9);
-  static const stroke = Color(0xFFD9D9D9);
+  // ── Surfaces (web muted / border / card) ─────────────────────────────
+  static const softGrey = Color(0xFFF8FAFC);
+  static const lightGrey = Color(0xFFF8FAFC);
+  static const stroke = Color(0xFFE2E8F0);
 
   static const white = Colors.white;
   static const black = Colors.black;
@@ -177,38 +176,38 @@ class AppColors {
     isDark: false,
     primary: AppPalette.primary500,
     primaryHover: AppPalette.primary600,
-    onPrimary: AppPalette.secondary900,
+    onPrimary: AppPalette.white,
     background: AppPalette.lightGrey,
     surface: AppPalette.white,
-    surfaceMuted: AppPalette.lightGrey,
+    surfaceMuted: AppPalette.softGrey,
     surfaceElevated: AppPalette.white,
     textPrimary: AppPalette.secondary900,
     textSecondary: AppPalette.secondary500,
     textMuted: AppPalette.secondary400,
     onDark: AppPalette.white,
     border: AppPalette.stroke,
-    divider: AppPalette.carbon100,
+    divider: AppPalette.secondary100,
     success: AppPalette.success,
     successSoft: AppPalette.successSoft,
     danger: AppPalette.danger,
     dangerSoft: AppPalette.dangerSoft,
     info: AppPalette.info,
     warning: AppPalette.warning,
-    shadow: Color(0x14121315),
+    shadow: Color(0x140F172A),
   );
 
   static const AppColors dark = AppColors._(
     isDark: true,
     primary: AppPalette.primary400,
-    primaryHover: AppPalette.primary200,
+    primaryHover: AppPalette.primary300,
     onPrimary: AppPalette.secondary900,
     background: AppPalette.secondary900,
     surface: AppPalette.secondary800,
     surfaceMuted: AppPalette.carbon850,
     surfaceElevated: AppPalette.secondary700,
-    textPrimary: Color(0xFFEDF1F7),
-    textSecondary: AppPalette.secondary100,
-    textMuted: AppPalette.secondary200,
+    textPrimary: Color(0xFFF8FAFC),
+    textSecondary: AppPalette.secondary200,
+    textMuted: AppPalette.secondary300,
     onDark: AppPalette.white,
     border: AppPalette.secondary600,
     divider: AppPalette.secondary700,
@@ -286,20 +285,20 @@ abstract final class PartShopTheme {
       ),
       headlineLarge: base.textTheme.headlineLarge?.copyWith(
         color: c.textPrimary,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w600,
         letterSpacing: -0.3,
       ),
       headlineMedium: base.textTheme.headlineMedium?.copyWith(
         color: c.textPrimary,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w600,
       ),
       headlineSmall: base.textTheme.headlineSmall?.copyWith(
         color: c.textPrimary,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
       ),
       titleLarge: base.textTheme.titleLarge?.copyWith(
         color: c.textPrimary,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
       ),
       titleMedium: base.textTheme.titleMedium?.copyWith(
         color: c.textPrimary,
@@ -339,7 +338,7 @@ abstract final class PartShopTheme {
         scrolledUnderElevation: 0,
         centerTitle: false,
         titleTextStyle:
-            textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+            textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
         iconTheme: IconThemeData(color: c.textPrimary),
       ),
       cardTheme: CardThemeData(
@@ -347,7 +346,7 @@ abstract final class PartShopTheme {
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(12),
           side: BorderSide(color: c.border),
         ),
       ),
@@ -359,7 +358,7 @@ abstract final class PartShopTheme {
         secondaryLabelStyle: textTheme.labelLarge?.copyWith(color: c.onPrimary),
         side: BorderSide(color: c.border),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        shape: const StadiumBorder(),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -368,8 +367,8 @@ abstract final class PartShopTheme {
           minimumSize: const Size(64, 52),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -380,8 +379,8 @@ abstract final class PartShopTheme {
           minimumSize: const Size(64, 52),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -391,7 +390,7 @@ abstract final class PartShopTheme {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           side: BorderSide(color: c.border),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
         ),
       ),
@@ -416,23 +415,23 @@ abstract final class PartShopTheme {
         prefixIconColor: c.textSecondary,
         suffixIconColor: c.textSecondary,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: c.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: c.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: c.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: c.danger),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: c.danger, width: 1.5),
         ),
       ),
@@ -443,13 +442,13 @@ abstract final class PartShopTheme {
         elevation: 0,
         modalElevation: 0,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: c.surface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: c.textPrimary,
@@ -470,14 +469,14 @@ abstract final class PartShopTheme {
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: c.primary,
         foregroundColor: c.onPrimary,
-        elevation: 6,
+        elevation: 2,
         shape: const CircleBorder(),
       ),
       tabBarTheme: TabBarThemeData(
         labelColor: c.textPrimary,
         unselectedLabelColor: c.textMuted,
         indicatorColor: c.primary,
-        labelStyle: const TextStyle(fontWeight: FontWeight.w700),
+        labelStyle: const TextStyle(fontWeight: FontWeight.w600),
         unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
         dividerColor: Colors.transparent,
       ),
