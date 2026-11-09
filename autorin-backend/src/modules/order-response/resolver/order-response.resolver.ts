@@ -4,6 +4,7 @@ import type { RedisPubSub } from 'graphql-redis-subscriptions';
 import { Types } from 'mongoose';
 import { ContextType } from 'src/auth/interfaces';
 import { assertAuthenticated } from 'src/auth/utils/authenticated-context';
+import { isAdminRole } from 'src/auth/utils/admin-scope';
 import { UseAuth, UseWsAuth } from 'src/auth/useAuth';
 import { ObjectIdScalar } from 'src/common';
 import { PUBSUB, TRIGGERS } from 'src/pubsub';
@@ -25,7 +26,11 @@ export class OrderResponseResolver {
     @Context() context: ContextType,
   ) {
     const { userId } = assertAuthenticated(context);
-    const canWatch = await this.service.canWatchOrder(userId, orderId);
+    const canWatch = await this.service.canWatchOrder(
+      userId,
+      orderId,
+      isAdminRole(context),
+    );
     if (!canWatch) return [];
     return this.service.list(orderId);
   }
@@ -50,7 +55,11 @@ export class OrderResponseResolver {
     @Context() context: ContextType,
   ) {
     const { userId } = assertAuthenticated(context);
-    await this.service.assertCanWatchOrder(userId, orderId);
+    await this.service.assertCanWatchOrder(
+      userId,
+      orderId,
+      isAdminRole(context),
+    );
     return this.pubSub.asyncIterator(
       TRIGGERS.ORDER_RESPONSE_ADDED(orderId.toString()),
     );

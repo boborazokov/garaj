@@ -1,9 +1,10 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { ObjectIdScalar } from 'src/common';
 import { COLLECTIONS } from 'src/constants';
 import { Category } from 'src/modules/category/schema';
+import { ServicePromotionPlanEnum } from 'src/modules/service/enums/service-promotion-plan.enum';
 import { User } from 'src/modules/user/schema';
 import { OrderStatusEnum, OrderUrgencyEnum } from '../enums';
 import { GEO_POINT_SCHEMA, GeoJsonPoint, GeoPoint } from 'src/shared/geo';
@@ -87,6 +88,11 @@ export class Order {
   })
   partCategory?: Types.ObjectId | Category | null;
 
+  /** Vehicle manufacture year (optional). */
+  @Field(() => Int, { nullable: true })
+  @Prop({ type: Number, default: null, min: 1950, max: 2100, index: true })
+  year?: number | null;
+
   @Field({ nullable: true })
   @Prop({ default: 0, min: 0 })
   budget?: number;
@@ -122,8 +128,20 @@ export class Order {
   isPromoted: boolean;
 
   @Field(() => Date, { nullable: true })
-  @Prop({ type: Date, default: null })
+  @Prop({ type: Date, default: null, index: true })
   promotedUntil?: Date | null;
+
+  @Field(() => ServicePromotionPlanEnum, { nullable: true })
+  @Prop({
+    type: String,
+    enum: Object.keys(ServicePromotionPlanEnum),
+    default: null,
+  })
+  promotionPlan?: ServicePromotionPlanEnum | null;
+
+  @Field()
+  @Prop({ default: 0, index: true })
+  promotionPriority: number;
 
   @Field()
   createdAt: Date;

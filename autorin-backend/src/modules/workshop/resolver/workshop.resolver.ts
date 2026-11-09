@@ -18,6 +18,8 @@ import {
 } from '../dto';
 import { Workshop, resolveWorkshopGeo } from '../schema';
 import { UseAuth, UseOptionalAuth } from 'src/auth/useAuth';
+import { UseRole } from 'src/auth/useAuth/use-role.decorator';
+import { UserRoleEnum } from 'src/modules/user/enums';
 import { PaginatedWorkshops } from '../types';
 import { WorkshopDiscoveryService } from '../service/workshop-discovery.service';
 import { NearbyArgs } from 'src/shared/geo';
@@ -98,6 +100,11 @@ export class WorkshopResolver {
   @ResolveField(() => Number)
   bookingCount(@Parent() workshop: Workshop) {
     return workshop.bookingCount ?? 0;
+  }
+
+  @ResolveField(() => Number)
+  phoneClickCount(@Parent() workshop: Workshop) {
+    return workshop.phoneClickCount ?? 0;
   }
 
   @ResolveField(() => Number)
@@ -295,7 +302,8 @@ export class WorkshopResolver {
     return this.workshopService.restoreWorkshopById(args, context);
   }
 
-  @UseAuth()
+  /** Admin fallback — users promote via `purchasePromotion`. */
+  @UseRole(UserRoleEnum.ADMIN)
   @Mutation(() => Workshop, { name: 'promoteWorkshop' })
   promoteWorkshop(
     @Args() args: PromoteWorkshopArgs,

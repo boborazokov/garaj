@@ -24,14 +24,19 @@ import {
   AdminListOrdersArgs,
   AdminListPartsArgs,
   AdminListUsersArgs,
+  AdminListWorkshopsArgs,
   AdminSetPartRecommendedArgs,
+  AdminSetOrderRecommendedArgs,
   AdminSetPartViewsCountArgs,
+  AdminSetWorkshopRecommendedArgs,
   AdminSetUserImageArgs,
   AdminSetUserVerifiedArgs,
   ModeratePartArgs,
   SetUserRoleArgs,
 } from '../dto/args/admin.args';
 import { AdminPartsSortEnum } from '../enums/admin-parts-sort.enum';
+import { AdminWorkshopsSortEnum } from '../enums/admin-workshops-sort.enum';
+import { AdminOrdersSortEnum } from '../enums/admin-orders-sort.enum';
 import { ServicePromotionPlanEnum } from 'src/modules/service/enums/service-promotion-plan.enum';
 import { AdminStats } from '../types/admin-stats.type';
 import { AnalyticsService } from 'src/modules/analytics/service/analytics.service';
@@ -39,7 +44,19 @@ import { AdminDailyReport } from 'src/modules/analytics/types/admin-daily-report
 import { AdminDailyReportArgs } from '../dto/args/admin.args';
 import { UserService } from 'src/modules/user/service';
 import { PushService } from 'src/services/push';
+import { Workshop } from 'src/modules/workshop/schema';
+import { PaginatedWorkshops } from 'src/modules/workshop/types';
+import { normalizeWorkshops } from 'src/modules/workshop/utils/normalize-workshop';
 import * as dayjs from 'dayjs';
+
+const workshopPopulate = [
+  ...POPULATIONS.workshop,
+  {
+    path: 'categoryIds',
+    model: COLLECTIONS.WORKSHOP_CATEGORIES,
+    select: 'names slug icon color popular',
+  },
+];
 
 @Injectable()
 export class AdminService {
@@ -49,6 +66,8 @@ export class AdminService {
     @InjectModel(COLLECTIONS.ORDERS) private orderModel: PaginateModel<Order>,
     @InjectModel(COLLECTIONS.CATEGORIES)
     private categoryModel: PaginateModel<Category>,
+    @InjectModel(COLLECTIONS.WORKSHOPS)
+    private workshopModel: PaginateModel<Workshop>,
     private appSettingsService: AppSettingsService,
     private partIndexService: PartIndexService,
     private analyticsService: AnalyticsService,
@@ -99,16 +118,25 @@ export class AdminService {
 
   async getAdminStats(context: ContextType): Promise<AdminStats> {
     this.assertAdmin(context);
-    const [usersCount, partsCount, activePartsCount, pendingModerationCount, ordersCount] =
-      await Promise.all([
-        this.userModel.countDocuments(),
-        this.partModel.countDocuments(),
-        this.partModel.countDocuments({ status: ItemStatusEnum.ACTIVE }),
-        this.partModel.countDocuments({
-          status: ItemStatusEnum.PENDING_MODERATION,
-        }),
-        this.orderModel.countDocuments(),
-      ]);
+    const [
+      usersCount,
+      partsCount,
+      activePartsCount,
+      pendingModerationCount,
+      ordersCount,
+      workshopsCount,
+      activeWorkshopsCount,
+    ] = await Promise.all([
+      this.userModel.countDocuments(),
+      this.partModel.countDocuments(),
+      this.partModel.countDocuments({ status: ItemStatusEnum.ACTIVE }),
+      this.partModel.countDocuments({
+        status: ItemStatusEnum.PENDING_MODERATION,
+      }),
+      this.orderModel.countDocuments(),
+      this.workshopModel.countDocuments(),
+      this.workshopModel.countDocuments({ status: ItemStatusEnum.ACTIVE }),
+    ]);
 
     return {
       usersCount,
@@ -116,6 +144,8 @@ export class AdminService {
       activePartsCount,
       pendingModerationCount,
       ordersCount,
+      workshopsCount,
+      activeWorkshopsCount,
     };
   }
 
@@ -378,6 +408,41 @@ export class AdminService {
     return part;
   }
 
+  async setOrderRecommended(
+    args: AdminSetOrderRecommendedArgs,
+    context: ContextType,
+  ): Promise<Order> {
+    this.assertAdmin(context);
+    const update = args.recommended
+      ? {
+          isPromoted: true,
+          promotedUntil: dayjs().add(1, 'year').toDate(),
+          promotionPlan: ServicePromotionPlanEnum.VIP,
+          promotionPriority: 4,
+        }
+      : {
+          isPromoted: false,
+          promotedUntil: null,
+          promotionPlan: null,
+          promotionPriority: 0,
+        };
+
+    const order = await this.orderModel
+      .findByIdAndUpdate(args.orderId, { $set: update }, { new: true })
+      .populate([
+        { path: 'author' },
+        { path: 'brand' },
+        { path: 'carModel' },
+        { path: 'partCategory' },
+      ]);
+
+    if (!order) {
+      throw new BadRequestException('Order not found');
+    }
+
+    return order;
+  }
+
   async setPartViewsCount(
     args: AdminSetPartViewsCountArgs,
     context: ContextType,
@@ -402,30 +467,250 @@ export class AdminService {
     return part;
   }
 
+  async listAllWorkshops(
+    args: AdminListWorkshopsArgs,
+    context: ContextType,
+  ): Promise<PaginatedWorkshops> {
+    this.assertAdmin(context);
+    const {
+      pagination,
+      search,
+      status,
+      categoryId,
+      ownerId,
+      createdFrom,
+      createdTo,
+      isPromoted,
+      sort,
+    } = args;
+    const filter: Record<string, unknown> = {};
+
+    if (search?.trim()) {
+      const term = search.trim();
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'i');
+      const owners = await this.userModel
+        .find({ $or: [{ name: regex }, { phone: regex }] })
+        .select('_id')
+        .lean();
+      const ownerIds = owners.map((row) => row._id);
+      filter.$or = [
+        { name: regex },
+        { description: regex },
+        { address: regex },
+        { city: regex },
+        { location: regex },
+        { phone: regex },
+        ...(ownerIds.length ? [{ owner: { $in: ownerIds } }] : []),
+        {
+          $expr: {
+            $regexMatch: {
+              input: { $toString: '$_id' },
+              regex: escaped,
+              options: 'i',
+            },
+          },
+        },
+      ];
+    }
+
+    if (status) {
+      filter.status = status;
+    }
+    if (categoryId) {
+      // Match workshops that include this service category id.
+      filter.categoryIds = { $in: [categoryId] };
+    }
+    if (ownerId) {
+      filter.owner = ownerId;
+    }
+    if (createdFrom || createdTo) {
+      const createdAt: Record<string, Date> = {};
+      if (createdFrom) createdAt.$gte = createdFrom;
+      if (createdTo) createdAt.$lte = createdTo;
+      filter.createdAt = createdAt;
+    }
+    if (isPromoted === true) {
+      filter.isPromoted = true;
+      filter.promotedUntil = { $gt: new Date() };
+    } else if (isPromoted === false) {
+      const notPromoted = {
+        $or: [
+          { isPromoted: { $ne: true } },
+          { promotedUntil: { $lte: new Date() } },
+          { promotedUntil: null },
+        ],
+      };
+      const existingAnd = Array.isArray(filter.$and) ? filter.$and : [];
+      filter.$and = [...existingAnd, notPromoted];
+    }
+
+    const { docs, ...meta } = await this.workshopModel.paginate(filter, {
+      ...pagination,
+      sort: this.workshopsSort(sort),
+      populate: workshopPopulate,
+    });
+
+    return { payload: normalizeWorkshops(docs), ...meta };
+  }
+
+  private workshopsSort(
+    sort?: AdminWorkshopsSortEnum,
+  ): Record<string, 1 | -1> {
+    switch (sort) {
+      case AdminWorkshopsSortEnum.OLDEST:
+        return { createdAt: 1, _id: 1 };
+      case AdminWorkshopsSortEnum.VIEWS:
+        return { viewCount: -1, createdAt: -1 };
+      case AdminWorkshopsSortEnum.RECOMMENDED:
+        return { isPromoted: -1, promotionPriority: -1, createdAt: -1 };
+      case AdminWorkshopsSortEnum.NEWEST:
+      default:
+        return { createdAt: -1, _id: -1 };
+    }
+  }
+
+  async setWorkshopRecommended(
+    args: AdminSetWorkshopRecommendedArgs,
+    context: ContextType,
+  ): Promise<Workshop> {
+    this.assertAdmin(context);
+    const update = args.recommended
+      ? {
+          isPromoted: true,
+          premium: true,
+          promotedUntil: dayjs().add(1, 'year').toDate(),
+          promotionPlan: ServicePromotionPlanEnum.VIP,
+          promotionPriority: 4,
+        }
+      : {
+          isPromoted: false,
+          premium: false,
+          promotedUntil: null,
+          promotionPlan: null,
+          promotionPriority: 0,
+        };
+
+    const workshop = await this.workshopModel
+      .findByIdAndUpdate(args.workshopId, { $set: update }, { new: true })
+      .populate(workshopPopulate);
+
+    if (!workshop) {
+      throw new BadRequestException('Workshop not found');
+    }
+
+    return normalizeWorkshops([workshop])[0];
+  }
+
   async listOrders(
     args: AdminListOrdersArgs,
     context: ContextType,
   ): Promise<PaginatedOrders> {
     this.assertAdmin(context);
-    const { pagination, search } = args;
+    const {
+      pagination,
+      search,
+      status,
+      partCategoryId,
+      authorId,
+      createdFrom,
+      createdTo,
+      isPromoted,
+      sort,
+    } = args;
     const filter: Record<string, unknown> = {};
+
     if (search?.trim()) {
-      const regex = new RegExp(search.trim(), 'i');
-      filter.$or = [{ title: regex }, { description: regex }, { phone: regex }];
+      const term = search.trim();
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'i');
+      const authors = await this.userModel
+        .find({ $or: [{ name: regex }, { phone: regex }] })
+        .select('_id')
+        .lean();
+      const authorIds = authors.map((row) => row._id);
+      filter.$or = [
+        { title: regex },
+        { description: regex },
+        { phone: regex },
+        { location: regex },
+        { region: regex },
+        ...(authorIds.length ? [{ author: { $in: authorIds } }] : []),
+      ];
+    }
+
+    if (status) {
+      filter.status = status;
+    }
+    if (partCategoryId) {
+      filter.partCategory = partCategoryId;
+    }
+    if (authorId) {
+      filter.author = authorId;
+    }
+    if (createdFrom || createdTo) {
+      const createdAt: Record<string, Date> = {};
+      if (createdFrom) createdAt.$gte = createdFrom;
+      if (createdTo) createdAt.$lte = createdTo;
+      filter.createdAt = createdAt;
+    }
+    if (isPromoted === true) {
+      filter.isPromoted = true;
+      filter.promotedUntil = { $gt: new Date() };
+    } else if (isPromoted === false) {
+      const notPromoted = {
+        $or: [
+          { isPromoted: { $ne: true } },
+          { promotedUntil: { $lte: new Date() } },
+          { promotedUntil: null },
+        ],
+      };
+      const existingAnd = Array.isArray(filter.$and) ? filter.$and : [];
+      filter.$and = [...existingAnd, notPromoted];
     }
 
     const { docs, ...meta } = await this.orderModel.paginate(filter, {
       ...pagination,
-      sort: { createdAt: -1 },
+      sort: this.ordersSort(sort),
       populate: [
         { path: 'author', model: COLLECTIONS.USERS, select: 'name phone' },
-        { path: 'brand', model: COLLECTIONS.CATEGORIES, select: 'name' },
-        { path: 'carModel', model: COLLECTIONS.CATEGORIES, select: 'name' },
-        { path: 'partCategory', model: COLLECTIONS.CATEGORIES, select: 'name' },
+        {
+          path: 'brand',
+          model: COLLECTIONS.CATEGORIES,
+          select: 'name names',
+        },
+        {
+          path: 'carModel',
+          model: COLLECTIONS.CATEGORIES,
+          select: 'name names',
+        },
+        {
+          path: 'partCategory',
+          model: COLLECTIONS.CATEGORIES,
+          select: 'name names type parentId',
+        },
       ],
     });
 
     return { payload: docs, ...meta };
+  }
+
+  private ordersSort(
+    sort?: AdminOrdersSortEnum,
+  ): Record<string, 1 | -1> {
+    switch (sort) {
+      case AdminOrdersSortEnum.OLDEST:
+        return { createdAt: 1, _id: 1 };
+      case AdminOrdersSortEnum.BUDGET_ASC:
+        return { budget: 1, createdAt: -1 };
+      case AdminOrdersSortEnum.BUDGET_DESC:
+        return { budget: -1, createdAt: -1 };
+      case AdminOrdersSortEnum.RECOMMENDED:
+        return { isPromoted: -1, promotionPriority: -1, createdAt: -1 };
+      case AdminOrdersSortEnum.NEWEST:
+      default:
+        return { createdAt: -1, _id: -1 };
+    }
   }
 
   async approvePart(args: ModeratePartArgs, context: ContextType) {

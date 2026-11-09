@@ -150,6 +150,7 @@ enum ServicePromotionPlanEnum {
   STANDARD
   PREMIUM
   VIP
+  TOP
 }
 
 type WorkshopCategory {
@@ -214,6 +215,7 @@ type Workshop {
   fastResponse: Boolean!
   responseTimeMinutes: Int
   bookingCount: Float!
+  phoneClickCount: Int!
   viewCount: Float!
   owner: User!
   status: ItemStatusEnum!
@@ -269,6 +271,7 @@ type Order {
   brand: Category
   carModel: Category
   partCategory: Category
+  year: Int
   budget: Float
   currency: String
   urgency: OrderUrgencyEnum
@@ -276,6 +279,8 @@ type Order {
   images: [String!]
   isPromoted: Boolean!
   promotedUntil: DateTime
+  promotionPlan: ServicePromotionPlanEnum
+  promotionPriority: Float!
   createdAt: DateTime!
   updatedAt: DateTime
 }
@@ -500,8 +505,21 @@ type Advertisement {
   bannerImageUrl: String!
   title: String!
   link: String!
+  startsAt: DateTime
+  endsAt: DateTime
+  status: AdvertisementStatusEnum!
+  impressionCount: Int!
+  clickCount: Int!
+  ctr: Float!
+  isFree: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime
+}
+
+enum AdvertisementStatusEnum {
+  ACTIVE
+  PAUSED
+  EXPIRED
 }
 
 type PaginatedAdvertisements {
@@ -661,6 +679,8 @@ type AdminDailyReport {
   totalOrdersPublished: Int!
   todayVisits: Int!
   todayPartsPublished: Int!
+  todayOrdersPublished: Int!
+  todayNewUsers: Int!
 }
 
 type AdminStats {
@@ -669,6 +689,8 @@ type AdminStats {
   activePartsCount: Float!
   pendingModerationCount: Float!
   ordersCount: Float!
+  workshopsCount: Float!
+  activeWorkshopsCount: Float!
 }
 
 type SellerCategoryStat {
@@ -702,6 +724,46 @@ type SellerStoreProfile {
   categories: [SellerCategoryStat!]!
   isOwnProfile: Boolean!
   allowMessages: Boolean!
+}
+
+type PromotionPayment {
+  _id: ObjectId!
+  user: ObjectId!
+  targetType: PromotionTargetTypeEnum!
+  targetId: ObjectId!
+  plan: ServicePromotionPlanEnum!
+  amount: Int!
+  currency: CurrencyEnum!
+  status: PromotionPaymentStatusEnum!
+  provider: String!
+  providerRef: String
+  paidAt: DateTime
+  promotedAt: DateTime
+  failureReason: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum PromotionTargetTypeEnum {
+  PART
+  ORDER
+  SERVICE
+  WORKSHOP
+}
+
+enum PromotionPaymentStatusEnum {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+type PromotionPlanPrice {
+  plan: ServicePromotionPlanEnum!
+  amount: Int!
+  currency: CurrencyEnum!
+  days: Int!
+  priority: Int!
 }
 
 input SellerSocialLinksInput {
@@ -836,9 +898,11 @@ type Query {
   getAdminDailyReport(days: Int = 14): AdminDailyReport!
   adminListUsers(pagination: PaginationInput, search: String): PaginatedUsers!
   getPendingParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum, status: ItemStatusEnum, category: ObjectId, sellerId: ObjectId, minPrice: Float, maxPrice: Float, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminPartsSortEnum): PaginatedParts!
-  adminListOrders(pagination: PaginationInput, search: String): PaginatedOrders!
+  adminListOrders(pagination: PaginationInput, search: String, status: OrderStatusEnum, partCategoryId: ObjectId, authorId: ObjectId, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminOrdersSortEnum): PaginatedOrders!
   adminListParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum, status: ItemStatusEnum, category: ObjectId, sellerId: ObjectId, minPrice: Float, maxPrice: Float, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminPartsSortEnum): PaginatedParts!
+  adminListWorkshops(pagination: PaginationInput, search: String, status: ItemStatusEnum, categoryId: ObjectId, ownerId: ObjectId, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminWorkshopsSortEnum): PaginatedWorkshops!
   getSellerProfile(sellerId: ObjectId!): SellerStoreProfile!
+  promotionPlanPrices: [PromotionPlanPrice!]!
 }
 
 input SignInInput {
@@ -925,6 +989,8 @@ input ServiceFilterInput {
 input AdvertisementFilterInput {
   type: CategoryTypeEnum
   title: String
+  status: AdvertisementStatusEnum
+  isFree: Boolean
 }
 
 input OrderFilterInput {
@@ -944,6 +1010,21 @@ enum AdminPartsSortEnum {
   VIEWS
   PRICE_ASC
   PRICE_DESC
+  RECOMMENDED
+}
+
+enum AdminOrdersSortEnum {
+  NEWEST
+  OLDEST
+  BUDGET_ASC
+  BUDGET_DESC
+  RECOMMENDED
+}
+
+enum AdminWorkshopsSortEnum {
+  NEWEST
+  OLDEST
+  VIEWS
   RECOMMENDED
 }
 
@@ -987,6 +1068,8 @@ type Mutation {
   createAdvertisement(data: AdvertisementInput!): Advertisement!
   updateAdvertisement(advertisementId: ObjectId!, data: AdvertisementInput!): Advertisement!
   deleteAdvertisement(advertisementId: ObjectId!): Boolean!
+  recordAdvertisementImpression(advertisementId: ObjectId!): Advertisement!
+  recordAdvertisementClick(advertisementId: ObjectId!): Advertisement!
   createOrder(data: OrderInput!): Order!
   updateOrderById(orderId: ObjectId!, data: OrderUpdateInput!): Order!
   closeOrderById(orderId: ObjectId!): Order!
@@ -1012,7 +1095,12 @@ type Mutation {
   approvePart(partId: ObjectId!, note: String): Part!
   rejectPart(partId: ObjectId!, note: String): Part!
   adminSetPartRecommended(partId: ObjectId!, recommended: Boolean!): Part!
+  adminSetOrderRecommended(orderId: ObjectId!, recommended: Boolean!): Order!
   adminSetPartViewsCount(partId: ObjectId!, viewsCount: Int!): Part!
+  adminSetWorkshopRecommended(workshopId: ObjectId!, recommended: Boolean!): Workshop!
+  purchasePromotion(targetType: PromotionTargetTypeEnum!, targetId: ObjectId!, plan: ServicePromotionPlanEnum!): PromotionPayment!
+  adminFulfillPromotion(targetType: PromotionTargetTypeEnum!, targetId: ObjectId!, plan: ServicePromotionPlanEnum): Boolean!
+  adminRetryPromotionPayment(paymentId: ObjectId!): PromotionPayment!
 }
 
 input SignUpInput {
@@ -1212,6 +1300,10 @@ input AdvertisementInput {
   bannerImageUrl: String!
   title: String!
   link: String!
+  startsAt: DateTime
+  endsAt: DateTime
+  status: AdvertisementStatusEnum
+  isFree: Boolean
 }
 
 input OrderInput {
@@ -1223,6 +1315,7 @@ input OrderInput {
   brand: ObjectId
   carModel: ObjectId
   partCategory: ObjectId
+  year: Int
   budget: Float
   currency: String
   urgency: OrderUrgencyEnum
@@ -1237,6 +1330,7 @@ input OrderUpdateInput {
   brand: ObjectId
   carModel: ObjectId
   partCategory: ObjectId
+  year: Int
   budget: Float
   currency: String
   status: OrderStatusEnum

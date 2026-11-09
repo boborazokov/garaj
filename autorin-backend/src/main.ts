@@ -35,14 +35,21 @@ async function bootstrap() {
   const maxUploadBytes = Number(
     config.get('UPLOAD_MAX_FILE_BYTES') ?? 10_485_760,
   );
-  // Parses GraphQL multipart uploads (updateProfile image, createPart, etc.)
-  nestApp.use(
-    ROUTES.API,
-    graphqlUploadExpress({
-      maxFileSize: maxUploadBytes,
-      maxFiles: 10,
-    }),
-  );
+  // GraphQL multipart only for the GraphQL endpoint itself (`POST /api`).
+  // Nested paths like `/api/upload/...` must not hit graphql-upload-ts
+  // (REST Multer uses a plain `file` field and fails the GraphQL map spec).
+  const graphqlMultipart = graphqlUploadExpress({
+    maxFileSize: maxUploadBytes,
+    maxFiles: 10,
+  });
+  nestApp.use(ROUTES.API, (req, res, next) => {
+    const path = (req.url ?? '').split('?')[0];
+    if (path !== '/' && path !== '') {
+      next();
+      return;
+    }
+    graphqlMultipart(req, res, next);
+  });
 
   nestApp.use(json({ limit: jsonLimit }));
   nestApp.use(ROUTES.API, createMaxQuerySizeMiddleware(config));

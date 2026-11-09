@@ -6,6 +6,7 @@ export enum ServicePromotionPlanEnum {
   STANDARD = 'STANDARD',
   PREMIUM = 'PREMIUM',
   VIP = 'VIP',
+  TOP = 'TOP',
 }
 
 registerEnumType(ServicePromotionPlanEnum, {
@@ -18,12 +19,14 @@ export const PROMOTION_PLAN_DAYS: Record<ServicePromotionPlanEnum, number> = {
   [ServicePromotionPlanEnum.STANDARD]: 7,
   [ServicePromotionPlanEnum.PREMIUM]: 14,
   [ServicePromotionPlanEnum.VIP]: 30,
+  [ServicePromotionPlanEnum.TOP]: 45,
 };
 
-/** Sort weight — VIP surfaces above PREMIUM, etc. */
+/** Sort weight — TOP surfaces above VIP, etc. */
 export const PROMOTION_PLAN_WEIGHT: Record<ServicePromotionPlanEnum, number> = {
   [ServicePromotionPlanEnum.BASIC]: 1,
   [ServicePromotionPlanEnum.STANDARD]: 2,
   [ServicePromotionPlanEnum.PREMIUM]: 3,
   [ServicePromotionPlanEnum.VIP]: 4,
+  [ServicePromotionPlanEnum.TOP]: 5,
 };

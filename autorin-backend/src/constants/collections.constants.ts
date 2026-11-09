@@ -26,4 +26,5 @@ export const COLLECTIONS = {
   DAILY_USER_VISITS: 'daily_user_visits',
   SELLER_PROFILE_VIEWS: 'seller_profile_views',
   USER_NOTIFICATIONS: 'user_notifications',
+  PROMOTION_PAYMENTS: 'promotion_payments',
 };

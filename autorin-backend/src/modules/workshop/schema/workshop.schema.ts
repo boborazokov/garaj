@@ -174,6 +174,11 @@ export class Workshop {
   @Prop({ default: 0 })
   bookingCount: number;
 
+  /** Phone number reveals / taps from the client app. */
+  @Field(() => Int)
+  @Prop({ default: 0, min: 0 })
+  phoneClickCount: number;
+
   @Field()
   @Prop({ default: 0 })
   viewCount: number;

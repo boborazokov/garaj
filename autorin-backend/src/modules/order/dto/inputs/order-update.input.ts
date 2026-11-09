@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { Types } from 'mongoose';
 import { ObjectIdScalar } from 'src/common';
 import { OrderStatusEnum, OrderUrgencyEnum } from '../../enums';
@@ -28,6 +28,9 @@ export class OrderUpdateInput {
 
   @Field(() => ObjectIdScalar, { nullable: true })
   partCategory?: Types.ObjectId;
+
+  @Field(() => Int, { nullable: true })
+  year?: number;
 
   @Field({ nullable: true })
   budget?: number;

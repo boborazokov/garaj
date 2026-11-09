@@ -43,7 +43,12 @@ export function normalizeWorkshop(doc: Workshop | Record<string, unknown>): Work
     fastResponse: plain.fastResponse === true,
     bookingCount:
       typeof plain.bookingCount === 'number' ? plain.bookingCount : 0,
+    phoneClickCount:
+      typeof plain.phoneClickCount === 'number' ? plain.phoneClickCount : 0,
     viewCount: typeof plain.viewCount === 'number' ? plain.viewCount : 0,
+    promotionPlan: (plain.promotionPlan as Workshop['promotionPlan']) ?? null,
+    promotedUntil: (plain.promotedUntil as Date | null | undefined) ?? null,
+    isPromoted: plain.isPromoted === true,
     serviceRadiusKm:
       typeof plain.serviceRadiusKm === 'number' ? plain.serviceRadiusKm : 15,
     servicePricing: (plain.servicePricing as Workshop['servicePricing']) ?? [],
