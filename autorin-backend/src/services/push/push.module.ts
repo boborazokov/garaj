@@ -1,6 +1,7 @@
 import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { buildRedisOptions } from 'src/configs/redis';
 import { DeviceTokenModule } from 'src/modules/device-token/module';
 import { UserNotificationModule } from 'src/modules/user-notification/module/user-notification.module';
 import { FirebaseDebugController } from './firebase-debug.controller';
@@ -27,14 +28,11 @@ import { PushWorker } from './push.worker';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        connection: {
-          host: config.get<string>('REDIS_HOST') || '127.0.0.1',
-          port: Number(config.get<string>('REDIS_PORT') || 6379),
-          password: config.get<string>('REDIS_PASSWORD') || undefined,
+        connection: buildRedisOptions(config, {
           db: Number(config.get<string>('REDIS_QUEUE_DB') || 1),
           maxRetriesPerRequest: null,
           enableReadyCheck: true,
-        },
+        }),
       }),
     }),
     BullModule.registerQueue({ name: PUSH_QUEUE }),

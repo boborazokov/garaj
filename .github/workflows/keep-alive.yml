@@ -1,0 +1,34 @@
+# Pings the free Render web service every 10 minutes so it does not spin down
+# after 15 minutes of inactivity.
+#
+# Setup:
+# 1. Deploy autorin-backend on Render (Blueprint / render.yaml).
+# 2. Repo → Settings → Secrets → Actions → add:
+#      RENDER_HEALTH_URL = https://<your-service>.onrender.com/health
+# 3. After the first successful deploy, this schedule keeps it awake.
+#
+# Note: GitHub cron can drift a few minutes. If the API still sleeps,
+# add the same URL on https://cron-job.org (every 10 min) as a backup.
+
+name: Keep Render awake
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping /health
+        env:
+          URL: ${{ secrets.RENDER_HEALTH_URL }}
+        run: |
+          if [ -z "$URL" ]; then
+            echo "Missing secret RENDER_HEALTH_URL — skip"
+            exit 0
+          fi
+          curl -fsS --retry 3 --retry-delay 5 --max-time 60 "$URL"
+          echo
+          echo "ok $(date -u +%Y-%m-%dT%H:%M:%SZ)"

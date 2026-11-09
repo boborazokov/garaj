@@ -8,6 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 import { Types } from 'mongoose';
+import { buildRedisOptions } from 'src/configs/redis';
 
 /**
  * Sliding-window rate limit for chat traffic.
@@ -34,14 +35,13 @@ export class AntiSpamService implements OnModuleInit {
   constructor(private readonly config: ConfigService) {}
 
   onModuleInit() {
-    this.redis = new Redis({
-      host: this.config.get<string>('REDIS_HOST') || '127.0.0.1',
-      port: Number(this.config.get<string>('REDIS_PORT') || 6379),
-      password: this.config.get<string>('REDIS_PASSWORD') || undefined,
-      db: Number(this.config.get<string>('REDIS_RATELIMIT_DB') || 2),
-      maxRetriesPerRequest: 1,
-      lazyConnect: true,
-    });
+    this.redis = new Redis(
+      buildRedisOptions(this.config, {
+        db: Number(this.config.get<string>('REDIS_RATELIMIT_DB') || 2),
+        maxRetriesPerRequest: 1,
+        lazyConnect: true,
+      }),
+    );
     this.redis.on('error', () => {
       // Handled in connect/assertNotFlooding; avoids ioredis unhandled error events.
     });

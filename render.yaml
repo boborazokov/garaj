@@ -1,0 +1,51 @@
+# Render Blueprint — free NestJS API (autorin-backend)
+# Open: https://dashboard.render.com/select-repo?type=blueprint
+#
+# Free web services sleep after ~15 min idle. Keep awake via:
+#   .github/workflows/keep-alive.yml  (secret RENDER_HEALTH_URL)
+#   or https://cron-job.org → GET https://<service>.onrender.com/health every 10 min
+#
+# External free deps (set when Blueprint asks for sync:false):
+#   MongoDB Atlas M0  → DATABASE_URL
+#   Upstash Redis     → REDIS_HOST + REDIS_PASSWORD (REDIS_TLS=true already set)
+# Optional later in Dashboard: MINIO_*, MEILI_*, ALLOWED_ORIGINS, Firebase
+
+services:
+  - type: web
+    name: autorin-backend
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: autorin-backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        value: "6379"
+      - key: REDIS_PASSWORD
+        sync: false
+      - key: REDIS_TLS
+        value: "true"
+      - key: SMS_PROVIDER
+        value: log
+      - key: MINIO_ENDPOINT
+        value: localhost
+      - key: MINIO_PORT
+        value: "9000"
+      - key: MINIO_USE_SSL
+        value: "false"
+      - key: MINIO_ACCESS_KEY
+        value: minioadmin
+      - key: MINIO_SECRET_KEY
+        value: minioadmin
+      - key: MINIO_REGION
+        value: us-east-1

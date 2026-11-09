@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
+import { buildRedisOptions } from 'src/configs/redis';
 
 @Injectable()
 export class RedisCacheService implements OnModuleDestroy {
@@ -8,13 +9,13 @@ export class RedisCacheService implements OnModuleDestroy {
   private readonly redis: Redis;
 
   constructor(config: ConfigService) {
-    this.redis = new Redis({
-      host: config.get<string>('REDIS_HOST') ?? 'localhost',
-      port: config.get<number>('REDIS_PORT') ?? 6379,
-      db: config.get<number>('REDIS_CACHE_DB') ?? 3,
-      maxRetriesPerRequest: 3,
-      lazyConnect: true,
-    });
+    this.redis = new Redis(
+      buildRedisOptions(config, {
+        db: Number(config.get<string>('REDIS_CACHE_DB') ?? 3),
+        maxRetriesPerRequest: 3,
+        lazyConnect: true,
+      }),
+    );
 
     this.redis.connect().catch((err) => {
       this.logger.warn(`Redis cache connect failed: ${err.message}`);

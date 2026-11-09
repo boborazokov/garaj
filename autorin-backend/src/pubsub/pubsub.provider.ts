@@ -1,7 +1,8 @@
 import { Logger, Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
-import Redis, { RedisOptions } from 'ioredis';
+import Redis from 'ioredis';
+import { buildRedisOptions } from 'src/configs/redis';
 
 /**
  * DI token for the GraphQL PubSub instance.
@@ -36,10 +37,7 @@ export const pubSubProvider: Provider = {
   useFactory: (config: ConfigService): RedisPubSub => {
     const logger = new Logger('PubSub');
 
-    const options: RedisOptions = {
-      host: config.get<string>('REDIS_HOST') || '127.0.0.1',
-      port: Number(config.get<string>('REDIS_PORT') || 6379),
-      password: config.get<string>('REDIS_PASSWORD') || undefined,
+    const options = buildRedisOptions(config, {
       db: Number(config.get<string>('REDIS_PUBSUB_DB') || 0),
       maxRetriesPerRequest: null,
       enableReadyCheck: true,
@@ -49,7 +47,7 @@ export const pubSubProvider: Provider = {
         if (err?.message?.includes('READONLY')) return true;
         return false;
       },
-    };
+    });
 
     const publisher = new Redis(options);
     const subscriber = new Redis(options);
