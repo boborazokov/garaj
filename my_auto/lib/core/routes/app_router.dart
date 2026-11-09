@@ -45,6 +45,7 @@ import 'package:my_auto/core/map/geo_location.dart';
 import 'package:my_auto/features/map/presentation/nearby_map_screen.dart';
 import 'package:my_auto/features/services/presentation/service_details_screen.dart';
 import 'package:my_auto/features/services/presentation/services_screen.dart';
+import 'package:my_auto/features/wallet/presentation/wallet_screen.dart';
 
 late GoRouter appRouter;
 
@@ -113,6 +114,10 @@ GoRouter createAppRouter(AuthProvider auth) {
       GoRoute(
         path: RoutesName.myServices,
         builder: (context, state) => const MyServices(),
+      ),
+      GoRoute(
+        path: RoutesName.wallet,
+        builder: (context, state) => const WalletScreen(),
       ),
       GoRoute(
         path: RoutesName.productDetailScreen,

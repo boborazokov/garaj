@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
+import 'package:my_auto/features/wallet/data/wallet_repository.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/toaster/index.dart';
 
@@ -94,14 +97,29 @@ class _PromotePlanSheetState extends State<_PromotePlanSheet> {
     if (plan == null || _submitting) return;
 
     setState(() => _submitting = true);
-    final ok = await widget.onPromote(plan);
-    if (!mounted) return;
-    setState(() => _submitting = false);
+    try {
+      final ok = await widget.onPromote(plan);
+      if (!mounted) return;
+      setState(() => _submitting = false);
 
-    if (ok) {
-      Toaster.success(S.of(context).promotionActivatedSuccess, context: context);
-      Navigator.pop(context, true);
-    } else {
+      if (ok) {
+        Toaster.success(
+          S.of(context).promotionActivatedSuccess,
+          context: context,
+        );
+        Navigator.pop(context, true);
+      } else {
+        Toaster.error(S.of(context).errorOccurred, context: context);
+      }
+    } on WalletInsufficientFundsException {
+      if (!mounted) return;
+      setState(() => _submitting = false);
+      Toaster.error(S.of(context).walletInsufficientFunds, context: context);
+      Navigator.pop(context, false);
+      context.push(RoutesName.wallet);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _submitting = false);
       Toaster.error(S.of(context).errorOccurred, context: context);
     }
   }

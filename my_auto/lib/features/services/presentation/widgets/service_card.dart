@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
@@ -7,6 +6,7 @@ import 'package:my_auto/core/utils/place_label.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/generated/l10n.dart';
+import 'package:my_auto/widgets/image_cache/index.dart';
 
 /// Clear service row card — title, street address, rating.
 class ServiceCard extends StatelessWidget {
@@ -51,8 +51,8 @@ class ServiceCard extends StatelessWidget {
                       ColoredBox(
                         color: colors.surfaceMuted,
                         child: image != null
-                            ? CachedNetworkImage(
-                                imageUrl: image,
+                            ? ImageCacheNetwork(
+                                url: image,
                                 fit: BoxFit.cover,
                               )
                             : Icon(

@@ -4,6 +4,8 @@ import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/features/add/api/index.dart';
 import 'package:my_auto/features/profile/screens/my_products/api/index.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
+import 'package:my_auto/features/wallet/data/wallet_models.dart';
+import 'package:my_auto/features/wallet/data/wallet_repository.dart';
 
 class PartRepository {
   final _client = GraphQLConfig.client();
@@ -35,17 +37,12 @@ class PartRepository {
   Future<bool> promotePart({
     required String partId,
     required ServicePromotionPlan plan,
-  }) async {
-    final result = await _client.mutate(
-      MutationOptions(
-        document: gql(promotePartByIdMutation),
-        variables: {
-          'partId': partId,
-          'plan': plan.api,
-        },
-      ),
+  }) {
+    return walletRepository.purchasePromotion(
+      targetType: PromotionTargetType.part,
+      targetId: partId,
+      plan: plan,
     );
-    return !result.hasException;
   }
 }
 

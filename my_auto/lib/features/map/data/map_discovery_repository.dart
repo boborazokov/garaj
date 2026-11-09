@@ -1,4 +1,6 @@
 import 'package:latlong2/latlong.dart';
+import 'package:my_auto/core/services/graphql/index.dart';
+import 'package:my_auto/core/utils/resolve_media_url.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/services/data/services_repository.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
@@ -124,7 +126,11 @@ class MapDiscoveryRepository {
       if (geo == null) continue;
       final cat = m['category'] as Map?;
       final isEmergency = m['isEmergency'] == true;
-      final imgs = (m['images'] as List?)?.map((x) => x.toString()).toList() ?? [];
+      final imgs = (m['images'] as List?)
+              ?.map((x) => normalizeStoragePath(x.toString(), mediaBase: fileUrl))
+              .where((s) => s.isNotEmpty)
+              .toList() ??
+          [];
       pins.add(MapPin(
         id: m['_id'].toString(),
         title: (m['title'] ?? 'Service').toString(),
@@ -145,7 +151,11 @@ class MapDiscoveryRepository {
       final m = Map<String, dynamic>.from(e as Map);
       final geo = m['geoLocation'] as Map?;
       if (geo == null) continue;
-      final imgs = (m['images'] as List?)?.map((x) => x.toString()).toList() ?? [];
+      final imgs = (m['images'] as List?)
+              ?.map((x) => normalizeStoragePath(x.toString(), mediaBase: fileUrl))
+              .where((s) => s.isNotEmpty)
+              .toList() ??
+          [];
       pins.add(MapPin(
         id: m['_id'].toString(),
         title: (m['name'] ?? 'Part').toString(),

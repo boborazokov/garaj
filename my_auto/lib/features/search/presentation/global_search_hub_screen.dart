@@ -8,8 +8,10 @@ import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/model/product/index.dart';
 import 'package:my_auto/core/provider/language/index.dart';
 import 'package:my_auto/core/routes/name.dart';
+import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/core/utils/resolve_media_url.dart';
 import 'package:my_auto/features/create_product/data/models/category_node.dart';
 import 'package:my_auto/features/orders/domain/entities/order.dart';
 import 'package:my_auto/features/search/data/search_history_storage.dart';
@@ -1141,18 +1143,20 @@ class _SellerRow extends StatelessWidget {
     final s = S.of(context);
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-      leading: CircleAvatar(
-        backgroundImage:
-            (hit.image != null && hit.image!.isNotEmpty) ? NetworkImage(hit.image!) : null,
-        backgroundColor: colors.primary.withValues(alpha: 0.12),
-        child: (hit.image == null || hit.image!.isEmpty)
-            ? Text(
-                hit.name.isNotEmpty ? hit.name[0].toUpperCase() : '?',
-                style: TextStyle(
-                    fontWeight: FontWeight.w800, color: colors.primary),
-              )
-            : null,
-      ),
+      leading: () {
+        final avatarUrl = resolveMediaUrl(hit.image, mediaBase: fileUrl);
+        return CircleAvatar(
+          backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
+          backgroundColor: colors.primary.withValues(alpha: 0.12),
+          child: avatarUrl == null
+              ? Text(
+                  hit.name.isNotEmpty ? hit.name[0].toUpperCase() : '?',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800, color: colors.primary),
+                )
+              : null,
+        );
+      }(),
       title: Text(hit.name,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

@@ -1,0 +1,17 @@
+import { registerEnumType } from '@nestjs/graphql';
+
+export enum WalletTransactionTypeEnum {
+  ADMIN_TOPUP_MAIN = 'ADMIN_TOPUP_MAIN',
+  ADMIN_CREDIT_BONUS = 'ADMIN_CREDIT_BONUS',
+  TOPUP_MAIN = 'TOPUP_MAIN',
+  PROMOTION_SPEND = 'PROMOTION_SPEND',
+  BOOKING_SPEND = 'BOOKING_SPEND',
+  REFUND = 'REFUND',
+  WITHDRAW_REQUEST = 'WITHDRAW_REQUEST',
+  WITHDRAW_PAID = 'WITHDRAW_PAID',
+  WITHDRAW_REJECTED = 'WITHDRAW_REJECTED',
+}
+
+registerEnumType(WalletTransactionTypeEnum, {
+  name: 'WalletTransactionTypeEnum',
+});

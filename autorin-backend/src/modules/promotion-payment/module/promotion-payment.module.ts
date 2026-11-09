@@ -4,12 +4,14 @@ import { OrderModel } from 'src/modules/order/model';
 import { PartModel } from 'src/modules/part/model';
 import { ServiceModel } from 'src/modules/service/model/service.model';
 import { WorkshopModel } from 'src/modules/workshop/model';
+import { WalletModule } from 'src/modules/wallet/module';
 import { PromotionPaymentModel } from '../model';
 import { PromotionPaymentResolver } from '../resolver';
 import { PromotionPaymentService } from '../service';
 
 @Module({
   imports: [
+    WalletModule,
     MongooseModule.forFeature([
       PromotionPaymentModel,
       PartModel,

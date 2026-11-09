@@ -844,5 +844,27 @@
   "notificationGenericAlertBody": "У вас новое уведомление.",
   "pushChannelName": "Уведомления Garage",
   "pushChannelDescription": "Сообщения, заказы, сервисы и акции.",
-  "notificationOpenAction": "Открыть"
+  "notificationOpenAction": "Открыть",
+  "walletTitle": "Кошелёк",
+  "walletSubtitle": "Баланс, пополнение и история",
+  "walletAvailable": "Доступно",
+  "walletMain": "Основной",
+  "walletBonus": "Бонус",
+  "walletTopUp": "Пополнить",
+  "walletTopUpHint": "Тестовое пополнение. Payme/Click подключится позже.",
+  "walletTopUpSuccess": "Кошелёк пополнен",
+  "walletHistory": "Транзакции",
+  "walletEmptyHistory": "Пока нет транзакций",
+  "walletInsufficientFunds": "Недостаточно средств. Пополните кошелёк.",
+  "walletPayFromWallet": "Оплатить с кошелька",
+  "walletBookingPaid": "Бронирование оплачено с кошелька",
+  "walletBookingDateTime": "Дата и время",
+  "walletBookingNotes": "Заметки",
+  "walletSignInToBook": "Войдите, чтобы записаться",
+  "walletBookingFeeLabel": "Комиссия платформы: {amount} UZS",
+  "@walletBookingFeeLabel": {
+    "placeholders": {
+      "amount": {"type": "int"}
+    }
+  }
 }

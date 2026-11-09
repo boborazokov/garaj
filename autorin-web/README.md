@@ -14,7 +14,7 @@
 
 ```bash
 cd D:\flutter_projects\autorin-web
-cp .env.example .env   # укажите VITE_API_URL и VITE_FILE_URL
+cp .env.example .env   # VITE_API_URL (= VITE_FILE_URL); media via /media/…
 npm install
 npm run dev
 ```

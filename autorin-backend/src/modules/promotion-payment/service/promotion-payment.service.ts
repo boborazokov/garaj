@@ -21,6 +21,7 @@ import {
 import { buildPromotionUpdate } from 'src/modules/service/utils/promotion';
 import { Workshop } from 'src/modules/workshop/schema';
 import { CurrencyEnum } from 'src/shared/enums';
+import { WalletService } from 'src/modules/wallet/service';
 import { PROMOTION_PLAN_PRICES_UZS } from '../constants/plan-prices';
 import {
   AdminFulfillPromotionArgs,
@@ -48,6 +49,7 @@ export class PromotionPaymentService {
     private readonly serviceModel: Model<AutoService>,
     @InjectModel(COLLECTIONS.WORKSHOPS)
     private readonly workshopModel: Model<Workshop>,
+    private readonly walletService: WalletService,
   ) {}
 
   getPlanPrices(): PromotionPlanPrice[] {
@@ -96,17 +98,27 @@ export class PromotionPaymentService {
     });
 
     try {
-      // Placeholder for Payme/Click charge. INTERNAL always succeeds.
-      const providerRef = `internal_${payment._id.toString()}`;
-      payment.providerRef = providerRef;
+      const walletTx = await this.walletService.debitForPromotion({
+        userId: userObjectId,
+        amount,
+        promotionPaymentId: payment._id,
+      });
+      payment.provider = 'WALLET';
+      payment.providerRef = walletTx._id.toString();
       payment.status = PromotionPaymentStatusEnum.PAID;
       payment.paidAt = new Date();
       await payment.save();
     } catch (err) {
       payment.status = PromotionPaymentStatusEnum.FAILED;
-      payment.failureReason =
+      const message =
         err instanceof Error ? err.message : 'Payment charge failed';
+      payment.failureReason = message;
       await payment.save();
+      if (message === 'INSUFFICIENT_WALLET_BALANCE') {
+        throw new BadRequestException(
+          'INSUFFICIENT_WALLET_BALANCE: Top up your wallet to promote this listing.',
+        );
+      }
       throw new BadRequestException(
         'Payment failed. If money was deducted, contact support — an admin can promote manually.',
       );

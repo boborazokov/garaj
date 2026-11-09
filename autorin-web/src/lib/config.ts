@@ -13,7 +13,7 @@ export const API_ORIGIN = rawApiUrl.replace(/\/api$/i, "");
  */
 export const API_URL = rawApiUrl;
 
-export const FILE_URL = import.meta.env.VITE_FILE_URL ?? "http://localhost:9011";
+export const FILE_URL = import.meta.env.VITE_FILE_URL ?? rawApiUrl;
 
 /** GraphQL HTTP endpoint (always `ORIGIN/api`). */
 export const GRAPHQL_URL = `${API_ORIGIN}/api`;

@@ -77,13 +77,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m26(count) => "${count}";
 
-  static String m27(count) => "${count} offers";
+  static String m27(amount) => "Platform fee: ${amount} UZS";
 
-  static String m28(count) => "${count} open";
+  static String m28(count) => "${count} offers";
 
-  static String m29(text) => "Owner: ${text}";
+  static String m29(count) => "${count} open";
 
-  static String m30(amount, currency) => "from ${amount} ${currency}";
+  static String m30(text) => "Owner: ${text}";
+
+  static String m31(amount, currency) => "from ${amount} ${currency}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1546,6 +1548,41 @@ class MessageLookup extends MessageLookupByLibrary {
     "views": MessageLookupByLibrary.simpleMessage("Views"),
     "viewsCountLabel": m26,
     "viewsOfPhone": MessageLookupByLibrary.simpleMessage("Phone views"),
+    "walletAvailable": MessageLookupByLibrary.simpleMessage("Available"),
+    "walletBonus": MessageLookupByLibrary.simpleMessage("Bonus"),
+    "walletBookingDateTime": MessageLookupByLibrary.simpleMessage(
+      "Date & time",
+    ),
+    "walletBookingFeeLabel": m27,
+    "walletBookingNotes": MessageLookupByLibrary.simpleMessage("Notes"),
+    "walletBookingPaid": MessageLookupByLibrary.simpleMessage(
+      "Booking paid from wallet",
+    ),
+    "walletEmptyHistory": MessageLookupByLibrary.simpleMessage(
+      "No transactions yet",
+    ),
+    "walletHistory": MessageLookupByLibrary.simpleMessage("Transactions"),
+    "walletInsufficientFunds": MessageLookupByLibrary.simpleMessage(
+      "Insufficient wallet balance. Top up to continue.",
+    ),
+    "walletMain": MessageLookupByLibrary.simpleMessage("Main"),
+    "walletPayFromWallet": MessageLookupByLibrary.simpleMessage(
+      "Pay from wallet",
+    ),
+    "walletSignInToBook": MessageLookupByLibrary.simpleMessage(
+      "Sign in to book this service",
+    ),
+    "walletSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Balance, top-up and history",
+    ),
+    "walletTitle": MessageLookupByLibrary.simpleMessage("Wallet"),
+    "walletTopUp": MessageLookupByLibrary.simpleMessage("Top up"),
+    "walletTopUpHint": MessageLookupByLibrary.simpleMessage(
+      "Mock top-up for testing. Real Payme/Click comes later.",
+    ),
+    "walletTopUpSuccess": MessageLookupByLibrary.simpleMessage(
+      "Wallet topped up",
+    ),
     "wantToBuyBudget": MessageLookupByLibrary.simpleMessage("Budget"),
     "wantToBuyCreateCta": MessageLookupByLibrary.simpleMessage(
       "Post a request",
@@ -1559,9 +1596,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "wantToBuyFeedTitle": MessageLookupByLibrary.simpleMessage(
       "Buyer requests",
     ),
-    "wantToBuyOffers": m27,
+    "wantToBuyOffers": m28,
     "wantToBuyRequestBadge": MessageLookupByLibrary.simpleMessage("Request"),
-    "wantToBuyRequestsCount": m28,
+    "wantToBuyRequestsCount": m29,
     "wantToBuyRespond": MessageLookupByLibrary.simpleMessage("Make offer"),
     "wantToBuySearchHint": MessageLookupByLibrary.simpleMessage(
       "Part, car or city…",
@@ -1591,9 +1628,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "workshopOnRequest": MessageLookupByLibrary.simpleMessage("On request"),
     "workshopOpenNow": MessageLookupByLibrary.simpleMessage("Open now"),
-    "workshopOwnerReply": m29,
+    "workshopOwnerReply": m30,
     "workshopPopular": MessageLookupByLibrary.simpleMessage("Popular"),
-    "workshopPriceFrom": m30,
+    "workshopPriceFrom": m31,
     "workshopScreenSubtitle": MessageLookupByLibrary.simpleMessage(
       "Trusted auto businesses near you",
     ),

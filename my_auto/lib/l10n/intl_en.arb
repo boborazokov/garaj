@@ -918,5 +918,27 @@
   "notificationGenericAlertBody": "You have a new alert.",
   "pushChannelName": "Garage alerts",
   "pushChannelDescription": "Chat messages, orders, workshops and deals.",
-  "notificationOpenAction": "Open"
+  "notificationOpenAction": "Open",
+  "walletTitle": "Wallet",
+  "walletSubtitle": "Balance, top-up and history",
+  "walletAvailable": "Available",
+  "walletMain": "Main",
+  "walletBonus": "Bonus",
+  "walletTopUp": "Top up",
+  "walletTopUpHint": "Mock top-up for testing. Real Payme/Click comes later.",
+  "walletTopUpSuccess": "Wallet topped up",
+  "walletHistory": "Transactions",
+  "walletEmptyHistory": "No transactions yet",
+  "walletInsufficientFunds": "Insufficient wallet balance. Top up to continue.",
+  "walletPayFromWallet": "Pay from wallet",
+  "walletBookingPaid": "Booking paid from wallet",
+  "walletBookingDateTime": "Date & time",
+  "walletBookingNotes": "Notes",
+  "walletSignInToBook": "Sign in to book this service",
+  "walletBookingFeeLabel": "Platform fee: {amount} UZS",
+  "@walletBookingFeeLabel": {
+    "placeholders": {
+      "amount": {"type": "int"}
+    }
+  }
 }

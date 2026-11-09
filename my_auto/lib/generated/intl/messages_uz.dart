@@ -78,13 +78,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m26(count) => "${count}";
 
-  static String m27(count) => "${count} ta taklif";
+  static String m27(amount) => "Platforma to‘lovi: ${amount} UZS";
 
-  static String m28(count) => "${count} ta ochiq";
+  static String m28(count) => "${count} ta taklif";
 
-  static String m29(text) => "Egasi: ${text}";
+  static String m29(count) => "${count} ta ochiq";
 
-  static String m30(amount, currency) => "${amount} ${currency} dan";
+  static String m30(text) => "Egasi: ${text}";
+
+  static String m31(amount, currency) => "${amount} ${currency} dan";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1610,6 +1612,41 @@ class MessageLookup extends MessageLookupByLibrary {
     "views": MessageLookupByLibrary.simpleMessage("Ko‘rishlar"),
     "viewsCountLabel": m26,
     "viewsOfPhone": MessageLookupByLibrary.simpleMessage("Telefon ko‘rishlari"),
+    "walletAvailable": MessageLookupByLibrary.simpleMessage("Mavjud"),
+    "walletBonus": MessageLookupByLibrary.simpleMessage("Bonus"),
+    "walletBookingDateTime": MessageLookupByLibrary.simpleMessage(
+      "Sana va vaqt",
+    ),
+    "walletBookingFeeLabel": m27,
+    "walletBookingNotes": MessageLookupByLibrary.simpleMessage("Izohlar"),
+    "walletBookingPaid": MessageLookupByLibrary.simpleMessage(
+      "Bron hamyondan to‘landi",
+    ),
+    "walletEmptyHistory": MessageLookupByLibrary.simpleMessage(
+      "Hali tranzaksiyalar yo‘q",
+    ),
+    "walletHistory": MessageLookupByLibrary.simpleMessage("Tranzaksiyalar"),
+    "walletInsufficientFunds": MessageLookupByLibrary.simpleMessage(
+      "Mablag‘ yetarli emas. Hamyonni to‘ldiring.",
+    ),
+    "walletMain": MessageLookupByLibrary.simpleMessage("Asosiy"),
+    "walletPayFromWallet": MessageLookupByLibrary.simpleMessage(
+      "Hamyondan to‘lash",
+    ),
+    "walletSignInToBook": MessageLookupByLibrary.simpleMessage(
+      "Xizmatga yozilish uchun kiring",
+    ),
+    "walletSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Balans, to‘ldirish va tarix",
+    ),
+    "walletTitle": MessageLookupByLibrary.simpleMessage("Hamyon"),
+    "walletTopUp": MessageLookupByLibrary.simpleMessage("To‘ldirish"),
+    "walletTopUpHint": MessageLookupByLibrary.simpleMessage(
+      "Test to‘ldirish. Payme/Click keyinroq ulanadi.",
+    ),
+    "walletTopUpSuccess": MessageLookupByLibrary.simpleMessage(
+      "Hamyon to‘ldirildi",
+    ),
     "wantToBuyBudget": MessageLookupByLibrary.simpleMessage("Byudjet"),
     "wantToBuyCreateCta": MessageLookupByLibrary.simpleMessage(
       "So‘rov qoldirish",
@@ -1623,9 +1660,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "wantToBuyFeedTitle": MessageLookupByLibrary.simpleMessage(
       "Xaridor so‘rovlari",
     ),
-    "wantToBuyOffers": m27,
+    "wantToBuyOffers": m28,
     "wantToBuyRequestBadge": MessageLookupByLibrary.simpleMessage("So‘rov"),
-    "wantToBuyRequestsCount": m28,
+    "wantToBuyRequestsCount": m29,
     "wantToBuyRespond": MessageLookupByLibrary.simpleMessage("Taklif berish"),
     "wantToBuySearchHint": MessageLookupByLibrary.simpleMessage(
       "Qism, mashina yoki shahar…",
@@ -1653,9 +1690,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "So\'rov bo\'yicha",
     ),
     "workshopOpenNow": MessageLookupByLibrary.simpleMessage("Hozir ochiq"),
-    "workshopOwnerReply": m29,
+    "workshopOwnerReply": m30,
     "workshopPopular": MessageLookupByLibrary.simpleMessage("Mashhur"),
-    "workshopPriceFrom": m30,
+    "workshopPriceFrom": m31,
     "workshopScreenSubtitle": MessageLookupByLibrary.simpleMessage(
       "Yaqin atrofdagi ishonchli avtoservislar",
     ),

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +16,7 @@ import 'package:my_auto/generated/l10n.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:my_auto/core/errors/user_facing_errors.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
+import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:my_auto/widgets/reviews/submit_review_sheet.dart';
 import 'package:my_auto/widgets/toaster/index.dart';
 import 'package:provider/provider.dart';
@@ -125,8 +125,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                       ),
                       items: s.images
                           .map(
-                            (url) => CachedNetworkImage(
-                              imageUrl: url,
+                            (url) => ImageCacheNetwork(
+                              url: url,
                               fit: BoxFit.cover,
                               width: double.infinity,
                             ),

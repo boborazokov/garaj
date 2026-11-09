@@ -4816,6 +4816,108 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Open'**
   String get notificationOpenAction;
+
+  /// No description provided for @walletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get walletTitle;
+
+  /// No description provided for @walletSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance, top-up and history'**
+  String get walletSubtitle;
+
+  /// No description provided for @walletAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get walletAvailable;
+
+  /// No description provided for @walletMain.
+  ///
+  /// In en, this message translates to:
+  /// **'Main'**
+  String get walletMain;
+
+  /// No description provided for @walletBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus'**
+  String get walletBonus;
+
+  /// No description provided for @walletTopUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Top up'**
+  String get walletTopUp;
+
+  /// No description provided for @walletTopUpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mock top-up for testing. Real Payme/Click comes later.'**
+  String get walletTopUpHint;
+
+  /// No description provided for @walletTopUpSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet topped up'**
+  String get walletTopUpSuccess;
+
+  /// No description provided for @walletHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Transactions'**
+  String get walletHistory;
+
+  /// No description provided for @walletEmptyHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get walletEmptyHistory;
+
+  /// No description provided for @walletInsufficientFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient wallet balance. Top up to continue.'**
+  String get walletInsufficientFunds;
+
+  /// No description provided for @walletPayFromWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay from wallet'**
+  String get walletPayFromWallet;
+
+  /// No description provided for @walletBookingPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking paid from wallet'**
+  String get walletBookingPaid;
+
+  /// No description provided for @walletBookingDateTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Date & time'**
+  String get walletBookingDateTime;
+
+  /// No description provided for @walletBookingNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get walletBookingNotes;
+
+  /// No description provided for @walletSignInToBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to book this service'**
+  String get walletSignInToBook;
+
+  /// No description provided for @walletBookingFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform fee: {amount} UZS'**
+  String walletBookingFeeLabel(int amount);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

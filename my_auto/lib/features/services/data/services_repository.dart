@@ -3,6 +3,8 @@ import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/services/data/models/service_review.dart';
 import 'package:my_auto/features/services/data/services_api.dart';
+import 'package:my_auto/features/wallet/data/wallet_models.dart';
+import 'package:my_auto/features/wallet/data/wallet_repository.dart';
 
 class ServicesRepository {
   ServicesRepository(this._client);
@@ -55,17 +57,12 @@ class ServicesRepository {
   Future<bool> promoteService({
     required String serviceId,
     required ServicePromotionPlan plan,
-  }) async {
-    final result = await _client.mutate(
-      MutationOptions(
-        document: gql(promoteServiceMutation),
-        variables: {
-          'serviceId': serviceId,
-          'plan': plan.api,
-        },
-      ),
+  }) {
+    return walletRepository.purchasePromotion(
+      targetType: PromotionTargetType.service,
+      targetId: serviceId,
+      plan: plan,
     );
-    return !result.hasException;
   }
 
   Future<ServiceListing?> details(String id) async {
@@ -223,6 +220,7 @@ class ServicesRepository {
     required String serviceId,
     required DateTime scheduledAt,
     String? notes,
+    int? amount,
   }) async {
     final result = await _client.mutate(
       MutationOptions(
@@ -232,11 +230,19 @@ class ServicesRepository {
             'serviceId': serviceId,
             'scheduledAt': scheduledAt.toIso8601String(),
             if (notes != null) 'notes': notes,
+            if (amount != null) 'amount': amount,
           },
         },
       ),
     );
-    return !result.hasException;
+    if (result.hasException) {
+      final msg = result.exception.toString();
+      if (msg.contains('INSUFFICIENT_WALLET_BALANCE')) {
+        throw WalletInsufficientFundsException(msg);
+      }
+      return false;
+    }
+    return true;
   }
 }
 

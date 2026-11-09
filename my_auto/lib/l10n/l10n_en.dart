@@ -2515,4 +2515,59 @@ class SEn extends S {
 
   @override
   String get notificationOpenAction => 'Open';
+
+  @override
+  String get walletTitle => 'Wallet';
+
+  @override
+  String get walletSubtitle => 'Balance, top-up and history';
+
+  @override
+  String get walletAvailable => 'Available';
+
+  @override
+  String get walletMain => 'Main';
+
+  @override
+  String get walletBonus => 'Bonus';
+
+  @override
+  String get walletTopUp => 'Top up';
+
+  @override
+  String get walletTopUpHint =>
+      'Mock top-up for testing. Real Payme/Click comes later.';
+
+  @override
+  String get walletTopUpSuccess => 'Wallet topped up';
+
+  @override
+  String get walletHistory => 'Transactions';
+
+  @override
+  String get walletEmptyHistory => 'No transactions yet';
+
+  @override
+  String get walletInsufficientFunds =>
+      'Insufficient wallet balance. Top up to continue.';
+
+  @override
+  String get walletPayFromWallet => 'Pay from wallet';
+
+  @override
+  String get walletBookingPaid => 'Booking paid from wallet';
+
+  @override
+  String get walletBookingDateTime => 'Date & time';
+
+  @override
+  String get walletBookingNotes => 'Notes';
+
+  @override
+  String get walletSignInToBook => 'Sign in to book this service';
+
+  @override
+  String walletBookingFeeLabel(int amount) {
+    return 'Platform fee: $amount UZS';
+  }
 }

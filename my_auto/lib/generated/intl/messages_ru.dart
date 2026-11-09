@@ -77,13 +77,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m26(count) => "${count}";
 
-  static String m27(count) => "${count} предложений";
+  static String m27(amount) => "Комиссия платформы: ${amount} UZS";
 
-  static String m28(count) => "${count} открыто";
+  static String m28(count) => "${count} предложений";
 
-  static String m29(text) => "Владелец: ${text}";
+  static String m29(count) => "${count} открыто";
 
-  static String m30(amount, currency) => "от ${amount} ${currency}";
+  static String m30(text) => "Владелец: ${text}";
+
+  static String m31(amount, currency) => "от ${amount} ${currency}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1559,6 +1561,41 @@ class MessageLookup extends MessageLookupByLibrary {
     "views": MessageLookupByLibrary.simpleMessage("Просмотры"),
     "viewsCountLabel": m26,
     "viewsOfPhone": MessageLookupByLibrary.simpleMessage("Просмотры телефона"),
+    "walletAvailable": MessageLookupByLibrary.simpleMessage("Доступно"),
+    "walletBonus": MessageLookupByLibrary.simpleMessage("Бонус"),
+    "walletBookingDateTime": MessageLookupByLibrary.simpleMessage(
+      "Дата и время",
+    ),
+    "walletBookingFeeLabel": m27,
+    "walletBookingNotes": MessageLookupByLibrary.simpleMessage("Заметки"),
+    "walletBookingPaid": MessageLookupByLibrary.simpleMessage(
+      "Бронирование оплачено с кошелька",
+    ),
+    "walletEmptyHistory": MessageLookupByLibrary.simpleMessage(
+      "Пока нет транзакций",
+    ),
+    "walletHistory": MessageLookupByLibrary.simpleMessage("Транзакции"),
+    "walletInsufficientFunds": MessageLookupByLibrary.simpleMessage(
+      "Недостаточно средств. Пополните кошелёк.",
+    ),
+    "walletMain": MessageLookupByLibrary.simpleMessage("Основной"),
+    "walletPayFromWallet": MessageLookupByLibrary.simpleMessage(
+      "Оплатить с кошелька",
+    ),
+    "walletSignInToBook": MessageLookupByLibrary.simpleMessage(
+      "Войдите, чтобы записаться",
+    ),
+    "walletSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Баланс, пополнение и история",
+    ),
+    "walletTitle": MessageLookupByLibrary.simpleMessage("Кошелёк"),
+    "walletTopUp": MessageLookupByLibrary.simpleMessage("Пополнить"),
+    "walletTopUpHint": MessageLookupByLibrary.simpleMessage(
+      "Тестовое пополнение. Payme/Click подключится позже.",
+    ),
+    "walletTopUpSuccess": MessageLookupByLibrary.simpleMessage(
+      "Кошелёк пополнен",
+    ),
     "wantToBuyBudget": MessageLookupByLibrary.simpleMessage("Бюджет"),
     "wantToBuyCreateCta": MessageLookupByLibrary.simpleMessage(
       "Оставить заявку",
@@ -1572,9 +1609,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "wantToBuyFeedTitle": MessageLookupByLibrary.simpleMessage(
       "Заявки покупателей",
     ),
-    "wantToBuyOffers": m27,
+    "wantToBuyOffers": m28,
     "wantToBuyRequestBadge": MessageLookupByLibrary.simpleMessage("Заявка"),
-    "wantToBuyRequestsCount": m28,
+    "wantToBuyRequestsCount": m29,
     "wantToBuyRespond": MessageLookupByLibrary.simpleMessage("Предложить"),
     "wantToBuySearchHint": MessageLookupByLibrary.simpleMessage(
       "Деталь, авто или город…",
@@ -1602,9 +1639,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "workshopOnRequest": MessageLookupByLibrary.simpleMessage("По запросу"),
     "workshopOpenNow": MessageLookupByLibrary.simpleMessage("Открыто"),
-    "workshopOwnerReply": m29,
+    "workshopOwnerReply": m30,
     "workshopPopular": MessageLookupByLibrary.simpleMessage("Популярные"),
-    "workshopPriceFrom": m30,
+    "workshopPriceFrom": m31,
     "workshopScreenSubtitle": MessageLookupByLibrary.simpleMessage(
       "Проверенные автосервисы рядом с вами",
     ),

@@ -4,16 +4,18 @@
 
 ```env
 API_URL=https://api.garajmarket.uz
-API_File_URL=https://storage.garajmarket.uz
+API_File_URL=https://api.garajmarket.uz
 API_GEOCODE_URL=https://nominatim.openstreetmap.org/reverse
 MAPTILER_API_KEY=<key>
 ```
 
+Media paths resolve as `{API_File_URL}/media/{bucket}/…` (same host as the API).
+
 **Local dev example:**
 
 ```env
-API_URL=http://192.168.0.121:7007
-API_File_URL=http://192.168.0.121:9011
+API_URL=http://192.168.0.111:7007
+API_File_URL=http://192.168.0.111:7007
 ```
 
 Never commit production secrets. `.env` is bundled in assets for mobile — use CI secrets for release builds or `--dart-define`.

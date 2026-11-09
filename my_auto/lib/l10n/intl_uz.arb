@@ -844,5 +844,27 @@
   "notificationGenericAlertBody": "Sizda yangi bildirishnoma bor.",
   "pushChannelName": "Garage bildirishnomalari",
   "pushChannelDescription": "Xabarlar, buyurtmalar, xizmatlar va aksiyalar.",
-  "notificationOpenAction": "Ochish"
+  "notificationOpenAction": "Ochish",
+  "walletTitle": "Hamyon",
+  "walletSubtitle": "Balans, to‘ldirish va tarix",
+  "walletAvailable": "Mavjud",
+  "walletMain": "Asosiy",
+  "walletBonus": "Bonus",
+  "walletTopUp": "To‘ldirish",
+  "walletTopUpHint": "Test to‘ldirish. Payme/Click keyinroq ulanadi.",
+  "walletTopUpSuccess": "Hamyon to‘ldirildi",
+  "walletHistory": "Tranzaksiyalar",
+  "walletEmptyHistory": "Hali tranzaksiyalar yo‘q",
+  "walletInsufficientFunds": "Mablag‘ yetarli emas. Hamyonni to‘ldiring.",
+  "walletPayFromWallet": "Hamyondan to‘lash",
+  "walletBookingPaid": "Bron hamyondan to‘landi",
+  "walletBookingDateTime": "Sana va vaqt",
+  "walletBookingNotes": "Izohlar",
+  "walletSignInToBook": "Xizmatga yozilish uchun kiring",
+  "walletBookingFeeLabel": "Platforma to‘lovi: {amount} UZS",
+  "@walletBookingFeeLabel": {
+    "placeholders": {
+      "amount": {"type": "int"}
+    }
+  }
 }

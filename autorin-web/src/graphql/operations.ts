@@ -739,6 +739,60 @@ export const ADMIN_SET_USER_VERIFIED = gql`
   }
 `
 
+export const ADMIN_WALLET = gql`
+  query AdminWallet($userId: ObjectId!) {
+    adminWallet(userId: $userId) {
+      _id
+      user
+      mainBalance
+      bonusBalance
+      availableTotal
+      currency
+    }
+  }
+`
+
+export const ADMIN_WALLET_TRANSACTIONS = gql`
+  query AdminWalletTransactions($userId: ObjectId!, $limit: Int) {
+    adminWalletTransactions(userId: $userId, limit: $limit) {
+      _id
+      type
+      pool
+      amount
+      balanceAfterMain
+      balanceAfterBonus
+      status
+      note
+      createdAt
+    }
+  }
+`
+
+export const ADMIN_CREDIT_WALLET = gql`
+  mutation AdminCreditWallet(
+    $userId: ObjectId!
+    $pool: WalletPoolEnum!
+    $amount: Int!
+    $note: String
+  ) {
+    adminCreditWallet(
+      userId: $userId
+      pool: $pool
+      amount: $amount
+      note: $note
+    ) {
+      _id
+      type
+      pool
+      amount
+      balanceAfterMain
+      balanceAfterBonus
+      status
+      createdAt
+    }
+  }
+`
+
 export const CHAT_GET_MESSAGES = gql`
   query AdminGetMessages($conversationId: ObjectId!, $pagination: PaginationInput) {
     getMessages(conversationId: $conversationId, pagination: $pagination) {

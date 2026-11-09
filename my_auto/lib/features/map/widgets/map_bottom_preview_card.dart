@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:latlong2/latlong.dart';
@@ -8,6 +7,7 @@ import 'package:my_auto/features/map/domain/map_geo.dart';
 import 'package:my_auto/features/map/domain/map_open_status.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
+import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -107,13 +107,11 @@ class MapBottomPreviewCard extends StatelessWidget {
                               borderRadius: AppRadius.rL,
                               child: (pin.coverImage != null &&
                                       pin.coverImage!.isNotEmpty)
-                                  ? CachedNetworkImage(
-                                      imageUrl: pin.coverImage!,
+                                  ? ImageCacheNetwork(
+                                      url: pin.coverImage!,
                                       width: 64,
                                       height: 64,
                                       fit: BoxFit.cover,
-                                      errorWidget: (_, __, ___) =>
-                                          _placeholder(accent, pin),
                                     )
                                   : _placeholder(accent, pin),
                             ),

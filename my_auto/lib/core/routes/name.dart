@@ -44,4 +44,5 @@ class RoutesName {
   static const chatDetail = "/chat"; // pushed as `/chat/$id`
   static const inbox = "/inbox";
   static const notifications = "/notifications";
+  static const wallet = "/wallet";
 }

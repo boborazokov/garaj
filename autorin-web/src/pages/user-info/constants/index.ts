@@ -127,6 +127,66 @@ export const USER_INFO_TEXTS = {
     ru: "аккаунт",
     en: "account",
   },
+  walletTitle: {
+    uz: "Hamyon",
+    ru: "Кошелёк",
+    en: "Wallet",
+  },
+  walletMain: {
+    uz: "Asosiy",
+    ru: "Основной",
+    en: "Main",
+  },
+  walletBonus: {
+    uz: "Bonus",
+    ru: "Бонус",
+    en: "Bonus",
+  },
+  walletTotal: {
+    uz: "Jami",
+    ru: "Итого",
+    en: "Total",
+  },
+  walletCredit: {
+    uz: "Hisobni to‘ldirish",
+    ru: "Начислить",
+    en: "Credit",
+  },
+  walletAmount: {
+    uz: "Summa (UZS)",
+    ru: "Сумма (UZS)",
+    en: "Amount (UZS)",
+  },
+  walletNote: {
+    uz: "Izoh",
+    ru: "Комментарий",
+    en: "Note",
+  },
+  walletPool: {
+    uz: "Hisob",
+    ru: "Пул",
+    en: "Pool",
+  },
+  walletHistory: {
+    uz: "Tranzaksiyalar",
+    ru: "Транзакции",
+    en: "Transactions",
+  },
+  walletEmptyTx: {
+    uz: "Tranzaksiyalar yo‘q",
+    ru: "Нет транзакций",
+    en: "No transactions",
+  },
+  walletSave: {
+    uz: "Saqlash",
+    ru: "Сохранить",
+    en: "Save",
+  },
+  walletCancel: {
+    uz: "Bekor qilish",
+    ru: "Отмена",
+    en: "Cancel",
+  },
 } satisfies Record<string, LocalizedText>;
 
 export const STATUS_LABELS: Record<string, LocalizedText> = {

@@ -6992,6 +6992,156 @@ class S {
       args: [],
     );
   }
+
+  /// `Wallet`
+  String get walletTitle {
+    return Intl.message('Wallet', name: 'walletTitle', desc: '', args: []);
+  }
+
+  /// `Balance, top-up and history`
+  String get walletSubtitle {
+    return Intl.message(
+      'Balance, top-up and history',
+      name: 'walletSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available`
+  String get walletAvailable {
+    return Intl.message(
+      'Available',
+      name: 'walletAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Main`
+  String get walletMain {
+    return Intl.message('Main', name: 'walletMain', desc: '', args: []);
+  }
+
+  /// `Bonus`
+  String get walletBonus {
+    return Intl.message('Bonus', name: 'walletBonus', desc: '', args: []);
+  }
+
+  /// `Top up`
+  String get walletTopUp {
+    return Intl.message('Top up', name: 'walletTopUp', desc: '', args: []);
+  }
+
+  /// `Mock top-up for testing. Real Payme/Click comes later.`
+  String get walletTopUpHint {
+    return Intl.message(
+      'Mock top-up for testing. Real Payme/Click comes later.',
+      name: 'walletTopUpHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet topped up`
+  String get walletTopUpSuccess {
+    return Intl.message(
+      'Wallet topped up',
+      name: 'walletTopUpSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transactions`
+  String get walletHistory {
+    return Intl.message(
+      'Transactions',
+      name: 'walletHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No transactions yet`
+  String get walletEmptyHistory {
+    return Intl.message(
+      'No transactions yet',
+      name: 'walletEmptyHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insufficient wallet balance. Top up to continue.`
+  String get walletInsufficientFunds {
+    return Intl.message(
+      'Insufficient wallet balance. Top up to continue.',
+      name: 'walletInsufficientFunds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay from wallet`
+  String get walletPayFromWallet {
+    return Intl.message(
+      'Pay from wallet',
+      name: 'walletPayFromWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking paid from wallet`
+  String get walletBookingPaid {
+    return Intl.message(
+      'Booking paid from wallet',
+      name: 'walletBookingPaid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date & time`
+  String get walletBookingDateTime {
+    return Intl.message(
+      'Date & time',
+      name: 'walletBookingDateTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notes`
+  String get walletBookingNotes {
+    return Intl.message(
+      'Notes',
+      name: 'walletBookingNotes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in to book this service`
+  String get walletSignInToBook {
+    return Intl.message(
+      'Sign in to book this service',
+      name: 'walletSignInToBook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Platform fee: {amount} UZS`
+  String walletBookingFeeLabel(int amount) {
+    return Intl.message(
+      'Platform fee: $amount UZS',
+      name: 'walletBookingFeeLabel',
+      desc: '',
+      args: [amount],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

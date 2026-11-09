@@ -2529,4 +2529,59 @@ class SUz extends S {
 
   @override
   String get notificationOpenAction => 'Ochish';
+
+  @override
+  String get walletTitle => 'Hamyon';
+
+  @override
+  String get walletSubtitle => 'Balans, to‘ldirish va tarix';
+
+  @override
+  String get walletAvailable => 'Mavjud';
+
+  @override
+  String get walletMain => 'Asosiy';
+
+  @override
+  String get walletBonus => 'Bonus';
+
+  @override
+  String get walletTopUp => 'To‘ldirish';
+
+  @override
+  String get walletTopUpHint =>
+      'Test to‘ldirish. Payme/Click keyinroq ulanadi.';
+
+  @override
+  String get walletTopUpSuccess => 'Hamyon to‘ldirildi';
+
+  @override
+  String get walletHistory => 'Tranzaksiyalar';
+
+  @override
+  String get walletEmptyHistory => 'Hali tranzaksiyalar yo‘q';
+
+  @override
+  String get walletInsufficientFunds =>
+      'Mablag‘ yetarli emas. Hamyonni to‘ldiring.';
+
+  @override
+  String get walletPayFromWallet => 'Hamyondan to‘lash';
+
+  @override
+  String get walletBookingPaid => 'Bron hamyondan to‘landi';
+
+  @override
+  String get walletBookingDateTime => 'Sana va vaqt';
+
+  @override
+  String get walletBookingNotes => 'Izohlar';
+
+  @override
+  String get walletSignInToBook => 'Xizmatga yozilish uchun kiring';
+
+  @override
+  String walletBookingFeeLabel(int amount) {
+    return 'Platforma to‘lovi: $amount UZS';
+  }
 }

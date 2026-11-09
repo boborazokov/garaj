@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
@@ -6,6 +5,7 @@ import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/map/domain/map_open_status.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
+import 'package:my_auto/widgets/image_cache/index.dart';
 
 class MapWorkshopMiniCard extends StatelessWidget {
   const MapWorkshopMiniCard({
@@ -61,11 +61,9 @@ class MapWorkshopMiniCard extends StatelessWidget {
                   width: 52,
                   height: 52,
                   child: pin.coverImage != null && pin.coverImage!.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: pin.coverImage!,
+                      ? ImageCacheNetwork(
+                          url: pin.coverImage!,
                           fit: BoxFit.cover,
-                          errorWidget: (_, __, ___) =>
-                              Icon(LucideIcons.building2, color: colors.textMuted),
                         )
                       : ColoredBox(
                           color: const Color(0xFF7C3AED).withValues(alpha: 0.2),

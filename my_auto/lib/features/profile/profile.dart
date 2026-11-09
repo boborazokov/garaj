@@ -90,6 +90,16 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 ProfileItem(
+                  iconPath: const Icon(LucideIcons.wallet),
+                  title: s.walletTitle,
+                  subtitle: s.walletSubtitle,
+                  onTap: () => _protectedTap(
+                    context,
+                    pending: const PendingRoute(path: RoutesName.wallet),
+                    onAuthed: () => context.push(RoutesName.wallet),
+                  ),
+                ),
+                ProfileItem(
                   iconPath: const Icon(LucideIcons.heart),
                   title: s.favorites,
                   onTap: () => _protectedTap(

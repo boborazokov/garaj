@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/services/graphql/index.dart';
+import 'package:my_auto/core/utils/resolve_media_url.dart';
 
 class CustomDropdownField<T> extends FormField<T> {
   CustomDropdownField({
@@ -45,9 +47,21 @@ class CustomDropdownField<T> extends FormField<T> {
 
                         return ListTile(
                           leading: getImage != null
-                              ? CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(getImage(item) ?? ''),
+                              ? Builder(
+                                  builder: (_) {
+                                    final url = resolveMediaUrl(
+                                      getImage(item),
+                                      mediaBase: fileUrl,
+                                    );
+                                    if (url == null || url.isEmpty) {
+                                      return const CircleAvatar(
+                                        child: Icon(Icons.image_not_supported),
+                                      );
+                                    }
+                                    return CircleAvatar(
+                                      backgroundImage: NetworkImage(url),
+                                    );
+                                  },
                                 )
                               : null,
                           title: Text(

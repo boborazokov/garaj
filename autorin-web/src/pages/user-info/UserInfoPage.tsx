@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client/react";
 import { ADMIN_LIST_PARTS, ADMIN_LIST_USERS } from "@/graphql/operations";
 import { useLanguage } from "@/lib/i18n";
 import type { PaginatedParts, PaginatedUsers } from "@/types";
-import { UserProductsTable, UserProfileCard } from "./components";
+import { UserProductsTable, UserProfileCard, UserWalletCard } from "./components";
 import { USER_INFO_COLORS, USER_INFO_TEXTS } from "./constants";
 import { userFromPeer } from "./helpers";
 import {
@@ -106,6 +106,7 @@ export function UserInfoPage() {
         viewsCount={viewsCount}
         region={region}
       />
+      {!mock && <UserWalletCard userId={userId} />}
       <UserProductsTable rows={products} loading={loadingParts} />
     </div>
   );

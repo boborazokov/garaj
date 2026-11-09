@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/model/workshop/index.dart';
+import 'package:my_auto/core/services/graphql/index.dart';
+import 'package:my_auto/core/utils/resolve_media_url.dart';
+import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
 class WorkshopDetailScreen extends StatefulWidget {
   final Workshop workshop;
-  final String imageBaseUrl;
 
   const WorkshopDetailScreen({
     super.key,
     required this.workshop,
-    this.imageBaseUrl = 'https://your_image_base_url/',
   });
 
   @override
@@ -28,13 +29,6 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
     return "$fromStr - $untilStr";
   }
 
-  String _getFullImageUrl(String imagePath) {
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-      return imagePath;
-    }
-    return widget.imageBaseUrl + imagePath;
-  }
-
   void _toggleFavorite() {
     setState(() {
       isFavorite = !isFavorite;
@@ -43,9 +37,11 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
 
   void _shareWorkshop() {
     final title = widget.workshop.title ?? "Workshop";
-    final url = _getFullImageUrl(
-      widget.workshop.images.isNotEmpty ? widget.workshop.images[0] : '',
-    );
+    final url = resolveMediaUrl(
+          widget.workshop.images.isNotEmpty ? widget.workshop.images[0] : null,
+          mediaBase: fileUrl,
+        ) ??
+        '';
     final text = '$title\n$url';
 
     Share.share(text);
@@ -100,33 +96,11 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
                   children: [
                     if (widget.workshop.images.isNotEmpty &&
                         widget.workshop.images[0].isNotEmpty)
-                      Image.network(
-                        _getFullImageUrl(widget.workshop.images[0]),
+                      ImageCacheNetwork(
+                        url: widget.workshop.images[0],
                         height: 230,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          height: 230,
-                          color: Colors.grey[800],
-                          child: const Center(
-                            child: Icon(Icons.broken_image,
-                                size: 80, color: Colors.grey),
-                          ),
-                        ),
-                        loadingBuilder: (context, child, progress) {
-                          if (progress == null) return child;
-                          return SizedBox(
-                            height: 230,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                value: progress.expectedTotalBytes != null
-                                    ? progress.cumulativeBytesLoaded /
-                                        progress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            ),
-                          );
-                        },
                       )
                     else
                       Container(

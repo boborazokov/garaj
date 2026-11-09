@@ -8,6 +8,8 @@ import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_category.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
+import 'package:my_auto/features/wallet/data/wallet_models.dart';
+import 'package:my_auto/features/wallet/data/wallet_repository.dart';
 import 'package:my_auto/features/workshop/data/workshops_api.dart';
 import 'package:my_auto/features/workshop/domain/create_workshop_draft.dart';
 
@@ -521,17 +523,12 @@ class WorkshopsRepository {
   Future<bool> promoteWorkshop({
     required String workshopId,
     required ServicePromotionPlan plan,
-  }) async {
-    final result = await _client.mutate(
-      MutationOptions(
-        document: gql(promoteWorkshopMutation),
-        variables: {
-          'workshopId': workshopId,
-          'plan': plan.api,
-        },
-      ),
+  }) {
+    return walletRepository.purchasePromotion(
+      targetType: PromotionTargetType.workshop,
+      targetId: workshopId,
+      plan: plan,
     );
-    return !result.hasException;
   }
 }
 

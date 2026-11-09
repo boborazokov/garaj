@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class BookServiceInput {
@@ -10,4 +10,8 @@ export class BookServiceInput {
 
   @Field({ nullable: true })
   notes?: string;
+
+  /** Optional override; defaults to platform booking fee. */
+  @Field(() => Int, { nullable: true })
+  amount?: number;
 }

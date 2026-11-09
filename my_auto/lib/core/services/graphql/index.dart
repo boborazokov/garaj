@@ -26,7 +26,9 @@ class GraphQLConfig {
 
   static void initialize() {
     apiUrl = dotenv.env['API_URL'] ?? "";
-    fileUrl = dotenv.env['API_File_URL'] ?? "";
+    // Media is served by the API: GET /media/{bucket}/…
+    final configuredFileUrl = (dotenv.env['API_File_URL'] ?? '').trim();
+    fileUrl = configuredFileUrl.isNotEmpty ? configuredFileUrl : apiUrl;
     GraphQLLinks.initialize();
     GraphQLLinks.applyErrorLink(_errorLink);
   }

@@ -2516,4 +2516,59 @@ class SRu extends S {
 
   @override
   String get notificationOpenAction => 'Открыть';
+
+  @override
+  String get walletTitle => 'Кошелёк';
+
+  @override
+  String get walletSubtitle => 'Баланс, пополнение и история';
+
+  @override
+  String get walletAvailable => 'Доступно';
+
+  @override
+  String get walletMain => 'Основной';
+
+  @override
+  String get walletBonus => 'Бонус';
+
+  @override
+  String get walletTopUp => 'Пополнить';
+
+  @override
+  String get walletTopUpHint =>
+      'Тестовое пополнение. Payme/Click подключится позже.';
+
+  @override
+  String get walletTopUpSuccess => 'Кошелёк пополнен';
+
+  @override
+  String get walletHistory => 'Транзакции';
+
+  @override
+  String get walletEmptyHistory => 'Пока нет транзакций';
+
+  @override
+  String get walletInsufficientFunds =>
+      'Недостаточно средств. Пополните кошелёк.';
+
+  @override
+  String get walletPayFromWallet => 'Оплатить с кошелька';
+
+  @override
+  String get walletBookingPaid => 'Бронирование оплачено с кошелька';
+
+  @override
+  String get walletBookingDateTime => 'Дата и время';
+
+  @override
+  String get walletBookingNotes => 'Заметки';
+
+  @override
+  String get walletSignInToBook => 'Войдите, чтобы записаться';
+
+  @override
+  String walletBookingFeeLabel(int amount) {
+    return 'Комиссия платформы: $amount UZS';
+  }
 }

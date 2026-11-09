@@ -231,11 +231,14 @@ class Seller {
   });
 
   factory Seller.fromJson(Map<String, dynamic> json) {
+    final rawImage = json['image']?.toString() ?? '';
     return Seller(
       id: json['_id']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       phone: json['phone']?.toString() ?? '',
-      image: json['image']?.toString() ?? '',
+      image: rawImage.isEmpty
+          ? ''
+          : normalizeStoragePath(rawImage, mediaBase: fileUrl),
       address: json['address']?.toString(),
       verified: json['verified'] == true,
       createdAt: DateTime.tryParse(json['createdAt']?.toString() ?? '') ??

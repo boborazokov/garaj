@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/services/data/services_repository.dart';
+import 'package:my_auto/features/wallet/data/wallet_repository.dart';
+import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/toaster/index.dart';
+
+/// Matches backend `BOOKING_PLATFORM_FEE_UZS`.
+const int kBookingPlatformFeeUzs = 10000;
 
 Future<bool?> showBookServiceSheet(
   BuildContext context, {
@@ -64,31 +71,46 @@ class _BookServiceSheetState extends State<_BookServiceSheet> {
   }
 
   Future<void> _submit() async {
+    final s = S.of(context);
     final authed = await AuthGuard.requireAuth(
       context,
-      message: 'Sign in to book this service',
+      message: s.walletSignInToBook,
     );
     if (!authed || !mounted) return;
 
     setState(() => _submitting = true);
-    final ok = await servicesRepository.bookService(
-      serviceId: widget.serviceId,
-      scheduledAt: _when,
-      notes: _notes.text.trim().isEmpty ? null : _notes.text.trim(),
-    );
-    if (!mounted) return;
-    setState(() => _submitting = false);
-    if (ok) {
-      Navigator.pop(context, true);
-      Toaster.success('Booking request sent');
-    } else {
-      Toaster.error('Could not book. Try again.');
+    try {
+      final ok = await servicesRepository.bookService(
+        serviceId: widget.serviceId,
+        scheduledAt: _when,
+        notes: _notes.text.trim().isEmpty ? null : _notes.text.trim(),
+        amount: kBookingPlatformFeeUzs,
+      );
+      if (!mounted) return;
+      setState(() => _submitting = false);
+      if (ok) {
+        Navigator.pop(context, true);
+        Toaster.success(s.walletBookingPaid, context: context);
+      } else {
+        Toaster.error(s.errorOccurred, context: context);
+      }
+    } on WalletInsufficientFundsException {
+      if (!mounted) return;
+      setState(() => _submitting = false);
+      Toaster.error(s.walletInsufficientFunds, context: context);
+      Navigator.pop(context, false);
+      context.push(RoutesName.wallet);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _submitting = false);
+      Toaster.error(s.errorOccurred, context: context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final s = S.of(context);
     return Padding(
       padding: EdgeInsets.only(
         bottom: stickyBottomPadding(context, keyboardExtra: 0, homeExtra: 0),
@@ -105,7 +127,7 @@ class _BookServiceSheetState extends State<_BookServiceSheet> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Book service',
+              s.bookServiceTitle,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
@@ -114,31 +136,44 @@ class _BookServiceSheetState extends State<_BookServiceSheet> {
               widget.serviceTitle,
               style: TextStyle(color: colors.textMuted),
             ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: colors.surfaceMuted,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                s.walletBookingFeeLabel(kBookingPlatformFeeUzs),
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
             const SizedBox(height: 16),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Date & time'),
-              subtitle: Text(_when.toLocal().toString().substring(0, 16)),
-              trailing: const Icon(Icons.calendar_today),
+              title: Text(s.walletBookingDateTime),
+              subtitle: Text(_when.toString().substring(0, 16)),
+              trailing: const Icon(Icons.schedule),
               onTap: _pickDateTime,
             ),
             TextField(
               controller: _notes,
-              maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Notes for the workshop (optional)',
+              decoration: InputDecoration(
+                labelText: s.walletBookingNotes,
+                hintText: s.bookServiceHint,
               ),
+              maxLines: 2,
             ),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: _submitting ? null : _submit,
               child: _submitting
                   ? const SizedBox(
-                      height: 22,
                       width: 22,
+                      height: 22,
                       child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                     )
-                  : const Text('Confirm booking'),
+                  : Text(s.walletPayFromWallet),
             ),
           ],
         ),

@@ -14,10 +14,24 @@ String _stripBase(String path, String base) {
   return path;
 }
 
-/// Builds a full URL for MinIO / CDN paths or returns absolute URLs unchanged.
+bool _shouldRebaseAbsoluteMedia(Uri uri, String base) {
+  if (base.isEmpty) return false;
+  final baseUri = Uri.tryParse(base);
+  if (baseUri != null &&
+      baseUri.hasAuthority &&
+      uri.host.toLowerCase() == baseUri.host.toLowerCase() &&
+      uri.port == baseUri.port) {
+    return false;
+  }
+  if (_isEphemeralMediaHost(uri.host)) return true;
+  final path = uri.path.toLowerCase();
+  return path.startsWith('/media/') || path == '/media';
+}
+
+/// Builds a full URL for storage keys /media paths.
 ///
-/// Stale localhost / LAN / ngrok hosts are re-based onto [mediaBase] so images
-/// keep working after tunnel or LAN IP changes.
+/// Absolute URLs from stale localhost / LAN / ngrok (or any host serving
+/// `/media/…`) are re-based onto [mediaBase] from `API_File_URL`.
 String? resolveMediaUrl(String? path, {required String mediaBase}) {
   if (path == null) return null;
   final trimmed = path.trim();
@@ -31,7 +45,7 @@ String? resolveMediaUrl(String? path, {required String mediaBase}) {
     final uri = Uri.tryParse(trimmed);
     if (uri == null) return trimmed;
 
-      if (base.isNotEmpty && _isEphemeralMediaHost(uri.host)) {
+    if (_shouldRebaseAbsoluteMedia(uri, base)) {
       final segment = uri.path.startsWith('/')
           ? uri.path.substring(1)
           : uri.path;
@@ -71,7 +85,7 @@ String normalizeStoragePath(String path, {required String mediaBase}) {
 
   if (p.startsWith('http://') || p.startsWith('https://')) {
     final uri = Uri.tryParse(p);
-    if (uri != null && _isEphemeralMediaHost(uri.host)) {
+    if (uri != null && _shouldRebaseAbsoluteMedia(uri, base)) {
       final segment =
           uri.path.startsWith('/') ? uri.path.substring(1) : uri.path;
       return segment;
