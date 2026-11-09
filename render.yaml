@@ -17,10 +17,12 @@ services:
     plan: free
     region: frankfurt
     rootDir: autorin-backend
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm run start:prod
     healthCheckPath: /health
     envVars:
+      - key: NODE_VERSION
+        value: "20"
       - key: NODE_ENV
         value: production
       - key: JWT_SECRET
