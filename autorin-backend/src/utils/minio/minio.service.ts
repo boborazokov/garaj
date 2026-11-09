@@ -1,13 +1,21 @@
 import { tmpdir } from 'os';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { Client } from 'minio';
 import { randomUUID } from 'crypto';
 import { extname, basename } from 'path';
 import { ConfigService } from '@nestjs/config';
 import { Catalog } from 'src/constants';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ReadStreamOptions } from 'graphql-upload-ts';
-import { unlinkSync, ReadStream, writeFileSync, createReadStream } from 'fs';
+import {
+  unlinkSync,
+  ReadStream,
+  writeFileSync,
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  promises as fs,
+} from 'fs';
 
 import { parsePublicMediaPath } from '../../modules/media/safe-media-path';
 import { MINIO_CLIENT_TOKEN } from './minio.provider';
@@ -16,11 +24,48 @@ import { GetFileArgs, UploadFileArgs, PrepareFileArgs } from './args';
 
 @Injectable()
 export class MinioService {
+  private readonly logger = new Logger(MinioService.name);
+  private readonly localRoot: string;
+  private readonly useLocalDisk: boolean;
+
   constructor(
     private configService: ConfigService,
     private compressorService: CompressorService,
     @Inject(MINIO_CLIENT_TOKEN) private minioClient: Client,
-  ) {}
+  ) {
+    const endpoint = (
+      this.configService.get<string>('MINIO_ENDPOINT') ?? 'localhost'
+    ).toLowerCase();
+    const driver = (
+      this.configService.get<string>('STORAGE_DRIVER') ?? ''
+    ).toLowerCase();
+    this.useLocalDisk =
+      driver === 'local' ||
+      endpoint === 'localhost' ||
+      endpoint === '127.0.0.1';
+    this.localRoot =
+      this.configService.get<string>('LOCAL_STORAGE_PATH') ||
+      join(process.cwd(), 'uploads');
+    if (this.useLocalDisk) {
+      this.logger.warn(
+        `Storage: local disk at ${this.localRoot} (MinIO endpoint=${endpoint}). Files are lost on redeploy unless a persistent disk is attached.`,
+      );
+      mkdirSync(this.localRoot, { recursive: true });
+    }
+  }
+
+  private localObjectPath(bucket: string, objectKey: string): string {
+    return join(this.localRoot, bucket, objectKey);
+  }
+
+  private contentTypeFromKey(objectKey: string): string {
+    const ext = objectKey.split('.').pop()?.toLowerCase();
+    if (ext === 'jpg' || ext === 'jpeg') return 'image/jpeg';
+    if (ext === 'png') return 'image/png';
+    if (ext === 'webp') return 'image/webp';
+    if (ext === 'gif') return 'image/gif';
+    return 'application/octet-stream';
+  }
 
   bufferToFileUpload(buffer: Buffer, filename: string, mimetype = 'image/png') {
     const tmpPath = join(tmpdir(), `${randomUUID()}-${filename}`);
@@ -56,6 +101,11 @@ export class MinioService {
   }
 
   async createBucketIfNotExists(bucketName: string) {
+    if (this.useLocalDisk) {
+      mkdirSync(join(this.localRoot, bucketName), { recursive: true });
+      return;
+    }
+
     try {
       const exists = await this.minioClient.bucketExists(bucketName);
 
@@ -115,10 +165,16 @@ export class MinioService {
     fileMimetype,
   }: UploadFileArgs): Promise<string> {
     const [bucket, catalogPath] = catalog.split('/');
+    const objectPrefix = `${catalogPath}/`;
 
     if (fileId) {
       try {
-        await this.minioClient.removeObject(bucket, `${catalogPath}/${fileId}`);
+        if (this.useLocalDisk) {
+          const oldPath = this.localObjectPath(bucket, `${catalogPath}/${fileId}`);
+          if (existsSync(oldPath)) await fs.unlink(oldPath);
+        } else {
+          await this.minioClient.removeObject(bucket, `${catalogPath}/${fileId}`);
+        }
       } catch (error) {
         console.warn(`Warning: failed to remove old file: ${error.message}`);
       }
@@ -140,13 +196,21 @@ export class MinioService {
         basename(fileKey, extname(fileKey)) + compressedFile.fileExtension;
     }
 
-    await this.minioClient.putObject(
-      bucket,
-      `${catalogPath}/${finalFileKey}`,
-      fileBuffer,
-      fileBuffer.length,
-      { 'Content-Type': contentType },
-    );
+    const objectKey = `${objectPrefix}${finalFileKey}`;
+
+    if (this.useLocalDisk) {
+      const fullPath = this.localObjectPath(bucket, objectKey);
+      mkdirSync(dirname(fullPath), { recursive: true });
+      await fs.writeFile(fullPath, fileBuffer);
+    } else {
+      await this.minioClient.putObject(
+        bucket,
+        objectKey,
+        fileBuffer,
+        fileBuffer.length,
+        { 'Content-Type': contentType },
+      );
+    }
 
     return this.getFilePath({ bucket, catalog, fileId: finalFileKey });
   }
@@ -159,6 +223,18 @@ export class MinioService {
     contentType: string;
   }> {
     const { bucket, objectKey } = parsePublicMediaPath(storagePath);
+
+    if (this.useLocalDisk) {
+      const fullPath = this.localObjectPath(bucket, objectKey);
+      if (!existsSync(fullPath)) {
+        throw new Error(`Local object not found: ${storagePath}`);
+      }
+      return {
+        stream: createReadStream(fullPath),
+        contentType: this.contentTypeFromKey(objectKey),
+      };
+    }
+
     const stream = await this.minioClient.getObject(bucket, objectKey);
 
     let contentType = 'application/octet-stream';
@@ -173,11 +249,7 @@ export class MinioService {
     }
 
     if (contentType === 'application/octet-stream') {
-      const ext = objectKey.split('.').pop()?.toLowerCase();
-      if (ext === 'jpg' || ext === 'jpeg') contentType = 'image/jpeg';
-      else if (ext === 'png') contentType = 'image/png';
-      else if (ext === 'webp') contentType = 'image/webp';
-      else if (ext === 'gif') contentType = 'image/gif';
+      contentType = this.contentTypeFromKey(objectKey);
     }
 
     return { stream, contentType };
@@ -185,6 +257,10 @@ export class MinioService {
 
   async getFile({ fileId, bucket, catalog }: GetFileArgs): Promise<Buffer> {
     try {
+      if (this.useLocalDisk) {
+        const fullPath = this.localObjectPath(bucket, `${catalog}/${fileId}`);
+        return await fs.readFile(fullPath);
+      }
       const stream = await this.minioClient.getObject(
         bucket,
         `${catalog}/${fileId}`,
@@ -198,6 +274,11 @@ export class MinioService {
 
   async deleteFile({ fileId, bucket, catalog }: GetFileArgs): Promise<void> {
     try {
+      if (this.useLocalDisk) {
+        const fullPath = this.localObjectPath(bucket, `${catalog}/${fileId}`);
+        if (existsSync(fullPath)) await fs.unlink(fullPath);
+        return;
+      }
       await this.minioClient.removeObject(bucket, `${catalog}/${fileId}`);
     } catch (err) {
       console.error(`Error deleting file: ${err.message}`);
