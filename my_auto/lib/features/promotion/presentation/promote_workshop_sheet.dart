@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/features/promotion/data/promotion_repository.dart';
 import 'package:my_auto/features/promotion/presentation/promote_plan_sheet.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
 import 'package:my_auto/features/workshop/data/workshops_repository.dart';
@@ -14,8 +15,9 @@ Future<bool?> showPromoteWorkshopSheet(
     isPromotionActive: workshop.isPromotionActive,
     activePlan: workshop.promotionPlan,
     sheetTitle: S.of(context).promoteWorkshopTitle,
-    onPromote: (plan) => workshopsRepository.promoteWorkshop(
-      workshopId: workshop.id,
+    onPromote: (plan) => promotionRepository.purchasePromotion(
+      targetType: PromotionTargetType.workshop,
+      targetId: workshop.id,
       plan: plan,
     ),
   );

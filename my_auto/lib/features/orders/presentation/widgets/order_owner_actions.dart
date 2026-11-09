@@ -6,6 +6,7 @@ import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/orders/bloc/order_detail/order_detail_bloc.dart';
 import 'package:my_auto/features/orders/bloc/order_detail/order_detail_event.dart';
 import 'package:my_auto/features/orders/domain/entities/order.dart';
+import 'package:my_auto/features/promotion/presentation/promote_order_sheet.dart';
 import 'package:my_auto/generated/l10n.dart';
 
 /// Owner-only status banner and close / reopen actions.
@@ -58,11 +59,13 @@ class OrderOwnerActions extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         OutlinedButton.icon(
-          onPressed: () {
-            // Placeholder until promote-order billing is wired.
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(s.promoteToTop)),
-            );
+          onPressed: () async {
+            final ok = await showPromoteOrderSheet(context, order: order);
+            if (ok == true && context.mounted) {
+              context
+                  .read<OrderDetailBloc>()
+                  .add(OrderDetailOpened(order.id));
+            }
           },
           icon: Icon(
             LucideIcons.sparkles,

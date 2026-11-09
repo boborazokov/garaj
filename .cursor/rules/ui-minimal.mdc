@@ -1,0 +1,14 @@
+---
+description: Minimal balanced UI — not oversized, not cramped
+alwaysApply: true
+---
+
+# UI: minimal, medium density
+
+The user prefers **minimalistic** UI: neither oversized nor tiny. Aim for calm, compact, Xizmat-like chrome.
+
+- Controls sit in the middle: tabs ~36px, inputs ~44px, compact native selects (`padding: 6px 28px 6px 12px`), buttons ~44–47px. Do not jump to 40px+ tabs or 210px-wide selects.
+- Related blocks stay close (title → tabs ~8–12px). Unrelated blocks get more air.
+- Light borders (`#e2e8f0` / `#dbe3ee`), 8–10px radius, muted gray text, one accent (sign-in blue `#226DF7` or admin amber — do not mix both on one screen).
+- Icons from **Lucide**. Flag SVGs from Xizmat admin (`xizmat-provider-web/src/icons/assets`) when a language picker needs flags; the closed language select can be text + chevron like Xizmat.
+- No visual noise: extra shadows, large empty cards, emoji flags, or decorative size for its own sake.

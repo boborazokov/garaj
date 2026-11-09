@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_auto/features/promotion/data/promotion_repository.dart';
 import 'package:my_auto/features/promotion/presentation/promote_plan_sheet.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
-import 'package:my_auto/features/services/data/services_repository.dart';
 import 'package:my_auto/generated/l10n.dart';
 
 Future<bool?> showPromoteServiceSheet(
@@ -14,8 +14,9 @@ Future<bool?> showPromoteServiceSheet(
     isPromotionActive: service.isPromotionActive,
     activePlan: service.promotionPlan,
     sheetTitle: S.of(context).promoteServiceTitle,
-    onPromote: (plan) => servicesRepository.promoteService(
-      serviceId: service.id,
+    onPromote: (plan) => promotionRepository.purchasePromotion(
+      targetType: PromotionTargetType.service,
+      targetId: service.id,
       plan: plan,
     ),
   );

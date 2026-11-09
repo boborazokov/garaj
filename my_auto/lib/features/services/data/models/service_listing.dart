@@ -14,7 +14,8 @@ enum ServicePromotionPlan {
   basic('BASIC', 1),
   standard('STANDARD', 2),
   premium('PREMIUM', 3),
-  vip('VIP', 4);
+  vip('VIP', 4),
+  top('TOP', 5);
 
   const ServicePromotionPlan(this.api, this.weight);
   final String api;

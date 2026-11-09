@@ -816,6 +816,7 @@
   "promotePlanStandard": "Standart",
   "promotePlanPremium": "Premium",
   "promotePlanVip": "VIP",
+  "promotePlanTop": "TOP",
   "promotePlanDuration": "{days} kun · ustuvorlik {priority}",
   "@promotePlanDuration": {
     "placeholders": {
@@ -823,8 +824,8 @@
       "priority": {"type": "int"}
     }
   },
-  "activatePromotion": "Targ'ibni yoqish",
-  "promotionActivatedSuccess": "Targ'ib muvaffaqiyatli yoqildi",
+  "activatePromotion": "To'lash va topga chiqarish",
+  "promotionActivatedSuccess": "To'lov qabul qilindi — e'lon topga chiqdi",
   "notificationAccountVerifiedTitle": "Siz tasdiqlandingiz",
   "notificationAccountVerifiedBody": "AutoRin jamoasi akkauntingizni tasdiqladi.",
   "notificationNewFollowerTitle": "Yangi obunachi",

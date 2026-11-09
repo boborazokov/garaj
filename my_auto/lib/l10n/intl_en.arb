@@ -890,6 +890,7 @@
   "promotePlanStandard": "Standard",
   "promotePlanPremium": "Premium",
   "promotePlanVip": "VIP",
+  "promotePlanTop": "TOP",
   "promotePlanDuration": "{days} days · priority {priority}",
   "@promotePlanDuration": {
     "placeholders": {
@@ -897,8 +898,8 @@
       "priority": {"type": "int"}
     }
   },
-  "activatePromotion": "Activate promotion",
-  "promotionActivatedSuccess": "Promotion activated successfully",
+  "activatePromotion": "Pay & move to top",
+  "promotionActivatedSuccess": "Payment received — listing is now on top",
   "notificationAccountVerifiedTitle": "You are verified",
   "notificationAccountVerifiedBody": "Your account is now verified by the AutoRin team.",
   "notificationNewFollowerTitle": "New follower",

@@ -2453,15 +2453,19 @@ class SUz extends S {
   String get promotePlanVip => 'VIP';
 
   @override
+  String get promotePlanTop => 'TOP';
+
+  @override
   String promotePlanDuration(int days, int priority) {
     return '$days kun · ustuvorlik $priority';
   }
 
   @override
-  String get activatePromotion => 'Targ\'ibni yoqish';
+  String get activatePromotion => 'To\'lash va topga chiqarish';
 
   @override
-  String get promotionActivatedSuccess => 'Targ\'ib muvaffaqiyatli yoqildi';
+  String get promotionActivatedSuccess =>
+      'To\'lov qabul qilindi — e\'lon topga chiqdi';
 
   @override
   String get notificationAccountVerifiedTitle => 'Siz tasdiqlandingiz';

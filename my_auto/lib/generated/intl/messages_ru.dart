@@ -92,7 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "aboutSection": MessageLookupByLibrary.simpleMessage("О себе"),
     "accountDetails": MessageLookupByLibrary.simpleMessage("Данные аккаунта"),
     "activatePromotion": MessageLookupByLibrary.simpleMessage(
-      "Активировать продвижение",
+      "Оплатить и поднять в топ",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Активен"),
     "add": MessageLookupByLibrary.simpleMessage("Добавить"),
@@ -1186,6 +1186,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotePlanPremium": MessageLookupByLibrary.simpleMessage("Премиум"),
     "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Стандарт"),
     "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
+    "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
       "Продвижение товара",
     ),
@@ -1199,7 +1200,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotedBadge": MessageLookupByLibrary.simpleMessage("ТОП"),
     "promotedTop": MessageLookupByLibrary.simpleMessage("В топе"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
-      "Продвижение успешно активировано",
+      "Оплата принята — объявление в топе",
     ),
     "publicVisibility": MessageLookupByLibrary.simpleMessage("Публично"),
     "publish": MessageLookupByLibrary.simpleMessage("Опубликовать"),

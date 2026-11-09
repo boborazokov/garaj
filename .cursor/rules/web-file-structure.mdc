@@ -1,0 +1,29 @@
+---
+description: autorin-web folder layout, modeled on Xizmat admin
+globs: autorin-web/src/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# File structure (follow Xizmat admin)
+
+Reference: `XIZMAT/xizmat-provider-web/src/features/<name>/`.
+Colocate by screen. Do not dump new files as flat `src/admin/FooPage.tsx`.
+
+```
+src/pages/<kebab-name>/
+  <Name>Page.tsx
+  index.ts
+  styles.ts
+  constants/index.ts
+  types/index.ts
+  components/
+    <PascalName>/
+      <PascalName>.tsx
+      styles.ts
+      index.ts
+```
+
+- One component per folder; re-export from `index.ts`.
+- Shared helpers/constants live in `src/lib/`, not copied into every page.
+- Translations stay as `{ uz, ru, en }` objects in that screen's `constants`.
+- New screens follow this layout. When touching a flat admin page, move it into a folder rather than adding more files beside it.

@@ -2443,15 +2443,19 @@ class SRu extends S {
   String get promotePlanVip => 'VIP';
 
   @override
+  String get promotePlanTop => 'TOP';
+
+  @override
   String promotePlanDuration(int days, int priority) {
     return '$days дн. · приоритет $priority';
   }
 
   @override
-  String get activatePromotion => 'Активировать продвижение';
+  String get activatePromotion => 'Оплатить и поднять в топ';
 
   @override
-  String get promotionActivatedSuccess => 'Продвижение успешно активировано';
+  String get promotionActivatedSuccess =>
+      'Оплата принята — объявление в топе';
 
   @override
   String get notificationAccountVerifiedTitle => 'Вы прошли проверку';

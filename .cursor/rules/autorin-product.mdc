@@ -1,0 +1,18 @@
+---
+description: AutoRin product domain and audience
+alwaysApply: true
+---
+
+# AutoRin
+
+Marketplace for **selling automobile parts, accessories, and related technical goods** (ehtiyot qismlar, aksessuarlar, sarf materiallari). Not a generic SaaS or booking app.
+
+Stack in this repo: `autorin-web` (admin / auth web), `autorin-backend`, `my_auto` (mobile).
+
+Copy, imagery, empty states, and examples must stay auto-parts specific: brands, models, spare parts, suppliers, orders, moderation of listings.
+
+i18n: uz / ru / en. Store each string as an object, not a JSON i18n tree:
+
+```ts
+title: { uz: "...", ru: "...", en: "..." }
+```

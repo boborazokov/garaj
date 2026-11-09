@@ -816,6 +816,7 @@
   "promotePlanStandard": "Стандарт",
   "promotePlanPremium": "Премиум",
   "promotePlanVip": "VIP",
+  "promotePlanTop": "TOP",
   "promotePlanDuration": "{days} дн. · приоритет {priority}",
   "@promotePlanDuration": {
     "placeholders": {
@@ -823,8 +824,8 @@
       "priority": {"type": "int"}
     }
   },
-  "activatePromotion": "Активировать продвижение",
-  "promotionActivatedSuccess": "Продвижение успешно активировано",
+  "activatePromotion": "Оплатить и поднять в топ",
+  "promotionActivatedSuccess": "Оплата принята — объявление в топе",
   "notificationAccountVerifiedTitle": "Вы прошли проверку",
   "notificationAccountVerifiedBody": "Ваш аккаунт подтверждён командой AutoRin.",
   "notificationNewFollowerTitle": "Новый подписчик",

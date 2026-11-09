@@ -92,7 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "aboutSection": MessageLookupByLibrary.simpleMessage("About"),
     "accountDetails": MessageLookupByLibrary.simpleMessage("Account Details"),
     "activatePromotion": MessageLookupByLibrary.simpleMessage(
-      "Activate promotion",
+      "Pay & move to top",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Active"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
@@ -1180,6 +1180,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotePlanPremium": MessageLookupByLibrary.simpleMessage("Premium"),
     "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Standard"),
     "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
+    "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
       "Promote product",
     ),
@@ -1193,7 +1194,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotedBadge": MessageLookupByLibrary.simpleMessage("TOP"),
     "promotedTop": MessageLookupByLibrary.simpleMessage("Promoted"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
-      "Promotion activated successfully",
+      "Payment received — listing is now on top",
     ),
     "publicVisibility": MessageLookupByLibrary.simpleMessage("Public"),
     "publish": MessageLookupByLibrary.simpleMessage("Publish"),

@@ -95,7 +95,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Hisob ma’lumotlari",
     ),
     "activatePromotion": MessageLookupByLibrary.simpleMessage(
-      "Targ\'ibni yoqish",
+      "To\'lash va topga chiqarish",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Faol"),
     "add": MessageLookupByLibrary.simpleMessage("Qo‘shish"),
@@ -1221,6 +1221,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotePlanPremium": MessageLookupByLibrary.simpleMessage("Premium"),
     "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Standart"),
     "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
+    "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
       "Mahsulotni targ\'ib qilish",
     ),
@@ -1234,7 +1235,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotedBadge": MessageLookupByLibrary.simpleMessage("Targ\'ib"),
     "promotedTop": MessageLookupByLibrary.simpleMessage("Targ\'ib qilingan"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
-      "Targ\'ib muvaffaqiyatli yoqildi",
+      "To\'lov qabul qilindi — e\'lon topga chiqdi",
     ),
     "publicVisibility": MessageLookupByLibrary.simpleMessage("Ochiq"),
     "publish": MessageLookupByLibrary.simpleMessage("E’lon qilish"),

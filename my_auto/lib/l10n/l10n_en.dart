@@ -2440,15 +2440,19 @@ class SEn extends S {
   String get promotePlanVip => 'VIP';
 
   @override
+  String get promotePlanTop => 'TOP';
+
+  @override
   String promotePlanDuration(int days, int priority) {
     return '$days days · priority $priority';
   }
 
   @override
-  String get activatePromotion => 'Activate promotion';
+  String get activatePromotion => 'Pay & move to top';
 
   @override
-  String get promotionActivatedSuccess => 'Promotion activated successfully';
+  String get promotionActivatedSuccess =>
+      'Payment received — listing is now on top';
 
   @override
   String get notificationAccountVerifiedTitle => 'You are verified';
