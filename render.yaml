@@ -37,6 +37,15 @@ services:
         sync: false
       - key: REDIS_TLS
         value: "true"
+      # Upstash free Redis only supports database index 0
+      - key: REDIS_PUBSUB_DB
+        value: "0"
+      - key: REDIS_QUEUE_DB
+        value: "0"
+      - key: REDIS_RATELIMIT_DB
+        value: "0"
+      - key: REDIS_CACHE_DB
+        value: "0"
       - key: SMS_PROVIDER
         value: log
       - key: MINIO_ENDPOINT
