@@ -1,0 +1,1 @@
+export { ProductsTopTariffs } from "./ProductsTopTariffs";

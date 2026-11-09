@@ -23,6 +23,7 @@ import {
   ProductsPagination,
   ProductsTable,
   ProductsToolbar,
+  ProductsTopTariffs,
 } from "./components";
 import { PRODUCTS_PAGE_SIZE, PRODUCTS_TEXTS } from "./constants";
 import { isPartRecommended, periodBounds } from "./helpers";
@@ -159,6 +160,8 @@ export function ProductsPage() {
 
   return (
     <div className="flex flex-col gap-2.5">
+      <ProductsTopTariffs />
+
       <section className="overflow-hidden rounded-[10px] border border-border bg-card">
         <ProductsToolbar
           search={searchInput}
