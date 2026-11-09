@@ -9,6 +9,7 @@ import {
   CreateAdvertisementArgs,
   DeleteAdvertisementArgs,
   GetAdvertisementsArgs,
+  RecordAdvertisementArgs,
   UpdateAdvertisementArgs,
 } from '../dto/args';
 import { PaginatedAdvertisements } from '../types/paginated-advertisements.type';
@@ -51,5 +52,19 @@ export class AdvertisementResolver {
   @Mutation(() => Boolean)
   deleteAdvertisement(@Args() args: DeleteAdvertisementArgs) {
     return this.advertisementService.delete(args.advertisementId);
+  }
+
+  /** Mobile / client: count a banner view for advertiser stats. */
+  @Public()
+  @Mutation(() => Advertisement)
+  recordAdvertisementImpression(@Args() args: RecordAdvertisementArgs) {
+    return this.advertisementService.recordImpression(args.advertisementId);
+  }
+
+  /** Mobile / client: count a banner tap for advertiser stats. */
+  @Public()
+  @Mutation(() => Advertisement)
+  recordAdvertisementClick(@Args() args: RecordAdvertisementArgs) {
+    return this.advertisementService.recordClick(args.advertisementId);
   }
 }

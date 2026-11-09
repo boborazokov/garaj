@@ -16,4 +16,10 @@ export class AdminStats {
 
   @Field()
   ordersCount: number;
+
+  @Field()
+  workshopsCount: number;
+
+  @Field()
+  activeWorkshopsCount: number;
 }

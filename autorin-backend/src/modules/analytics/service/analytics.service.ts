@@ -163,6 +163,8 @@ export class AnalyticsService {
       totalOrdersPublished: sum((r) => r.ordersPublished),
       todayVisits: visitsMap.get(today) ?? 0,
       todayPartsPublished: partsMap.get(today) ?? 0,
+      todayOrdersPublished: ordersMap.get(today) ?? 0,
+      todayNewUsers: newUsersMap.get(today) ?? 0,
     };
   }
 }

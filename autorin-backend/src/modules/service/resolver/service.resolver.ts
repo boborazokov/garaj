@@ -9,6 +9,8 @@ import {
 } from '@nestjs/graphql';
 import { ContextType } from 'src/auth/interfaces';
 import { UseAuth, UseOptionalAuth } from 'src/auth/useAuth';
+import { UseRole } from 'src/auth/useAuth/use-role.decorator';
+import { UserRoleEnum } from 'src/modules/user/enums';
 import { FavoriteService } from 'src/modules/favorite/service';
 import { Types } from 'mongoose';
 import { Part } from 'src/modules/part/schema';
@@ -95,7 +97,8 @@ export class ServiceListingResolver {
     return this.serviceService.createService(args, ctx);
   }
 
-  @UseAuth()
+  /** Admin fallback — users promote via `purchasePromotion`. */
+  @UseRole(UserRoleEnum.ADMIN)
   @Mutation(() => AutoService, { name: 'promoteService' })
   promoteService(@Args() args: PromoteServiceArgs, @Context() ctx: ContextType) {
     return this.serviceService.promoteService(args, ctx);

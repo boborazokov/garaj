@@ -44,4 +44,10 @@ export class AdminDailyReport {
 
   @Field(() => Int)
   todayPartsPublished: number;
+
+  @Field(() => Int)
+  todayOrdersPublished: number;
+
+  @Field(() => Int)
+  todayNewUsers: number;
 }

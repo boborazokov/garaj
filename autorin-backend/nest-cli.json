@@ -12,6 +12,14 @@
       {
         "include": "modules/workshop-category/data/**/*.json",
         "outDir": "dist/modules/workshop-category/data"
+      },
+      {
+        "include": "modules/workshop/data/**/*.json",
+        "outDir": "dist/modules/workshop/data"
+      },
+      {
+        "include": "modules/order/data/**/*.json",
+        "outDir": "dist/modules/order/data"
       }
     ]
   }

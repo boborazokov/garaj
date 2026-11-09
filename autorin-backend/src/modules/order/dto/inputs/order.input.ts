@@ -1,5 +1,5 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsOptional, MaxLength, MinLength } from 'class-validator';
+import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsOptional, Max, MaxLength, Min, MinLength } from 'class-validator';
 import { Types } from 'mongoose';
 import { ObjectIdScalar } from 'src/common';
 import { OrderUrgencyEnum } from '../../enums';
@@ -34,6 +34,12 @@ export class OrderInput {
 
   @Field(() => ObjectIdScalar, { nullable: true })
   partCategory?: Types.ObjectId;
+
+  @Field(() => Int, { nullable: true })
+  @IsOptional()
+  @Min(1950)
+  @Max(2100)
+  year?: number;
 
   @Field({ nullable: true })
   budget?: number;

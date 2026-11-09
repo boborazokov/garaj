@@ -7,12 +7,16 @@ import { PaginatedParts } from 'src/modules/part/types';
 import { User } from 'src/modules/user/schema';
 import { UserRoleEnum } from 'src/modules/user/enums';
 import { PaginatedUsers } from 'src/modules/user/types';
+import { Order } from 'src/modules/order/schema';
 import { PaginatedOrders } from 'src/modules/order/types/paginated-orders.type';
+import { Workshop } from 'src/modules/workshop/schema';
+import { PaginatedWorkshops } from 'src/modules/workshop/types';
 import {
   AdminDailyReportArgs,
   AdminListOrdersArgs,
   AdminListPartsArgs,
   AdminListUsersArgs,
+  AdminListWorkshopsArgs,
   ModeratePartArgs,
   SetContactInfoArgs,
   SetProductModerationArgs,
@@ -20,7 +24,9 @@ import {
   AdminSetUserImageArgs,
   AdminSetUserVerifiedArgs,
   AdminSetPartRecommendedArgs,
+  AdminSetOrderRecommendedArgs,
   AdminSetPartViewsCountArgs,
+  AdminSetWorkshopRecommendedArgs,
 } from '../dto/args/admin.args';
 import { AdminDailyReport } from 'src/modules/analytics/types/admin-daily-report.type';
 import { AdminStats } from '../types/admin-stats.type';
@@ -163,6 +169,16 @@ export class AdminResolver {
     return this.adminService.setPartRecommended(args, context);
   }
 
+  /** Fallback when a paid order promotion did not apply automatically. */
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => Order)
+  adminSetOrderRecommended(
+    @Args() args: AdminSetOrderRecommendedArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setOrderRecommended(args, context);
+  }
+
   @UseRole(UserRoleEnum.ADMIN)
   @Mutation(() => Part)
   adminSetPartViewsCount(
@@ -170,5 +186,23 @@ export class AdminResolver {
     @Context() context: ContextType,
   ) {
     return this.adminService.setPartViewsCount(args, context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Query(() => PaginatedWorkshops)
+  adminListWorkshops(
+    @Args() args: AdminListWorkshopsArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.listAllWorkshops(args, context);
+  }
+
+  @UseRole(UserRoleEnum.ADMIN)
+  @Mutation(() => Workshop)
+  adminSetWorkshopRecommended(
+    @Args() args: AdminSetWorkshopRecommendedArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.adminService.setWorkshopRecommended(args, context);
   }
 }

@@ -5,6 +5,9 @@ import { UserRoleEnum } from 'src/modules/user/enums';
 import { CategoryTypeEnum } from 'src/modules/category/enums';
 import { ItemStatusEnum } from 'src/modules/item/enums';
 import { AdminPartsSortEnum } from '../../enums/admin-parts-sort.enum';
+import { AdminWorkshopsSortEnum } from '../../enums/admin-workshops-sort.enum';
+import { AdminOrdersSortEnum } from '../../enums/admin-orders-sort.enum';
+import { OrderStatusEnum } from 'src/modules/order/enums';
 import { Types } from 'mongoose';
 import { FileUpload, GraphQLUpload } from 'graphql-upload-ts';
 
@@ -123,6 +126,15 @@ export class AdminSetPartRecommendedArgs {
 }
 
 @ArgsType()
+export class AdminSetOrderRecommendedArgs {
+  @Field(() => ObjectIdScalar)
+  orderId: Types.ObjectId;
+
+  @Field()
+  recommended: boolean;
+}
+
+@ArgsType()
 export class AdminSetPartViewsCountArgs {
   @Field(() => ObjectIdScalar)
   partId: Types.ObjectId;
@@ -138,4 +150,64 @@ export class AdminListOrdersArgs {
 
   @Field({ nullable: true })
   search?: string;
+
+  @Field(() => OrderStatusEnum, { nullable: true })
+  status?: OrderStatusEnum;
+
+  @Field(() => ObjectIdScalar, { nullable: true })
+  partCategoryId?: Types.ObjectId;
+
+  @Field(() => ObjectIdScalar, { nullable: true })
+  authorId?: Types.ObjectId;
+
+  @Field(() => Date, { nullable: true })
+  createdFrom?: Date;
+
+  @Field(() => Date, { nullable: true })
+  createdTo?: Date;
+
+  @Field({ nullable: true })
+  isPromoted?: boolean;
+
+  @Field(() => AdminOrdersSortEnum, { nullable: true })
+  sort?: AdminOrdersSortEnum;
+}
+
+@ArgsType()
+export class AdminListWorkshopsArgs {
+  @Field(() => PaginationInput, { nullable: true })
+  pagination?: PaginationInput;
+
+  @Field({ nullable: true })
+  search?: string;
+
+  @Field(() => ItemStatusEnum, { nullable: true })
+  status?: ItemStatusEnum;
+
+  @Field(() => ObjectIdScalar, { nullable: true })
+  categoryId?: Types.ObjectId;
+
+  @Field(() => ObjectIdScalar, { nullable: true })
+  ownerId?: Types.ObjectId;
+
+  @Field(() => Date, { nullable: true })
+  createdFrom?: Date;
+
+  @Field(() => Date, { nullable: true })
+  createdTo?: Date;
+
+  @Field({ nullable: true })
+  isPromoted?: boolean;
+
+  @Field(() => AdminWorkshopsSortEnum, { nullable: true })
+  sort?: AdminWorkshopsSortEnum;
+}
+
+@ArgsType()
+export class AdminSetWorkshopRecommendedArgs {
+  @Field(() => ObjectIdScalar)
+  workshopId: Types.ObjectId;
+
+  @Field()
+  recommended: boolean;
 }

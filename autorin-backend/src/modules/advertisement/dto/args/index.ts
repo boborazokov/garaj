@@ -3,3 +3,4 @@ export * from './admin-list-advertisements.args';
 export * from './create-advertisement.args';
 export * from './update-advertisement.args';
 export * from './delete-advertisement.args';
+export * from './record-advertisement.args';

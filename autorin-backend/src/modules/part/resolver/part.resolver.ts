@@ -10,6 +10,8 @@ import {
 } from '../dto';
 import { Part } from '../schema';
 import { UseAuth, UseOptionalAuth } from 'src/auth/useAuth';
+import { UseRole } from 'src/auth/useAuth/use-role.decorator';
+import { UserRoleEnum } from 'src/modules/user/enums';
 import { PaginatedParts } from '../types';
 
 @Resolver()
@@ -62,10 +64,10 @@ export class PartResolver {
   }
 
   /**
-   * Promotes the part for `days` days. Cost / billing is out-of-scope here;
-   * front-ends should hide the action behind a paywall when needed.
+   * Admin fallback only. Users must go through `purchasePromotion`
+   * (pay → auto top). Use this when payment succeeded but promote failed.
    */
-  @UseAuth()
+  @UseRole(UserRoleEnum.ADMIN)
   @Mutation(() => Part)
   promotePartById(
     @Args() args: PromotePartArgs,

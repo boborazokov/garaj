@@ -29,6 +29,7 @@ import { AnalyticsModule } from './analytics/module/analytics.module';
 import { AdminModule } from './admin/module/admin.module';
 import { SellerProfileModule } from './seller-profile/module/seller-profile.module';
 import { UserNotificationModule } from './user-notification/module/user-notification.module';
+import { PromotionPaymentModule } from './promotion-payment/module';
 
 const modules = [
   PubSubModule,
@@ -60,6 +61,7 @@ const modules = [
   AdminModule,
   SellerProfileModule,
   UserNotificationModule,
+  PromotionPaymentModule,
 ];
 
 @Module({ imports: modules })

@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  OnModuleInit,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Catalog, COLLECTIONS } from 'src/constants';
 import { Workshop } from '../schema';
@@ -23,6 +28,10 @@ import { GeoJsonPoint, isValidGeoJsonPoint, toGeoJsonPoint } from 'src/shared/ge
 import { normalizeWorkshop, normalizeWorkshops } from '../utils/normalize-workshop';
 import { PromoteWorkshopArgs } from '../dto/args/promote-workshop.args';
 import { buildPromotionUpdate } from 'src/modules/service/utils/promotion';
+import {
+  loadMockWorkshopsSeed,
+  mockWorkshopToDoc,
+} from '../seed/seed-mock-workshops';
 
 const populate = [
   ...POPULATIONS.workshop,
@@ -52,6 +61,7 @@ export class WorkshopService implements OnModuleInit {
           { rating: null },
           { reviewCount: { $exists: false } },
           { gallery: { $exists: false } },
+          { phoneClickCount: { $exists: false } },
         ],
       },
       {
@@ -61,6 +71,7 @@ export class WorkshopService implements OnModuleInit {
           reviewCount: 0,
           fastResponse: false,
           bookingCount: 0,
+          phoneClickCount: 0,
           viewCount: 0,
           serviceRadiusKm: 15,
           servicePricing: [],
@@ -77,6 +88,85 @@ export class WorkshopService implements OnModuleInit {
     await this.syncMapLocationFromGeo();
     await this.backfillMissingGeo();
     await this.repairInvalidMapLocations();
+    const seeded = await this.seedMockWorkshops();
+    if (seeded > 0) {
+      Logger.log(`Mock workshops seeded: ${seeded}`, 'WorkshopService');
+    }
+  }
+
+  /** Idempotent demo workshops for admin / empty DB (upsert by name). */
+  async seedMockWorkshops(): Promise<number> {
+    const rows = loadMockWorkshopsSeed();
+    const owner = await this.workshopModel.db
+      .collection(COLLECTIONS.USERS)
+      .find({})
+      .project({ _id: 1 })
+      .sort({ createdAt: 1 })
+      .limit(1)
+      .next();
+    if (!owner?._id) {
+      Logger.warn(
+        'Skip mock workshops seed: no users in database',
+        'WorkshopService',
+      );
+      return 0;
+    }
+
+    const categories = await this.workshopModel.db
+      .collection(COLLECTIONS.WORKSHOP_CATEGORIES)
+      .find({})
+      .project({ _id: 1, popular: 1 })
+      .sort({ popular: -1 })
+      .limit(12)
+      .toArray();
+    const allCategoryIds = categories.map(
+      (row) => new Types.ObjectId(String(row._id)),
+    );
+    const ownerId = new Types.ObjectId(String(owner._id));
+
+    let inserted = 0;
+    for (let index = 0; index < rows.length; index += 1) {
+      const row = rows[index];
+      // Spread categories across mocks so admin filter demos cleanly.
+      const categoryIds =
+        allCategoryIds.length > 0
+          ? [
+              allCategoryIds[index % allCategoryIds.length],
+              allCategoryIds[(index + 3) % allCategoryIds.length],
+            ]
+          : [];
+      const doc = mockWorkshopToDoc(row, ownerId, categoryIds);
+      const result = await this.workshopModel.updateOne(
+        { name: row.name },
+        { $setOnInsert: doc },
+        { upsert: true },
+      );
+      if (result.upsertedCount > 0) {
+        inserted += 1;
+      } else {
+        // Refresh demo fields on existing mock rows.
+        await this.workshopModel.updateOne(
+          { name: row.name },
+          {
+            $set: {
+              categoryIds,
+              viewCount: doc.viewCount,
+              phoneClickCount: doc.phoneClickCount,
+              bookingCount: doc.bookingCount,
+              isPromoted: doc.isPromoted,
+              promotedUntil: doc.promotedUntil,
+              promotionPlan: doc.promotionPlan,
+              promotionPriority: doc.promotionPriority,
+              verified: doc.verified,
+              status: doc.status,
+              rating: doc.rating,
+              reviewCount: doc.reviewCount,
+            },
+          },
+        );
+      }
+    }
+    return inserted;
   }
 
   private async syncMapLocationFromGeo() {
@@ -253,6 +343,7 @@ export class WorkshopService implements OnModuleInit {
       rating: 0,
       reviewCount: 0,
       bookingCount: 0,
+      phoneClickCount: 0,
       viewCount: 0,
       status: ItemStatusEnum.ACTIVE,
       owner: new Types.ObjectId(userId),

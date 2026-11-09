@@ -33,11 +33,21 @@ export class OrderResponseService {
     private readonly pushService: PushService,
   ) {}
 
-  /** Order author or a seller who already responded may read responses / subscribe. */
+  /**
+   * Author, admin, or a seller who already responded may read responses.
+   * Pass `isAdmin` from auth context so admins can moderate offers.
+   */
   async canWatchOrder(
     userId: Types.ObjectId,
     orderId: Types.ObjectId,
+    isAdmin = false,
   ): Promise<boolean> {
+    if (isAdmin) {
+      const exists = await this.orderModel.exists({ _id: orderId });
+      if (!exists) throw new BadRequestException('Order not found');
+      return true;
+    }
+
     const order = await this.orderModel.findById(orderId).select('author').lean();
     if (!order) throw new BadRequestException('Order not found');
 
@@ -49,8 +59,12 @@ export class OrderResponseService {
     }));
   }
 
-  async assertCanWatchOrder(userId: Types.ObjectId, orderId: Types.ObjectId) {
-    if (!(await this.canWatchOrder(userId, orderId))) {
+  async assertCanWatchOrder(
+    userId: Types.ObjectId,
+    orderId: Types.ObjectId,
+    isAdmin = false,
+  ) {
+    if (!(await this.canWatchOrder(userId, orderId, isAdmin))) {
       throw new ForbiddenException('Not allowed to watch this order channel');
     }
   }

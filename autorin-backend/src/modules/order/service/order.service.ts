@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   Injectable,
   Logger,
+  OnModuleInit,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, PaginateModel, PipelineStage, RootFilterQuery, Types } from 'mongoose';
@@ -11,9 +12,11 @@ import { assertAuthenticated } from 'src/auth/utils/authenticated-context';
 import { isAdminRole, ownerScope } from 'src/auth/utils/admin-scope';
 import { COLLECTIONS } from 'src/constants';
 import { ItemStatusEnum } from 'src/modules/item/enums';
+import { CategoryTypeEnum } from 'src/modules/category/enums';
 import { Part } from 'src/modules/part/schema';
 import { PushService } from 'src/services/push';
 import { SortOrderEnum } from 'src/shared/enums';
+import { slugModelKey } from 'src/modules/category/seed/seed-vehicle-catalog';
 import {
   CreateOrderArgs,
   GetOrderByIdArgs,
@@ -22,6 +25,11 @@ import {
 } from '../dto';
 import { OrderStatusEnum } from '../enums';
 import { Order } from '../schema';
+import {
+  loadMockOrdersSeed,
+  mockOrderCreatedAt,
+  mockOrderToDoc,
+} from '../seed/seed-mock-orders';
 import { SellerMatchingOrdersOverview } from '../types';
 
 const populate = [
@@ -32,7 +40,7 @@ const populate = [
 ];
 
 @Injectable()
-export class OrderService {
+export class OrderService implements OnModuleInit {
   private readonly logger = new Logger(OrderService.name);
 
   constructor(
@@ -42,6 +50,130 @@ export class OrderService {
     private readonly partModel: Model<Part>,
     private readonly pushService: PushService,
   ) {}
+
+  async onModuleInit() {
+    try {
+      const seeded = await this.seedMockOrders();
+      if (seeded > 0) {
+        this.logger.log(`Mock orders seeded: ${seeded}`);
+      }
+    } catch (err) {
+      this.logger.warn(`Mock orders seed skipped: ${err}`);
+    }
+  }
+
+  /** Idempotent demo buy-requests for admin / empty DB (upsert by title). */
+  async seedMockOrders(): Promise<number> {
+    // Re-run on boot to refresh demo fields (year, status, promotion).
+    const rows = loadMockOrdersSeed();
+    const author = await this.orderModel.db
+      .collection(COLLECTIONS.USERS)
+      .find({})
+      .project({ _id: 1, phone: 1 })
+      .sort({ createdAt: 1 })
+      .limit(1)
+      .next();
+    if (!author?._id) {
+      this.logger.warn('Skip mock orders seed: no users in database');
+      return 0;
+    }
+
+    const categories = await this.orderModel.db
+      .collection(COLLECTIONS.CATEGORIES)
+      .find({
+        type: {
+          $in: [
+            CategoryTypeEnum.BRAND,
+            CategoryTypeEnum.MODEL,
+            CategoryTypeEnum.PART,
+          ],
+        },
+      })
+      .project({ _id: 1, key: 1, type: 1, name: 1, names: 1, parentId: 1 })
+      .toArray();
+
+    const byKey = new Map(
+      categories
+        .filter((row) => typeof row.key === 'string' && row.key)
+        .map((row) => [String(row.key), row]),
+    );
+
+    const authorId = new Types.ObjectId(String(author._id));
+    let inserted = 0;
+
+    for (const row of rows) {
+      const brand = byKey.get(row.brandKey);
+      const modelKey = slugModelKey(row.brandKey, row.modelName);
+      const carModel =
+        byKey.get(modelKey) ??
+        categories.find(
+          (item) =>
+            item.type === CategoryTypeEnum.MODEL &&
+            String(item.parentId ?? '') === String(brand?._id ?? '') &&
+            String(item.names?.en ?? item.name ?? '').toLowerCase() ===
+              row.modelName.toLowerCase(),
+        );
+      const partCategory = byKey.get(row.partCategoryKey);
+
+      const doc = mockOrderToDoc(row, authorId, {
+        brandId: brand?._id
+          ? new Types.ObjectId(String(brand._id))
+          : null,
+        carModelId: carModel?._id
+          ? new Types.ObjectId(String(carModel._id))
+          : null,
+        partCategoryId: partCategory?._id
+          ? new Types.ObjectId(String(partCategory._id))
+          : null,
+      });
+
+      const createdAt = mockOrderCreatedAt(row.daysAgo);
+      const result = await this.orderModel.updateOne(
+        { title: row.title },
+        { $setOnInsert: doc },
+        { upsert: true },
+      );
+
+      if (result.upsertedCount > 0) {
+        inserted += 1;
+        // Bypass mongoose timestamps middleware (conflicts with explicit updatedAt).
+        await this.orderModel.collection.updateOne(
+          { title: row.title },
+          { $set: { createdAt, updatedAt: createdAt } },
+        );
+      } else {
+        await this.orderModel.updateOne(
+          { title: row.title },
+          {
+            $set: {
+              description: doc.description,
+              phone: doc.phone,
+              location: doc.location,
+              region: doc.region,
+              brand: doc.brand,
+              carModel: doc.carModel,
+              partCategory: doc.partCategory,
+              year: doc.year,
+              budget: doc.budget,
+              currency: doc.currency,
+              urgency: doc.urgency,
+              status: doc.status,
+              isPromoted: doc.isPromoted,
+              promotedUntil: doc.promotedUntil,
+              promotionPlan: doc.promotionPlan,
+              promotionPriority: doc.promotionPriority,
+            },
+          },
+        );
+        await this.orderModel.collection.updateOne(
+          { title: row.title },
+          { $set: { createdAt } },
+        );
+      }
+    }
+
+    return inserted;
+  }
 
   async createOrder({ data }: CreateOrderArgs, context: ContextType) {
     const { userId } = assertAuthenticated(context);
@@ -397,7 +529,7 @@ export class OrderService {
           },
         },
       },
-      { $sort: { _rank: 1, createdAt: -1, _id: -1 } },
+      { $sort: { _rank: 1, promotionPriority: -1, createdAt: -1, _id: -1 } },
       {
         $facet: {
           meta: [{ $count: 'totalDocs' }],
