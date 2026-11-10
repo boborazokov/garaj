@@ -1,7 +1,10 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
-import { NotificationTemplates } from './notification.templates';
+import {
+  formatMoneyLabel,
+  NotificationTemplates,
+} from './notification.templates';
 import { PushService, PUSH_QUEUE } from './push.service';
 import {
   ChatPushJob,
@@ -13,6 +16,8 @@ import {
   PushJobName,
   SellerResponsePushJob,
   UserVerifiedPushJob,
+  WalletSpendPushJob,
+  WalletTopUpPushJob,
 } from './push.types';
 
 /**
@@ -51,6 +56,10 @@ export class PushWorker extends WorkerHost {
         return this.handleSellerResponse(job.data as SellerResponsePushJob);
       case 'user-verified':
         return this.handleUserVerified(job.data as UserVerifiedPushJob);
+      case 'wallet-top-up':
+        return this.handleWalletTopUp(job.data as WalletTopUpPushJob);
+      case 'wallet-spend':
+        return this.handleWalletSpend(job.data as WalletSpendPushJob);
       default:
         this.logger.warn(`Unknown push job name: ${job.name as string}`);
     }
@@ -150,6 +159,44 @@ export class PushWorker extends WorkerHost {
         type: PushEventType.USER_VERIFIED,
         userId: d.userId,
         deepLink: `/sellerProfile?sellerId=${d.userId}`,
+      },
+    );
+  }
+
+  private async handleWalletTopUp(d: WalletTopUpPushJob) {
+    const currency = d.currency || 'UZS';
+    const amountLabel = formatMoneyLabel(d.amount, currency);
+    await this.push.dispatch(
+      d.recipientIds,
+      NotificationTemplates.walletTopUp(amountLabel),
+      {
+        type: PushEventType.WALLET_TOP_UP,
+        amount: String(Math.abs(Math.floor(d.amount))),
+        currency,
+        amountLabel,
+        txId: d.txId ?? '',
+        deepLink: '/wallet',
+      },
+    );
+  }
+
+  private async handleWalletSpend(d: WalletSpendPushJob) {
+    const currency = d.currency || 'UZS';
+    const amountLabel = formatMoneyLabel(d.amount, currency);
+    const reason = (d.reason || 'Wallet charge').trim();
+    await this.push.dispatch(
+      d.recipientIds,
+      NotificationTemplates.walletSpend(amountLabel, reason),
+      {
+        type: PushEventType.WALLET_SPEND,
+        amount: String(Math.abs(Math.floor(d.amount))),
+        currency,
+        amountLabel,
+        reason,
+        reasonCode: d.reasonCode ?? 'other',
+        plan: d.plan ?? '',
+        txId: d.txId ?? '',
+        deepLink: '/wallet',
       },
     );
   }

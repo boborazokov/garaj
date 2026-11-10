@@ -16,14 +16,50 @@ export class ViewService {
     targetType: ViewTargetTypeEnum,
     targetId: Types.ObjectId,
   ) {
-    const viewsCount = await this.viewModel.countDocuments({
+    return this.viewModel.countDocuments({
       targetType,
       targetId,
     });
-
-    return viewsCount;
   }
 
+  /**
+   * Records at most one view per device per listing.
+   * @returns true when this was a new unique device view.
+   */
+  async recordUniqueDeviceView(params: {
+    targetType: ViewTargetTypeEnum;
+    targetId: Types.ObjectId;
+    deviceId: string;
+    userId?: Types.ObjectId | null;
+  }): Promise<boolean> {
+    const deviceId = params.deviceId.trim();
+    if (!deviceId) return false;
+
+    try {
+      const result = await this.viewModel.updateOne(
+        {
+          targetType: params.targetType,
+          targetId: params.targetId,
+          deviceId,
+        },
+        {
+          $setOnInsert: {
+            targetType: params.targetType,
+            targetId: params.targetId,
+            deviceId,
+            userId: params.userId ?? null,
+          },
+        },
+        { upsert: true },
+      );
+      return (result.upsertedCount ?? 0) > 0;
+    } catch {
+      // Duplicate key race — already counted for this device.
+      return false;
+    }
+  }
+
+  /** @deprecated Prefer recordUniqueDeviceView (device-scoped). */
   async incrementViewsCount(
     targetType: ViewTargetTypeEnum,
     targetId: Types.ObjectId,
@@ -40,10 +76,12 @@ export class ViewService {
         targetType,
         targetId,
         userId,
+        deviceId: `user:${userId.toString()}`,
       });
+      return true;
     }
 
-    return true;
+    return false;
   }
 
   parseTarget(target: ViewsTargetInput) {
@@ -61,9 +99,6 @@ export class ViewService {
 
   async getTargetViewsCount({ target }: GetTargetViewsCountArgs) {
     const { _id: partId, type } = this.parseTarget(target);
-
-    const viewsCount = await this.getViewsCount(type, partId);
-
-    return viewsCount;
+    return this.getViewsCount(type, partId);
   }
 }

@@ -4,3 +4,6 @@ export * from './create-advertisement.args';
 export * from './update-advertisement.args';
 export * from './delete-advertisement.args';
 export * from './record-advertisement.args';
+export * from './purchase-advertisement.args';
+export * from './advertisement-id.args';
+export * from './advertisement-slot-info.args';

@@ -16,6 +16,7 @@ import type { ItemStatus } from "@/types";
 import { STATUS_LABELS, USER_INFO_COLORS, USER_INFO_TEXTS } from "../../constants";
 import { formatPrice, formatProductDate } from "../../helpers";
 import type { UserProductsTableProps } from "../../types";
+import { UserInfoPagination } from "../UserInfoPagination";
 
 const STATUS_BADGE: Record<
   ItemStatus,
@@ -45,7 +46,13 @@ function ProductThumb({ src, alt }: { src?: string; alt: string }) {
   );
 }
 
-export function UserProductsTable({ rows, loading }: UserProductsTableProps) {
+export function UserProductsTable({
+  rows,
+  loading,
+  page = 1,
+  totalPages = 1,
+  onPage,
+}: UserProductsTableProps) {
   const { t, language } = useLanguage();
   const showSkeleton = loading && rows.length === 0;
 
@@ -130,6 +137,9 @@ export function UserProductsTable({ rows, loading }: UserProductsTableProps) {
           </TableBody>
         </Table>
       )}
+      {onPage ? (
+        <UserInfoPagination page={page} totalPages={totalPages} onPage={onPage} />
+      ) : null}
     </div>
   );
 }

@@ -11,6 +11,8 @@ export enum PushEventType {
   PROMOTED_EXPIRED = 'promotedExpired',
   SELLER_RESPONSE = 'sellerResponse',
   USER_VERIFIED = 'userVerified',
+  WALLET_TOP_UP = 'walletTopUp',
+  WALLET_SPEND = 'walletSpend',
 }
 
 export interface ChatPushJob {
@@ -65,6 +67,26 @@ export interface UserVerifiedPushJob {
   userId: string;
 }
 
+export interface WalletTopUpPushJob {
+  recipientIds: string[];
+  amount: number;
+  currency?: string;
+  txId?: string;
+}
+
+/** Wallet debit — reason explains Top / booking / etc. */
+export interface WalletSpendPushJob {
+  recipientIds: string[];
+  amount: number;
+  /** Human-readable spend reason, e.g. "Move to Top · TOP". */
+  reason: string;
+  /** Machine code: promotion | booking | admin | other */
+  reasonCode?: string;
+  plan?: string;
+  currency?: string;
+  txId?: string;
+}
+
 /**
  * Strongly-typed BullMQ job name registry. BullMQ uses strings for job
  * names; the union here makes typos a compile error.
@@ -76,7 +98,9 @@ export type PushJobName =
   | 'favorite-matched'
   | 'promoted-expired'
   | 'seller-response'
-  | 'user-verified';
+  | 'user-verified'
+  | 'wallet-top-up'
+  | 'wallet-spend';
 
 export interface PushBody {
   title: string;

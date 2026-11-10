@@ -80,4 +80,29 @@ export const NotificationTemplates = {
       body: 'Your account is now verified by the AutoRin team.',
     };
   },
+
+  walletTopUp(amountLabel: string): PushBody {
+    return {
+      title: 'Wallet topped up',
+      body: `+${amountLabel} added to your balance.`,
+    };
+  },
+
+  walletSpend(amountLabel: string, reason: string): PushBody {
+    const why = (reason || 'Wallet charge').trim().slice(0, 120);
+    return {
+      title: 'Wallet charge',
+      body: `−${amountLabel} · ${why}`,
+    };
+  },
 };
+
+export function formatMoneyLabel(amount: number, currency = 'UZS'): string {
+  const n = Math.abs(Math.floor(amount));
+  const digits = n.toString();
+  const parts: string[] = [];
+  for (let i = digits.length; i > 0; i -= 3) {
+    parts.unshift(digits.slice(Math.max(0, i - 3), i));
+  }
+  return `${parts.join(' ')} ${currency}`;
+}

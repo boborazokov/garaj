@@ -460,80 +460,6 @@ type MapSearchResult {
   parts: [Part!]!
 }
 
-type ServiceBooking {
-  _id: ObjectId!
-  service: Service!
-  user: User!
-  scheduledAt: DateTime!
-  notes: String
-  status: ServiceBookingStatusEnum!
-  createdAt: DateTime!
-  updatedAt: DateTime
-}
-
-enum ServiceBookingStatusEnum {
-  PENDING
-  CONFIRMED
-  CANCELLED
-  COMPLETED
-}
-
-type ServiceReview {
-  _id: ObjectId!
-  service: Service!
-  user: User!
-  rating: Float!
-  text: String!
-  createdAt: DateTime!
-}
-
-type PaginatedServices {
-  totalDocs: Float!
-  limit: Float!
-  hasPrevPage: Boolean!
-  hasNextPage: Boolean!
-  page: Int
-  totalPages: Float!
-  prevPage: Int
-  nextPage: Int
-  payload: [Service!]!
-}
-
-type Advertisement {
-  _id: ObjectId!
-  type: String!
-  bannerImageUrl: String!
-  title: String!
-  link: String!
-  startsAt: DateTime
-  endsAt: DateTime
-  status: AdvertisementStatusEnum!
-  impressionCount: Int!
-  clickCount: Int!
-  ctr: Float!
-  isFree: Boolean!
-  createdAt: DateTime!
-  updatedAt: DateTime
-}
-
-enum AdvertisementStatusEnum {
-  ACTIVE
-  PAUSED
-  EXPIRED
-}
-
-type PaginatedAdvertisements {
-  totalDocs: Float!
-  limit: Float!
-  hasPrevPage: Boolean!
-  hasNextPage: Boolean!
-  page: Int
-  totalPages: Float!
-  prevPage: Int
-  nextPage: Int
-  payload: [Advertisement!]!
-}
-
 type DeviceToken {
   _id: ObjectId!
   user: User!
@@ -575,6 +501,185 @@ type PaginatedUserNotifications {
   prevPage: Int
   nextPage: Int
   payload: [UserNotificationType!]!
+}
+
+type Wallet {
+  _id: ObjectId!
+  user: ObjectId!
+  mainBalance: Int!
+  bonusBalance: Int!
+  availableTotal: Int!
+  currency: CurrencyEnum!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type WalletTransaction {
+  _id: ObjectId!
+  wallet: ObjectId!
+  user: ObjectId!
+  type: WalletTransactionTypeEnum!
+  pool: WalletPoolEnum!
+  amount: Int!
+  balanceAfterMain: Int!
+  balanceAfterBonus: Int!
+  status: WalletTransactionStatusEnum!
+  currency: CurrencyEnum!
+  referenceType: WalletReferenceTypeEnum
+  referenceId: ObjectId
+  note: String
+  metaJson: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum WalletTransactionTypeEnum {
+  ADMIN_TOPUP_MAIN
+  ADMIN_CREDIT_BONUS
+  TOPUP_MAIN
+  PROMOTION_SPEND
+  BOOKING_SPEND
+  ADVERTISEMENT_SPEND
+  REFUND
+  WITHDRAW_REQUEST
+  WITHDRAW_PAID
+  WITHDRAW_REJECTED
+}
+
+enum WalletPoolEnum {
+  MAIN
+  BONUS
+  SPLIT
+}
+
+enum WalletTransactionStatusEnum {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum WalletReferenceTypeEnum {
+  ADMIN
+  TOPUP
+  PROMOTION_PAYMENT
+  SERVICE_BOOKING
+  ADVERTISEMENT
+  WITHDRAW
+}
+
+type ServiceBooking {
+  _id: ObjectId!
+  service: Service!
+  user: User!
+  scheduledAt: DateTime!
+  notes: String
+  status: ServiceBookingStatusEnum!
+  paidAmount: Int!
+  currency: CurrencyEnum!
+  paymentStatus: ServiceBookingPaymentStatusEnum!
+  walletTransactionId: ObjectId
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum ServiceBookingStatusEnum {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum ServiceBookingPaymentStatusEnum {
+  UNPAID
+  PAID
+  REFUNDED
+  FAILED
+}
+
+type ServiceReview {
+  _id: ObjectId!
+  service: Service!
+  user: User!
+  rating: Float!
+  text: String!
+  createdAt: DateTime!
+}
+
+type PaginatedServices {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Service!]!
+}
+
+type Advertisement {
+  _id: ObjectId!
+  type: String!
+  bannerImageUrl: String!
+  title: String!
+  link: String!
+  startsAt: DateTime
+  endsAt: DateTime
+  status: AdvertisementStatusEnum!
+  impressionCount: Int!
+  clickCount: Int!
+  ctr: Float!
+  isFree: Boolean!
+  ownerId: ObjectId
+  plan: AdvertisementPlanEnum
+  amountPaid: Int!
+  queuePosition: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum AdvertisementStatusEnum {
+  ACTIVE
+  PAUSED
+  EXPIRED
+  QUEUED
+}
+
+enum AdvertisementPlanEnum {
+  DAY
+  WEEK
+  MONTH
+  QUARTER
+}
+
+type AdvertisementPlanPrice {
+  placement: CategoryTypeEnum!
+  plan: AdvertisementPlanEnum!
+  amount: Int!
+  currency: CurrencyEnum!
+  days: Int!
+  priority: Int!
+}
+
+type AdvertisementSlotInfo {
+  placement: CategoryTypeEnum!
+  activeCount: Int!
+  maxSlots: Int!
+  queueLength: Int!
+  hasFreeSlot: Boolean!
+}
+
+type PaginatedAdvertisements {
+  totalDocs: Float!
+  limit: Float!
+  hasPrevPage: Boolean!
+  hasNextPage: Boolean!
+  page: Int
+  totalPages: Float!
+  prevPage: Int
+  nextPage: Int
+  payload: [Advertisement!]!
 }
 
 type PaginatedOrders {
@@ -662,6 +767,46 @@ type UnreadCountEvent {
   unread: Float!
 }
 
+type PromotionPayment {
+  _id: ObjectId!
+  user: ObjectId!
+  targetType: PromotionTargetTypeEnum!
+  targetId: ObjectId!
+  plan: ServicePromotionPlanEnum!
+  amount: Int!
+  currency: CurrencyEnum!
+  status: PromotionPaymentStatusEnum!
+  provider: String!
+  providerRef: String
+  paidAt: DateTime
+  promotedAt: DateTime
+  failureReason: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum PromotionTargetTypeEnum {
+  PART
+  ORDER
+  SERVICE
+  WORKSHOP
+}
+
+enum PromotionPaymentStatusEnum {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+type PromotionPlanPrice {
+  plan: ServicePromotionPlanEnum!
+  amount: Int!
+  currency: CurrencyEnum!
+  days: Int!
+  priority: Int!
+}
+
 type AdminDailyReportRow {
   date: String!
   visits: Int!
@@ -726,46 +871,6 @@ type SellerStoreProfile {
   allowMessages: Boolean!
 }
 
-type PromotionPayment {
-  _id: ObjectId!
-  user: ObjectId!
-  targetType: PromotionTargetTypeEnum!
-  targetId: ObjectId!
-  plan: ServicePromotionPlanEnum!
-  amount: Int!
-  currency: CurrencyEnum!
-  status: PromotionPaymentStatusEnum!
-  provider: String!
-  providerRef: String
-  paidAt: DateTime
-  promotedAt: DateTime
-  failureReason: String
-  createdAt: DateTime!
-  updatedAt: DateTime
-}
-
-enum PromotionTargetTypeEnum {
-  PART
-  ORDER
-  SERVICE
-  WORKSHOP
-}
-
-enum PromotionPaymentStatusEnum {
-  PENDING
-  PAID
-  FAILED
-  CANCELLED
-}
-
-type PromotionPlanPrice {
-  plan: ServicePromotionPlanEnum!
-  amount: Int!
-  currency: CurrencyEnum!
-  days: Int!
-  priority: Int!
-}
-
 input SellerSocialLinksInput {
   telegram: String
   instagram: String
@@ -803,7 +908,7 @@ type Query {
   recentlyViewedProducts(limit: Int = 12, city: String): [Part!]!
   newArrivals(limit: Int = 12, city: String): [Part!]!
   recommendedOrders(limit: Int = 12, city: String): [Order!]!
-  getPartById(partId: ObjectId!): Part!
+  getPartById(partId: ObjectId!, deviceId: String): Part!
   getParts(filter: PartFilterInput, search: String, pagination: PaginationInput!, sort: SortOrderEnum, viewerRegion: String): PaginatedParts!
   getViewsCount(target: ViewsTargetInput!): Int!
   getFavorites: Favorite!
@@ -883,13 +988,21 @@ type Query {
   ): [Order!]!
   serviceReviews(serviceId: String!): [ServiceReview!]!
   myServiceBookings: [ServiceBooking!]!
+  myWallet: Wallet!
+  myWalletTransactions(limit: Int = 30, cursor: ObjectId): [WalletTransaction!]!
+  adminWallet(userId: ObjectId!): Wallet!
+  adminWalletTransactions(userId: ObjectId!, limit: Int = 30, cursor: ObjectId): [WalletTransaction!]!
+  adminListWithdrawRequests: [WalletTransaction!]!
+  getMyNotifications(pagination: PaginationInput): PaginatedUserNotifications!
+  myUnreadNotificationsCount: Int!
   getAdvertisements(filter: AdvertisementFilterInput): [Advertisement!]!
+  advertisementPlanPrices: [AdvertisementPlanPrice!]!
+  advertisementSlotInfo(type: CategoryTypeEnum!): AdvertisementSlotInfo!
+  myAdvertisements: [Advertisement!]!
   adminListAdvertisements(pagination: PaginationInput, filter: AdvertisementFilterInput): PaginatedAdvertisements!
   getOrders(filter: OrderFilterInput, search: String, pagination: PaginationInput!, sort: SortOrderEnum, viewerRegion: String): PaginatedOrders!
   getSellerMatchingOrdersOverview: SellerMatchingOrdersOverview!
   getOrderById(orderId: ObjectId!): Order!
-  getMyNotifications(pagination: PaginationInput): PaginatedUserNotifications!
-  myUnreadNotificationsCount: Int!
   getOrderResponses(orderId: ObjectId!): [OrderResponse!]!
   getConversations(pagination: PaginationInput): PaginatedConversations!
   getMessages(conversationId: ObjectId!, pagination: PaginationInput): PaginatedMessages!
@@ -901,8 +1014,8 @@ type Query {
   adminListOrders(pagination: PaginationInput, search: String, status: OrderStatusEnum, partCategoryId: ObjectId, authorId: ObjectId, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminOrdersSortEnum): PaginatedOrders!
   adminListParts(pagination: PaginationInput, search: String, categoryType: CategoryTypeEnum, status: ItemStatusEnum, category: ObjectId, sellerId: ObjectId, minPrice: Float, maxPrice: Float, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminPartsSortEnum): PaginatedParts!
   adminListWorkshops(pagination: PaginationInput, search: String, status: ItemStatusEnum, categoryId: ObjectId, ownerId: ObjectId, createdFrom: DateTime, createdTo: DateTime, isPromoted: Boolean, sort: AdminWorkshopsSortEnum): PaginatedWorkshops!
-  getSellerProfile(sellerId: ObjectId!): SellerStoreProfile!
   promotionPlanPrices: [PromotionPlanPrice!]!
+  getSellerProfile(sellerId: ObjectId!): SellerStoreProfile!
 }
 
 input SignInInput {
@@ -1041,9 +1154,9 @@ type Mutation {
   trackActivity(type: ActivityTypeEnum!, entityId: ObjectId, metadata: String): Boolean!
   trackActivityAuth(type: ActivityTypeEnum!, entityId: ObjectId, metadata: String): Boolean!
   createPart(data: PartInput!, images: [Upload!]!): Part!
-  updatePartById(partId: ObjectId!, data: PartUpdateInput!, images: [Upload!]): Part!
-  deletePartById(partId: ObjectId!): Part!
-  restorePartById(partId: ObjectId!): Part!
+  updatePartById(partId: ObjectId!, deviceId: String, data: PartUpdateInput!, images: [Upload!]): Part!
+  deletePartById(partId: ObjectId!, deviceId: String): Part!
+  restorePartById(partId: ObjectId!, deviceId: String): Part!
   promotePartById(partId: ObjectId!, plan: ServicePromotionPlanEnum!): Part!
   addToFavorites(favorite: FavoriteInput!): Favorite!
   removeFromFavorites(favorite: FavoriteInput!): Favorite!
@@ -1065,6 +1178,14 @@ type Mutation {
   bookService(data: BookServiceInput!): ServiceBooking!
   addReview(data: AddReviewInput!): ServiceReview!
   favoriteService(serviceId: String!): Boolean!
+  createWalletTopupIntent(amount: Int!): WalletTransaction!
+  adminCreditWallet(userId: ObjectId!, pool: WalletPoolEnum!, amount: Int!, note: String): WalletTransaction!
+  registerDeviceToken(data: RegisterDeviceTokenInput!): DeviceToken!
+  removeDeviceToken(token: String!): Boolean!
+  markNotificationRead(notificationId: ObjectId!): Boolean!
+  markAllNotificationsRead: Int!
+  purchaseAdvertisement(type: CategoryTypeEnum!, plan: AdvertisementPlanEnum!, title: String!, link: String!, bannerImageUrl: String!): Advertisement!
+  pauseMyAdvertisement(advertisementId: ObjectId!): Advertisement!
   createAdvertisement(data: AdvertisementInput!): Advertisement!
   updateAdvertisement(advertisementId: ObjectId!, data: AdvertisementInput!): Advertisement!
   deleteAdvertisement(advertisementId: ObjectId!): Boolean!
@@ -1075,10 +1196,6 @@ type Mutation {
   closeOrderById(orderId: ObjectId!): Order!
   reopenOrderById(orderId: ObjectId!): Order!
   deleteOrderById(orderId: ObjectId!): Order!
-  registerDeviceToken(data: RegisterDeviceTokenInput!): DeviceToken!
-  removeDeviceToken(token: String!): Boolean!
-  markNotificationRead(notificationId: ObjectId!): Boolean!
-  markAllNotificationsRead: Int!
   respondToOrder(data: RespondToOrderInput!): OrderResponse!
   createConversation(data: CreateConversationInput!): Conversation!
   markAsRead(conversationId: ObjectId!): Conversation!
@@ -1089,6 +1206,14 @@ type Mutation {
   setTyping(conversationId: ObjectId!, isTyping: Boolean!): Boolean!
   setProductModerationEnabled(enabled: Boolean!): AppSettings!
   setContactInfo(supportEmail: String!, supportPhone: String!): AppSettings!
+  setAdvertisementTariff(placement: CategoryTypeEnum!, plan: AdvertisementPlanEnum!, amount: Int!): [AdvertisementPlanPrice!]!
+  deleteAdvertisementTariff(placement: CategoryTypeEnum!, plan: AdvertisementPlanEnum!): [AdvertisementPlanPrice!]!
+  setAdvertisementTariffs(rows: [AdvertisementTariffInput!]!): [AdvertisementPlanPrice!]!
+  resetAdvertisementTariffs: [AdvertisementPlanPrice!]!
+  setPromotionTariff(plan: ServicePromotionPlanEnum!, amount: Int!): [PromotionPlanPrice!]!
+  deletePromotionTariff(plan: ServicePromotionPlanEnum!): [PromotionPlanPrice!]!
+  setPromotionTariffs(rows: [PromotionTariffInput!]!): [PromotionPlanPrice!]!
+  resetPromotionTariffs: [PromotionPlanPrice!]!
   adminSetUserRole(userId: ObjectId!, role: UserRoleEnum!): User!
   adminSetUserImage(userId: ObjectId!, image: Upload!): User!
   adminSetUserVerified(userId: ObjectId!, verified: Boolean!): User!
@@ -1099,6 +1224,7 @@ type Mutation {
   adminSetPartViewsCount(partId: ObjectId!, viewsCount: Int!): Part!
   adminSetWorkshopRecommended(workshopId: ObjectId!, recommended: Boolean!): Workshop!
   purchasePromotion(targetType: PromotionTargetTypeEnum!, targetId: ObjectId!, plan: ServicePromotionPlanEnum!): PromotionPayment!
+  cancelPromotion(targetType: PromotionTargetTypeEnum!, targetId: ObjectId!): Boolean!
   adminFulfillPromotion(targetType: PromotionTargetTypeEnum!, targetId: ObjectId!, plan: ServicePromotionPlanEnum): Boolean!
   adminRetryPromotionPayment(paymentId: ObjectId!): PromotionPayment!
 }
@@ -1287,12 +1413,21 @@ input BookServiceInput {
   serviceId: String!
   scheduledAt: DateTime!
   notes: String
+  amount: Int
 }
 
 input AddReviewInput {
   serviceId: String!
   rating: Float!
   text: String
+}
+
+input RegisterDeviceTokenInput {
+  token: String!
+  platform: DevicePlatformEnum!
+  locale: String
+  appVersion: String
+  deviceModel: String
 }
 
 input AdvertisementInput {
@@ -1304,6 +1439,8 @@ input AdvertisementInput {
   endsAt: DateTime
   status: AdvertisementStatusEnum
   isFree: Boolean
+  plan: AdvertisementPlanEnum
+  amountPaid: Int
 }
 
 input OrderInput {
@@ -1337,14 +1474,6 @@ input OrderUpdateInput {
   urgency: OrderUrgencyEnum
 }
 
-input RegisterDeviceTokenInput {
-  token: String!
-  platform: DevicePlatformEnum!
-  locale: String
-  appVersion: String
-  deviceModel: String
-}
-
 input RespondToOrderInput {
   orderId: ObjectId!
   text: String!
@@ -1370,6 +1499,17 @@ input SendMessageInput {
 input UpdateMessageInput {
   messageId: ObjectId!
   text: String!
+}
+
+input AdvertisementTariffInput {
+  placement: CategoryTypeEnum!
+  plan: AdvertisementPlanEnum!
+  amount: Int!
+}
+
+input PromotionTariffInput {
+  plan: ServicePromotionPlanEnum!
+  amount: Int!
 }
 
 type Subscription {

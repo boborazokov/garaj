@@ -6,4 +6,8 @@ import { ObjectIdScalar } from 'src/common';
 export class GetPartByIdArgs {
   @Field(() => ObjectIdScalar)
   partId: Types.ObjectId;
+
+  /** Client install id — used so one device counts as one product view. */
+  @Field(() => String, { nullable: true })
+  deviceId?: string;
 }

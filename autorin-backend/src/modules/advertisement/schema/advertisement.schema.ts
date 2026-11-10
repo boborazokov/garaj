@@ -3,7 +3,7 @@ import { Prop, Schema } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { ObjectIdScalar } from 'src/common';
 import { CategoryTypeEnum } from 'src/modules/category/enums';
-import { AdvertisementStatusEnum } from '../enums';
+import { AdvertisementPlanEnum, AdvertisementStatusEnum } from '../enums';
 
 @ObjectType()
 @Schema({ timestamps: true })
@@ -69,6 +69,32 @@ export class Advertisement {
   @Field()
   @Prop({ type: Boolean, default: false })
   isFree: boolean;
+
+  /** Buyer who purchased from the app. Null for admin/complimentary. */
+  @Field(() => ObjectIdScalar, { nullable: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', default: null, index: true })
+  ownerId?: Types.ObjectId | null;
+
+  /** Paid duration tier (null for legacy / free admin banners). */
+  @Field(() => AdvertisementPlanEnum, { nullable: true })
+  @Prop({
+    type: String,
+    enum: Object.keys(AdvertisementPlanEnum),
+    default: null,
+  })
+  plan?: AdvertisementPlanEnum | null;
+
+  /** UZS charged at purchase (0 for free / admin). */
+  @Field(() => Int)
+  @Prop({ type: Number, default: 0, min: 0 })
+  amountPaid: number;
+
+  /**
+   * Queue order when status is QUEUED (1 = next up). 0 when live / not queued.
+   */
+  @Field(() => Int)
+  @Prop({ type: Number, default: 0, min: 0, index: true })
+  queuePosition: number;
 
   @Field()
   createdAt: Date;

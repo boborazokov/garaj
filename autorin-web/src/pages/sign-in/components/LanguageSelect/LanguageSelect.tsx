@@ -1,23 +1,9 @@
-import { CircleHelp } from "lucide-react";
-import { notification } from "antd";
 import { isLanguageCode, LANGUAGE_OPTIONS, useLanguage } from "@/lib/i18n";
 import { SIGN_IN_TEXTS } from "../../constants";
-import {
-  HelpButton,
-  LanguagePickerWrap,
-  NativeLanguageSelect,
-} from "./styles";
+import { LanguagePickerWrap, NativeLanguageSelect } from "./styles";
 
 export function LanguageSelect() {
   const { language, setLanguage, t } = useLanguage();
-
-  const handleHelpClick = () => {
-    notification.info({
-      message: t(SIGN_IN_TEXTS.helpSupport),
-      description: t(SIGN_IN_TEXTS.helpSupportDescription),
-      placement: "topRight",
-    });
-  };
 
   return (
     <LanguagePickerWrap>
@@ -36,8 +22,6 @@ export function LanguageSelect() {
           </option>
         ))}
       </NativeLanguageSelect>
-
-    
     </LanguagePickerWrap>
   );
 }

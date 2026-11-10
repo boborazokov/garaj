@@ -15,6 +15,8 @@ import {
   PushJobName,
   SellerResponsePushJob,
   UserVerifiedPushJob,
+  WalletSpendPushJob,
+  WalletTopUpPushJob,
 } from './push.types';
 
 /**
@@ -71,6 +73,14 @@ export class PushService {
 
   enqueueUserVerified(job: UserVerifiedPushJob) {
     return this.enqueue('user-verified', job);
+  }
+
+  enqueueWalletTopUp(job: WalletTopUpPushJob) {
+    return this.enqueue('wallet-top-up', job);
+  }
+
+  enqueueWalletSpend(job: WalletSpendPushJob) {
+    return this.enqueue('wallet-spend', job);
   }
 
   // =========================================================

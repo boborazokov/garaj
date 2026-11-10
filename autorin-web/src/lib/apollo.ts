@@ -86,7 +86,7 @@ const errorLink = new ErrorLink(({ error, operation, forward }) => {
       }
       forward(operation).subscribe(observer)
     })
-  })
+  }) as ReturnType<typeof forward>
 })
 
 export const apolloClient = new ApolloClient({

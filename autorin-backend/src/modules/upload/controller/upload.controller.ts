@@ -33,9 +33,10 @@ export class UploadController {
     return this.uploadService.uploadCategoryIcon(files?.[0], context);
   }
 
+  /** Authenticated users (and admins) upload creatives for banner purchase. */
   @ApiBearerAuth()
-  @UseRole(UserRoleEnum.ADMIN)
-  @Throttle({ default: { limit: 30, ttl: 60_000 } })
+  @UseAuth()
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
   @Post('advertisement-banner')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FilesInterceptor('file', 1, uploadMulterOptions))

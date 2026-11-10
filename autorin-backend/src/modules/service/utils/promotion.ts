@@ -29,13 +29,33 @@ export function promotionPriorityForPlan(plan: ServicePromotionPlanEnum): number
   return PROMOTION_PLAN_WEIGHT[plan] ?? 1;
 }
 
-export function buildPromotionUpdate(plan: ServicePromotionPlanEnum) {
+/**
+ * Activate or extend promotion. If [currentPromotedUntil] is still in the
+ * future, days are added on top of it; otherwise from now.
+ */
+export function buildPromotionUpdate(
+  plan: ServicePromotionPlanEnum,
+  currentPromotedUntil?: Date | string | null,
+) {
   const days = promotionDaysForPlan(plan);
-  const promotedUntil = dayjs().add(days, 'day').toDate();
+  const now = dayjs();
+  const current = currentPromotedUntil ? dayjs(currentPromotedUntil) : null;
+  const base =
+    current && current.isValid() && current.isAfter(now) ? current : now;
+  const promotedUntil = base.add(days, 'day').toDate();
   return {
     isPromoted: true,
     promotedUntil,
     promotionPlan: plan,
     promotionPriority: promotionPriorityForPlan(plan),
+  };
+}
+
+export function buildPromotionClearUpdate() {
+  return {
+    isPromoted: false,
+    promotedUntil: null,
+    promotionPlan: null,
+    promotionPriority: 0,
   };
 }

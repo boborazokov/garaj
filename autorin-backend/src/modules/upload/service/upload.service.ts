@@ -227,10 +227,7 @@ export class UploadService {
     file: Express.Multer.File,
     context: ContextType,
   ): Promise<{ files: string[] }> {
-    const { userRole } = assertAuthenticated(context);
-    if (userRole !== UserRoleEnum.ADMIN) {
-      throw new ForbiddenException('Admin access required');
-    }
+    assertAuthenticated(context);
     if (!file) {
       throw new BadRequestException('Image file is required');
     }

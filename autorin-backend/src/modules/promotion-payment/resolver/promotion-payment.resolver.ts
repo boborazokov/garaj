@@ -7,6 +7,7 @@ import { UserRoleEnum } from 'src/modules/user/enums';
 import {
   AdminFulfillPromotionArgs,
   AdminRetryPromotionPaymentArgs,
+  CancelPromotionArgs,
   PurchasePromotionArgs,
 } from '../dto';
 import { PromotionPayment, PromotionPlanPrice } from '../schema';
@@ -25,6 +26,7 @@ export class PromotionPaymentResolver {
   /**
    * User selects a top plan, pays, and the listing is boosted automatically.
    * Admin only steps in if payment/promote fails (see adminFulfillPromotion).
+   * Buying again while active extends from the current end date.
    */
   @UseAuth()
   @Mutation(() => PromotionPayment, { name: 'purchasePromotion' })
@@ -33,6 +35,16 @@ export class PromotionPaymentResolver {
     @Context() context: ContextType,
   ) {
     return this.promotionPaymentService.purchasePromotion(args, context);
+  }
+
+  /** Owner turns off boost early — no refund. */
+  @UseAuth()
+  @Mutation(() => Boolean, { name: 'cancelPromotion' })
+  cancelPromotion(
+    @Args() args: CancelPromotionArgs,
+    @Context() context: ContextType,
+  ) {
+    return this.promotionPaymentService.cancelPromotion(args, context);
   }
 
   @UseRole(UserRoleEnum.ADMIN)

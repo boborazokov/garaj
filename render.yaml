@@ -50,7 +50,7 @@ services:
         value: log
       # Native mobile clients send no Origin (allowed). Browser/admin need explicit entries.
       - key: ALLOWED_ORIGINS
-        value: https://autorin-web-alpha.vercel.app,https://autorin-web-boborazokovs-projects.vercel.app,https://autorin-backend.onrender.com,http://localhost:3000,http://localhost:5173
+        value: https://autorin-web-boborazokovs-projects.vercel.app,https://autorin-web-alpha.vercel.app,https://autorin-backend.onrender.com,http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000
       - key: MINIO_ENDPOINT
         value: localhost
       - key: MINIO_PORT

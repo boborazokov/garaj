@@ -11,16 +11,26 @@ export class View {
   _id: Types.ObjectId;
 
   @Field(() => ObjectIdScalar)
-  @Prop()
+  @Prop({ type: Types.ObjectId, required: true, index: true })
   targetId: Types.ObjectId;
 
   @Field(() => ViewTargetTypeEnum)
-  @Prop({ type: String, enum: Object.values(ViewTargetTypeEnum) })
+  @Prop({
+    type: String,
+    enum: Object.values(ViewTargetTypeEnum),
+    required: true,
+    index: true,
+  })
   targetType: ViewTargetTypeEnum;
 
-  @Field(() => ObjectIdScalar)
-  @Prop()
-  userId: Types.ObjectId;
+  /** Stable install id — one device counts once per listing. */
+  @Field(() => String, { nullable: true })
+  @Prop({ type: String, default: null, index: true })
+  deviceId?: string | null;
+
+  @Field(() => ObjectIdScalar, { nullable: true })
+  @Prop({ type: Types.ObjectId, default: null, index: true })
+  userId?: Types.ObjectId | null;
 
   @Field()
   createdAt: Date;
@@ -30,3 +40,10 @@ export class View {
 }
 
 export const ViewSchema = SchemaFactory.createForClass(View);
+ViewSchema.index(
+  { targetType: 1, targetId: 1, deviceId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { deviceId: { $type: 'string' } },
+  },
+);

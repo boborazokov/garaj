@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,6 +11,7 @@ import { ContextType } from 'src/auth/interfaces';
 import { assertAuthenticated } from 'src/auth/utils/authenticated-context';
 import { isAdminRole } from 'src/auth/utils/admin-scope';
 import { COLLECTIONS } from 'src/constants';
+import { PushService } from 'src/services/push';
 import { CurrencyEnum } from 'src/shared/enums';
 import {
   AdminCreditWalletArgs,
@@ -29,11 +31,14 @@ export type WalletView = Wallet & { availableTotal: number };
 
 @Injectable()
 export class WalletService {
+  private readonly logger = new Logger(WalletService.name);
+
   constructor(
     @InjectModel(COLLECTIONS.WALLETS)
     private readonly walletModel: Model<Wallet>,
     @InjectModel(COLLECTIONS.WALLET_TRANSACTIONS)
     private readonly txModel: Model<WalletTransaction>,
+    private readonly push: PushService,
   ) {}
 
   toView(wallet: Wallet): WalletView {
@@ -169,6 +174,7 @@ export class WalletService {
         meta: { provider: 'INTERNAL', intentId: intentId.toString() },
       });
       await this.txModel.deleteOne({ _id: pending._id });
+      this.notifyTopUp(userObjectId, amount, credited._id?.toString());
       return credited;
     } catch (err) {
       pending.status = WalletTransactionStatusEnum.FAILED;
@@ -198,7 +204,7 @@ export class WalletService {
         ? WalletTransactionTypeEnum.ADMIN_CREDIT_BONUS
         : WalletTransactionTypeEnum.ADMIN_TOPUP_MAIN;
 
-    return this.credit({
+    const credited = await this.credit({
       userId: args.userId,
       pool,
       amount,
@@ -208,6 +214,8 @@ export class WalletService {
       note: args.note?.trim() || 'Admin credit',
       meta: { adminUserId: context.userId?.toString() },
     });
+    this.notifyTopUp(args.userId, amount, credited._id?.toString());
+    return credited;
   }
 
   /** Empty list stub — withdraw payouts not implemented in v1. */
@@ -220,15 +228,28 @@ export class WalletService {
     userId: Types.ObjectId;
     amount: number;
     promotionPaymentId: Types.ObjectId;
+    plan?: string;
+    targetType?: string;
   }): Promise<WalletTransaction> {
-    return this.debit({
+    const plan = (params.plan || 'TOP').toUpperCase();
+    const target = (params.targetType || 'LISTING').toUpperCase();
+    const reason = `Move to Top · ${plan} (${target})`;
+    const tx = await this.debit({
       userId: params.userId,
       amount: params.amount,
       type: WalletTransactionTypeEnum.PROMOTION_SPEND,
       referenceType: WalletReferenceTypeEnum.PROMOTION_PAYMENT,
       referenceId: params.promotionPaymentId,
-      note: 'Promotion purchase',
+      note: reason,
+      meta: { reasonCode: 'promotion', plan, targetType: target },
     });
+    this.notifySpend(params.userId, params.amount, {
+      reason,
+      reasonCode: 'promotion',
+      plan,
+      txId: tx._id?.toString(),
+    });
+    return tx;
   }
 
   async debitForBooking(params: {
@@ -236,14 +257,50 @@ export class WalletService {
     amount: number;
     bookingId: Types.ObjectId;
   }): Promise<WalletTransaction> {
-    return this.debit({
+    const reason = 'Service booking fee';
+    const tx = await this.debit({
       userId: params.userId,
       amount: params.amount,
       type: WalletTransactionTypeEnum.BOOKING_SPEND,
       referenceType: WalletReferenceTypeEnum.SERVICE_BOOKING,
       referenceId: params.bookingId,
-      note: 'Service booking platform fee',
+      note: reason,
+      meta: { reasonCode: 'booking' },
     });
+    this.notifySpend(params.userId, params.amount, {
+      reason,
+      reasonCode: 'booking',
+      txId: tx._id?.toString(),
+    });
+    return tx;
+  }
+
+  async debitForAdvertisement(params: {
+    userId: Types.ObjectId;
+    amount: number;
+    advertisementId: Types.ObjectId;
+    plan?: string;
+    placement?: string;
+  }): Promise<WalletTransaction> {
+    const plan = (params.plan || 'WEEK').toUpperCase();
+    const placement = (params.placement || 'PART').toUpperCase();
+    const reason = `Banner ad · ${placement} · ${plan}`;
+    const tx = await this.debit({
+      userId: params.userId,
+      amount: params.amount,
+      type: WalletTransactionTypeEnum.ADVERTISEMENT_SPEND,
+      referenceType: WalletReferenceTypeEnum.ADVERTISEMENT,
+      referenceId: params.advertisementId,
+      note: reason,
+      meta: { reasonCode: 'advertisement', plan, placement },
+    });
+    this.notifySpend(params.userId, params.amount, {
+      reason,
+      reasonCode: 'advertisement',
+      plan,
+      txId: tx._id?.toString(),
+    });
+    return tx;
   }
 
   async credit(params: {
@@ -458,5 +515,47 @@ export class WalletService {
     if (!isAdminRole(context)) {
       throw new ForbiddenException('Admin only');
     }
+  }
+
+  private notifyTopUp(
+    userId: Types.ObjectId,
+    amount: number,
+    txId?: string,
+  ) {
+    void this.push
+      .enqueueWalletTopUp({
+        recipientIds: [userId.toString()],
+        amount,
+        currency: CurrencyEnum.UZS,
+        txId,
+      })
+      .catch((err) =>
+        this.logger.warn(`Failed to enqueue wallet top-up push: ${err}`),
+      );
+  }
+
+  private notifySpend(
+    userId: Types.ObjectId,
+    amount: number,
+    opts: {
+      reason: string;
+      reasonCode: string;
+      plan?: string;
+      txId?: string;
+    },
+  ) {
+    void this.push
+      .enqueueWalletSpend({
+        recipientIds: [userId.toString()],
+        amount,
+        reason: opts.reason,
+        reasonCode: opts.reasonCode,
+        plan: opts.plan,
+        currency: CurrencyEnum.UZS,
+        txId: opts.txId,
+      })
+      .catch((err) =>
+        this.logger.warn(`Failed to enqueue wallet spend push: ${err}`),
+      );
   }
 }

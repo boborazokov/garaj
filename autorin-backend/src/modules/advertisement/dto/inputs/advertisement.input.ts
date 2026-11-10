@@ -1,6 +1,6 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { CategoryTypeEnum } from 'src/modules/category/enums';
-import { AdvertisementStatusEnum } from '../../enums';
+import { AdvertisementPlanEnum, AdvertisementStatusEnum } from '../../enums';
 
 @InputType()
 export class AdvertisementInput {
@@ -28,4 +28,12 @@ export class AdvertisementInput {
 
   @Field({ nullable: true })
   isFree?: boolean;
+
+  /** Tariff tier for admin create/edit (DAY / WEEK / MONTH / QUARTER). */
+  @Field(() => AdvertisementPlanEnum, { nullable: true })
+  plan?: AdvertisementPlanEnum | null;
+
+  /** Optional override; if omitted and plan set, server fills from tariff matrix. */
+  @Field(() => Int, { nullable: true })
+  amountPaid?: number | null;
 }

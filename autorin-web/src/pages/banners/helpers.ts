@@ -1,7 +1,11 @@
 import type { LanguageCode } from "@/lib/i18n";
-import type { AdvertisementStatus } from "@/types";
-import type { DurationPreset } from "./constants";
-import { DURATION_OPTIONS } from "./constants";
+import type {
+  AdvertisementPlanPrice,
+  AdvertisementStatus,
+  CategoryType,
+} from "@/types";
+import type { AdvertisementPlanId, DurationPreset } from "./constants";
+import { DURATION_OPTIONS, FALLBACK_AD_PRICES_UZS } from "./constants";
 import type { BannerFormState } from "./types";
 
 export function emptyBannerForm(): BannerFormState {
@@ -13,7 +17,29 @@ export function emptyBannerForm(): BannerFormState {
     startsAt,
     endsAt: addDaysInput(startsAt, 7),
     duration: "7d",
+    plan: "WEEK",
+    isFree: false,
     status: "ACTIVE",
+  };
+}
+
+export function planFromDuration(duration: DurationPreset): AdvertisementPlanId | null {
+  return DURATION_OPTIONS.find((item) => item.id === duration)?.plan ?? null;
+}
+
+export function durationFromPlan(plan: AdvertisementPlanId): DurationPreset {
+  return DURATION_OPTIONS.find((item) => item.plan === plan)?.id ?? "7d";
+}
+
+export function applyPlan(
+  form: BannerFormState,
+  plan: AdvertisementPlanId,
+): BannerFormState {
+  const duration = durationFromPlan(plan);
+  return {
+    ...applyDuration(form, duration),
+    plan,
+    isFree: false,
   };
 }
 
@@ -159,4 +185,24 @@ export function formatBannerDate(value: string | null | undefined, language: Lan
 
 export function writableStatus(status: AdvertisementStatus): "ACTIVE" | "PAUSED" {
   return status === "PAUSED" ? "PAUSED" : "ACTIVE";
+}
+
+export function formatUzs(amount: number) {
+  const n = Number.isFinite(amount) ? Math.round(amount) : 0;
+  return `${n.toLocaleString("ru-RU")} UZS`;
+}
+
+export function resolveTariffAmount(
+  placement: CategoryType,
+  duration: DurationPreset,
+  prices?: AdvertisementPlanPrice[],
+): number | null {
+  const option = DURATION_OPTIONS.find((item) => item.id === duration);
+  const plan = option?.plan as AdvertisementPlanId | undefined;
+  if (!plan) return null;
+  const fromApi = prices?.find(
+    (row) => row.placement === placement && row.plan === plan,
+  )?.amount;
+  if (typeof fromApi === "number") return fromApi;
+  return FALLBACK_AD_PRICES_UZS[placement][plan];
 }

@@ -187,7 +187,19 @@ export const USER_INFO_TEXTS = {
     ru: "Отмена",
     en: "Cancel",
   },
+  prevPage: {
+    uz: "Oldingi",
+    ru: "Назад",
+    en: "Previous",
+  },
+  nextPage: {
+    uz: "Keyingi",
+    ru: "Далее",
+    en: "Next",
+  },
 } satisfies Record<string, LocalizedText>;
+
+export const USER_INFO_PRODUCTS_PAGE_SIZE = 20;
 
 export const STATUS_LABELS: Record<string, LocalizedText> = {
   ACTIVE: { uz: "Faol", ru: "Активен", en: "Active" },

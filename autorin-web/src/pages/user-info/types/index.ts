@@ -18,4 +18,13 @@ export interface UserProfileCardProps {
 export interface UserProductsTableProps {
   rows: Part[];
   loading: boolean;
+  page?: number;
+  totalPages?: number;
+  onPage?: (page: number) => void;
+}
+
+export interface UserInfoPaginationProps {
+  page: number;
+  totalPages: number;
+  onPage: (page: number) => void;
 }

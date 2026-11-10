@@ -8,7 +8,7 @@ export const emptyCategoryNames = (): CategoryNames => ({
 
 /** Admin table / labels — prefer Russian, fallback to legacy `name`. */
 export function categoryLabel(
-  row: Pick<CategoryRow, 'name' | 'names'>,
+  row: Pick<CategoryRow, 'name'> & { names?: CategoryNames },
   lang: 'ru' | 'en' | 'uz' = 'ru',
 ): string {
   const n = row.names

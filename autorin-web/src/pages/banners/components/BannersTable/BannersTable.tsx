@@ -13,8 +13,8 @@ import {
 import { useLanguage } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
 import type { AdvertisementRow, AdvertisementStatus } from "@/types";
-import { BANNERS_TEXTS, STATUS_LABELS } from "../../constants";
-import { formatBannerDate, formatCount, formatCtr } from "../../helpers";
+import { BANNERS_TEXTS, PLAN_LABELS, STATUS_LABELS } from "../../constants";
+import { formatBannerDate, formatCount, formatCtr, formatUzs } from "../../helpers";
 import type { BannersTableProps } from "../../types";
 
 const SKELETON_ROWS = 6;
@@ -22,6 +22,7 @@ const SKELETON_ROWS = 6;
 const STATUS_CLASS: Record<AdvertisementStatus, string> = {
   ACTIVE: "bg-emerald-50 text-emerald-700",
   PAUSED: "bg-amber-50 text-amber-700",
+  QUEUED: "bg-sky-50 text-sky-700",
   EXPIRED: "bg-slate-100 text-slate-600",
 };
 
@@ -60,6 +61,7 @@ export function BannersTable({
           <TableRow className="hover:bg-transparent">
             <TableHead>{t(BANNERS_TEXTS.banner)}</TableHead>
             <TableHead>{t(BANNERS_TEXTS.link)}</TableHead>
+            <TableHead>{t(BANNERS_TEXTS.tariffCol)}</TableHead>
             <TableHead>{t(BANNERS_TEXTS.period)}</TableHead>
             <TableHead>{t(BANNERS_TEXTS.status)}</TableHead>
             <TableHead>{t(BANNERS_TEXTS.stats)}</TableHead>
@@ -103,6 +105,9 @@ function BannersSkeletonRow() {
       </TableCell>
       <TableCell>
         <Skeleton className="h-3.5 w-36" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-3.5 w-20" />
       </TableCell>
       <TableCell>
         <Skeleton className="h-3.5 w-24" />
@@ -157,6 +162,26 @@ function BannerRowItem({
         <span className="line-clamp-2 max-w-[180px] text-[13px] text-muted-foreground" title={row.link}>
           {row.link}
         </span>
+      </TableCell>
+      <TableCell>
+        <div className="leading-tight text-[13px]">
+          {row.isFree ? (
+            <span className="text-muted-foreground">{t(BANNERS_TEXTS.tariffFree)}</span>
+          ) : row.plan ? (
+            <>
+              <div className="font-medium text-foreground">
+                {t(PLAN_LABELS[row.plan])}
+              </div>
+              {typeof row.amountPaid === "number" && row.amountPaid > 0 ? (
+                <div className="mt-0.5 text-[12px] text-muted-foreground">
+                  {formatUzs(row.amountPaid)}
+                </div>
+              ) : null}
+            </>
+          ) : (
+            <span className="text-muted-foreground">—</span>
+          )}
+        </div>
       </TableCell>
       <TableCell>
         {end ? (

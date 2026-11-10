@@ -213,7 +213,10 @@ export class PartService {
     return this.partForGraphql(deletedPart);
   }
 
-  async getPartById({ partId }: GetPartByIdArgs, context: ContextType) {
+  async getPartById(
+    { partId, deviceId }: GetPartByIdArgs,
+    context: ContextType,
+  ) {
     const foundPart = await this.partModel
       .findById(partId)
       .populate([...POPULATIONS.part, ...POPULATIONS.item]);
@@ -233,20 +236,27 @@ export class PartService {
     }
 
     if (!isOwner && !isStaff) {
-      const current = Number(foundPart.viewsCount ?? 0);
-      foundPart.viewsCount = current + 1;
-      await this.partModel.updateOne(
-        { _id: foundPart._id },
-        { $inc: { viewsCount: 1 } },
-      );
-    }
+      const normalizedDeviceId =
+        deviceId?.trim() ||
+        (viewerId ? `user:${viewerId.toString()}` : '');
 
-    if (viewerId && !isOwner && !isStaff) {
-      await this.viewService.incrementViewsCount(
-        ViewTargetTypeEnum.PART,
-        foundPart._id,
-        viewerId,
-      );
+      if (normalizedDeviceId) {
+        const isNewView = await this.viewService.recordUniqueDeviceView({
+          targetType: ViewTargetTypeEnum.PART,
+          targetId: foundPart._id,
+          deviceId: normalizedDeviceId,
+          userId: viewerId ?? null,
+        });
+
+        if (isNewView) {
+          const current = Number(foundPart.viewsCount ?? 0);
+          foundPart.viewsCount = current + 1;
+          await this.partModel.updateOne(
+            { _id: foundPart._id },
+            { $inc: { viewsCount: 1 } },
+          );
+        }
+      }
     }
 
     void this.recommendationService.trackProductView(context, foundPart._id, true);

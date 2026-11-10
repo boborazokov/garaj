@@ -1,0 +1,1 @@
+export { UserInfoPagination } from "./UserInfoPagination";

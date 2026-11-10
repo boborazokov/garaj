@@ -313,7 +313,7 @@ export function ConversationThread({
           </p>
         )}
 
-        {timeline.map((item, index) => {
+        {timeline.map((item) => {
           if (item.kind === "day") {
             return (
               <div key={item.key} className="flex justify-center py-1">
