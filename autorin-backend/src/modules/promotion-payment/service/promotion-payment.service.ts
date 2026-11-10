@@ -59,7 +59,11 @@ export class PromotionPaymentService {
   ) {}
 
   async getPlanPrices(): Promise<PromotionPlanPrice[]> {
-    const overrides = await this.appSettingsService.getPromotionTariffs();
+    const [overrides, dayOverrides, discounts] = await Promise.all([
+      this.appSettingsService.getPromotionTariffs(),
+      this.appSettingsService.getPromotionTariffDays(),
+      this.appSettingsService.getPromotionTariffDiscounts(),
+    ]);
     return Object.values(ServicePromotionPlanEnum).map((plan) => ({
       plan,
       amount:
@@ -67,9 +71,20 @@ export class PromotionPaymentService {
           ? overrides[plan]
           : PROMOTION_PLAN_PRICES_UZS[plan],
       currency: CurrencyEnum.UZS,
-      days: PROMOTION_PLAN_DAYS[plan],
+      days:
+        typeof dayOverrides[plan] === 'number'
+          ? dayOverrides[plan]
+          : PROMOTION_PLAN_DAYS[plan],
       priority: PROMOTION_PLAN_WEIGHT[plan],
+      discountPercent:
+        typeof discounts[plan] === 'number' ? discounts[plan] : 0,
     }));
+  }
+
+  async daysForPlan(plan: ServicePromotionPlanEnum): Promise<number> {
+    const overrides = await this.appSettingsService.getPromotionTariffDays();
+    if (typeof overrides[plan] === 'number') return overrides[plan];
+    return PROMOTION_PLAN_DAYS[plan];
   }
 
   async priceForPlan(plan: ServicePromotionPlanEnum): Promise<number> {
@@ -396,7 +411,8 @@ export class PromotionPaymentService {
       targetType,
       targetId,
     );
-    const update = buildPromotionUpdate(plan, currentUntil);
+    const days = await this.daysForPlan(plan);
+    const update = buildPromotionUpdate(plan, currentUntil, days);
 
     switch (targetType) {
       case PromotionTargetTypeEnum.PART: {

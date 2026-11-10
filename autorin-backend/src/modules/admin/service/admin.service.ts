@@ -162,9 +162,16 @@ export class AdminService {
     plan: ServicePromotionPlanEnum,
     amount: number,
     context: ContextType,
+    days?: number | null,
+    discountPercent?: number | null,
   ) {
     this.assertAdmin(context);
-    await this.appSettingsService.setPromotionTariff(plan, amount);
+    await this.appSettingsService.setPromotionTariff(
+      plan,
+      amount,
+      days,
+      discountPercent,
+    );
     return this.promotionPaymentService.getPlanPrices();
   }
 
@@ -178,7 +185,12 @@ export class AdminService {
   }
 
   async setPromotionTariffs(
-    rows: Array<{ plan: ServicePromotionPlanEnum; amount: number }>,
+    rows: Array<{
+      plan: ServicePromotionPlanEnum;
+      amount: number;
+      days?: number | null;
+      discountPercent?: number | null;
+    }>,
     context: ContextType,
   ) {
     this.assertAdmin(context);

@@ -1,0 +1,1 @@
+export { TopTariffsTable } from "./TopTariffsTable";

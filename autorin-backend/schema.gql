@@ -805,6 +805,7 @@ type PromotionPlanPrice {
   currency: CurrencyEnum!
   days: Int!
   priority: Int!
+  discountPercent: Int
 }
 
 type AdminDailyReportRow {
@@ -1210,7 +1211,7 @@ type Mutation {
   deleteAdvertisementTariff(placement: CategoryTypeEnum!, plan: AdvertisementPlanEnum!): [AdvertisementPlanPrice!]!
   setAdvertisementTariffs(rows: [AdvertisementTariffInput!]!): [AdvertisementPlanPrice!]!
   resetAdvertisementTariffs: [AdvertisementPlanPrice!]!
-  setPromotionTariff(plan: ServicePromotionPlanEnum!, amount: Int!): [PromotionPlanPrice!]!
+  setPromotionTariff(plan: ServicePromotionPlanEnum!, amount: Int!, days: Int, discountPercent: Int): [PromotionPlanPrice!]!
   deletePromotionTariff(plan: ServicePromotionPlanEnum!): [PromotionPlanPrice!]!
   setPromotionTariffs(rows: [PromotionTariffInput!]!): [PromotionPlanPrice!]!
   resetPromotionTariffs: [PromotionPlanPrice!]!
@@ -1510,6 +1511,8 @@ input AdvertisementTariffInput {
 input PromotionTariffInput {
   plan: ServicePromotionPlanEnum!
   amount: Int!
+  days: Int
+  discountPercent: Int
 }
 
 type Subscription {

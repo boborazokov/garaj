@@ -3,7 +3,6 @@ import { useMutation, useQuery } from '@apollo/client/react'
 import { GET_APP_SETTINGS, SET_CONTACT_INFO, SET_MODERATION } from '../graphql/operations'
 import type { AppSettings } from '../types'
 import { Link } from 'react-router-dom'
-import { PromotionTariffsCard } from './PromotionTariffsCard'
 
 export function AdminSettingsPage() {
   const { data, refetch } = useQuery<{ getAppSettings: AppSettings }>(GET_APP_SETTINGS)
@@ -25,7 +24,17 @@ export function AdminSettingsPage() {
     <div className="max-w-2xl space-y-6">
       <h1 className="text-2xl font-bold text-white">Настройки</h1>
 
-      <PromotionTariffsCard />
+      <div className="rounded-2xl border border-carbon-600 bg-carbon-800 p-6">
+        <h2 className="font-semibold text-white">Top тарифы</h2>
+        <p className="mt-2 text-sm text-carbon-100">
+          Цены и сроки «Поднять в топ» управляются в отдельном разделе.
+        </p>
+        <p className="mt-4 text-sm">
+          <Link to="/admin/top-plans" className="text-amber-400 hover:underline">
+            Открыть Top plans →
+          </Link>
+        </p>
+      </div>
 
       <div className="rounded-2xl border border-carbon-600 bg-carbon-800 p-6">
         <h2 className="font-semibold text-white">Модерация товаров</h2>

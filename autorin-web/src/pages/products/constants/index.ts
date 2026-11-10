@@ -1,27 +1,7 @@
 import type { LocalizedText } from "@/lib/i18n";
-import type { AdminPartsSort, ItemStatus, PromotionPlan } from "@/types";
+import type { AdminPartsSort, ItemStatus } from "@/types";
 
 export const PRODUCTS_PAGE_SIZE = 10;
-
-export const TOP_PLAN_ORDER: PromotionPlan[] = [
-  "BASIC",
-  "STANDARD",
-  "PREMIUM",
-  "VIP",
-  "TOP",
-];
-
-export const TOP_PLAN_LABELS: Record<PromotionPlan, LocalizedText> = {
-  BASIC: { uz: "Asosiy (BASIC)", ru: "Базовый (BASIC)", en: "Basic" },
-  STANDARD: {
-    uz: "Standart (STANDARD)",
-    ru: "Стандарт (STANDARD)",
-    en: "Standard",
-  },
-  PREMIUM: { uz: "Premium", ru: "Premium", en: "Premium" },
-  VIP: { uz: "VIP", ru: "VIP", en: "VIP" },
-  TOP: { uz: "TOP", ru: "TOP", en: "TOP" },
-};
 
 export const PRODUCTS_TEXTS = {
   title: { uz: "Mahsulotlar", ru: "Товары", en: "Products" },
@@ -78,39 +58,6 @@ export const PRODUCTS_TEXTS = {
   },
   sku: { uz: "SKU", ru: "SKU", en: "SKU" },
   promoted: { uz: "Top", ru: "Топ", en: "Top" },
-  topTariffsTitle: {
-    uz: "Product Top tariflari",
-    ru: "Тарифы Product Top",
-    en: "Product Top tariffs",
-  },
-  topTariffsSubtitle: {
-    uz: "Ilovada «Topga ko'tarish» narxlari (UZS). O‘zgartiring va saqlang.",
-    ru: "Цены «Поднять в топ» в приложении (UZS). Меняйте и сохраняйте.",
-    en: "In-app boost prices (UZS). Edit and save.",
-  },
-  topTariffsPlan: { uz: "Tarif", ru: "Тариф", en: "Plan" },
-  topTariffsDays: { uz: "Kunlar", ru: "Дней", en: "Days" },
-  topTariffsPrice: { uz: "Narx (UZS)", ru: "Цена (UZS)", en: "Price (UZS)" },
-  topTariffsSave: {
-    uz: "Tariflarni saqlash",
-    ru: "Сохранить тарифы",
-    en: "Save tariffs",
-  },
-  topTariffsSaving: {
-    uz: "Saqlanmoqda…",
-    ru: "Сохранение…",
-    en: "Saving…",
-  },
-  topTariffsReset: {
-    uz: "Asliga qaytarish",
-    ru: "Сбросить",
-    en: "Reset defaults",
-  },
-  topTariffsError: {
-    uz: "Tariflarni saqlab bo‘lmadi",
-    ru: "Не удалось сохранить тарифы",
-    en: "Could not save tariffs",
-  },
   prevPage: { uz: "Oldingi", ru: "Назад", en: "Previous" },
   nextPage: { uz: "Keyingi", ru: "Далее", en: "Next" },
   selectAll: { uz: "Barchasini tanlash", ru: "Выбрать все", en: "Select all" },

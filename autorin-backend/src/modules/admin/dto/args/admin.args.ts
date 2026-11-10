@@ -74,6 +74,12 @@ export class PromotionTariffInput {
 
   @Field(() => Int)
   amount: number;
+
+  @Field(() => Int, { nullable: true })
+  days?: number | null;
+
+  @Field(() => Int, { nullable: true })
+  discountPercent?: number | null;
 }
 
 @ArgsType()
@@ -83,6 +89,12 @@ export class SetPromotionTariffArgs {
 
   @Field(() => Int)
   amount: number;
+
+  @Field(() => Int, { nullable: true })
+  days?: number | null;
+
+  @Field(() => Int, { nullable: true })
+  discountPercent?: number | null;
 }
 
 @ArgsType()

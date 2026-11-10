@@ -36,8 +36,9 @@ export function promotionPriorityForPlan(plan: ServicePromotionPlanEnum): number
 export function buildPromotionUpdate(
   plan: ServicePromotionPlanEnum,
   currentPromotedUntil?: Date | string | null,
+  daysOverride?: number,
 ) {
-  const days = promotionDaysForPlan(plan);
+  const days = daysOverride ?? promotionDaysForPlan(plan);
   const now = dayjs();
   const current = currentPromotedUntil ? dayjs(currentPromotedUntil) : null;
   const base =

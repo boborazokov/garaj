@@ -135,6 +135,7 @@ export interface PromotionPlanPrice {
   currency: string
   days: number
   priority: number
+  discountPercent?: number | null
 }
 
 export interface AdvertisementRow {

@@ -7,6 +7,7 @@ import {
   Package,
   Settings,
   ShieldCheck,
+  TrendingUp,
   Users,
   Wrench,
 } from "lucide-react";
@@ -97,6 +98,11 @@ export const ADMIN_NAV_GROUPS: AppNavGroup[] = [
         to: "/admin/advertisements",
         label: { uz: "Bannerlar", ru: "Баннеры", en: "Banners" },
         icon: Image,
+      },
+      {
+        to: "/admin/top-plans",
+        label: { uz: "Top plans", ru: "Top plans", en: "Top plans" },
+        icon: TrendingUp,
       },
     ],
   },

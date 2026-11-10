@@ -112,4 +112,7 @@ export class PromotionPlanPrice {
 
   @Field(() => Int)
   priority: number;
+
+  @Field(() => Int, { nullable: true })
+  discountPercent?: number | null;
 }

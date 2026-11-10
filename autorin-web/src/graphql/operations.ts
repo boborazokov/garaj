@@ -203,6 +203,43 @@ export const PROMOTION_PLAN_PRICES = gql`
       currency
       days
       priority
+      discountPercent
+    }
+  }
+`
+
+export const SET_PROMOTION_TARIFF = gql`
+  mutation SetPromotionTariff(
+    $plan: ServicePromotionPlanEnum!
+    $amount: Int!
+    $days: Int
+    $discountPercent: Int
+  ) {
+    setPromotionTariff(
+      plan: $plan
+      amount: $amount
+      days: $days
+      discountPercent: $discountPercent
+    ) {
+      plan
+      amount
+      currency
+      days
+      priority
+      discountPercent
+    }
+  }
+`
+
+export const DELETE_PROMOTION_TARIFF = gql`
+  mutation DeletePromotionTariff($plan: ServicePromotionPlanEnum!) {
+    deletePromotionTariff(plan: $plan) {
+      plan
+      amount
+      currency
+      days
+      priority
+      discountPercent
     }
   }
 `
@@ -215,6 +252,7 @@ export const SET_PROMOTION_TARIFFS = gql`
       currency
       days
       priority
+      discountPercent
     }
   }
 `
@@ -227,6 +265,7 @@ export const RESET_PROMOTION_TARIFFS = gql`
       currency
       days
       priority
+      discountPercent
     }
   }
 `

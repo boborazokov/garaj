@@ -38,6 +38,14 @@ export class AppSettings {
   @Prop({ type: Object, default: {} })
   promotionTariffs?: Record<string, number>;
 
+  /** Optional day-count overrides per promotion plan. */
+  @Prop({ type: Object, default: {} })
+  promotionTariffDays?: Record<string, number>;
+
+  /** Optional discount percent (0–100) shown with each plan. */
+  @Prop({ type: Object, default: {} })
+  promotionTariffDiscounts?: Record<string, number>;
+
   @Field()
   updatedAt?: Date;
 }

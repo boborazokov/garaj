@@ -128,6 +128,8 @@ export class AdminResolver {
       args.plan,
       args.amount,
       context,
+      args.days,
+      args.discountPercent,
     );
   }
 

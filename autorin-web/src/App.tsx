@@ -7,6 +7,7 @@ import { ProductsPage } from "./pages/products";
 import { WorkshopsPage } from "./pages/workshops";
 import { CategoriesPage } from "./pages/categories";
 import { BannersPage } from "./pages/banners";
+import { TopTariffsPage } from "./pages/top-tariffs";
 import { AdminSettingsPage } from "./admin/SettingsPage";
 import { MessagesPage } from "./pages/messages";
 import { ModerationPage } from "./pages/moderation";
@@ -38,6 +39,8 @@ export default function App() {
           <Route path="parts" element={<Navigate to="/admin/products" replace />} />
           <Route path="parts/:id" element={<Navigate to="/admin/products" replace />} />
           <Route path="workshops" element={<WorkshopsPage />} />
+          <Route path="top-plans" element={<TopTariffsPage />} />
+          <Route path="top-tariffs" element={<Navigate to="/admin/top-plans" replace />} />
           <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
 

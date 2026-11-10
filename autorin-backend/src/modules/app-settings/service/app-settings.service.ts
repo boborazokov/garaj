@@ -58,6 +58,38 @@ export class AppSettingsService {
     return { ...(settings.promotionTariffs ?? {}) };
   }
 
+  async getPromotionTariffDays(): Promise<Record<string, number>> {
+    const settings = await this.getSettings();
+    return { ...(settings.promotionTariffDays ?? {}) };
+  }
+
+  async getPromotionTariffDiscounts(): Promise<Record<string, number>> {
+    const settings = await this.getSettings();
+    return { ...(settings.promotionTariffDiscounts ?? {}) };
+  }
+
+  private assertPromotionDays(days: number | null | undefined): number | null {
+    if (days == null) return null;
+    const value = Math.round(Number(days));
+    if (!Number.isFinite(value) || value < 1 || value > 365) {
+      throw new BadRequestException('days must be between 1 and 365');
+    }
+    return value;
+  }
+
+  private assertDiscountPercent(
+    discountPercent: number | null | undefined,
+  ): number | null {
+    if (discountPercent == null) return null;
+    const value = Math.round(Number(discountPercent));
+    if (!Number.isFinite(value) || value < 0 || value > 100) {
+      throw new BadRequestException(
+        'discountPercent must be between 0 and 100',
+      );
+    }
+    return value;
+  }
+
   async setAdvertisementTariff(
     placement: CategoryTypeEnum,
     plan: AdvertisementPlanEnum,
@@ -124,6 +156,8 @@ export class AppSettingsService {
   async setPromotionTariff(
     plan: ServicePromotionPlanEnum,
     amount: number,
+    days?: number | null,
+    discountPercent?: number | null,
   ): Promise<Record<string, number>> {
     const value = Math.round(Number(amount));
     if (!Number.isFinite(value) || value < 0) {
@@ -132,9 +166,27 @@ export class AppSettingsService {
     if (!Object.values(ServicePromotionPlanEnum).includes(plan)) {
       throw new BadRequestException('Unknown promotion plan');
     }
+    const daysValue = this.assertPromotionDays(days);
+    const discountValue = this.assertDiscountPercent(discountPercent);
+    const $set: Record<string, number> = {
+      [`promotionTariffs.${plan}`]: value,
+    };
+    const $unset: Record<string, string> = {};
+    if (daysValue != null) {
+      $set[`promotionTariffDays.${plan}`] = daysValue;
+    } else if (days === null) {
+      $unset[`promotionTariffDays.${plan}`] = '';
+    }
+    if (discountValue != null) {
+      $set[`promotionTariffDiscounts.${plan}`] = discountValue;
+    } else if (discountPercent === null) {
+      $unset[`promotionTariffDiscounts.${plan}`] = '';
+    }
+    const update: Record<string, unknown> = { $set };
+    if (Object.keys($unset).length) update.$unset = $unset;
     const updated = await this.settingsModel.findByIdAndUpdate(
       APP_SETTINGS_ID,
-      { $set: { [`promotionTariffs.${plan}`]: value } },
+      update,
       { new: true, upsert: true },
     );
     return { ...(updated?.promotionTariffs ?? {}) };
@@ -145,16 +197,29 @@ export class AppSettingsService {
   ): Promise<Record<string, number>> {
     const updated = await this.settingsModel.findByIdAndUpdate(
       APP_SETTINGS_ID,
-      { $unset: { [`promotionTariffs.${plan}`]: '' } },
+      {
+        $unset: {
+          [`promotionTariffs.${plan}`]: '',
+          [`promotionTariffDays.${plan}`]: '',
+          [`promotionTariffDiscounts.${plan}`]: '',
+        },
+      },
       { new: true, upsert: true },
     );
     return { ...(updated?.promotionTariffs ?? {}) };
   }
 
   async setPromotionTariffs(
-    rows: Array<{ plan: ServicePromotionPlanEnum; amount: number }>,
+    rows: Array<{
+      plan: ServicePromotionPlanEnum;
+      amount: number;
+      days?: number | null;
+      discountPercent?: number | null;
+    }>,
   ): Promise<Record<string, number>> {
     const map: Record<string, number> = {};
+    const daysMap: Record<string, number> = {};
+    const discountMap: Record<string, number> = {};
     for (const row of rows) {
       const value = Math.round(Number(row.amount));
       if (!Number.isFinite(value) || value < 0) {
@@ -164,10 +229,22 @@ export class AppSettingsService {
         throw new BadRequestException('Unknown promotion plan');
       }
       map[row.plan] = value;
+      const daysValue = this.assertPromotionDays(row.days);
+      if (daysValue != null) daysMap[row.plan] = daysValue;
+      const discountValue = this.assertDiscountPercent(row.discountPercent);
+      if (discountValue != null && discountValue > 0) {
+        discountMap[row.plan] = discountValue;
+      }
     }
     const updated = await this.settingsModel.findByIdAndUpdate(
       APP_SETTINGS_ID,
-      { $set: { promotionTariffs: map } },
+      {
+        $set: {
+          promotionTariffs: map,
+          promotionTariffDays: daysMap,
+          promotionTariffDiscounts: discountMap,
+        },
+      },
       { new: true, upsert: true },
     );
     return { ...(updated?.promotionTariffs ?? {}) };
@@ -176,7 +253,13 @@ export class AppSettingsService {
   async resetPromotionTariffs(): Promise<Record<string, number>> {
     await this.settingsModel.findByIdAndUpdate(
       APP_SETTINGS_ID,
-      { $set: { promotionTariffs: {} } },
+      {
+        $set: {
+          promotionTariffs: {},
+          promotionTariffDays: {},
+          promotionTariffDiscounts: {},
+        },
+      },
       { upsert: true },
     );
     return {};
