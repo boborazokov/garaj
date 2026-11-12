@@ -1,5 +1,6 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Search, User, Shield, ClipboardCheck } from 'lucide-react'
+import { BrandLogo } from '@/components/brand'
 import { getUser, isAdmin, isModerator } from '../../lib/auth'
 
 export function PublicLayout() {
@@ -10,10 +11,8 @@ export function PublicLayout() {
       <header className="sticky top-0 z-40 border-b border-carbon-100 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-6">
           <Link to="/" className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500 text-sm font-black text-white">
-              AR
-            </span>
-            <span className="text-lg font-bold tracking-tight">AutoRin</span>
+            <BrandLogo size={36} />
+            <span className="text-lg font-bold tracking-tight">Garage</span>
           </Link>
 
           <nav className="hidden items-center gap-6 md:flex">
@@ -67,7 +66,7 @@ export function PublicLayout() {
       </main>
 
       <footer className="border-t border-carbon-100 bg-white py-8 text-center text-sm text-carbon-600">
-        © {new Date().getFullYear()} AutoRin — маркетплейс автозапчастей
+        © {new Date().getFullYear()} Garage — маркетплейс автозапчастей
       </footer>
     </div>
   )

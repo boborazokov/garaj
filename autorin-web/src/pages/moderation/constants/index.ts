@@ -71,4 +71,12 @@ export const MODERATION_TEXTS = {
     ru: "Причина обязательна",
     en: "Reason is required",
   },
+  description: { uz: "Tavsif", ru: "Описание", en: "Description" },
+  brandModel: { uz: "Marka / model", ru: "Марка / модель", en: "Brand / model" },
+  quantity: { uz: "Soni", ru: "Кол-во", en: "Qty" },
+  noImages: {
+    uz: "Rasm yuklanmagan",
+    ru: "Нет изображений",
+    en: "No images",
+  },
 } as const satisfies Record<string, LocalizedText>;

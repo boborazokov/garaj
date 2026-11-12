@@ -5,12 +5,13 @@ import 'package:my_auto/core/model/product/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/card_date_region.dart';
 import 'package:my_auto/widgets/favorite_heart_button.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 
-/// Marketplace product card — photo, price, title, place · time.
+/// Marketplace product card — photo, price, title, place · time, views.
 class ProductCardGrid extends StatelessWidget {
   final Part product;
   final bool isMine;
@@ -66,7 +67,7 @@ class ProductCardGrid extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: colors.textPrimary,
                     fontSize: 15,
                     height: 1.15,
@@ -88,19 +89,41 @@ class ProductCardGrid extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   product.name,
-                  maxLines: bounded ? 2 : 2,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.textSecondary,
+                    color: colors.textPrimary.withValues(alpha: 0.82),
                     fontWeight: FontWeight.w500,
                     height: 1.25,
                     fontSize: 13,
                   ),
                 ),
                 const SizedBox(height: 8),
-                CardDateRegion(
-                  createdAt: product.createdAt,
-                  region: product.region,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CardDateRegion(
+                        createdAt: product.createdAt,
+                        region: product.region,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      LucideIcons.eye,
+                      size: 12,
+                      color: colors.textMuted,
+                    ),
+                    const SizedBox(width: 3),
+                    Text(
+                      '${product.viewsCount}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: colors.textMuted,
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -161,11 +184,7 @@ class _ProductCardImage extends StatelessWidget {
           Positioned(
             left: 8,
             top: 8,
-            child: MarketBadgeChip(
-              label: s.promotedBadge,
-              emphasized: true,
-              dense: true,
-            ),
+            child: PromotionPlanBadge(plan: product.promotionPlan),
           ),
         if (isNew)
           Positioned(

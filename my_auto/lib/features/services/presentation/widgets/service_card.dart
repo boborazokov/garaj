@@ -3,8 +3,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/utils/place_label.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
-import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 
 /// Service row card — title, street address, rating.
@@ -18,7 +18,6 @@ class ServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.appColors;
     final theme = Theme.of(context);
-    final s = S.of(context);
     final image = service.images.isNotEmpty ? service.images.first : null;
     final place = humanPlaceLabel(
       address: service.address,
@@ -55,11 +54,7 @@ class ServiceCard extends StatelessWidget {
                     Positioned(
                       left: 8,
                       top: 8,
-                      child: MarketBadgeChip(
-                        label: s.promotedBadge,
-                        emphasized: true,
-                        dense: true,
-                      ),
+                      child: PromotionPlanBadge(plan: service.promotionPlan),
                     ),
                 ],
               ),

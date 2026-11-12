@@ -7,6 +7,7 @@ import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/place_label.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/features/services/data/models/service_listing.dart';
 import 'package:my_auto/features/services/data/models/service_review.dart';
 import 'package:my_auto/features/services/data/services_repository.dart';
@@ -147,7 +148,10 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                     children: [
                       if (s.verified) _Badge('Verified', colors.primary),
                       if (s.isPromotionActive)
-                        _Badge(S.of(context).promotedBadge, colors.warning),
+                        PromotionPlanBadge(
+                          plan: s.promotionPlan,
+                          dense: false,
+                        ),
                       _Badge(s.categoryName, colors.textMuted),
                       _Badge(
                         '${s.rating.toStringAsFixed(1)} ★ (${s.reviewCount})',

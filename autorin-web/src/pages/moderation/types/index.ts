@@ -15,6 +15,7 @@ export interface ModerationTableProps {
   busyId: string | null;
   onApprove: (part: Part) => void;
   onReject: (part: Part) => void;
+  onOpen: (part: Part) => void;
 }
 
 export interface ModerationPaginationProps {

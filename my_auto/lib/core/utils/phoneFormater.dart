@@ -18,19 +18,18 @@ class UzbekPhoneNumberFormatter extends TextInputFormatter {
       digits = digits.substring(0, 9);
     }
 
+    // Readable groups of 3 after +998 → +998 901 234 567
     final buffer = StringBuffer(prefix);
     for (int i = 0; i < digits.length; i++) {
-      if (i == 2 || i == 5 || i == 7) buffer.write(' ');
+      if (i > 0 && i % 3 == 0) buffer.write(' ');
       buffer.write(digits[i]);
     }
 
     final formatted = buffer.toString();
 
-    int offset = formatted.length;
-
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: offset),
+      selection: TextSelection.collapsed(offset: formatted.length),
     );
   }
 }

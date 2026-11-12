@@ -174,6 +174,8 @@ class OrdersProvider extends ChangeNotifier {
                   currency: o.currency,
                   status: OrderStatusEnum.closed,
                   isPromoted: o.isPromoted,
+                  promotedUntil: o.promotedUntil,
+                  promotionPlan: o.promotionPlan,
                   createdAt: o.createdAt,
                   author: o.author,
                   brand: o.brand,

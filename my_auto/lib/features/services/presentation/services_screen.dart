@@ -13,6 +13,7 @@ import 'package:my_auto/features/advertisement/domain/advertisement.dart';
 import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
 import 'package:my_auto/features/advertisement/presentation/ad_list_slot.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
 import 'package:my_auto/features/workshop/data/workshops_repository.dart';
 import 'package:my_auto/generated/l10n.dart';
@@ -564,10 +565,8 @@ class _AvtoservisCard extends StatelessWidget {
                         Positioned(
                           left: 6,
                           top: 6,
-                          child: MarketBadgeChip(
-                            label: s.promotedBadge,
-                            dense: true,
-                            emphasized: true,
+                          child: PromotionPlanBadge(
+                            plan: workshop.promotionPlan,
                           ),
                         ),
                     ],

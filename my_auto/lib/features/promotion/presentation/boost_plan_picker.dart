@@ -146,15 +146,13 @@ class _BoostPlanPickerState extends State<BoostPlanPicker> {
           const SizedBox(height: AppSpacing.s),
           ..._plans.map((plan) {
             final price = _prices[plan];
-            final amount = price?.amount;
+            final amount = price?.amount ?? _fallbackAmount(plan);
             final days = price?.days ?? _fallbackDays(plan);
-            final isFreePlan = amount != null && amount <= 0;
+            final isFreePlan = amount <= 0;
             final isTop = plan == ServicePromotionPlan.top;
-            final trailing = amount == null
-                ? '—'
-                : isFreePlan
-                    ? s.createProductBoostFree
-                    : _formatUzs(amount);
+            final trailing = isFreePlan
+                ? s.createProductBoostFree
+                : _formatUzs(amount);
             return Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.s),
               child: PromotionPlanOptionTile(
@@ -176,7 +174,7 @@ class _BoostPlanPickerState extends State<BoostPlanPicker> {
   int _fallbackDays(ServicePromotionPlan plan) {
     switch (plan) {
       case ServicePromotionPlan.basic:
-        return 3;
+        return 1;
       case ServicePromotionPlan.standard:
         return 7;
       case ServicePromotionPlan.premium:
@@ -185,6 +183,21 @@ class _BoostPlanPickerState extends State<BoostPlanPicker> {
         return 30;
       case ServicePromotionPlan.top:
         return 45;
+    }
+  }
+
+  int _fallbackAmount(ServicePromotionPlan plan) {
+    switch (plan) {
+      case ServicePromotionPlan.basic:
+        return 1000;
+      case ServicePromotionPlan.standard:
+        return 5000;
+      case ServicePromotionPlan.premium:
+        return 10000;
+      case ServicePromotionPlan.vip:
+        return 20000;
+      case ServicePromotionPlan.top:
+        return 30000;
     }
   }
 }

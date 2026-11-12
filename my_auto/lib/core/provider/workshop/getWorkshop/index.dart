@@ -18,6 +18,9 @@ const String GET_WORKSHOPS = r'''
         openUntil
         status
         name
+        isPromoted
+        promotedUntil
+        promotionPlan
       }
       page
       nextPage

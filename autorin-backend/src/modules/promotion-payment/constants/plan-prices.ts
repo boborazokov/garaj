@@ -8,9 +8,9 @@ export const PROMOTION_PLAN_PRICES_UZS: Record<
   ServicePromotionPlanEnum,
   number
 > = {
-  [ServicePromotionPlanEnum.BASIC]: 15_000,
-  [ServicePromotionPlanEnum.STANDARD]: 35_000,
-  [ServicePromotionPlanEnum.PREMIUM]: 70_000,
-  [ServicePromotionPlanEnum.VIP]: 120_000,
-  [ServicePromotionPlanEnum.TOP]: 200_000,
+  [ServicePromotionPlanEnum.BASIC]: 1_000,
+  [ServicePromotionPlanEnum.STANDARD]: 5_000,
+  [ServicePromotionPlanEnum.PREMIUM]: 10_000,
+  [ServicePromotionPlanEnum.VIP]: 20_000,
+  [ServicePromotionPlanEnum.TOP]: 30_000,
 };

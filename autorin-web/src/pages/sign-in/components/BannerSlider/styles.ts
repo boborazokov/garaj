@@ -59,7 +59,7 @@ export const DarkOverlay = styled.div`
   pointer-events: none;
 `;
 
-export const TopAsterisk = styled.div`
+export const TopBrandMark = styled.div`
   position: absolute;
   top: 36px;
   left: 36px;
@@ -68,6 +68,9 @@ export const TopAsterisk = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 
   @media (max-width: 960px) {
     top: 24px;

@@ -6498,11 +6498,31 @@ class S {
     );
   }
 
-  /// `Pending`
+  /// `Under review`
   String get pendingModeration {
     return Intl.message(
-      'Pending',
+      'Under review',
       name: 'pendingModeration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejected`
+  String get statusRejected {
+    return Intl.message(
+      'Rejected',
+      name: 'statusRejected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved`
+  String get statusApproved {
+    return Intl.message(
+      'Approved',
+      name: 'statusApproved',
       desc: '',
       args: [],
     );

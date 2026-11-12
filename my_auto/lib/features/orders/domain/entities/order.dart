@@ -69,6 +69,8 @@ class Order extends Equatable {
     required this.status,
     required this.isPromoted,
     required this.createdAt,
+    this.promotedUntil,
+    this.promotionPlan,
     this.location,
     this.region,
     this.currency,
@@ -96,6 +98,8 @@ class Order extends Equatable {
   final String? currency;
   final OrderStatus status;
   final bool isPromoted;
+  final DateTime? promotedUntil;
+  final String? promotionPlan;
   final DateTime createdAt;
   final OrderAuthor? author;
   final OrderCategoryRef? brand;
@@ -147,6 +151,13 @@ class Order extends Equatable {
 
   bool get isOpen => status == OrderStatus.active;
 
+  bool get isPromotionActive {
+    if (!isPromoted) return false;
+    final until = promotedUntil;
+    if (until == null) return true;
+    return until.isAfter(DateTime.now());
+  }
+
   Order copyWith({
     int? responseCount,
     int? newResponsesCount,
@@ -162,6 +173,8 @@ class Order extends Equatable {
       budget: budget,
       status: status ?? this.status,
       isPromoted: isPromoted,
+      promotedUntil: promotedUntil,
+      promotionPlan: promotionPlan,
       createdAt: createdAt,
       location: location,
       region: region,

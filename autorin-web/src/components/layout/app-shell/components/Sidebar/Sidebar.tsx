@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LogOut, PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { AsteriskIcon } from "@/pages/sign-in/components/AsteriskIcon";
+import { BrandLogo } from "@/components/brand";
 import { clearSession, type AuthUser } from "@/lib/auth";
 import { useLanguage } from "@/lib/i18n";
-import { SHELL_COLORS, SHELL_TEXTS } from "../../constants";
+import { SHELL_TEXTS } from "../../constants";
 import type { AppNavGroup, NavBadgeKey } from "../../types";
 import {
   Avatar,
@@ -45,7 +45,7 @@ function getInitials(name: string) {
   if (parts.length >= 2) {
     return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
   }
-  return name.slice(0, 2).toUpperCase() || "AR";
+  return name.slice(0, 2).toUpperCase() || "G";
 }
 
 export function Sidebar({
@@ -91,7 +91,7 @@ export function Sidebar({
       <BrandRow $collapsed={compact}>
         <BrandLink to={homeTo} $collapsed={compact} onClick={onNavigate}>
           <BrandMark>
-            <AsteriskIcon size={20} color={SHELL_COLORS.accent} />
+            <BrandLogo size={38} />
           </BrandMark>
           {!compact && <BrandName>{t(SHELL_TEXTS.brand)}</BrandName>}
         </BrandLink>

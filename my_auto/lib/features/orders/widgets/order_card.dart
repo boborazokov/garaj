@@ -7,6 +7,7 @@ import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/card_date_region.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
@@ -109,38 +110,47 @@ class _CompactCard extends StatelessWidget {
                     Positioned(
                       left: 8,
                       top: 8,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.surface.withValues(alpha: 0.96),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: colors.border),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                color: colors.primary,
-                                shape: BoxShape.circle,
-                              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
                             ),
-                            const SizedBox(width: 6),
-                            Text(
-                              s.wantToBuyRequestBadge,
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: colors.textPrimary,
-                              ),
+                            decoration: BoxDecoration(
+                              color: colors.surface.withValues(alpha: 0.96),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: colors.border),
                             ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: BoxDecoration(
+                                    color: colors.primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  s.wantToBuyRequestBadge,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: colors.textPrimary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (order.isPromotionActive) ...[
+                            const SizedBox(height: 6),
+                            PromotionPlanBadge(plan: order.promotionPlan),
                           ],
-                        ),
+                        ],
                       ),
                     ),
                   ],
@@ -248,24 +258,10 @@ class _FullCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (order.isPromoted)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 7,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.primary,
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Text(
-                          s.promotedBadge,
-                          style: TextStyle(
-                            color: colors.onPrimary,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 10,
-                          ),
-                        ),
+                    if (order.isPromotionActive)
+                      PromotionPlanBadge(
+                        plan: order.promotionPlan,
+                        filled: true,
                       ),
                   ],
                 ),

@@ -11,7 +11,7 @@ import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/advertisement/domain/advertisement.dart';
-import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
+import 'package:my_auto/features/advertisement/presentation/ad_list_slot.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/features/orders/bloc/orders_list/orders_list_bloc.dart';
 import 'package:my_auto/features/orders/bloc/orders_list/orders_list_event.dart';
@@ -148,13 +148,6 @@ class _OrdersViewState extends State<_OrdersView> {
             ),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.m)),
-          const SliverToBoxAdapter(
-            child: AdBanner(
-              surface: AdSurface.announcement,
-              height: 120,
-              margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
-            ),
-          ),
           BlocBuilder<OrdersListBloc, OrdersListState>(
             builder: (context, state) {
               switch (state.status) {
@@ -204,6 +197,8 @@ class _OrdersViewState extends State<_OrdersView> {
                   final orders = state.visibleOrders;
                   final loadingMore =
                       state.status == OrdersListStatus.loadingMore;
+                  const crossAxisCount = 2;
+                  final rowCount = (orders.length / crossAxisCount).ceil();
                   return SliverPadding(
                     padding: const EdgeInsets.fromLTRB(
                       MarketUi.spacingMD,
@@ -211,17 +206,10 @@ class _OrdersViewState extends State<_OrdersView> {
                       MarketUi.spacingMD,
                       0,
                     ),
-                    sliver: SliverGrid(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 12,
-                        childAspectRatio: 0.72,
-                      ),
+                    sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          if (index >= orders.length) {
+                        (context, rowIndex) {
+                          if (rowIndex >= rowCount) {
                             return const Center(
                               child: Padding(
                                 padding: EdgeInsets.all(12),
@@ -229,26 +217,78 @@ class _OrdersViewState extends State<_OrdersView> {
                               ),
                             );
                           }
-                          final order = orders[index];
-                          final isMine =
-                              context.read<AuthProvider>().auth?.user.id ==
-                                  order.author?.id;
-                          return PremiumOrderCard(
-                            order: order,
-                            compact: true,
-                            isFavorite:
-                                state.favoriteIds.contains(order.id),
-                            onFavoriteToggle: () => context
-                                .read<OrdersListBloc>()
-                                .add(OrdersListFavoriteToggled(order.id)),
-                            onClose: isMine
-                                ? () => context.read<OrdersListBloc>().add(
-                                      OrdersListCloseRequested(order.id),
-                                    )
-                                : null,
+                          final start = rowIndex * crossAxisCount;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              AdListSlot(
+                                listIndex: start,
+                                surface: AdSurface.announcement,
+                                interval: 6,
+                                height: 110,
+                                margin: const EdgeInsets.fromLTRB(0, 4, 0, 12),
+                              ),
+                              IntrinsicHeight(
+                                child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    for (var i = 0;
+                                        i < crossAxisCount;
+                                        i++) ...[
+                                      if (i > 0) const SizedBox(width: 12),
+                                      Expanded(
+                                        child: start + i < orders.length
+                                            ? Builder(
+                                                builder: (context) {
+                                                  final order =
+                                                      orders[start + i];
+                                                  final isMine = context
+                                                          .read<
+                                                              AuthProvider>()
+                                                          .auth
+                                                          ?.user
+                                                          .id ==
+                                                      order.author?.id;
+                                                  return PremiumOrderCard(
+                                                    order: order,
+                                                    compact: true,
+                                                    isFavorite: state
+                                                        .favoriteIds
+                                                        .contains(order.id),
+                                                    onFavoriteToggle: () =>
+                                                        context
+                                                            .read<
+                                                                OrdersListBloc>()
+                                                            .add(
+                                                              OrdersListFavoriteToggled(
+                                                                order.id,
+                                                              ),
+                                                            ),
+                                                    onClose: isMine
+                                                        ? () => context
+                                                            .read<
+                                                                OrdersListBloc>()
+                                                            .add(
+                                                              OrdersListCloseRequested(
+                                                                order.id,
+                                                              ),
+                                                            )
+                                                        : null,
+                                                  );
+                                                },
+                                              )
+                                            : const SizedBox.shrink(),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
                           );
                         },
-                        childCount: orders.length + (loadingMore ? 1 : 0),
+                        childCount: rowCount + (loadingMore ? 1 : 0),
                       ),
                     ),
                   );

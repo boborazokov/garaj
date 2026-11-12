@@ -4495,8 +4495,20 @@ abstract class S {
   /// No description provided for @pendingModeration.
   ///
   /// In en, this message translates to:
-  /// **'Pending'**
+  /// **'Under review'**
   String get pendingModeration;
+
+  /// No description provided for @statusRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get statusRejected;
+
+  /// No description provided for @statusApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get statusApproved;
 
   /// No description provided for @storeCreated.
   ///

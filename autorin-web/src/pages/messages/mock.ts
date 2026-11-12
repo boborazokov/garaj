@@ -33,7 +33,7 @@ function seller(
 function adminParticipant(adminId: string): ChatParticipant {
   return {
     _id: adminId,
-    name: "AutoRin Admin",
+    name: "Garage Admin",
     phone: "+998900000000",
     verified: true,
   };
@@ -135,7 +135,7 @@ export function buildMockMessages(
         },
         {
           _id: "mock-msg-aziz-4",
-          text: "Bugun kechqurun 3 ta variant qo‘shamiz. Shu orada https://autorin.uz/products ni tekshirib ko‘ring.",
+          text: "Bugun kechqurun 3 ta variant qo‘shamiz. Shu orada https://garage.uz/products ni tekshirib ko‘ring.",
           createdAt: daysAgo(1, 11, 5),
           sender: admin,
           readBy: [adminId, peer._id],

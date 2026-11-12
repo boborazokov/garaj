@@ -573,13 +573,18 @@ export const GET_PENDING_PARTS = gql`
       payload {
         _id
         name
+        description
         price
         currency
         images
         status
+        quantity
+        viewsCount
         createdAt
         seller { _id name phone }
-        category { name }
+        category { _id name }
+        brand { _id name }
+        carModel { _id name }
       }
       page
       totalPages
@@ -656,11 +661,20 @@ export const DELETE_PART = gql`
 `
 
 export const ADMIN_SET_PART_RECOMMENDED = gql`
-  mutation AdminSetPartRecommended($partId: ObjectId!, $recommended: Boolean!) {
-    adminSetPartRecommended(partId: $partId, recommended: $recommended) {
+  mutation AdminSetPartRecommended(
+    $partId: ObjectId!
+    $recommended: Boolean!
+    $plan: ServicePromotionPlanEnum
+  ) {
+    adminSetPartRecommended(
+      partId: $partId
+      recommended: $recommended
+      plan: $plan
+    ) {
       _id
       isPromoted
       promotedUntil
+      promotionPlan
     }
   }
 `
@@ -757,11 +771,20 @@ export const DELETE_WORKSHOP = gql`
 `
 
 export const ADMIN_SET_WORKSHOP_RECOMMENDED = gql`
-  mutation AdminSetWorkshopRecommended($workshopId: ObjectId!, $recommended: Boolean!) {
-    adminSetWorkshopRecommended(workshopId: $workshopId, recommended: $recommended) {
+  mutation AdminSetWorkshopRecommended(
+    $workshopId: ObjectId!
+    $recommended: Boolean!
+    $plan: ServicePromotionPlanEnum
+  ) {
+    adminSetWorkshopRecommended(
+      workshopId: $workshopId
+      recommended: $recommended
+      plan: $plan
+    ) {
       _id
       isPromoted
       promotedUntil
+      promotionPlan
     }
   }
 `
@@ -793,11 +816,20 @@ export const REOPEN_ORDER = gql`
 `
 
 export const ADMIN_SET_ORDER_RECOMMENDED = gql`
-  mutation AdminSetOrderRecommended($orderId: ObjectId!, $recommended: Boolean!) {
-    adminSetOrderRecommended(orderId: $orderId, recommended: $recommended) {
+  mutation AdminSetOrderRecommended(
+    $orderId: ObjectId!
+    $recommended: Boolean!
+    $plan: ServicePromotionPlanEnum
+  ) {
+    adminSetOrderRecommended(
+      orderId: $orderId
+      recommended: $recommended
+      plan: $plan
+    ) {
       _id
       isPromoted
       promotedUntil
+      promotionPlan
     }
   }
 `

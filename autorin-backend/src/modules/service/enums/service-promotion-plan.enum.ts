@@ -15,7 +15,7 @@ registerEnumType(ServicePromotionPlanEnum, {
 
 /** Days granted per plan when a seller purchases promotion. */
 export const PROMOTION_PLAN_DAYS: Record<ServicePromotionPlanEnum, number> = {
-  [ServicePromotionPlanEnum.BASIC]: 3,
+  [ServicePromotionPlanEnum.BASIC]: 1,
   [ServicePromotionPlanEnum.STANDARD]: 7,
   [ServicePromotionPlanEnum.PREMIUM]: 14,
   [ServicePromotionPlanEnum.VIP]: 30,

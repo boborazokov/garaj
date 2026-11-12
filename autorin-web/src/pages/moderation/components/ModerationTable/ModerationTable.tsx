@@ -42,6 +42,7 @@ export function ModerationTable({
   busyId,
   onApprove,
   onReject,
+  onOpen,
 }: ModerationTableProps) {
   const { t } = useLanguage();
   const showSkeleton = loading && rows.length === 0;
@@ -71,6 +72,7 @@ export function ModerationTable({
                   busy={busyId === part._id}
                   onApprove={onApprove}
                   onReject={onReject}
+                  onOpen={onOpen}
                 />
               ))}
         </TableBody>
@@ -127,17 +129,22 @@ function ModerationRow({
   busy,
   onApprove,
   onReject,
+  onOpen,
 }: {
   part: Part;
   busy: boolean;
   onApprove: (part: Part) => void;
   onReject: (part: Part) => void;
+  onOpen: (part: Part) => void;
 }) {
   const { t, language } = useLanguage();
   const categoryName = part.category?.name?.trim() || "—";
 
   return (
-    <TableRow>
+    <TableRow
+      className="cursor-pointer"
+      onClick={() => onOpen(part)}
+    >
       <TableCell>
         <div className="flex min-w-[220px] items-center gap-2.5">
           <ProductThumb src={part.images?.[0]} alt={part.name} />
@@ -175,7 +182,10 @@ function ModerationRow({
         {formatSubmitted(part.createdAt, language)}
       </TableCell>
       <TableCell>
-        <div className="flex items-center justify-end gap-1.5">
+        <div
+          className="flex items-center justify-end gap-1.5"
+          onClick={(event) => event.stopPropagation()}
+        >
           <Button
             type="button"
             variant="outline"

@@ -22,7 +22,7 @@ export function HomePage() {
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-carbon-900 via-carbon-800 to-carbon-900 px-6 py-12 text-white md:px-10 md:py-16">
         <div className="relative z-10 max-w-xl space-y-4">
           <p className="text-sm font-semibold uppercase tracking-wider text-amber-400">
-            AutoRin Web
+            Garage Web
           </p>
           <h1 className="text-3xl font-bold leading-tight md:text-4xl">
             Запчасти и объявления для вашего авто

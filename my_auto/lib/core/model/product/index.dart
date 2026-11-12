@@ -5,7 +5,7 @@ import 'package:my_auto/core/utils/resolve_media_url.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/main.dart';
 
-enum ItemStatusEnum { active, archived }
+enum ItemStatusEnum { active, archived, pendingModeration, rejected }
 
 extension ItemStatusEnumX on ItemStatusEnum {
   String toApiString() {
@@ -14,20 +14,42 @@ extension ItemStatusEnumX on ItemStatusEnum {
         return "ACTIVE";
       case ItemStatusEnum.archived:
         return "ARCHIVED";
+      case ItemStatusEnum.pendingModeration:
+        return "PENDING_MODERATION";
+      case ItemStatusEnum.rejected:
+        return "REJECTED";
     }
   }
 
   static ItemStatusEnum fromApiString(String value) {
     switch (value.toUpperCase()) {
       case "ACTIVE":
-      case "PENDING_MODERATION":
         return ItemStatusEnum.active;
+      case "PENDING_MODERATION":
+        return ItemStatusEnum.pendingModeration;
+      case "REJECTED":
+        return ItemStatusEnum.rejected;
       case "ARCHIVED":
         return ItemStatusEnum.archived;
       default:
         return ItemStatusEnum.active;
     }
   }
+
+  bool get isListedActive => this == ItemStatusEnum.active;
+
+  bool get isAwaitingModeration =>
+      this == ItemStatusEnum.pendingModeration;
+
+  bool get isRejected => this == ItemStatusEnum.rejected;
+
+  bool get isInactive =>
+      this == ItemStatusEnum.archived || this == ItemStatusEnum.rejected;
+
+  /// Seller "Faol" tab: live + still in moderation queue.
+  bool get countsAsActiveListing =>
+      this == ItemStatusEnum.active ||
+      this == ItemStatusEnum.pendingModeration;
 }
 
 class Part {
@@ -49,6 +71,7 @@ class Part {
   final DateTime activeUntil;
   final bool isFavorite;
   final ItemStatusEnum status;
+  final String? moderationNote;
   final bool? condition;
   final String delivery;
   final bool? negotiable;
@@ -75,6 +98,7 @@ class Part {
     required this.status,
     required this.activeUntil,
     required this.delivery,
+    this.moderationNote,
     this.condition,
     this.isFavorite = false,
     this.category,
@@ -125,6 +149,7 @@ class Part {
         status: json['status'] != null
             ? ItemStatusEnumX.fromApiString(json['status'])
             : ItemStatusEnum.archived,
+        moderationNote: json['moderationNote']?.toString(),
         category: (json['category'] != null)
             ? CategoryCar.fromJson(Map<String, dynamic>.from(json['category']))
             : null,
@@ -162,6 +187,7 @@ class Part {
       'region': region,
       'discount': discount,
       'status': status.toApiString(),
+      'moderationNote': moderationNote,
       'category': category,
       'images': images,
       'isFavorite': isFavorite,

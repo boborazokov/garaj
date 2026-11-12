@@ -72,7 +72,7 @@ export const FormHeader = styled.header`
   margin-bottom: 20px;
 `;
 
-export const BrandStarWrapper = styled.div`
+export const BrandLogoWrapper = styled.div`
   margin-bottom: 14px;
   display: flex;
   align-items: center;

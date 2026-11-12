@@ -221,7 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Цены в UZS. Верх главной — самый заметный слот.",
     ),
     "advertiseTariffsTitle": MessageLookupByLibrary.simpleMessage("Тарифы"),
-    "advertiseTitle": MessageLookupByLibrary.simpleMessage("Реклама в Autorin"),
+    "advertiseTitle": MessageLookupByLibrary.simpleMessage("Хотите рекламировать бизнес? Свяжитесь с админом"),
     "advertiseWalletCta": MessageLookupByLibrary.simpleMessage(
       "Открыть кошелёк",
     ),
@@ -987,7 +987,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "myOrders": MessageLookupByLibrary.simpleMessage("Мои заказы"),
     "myProducts": MessageLookupByLibrary.simpleMessage("Мои товары"),
     "myRequests": MessageLookupByLibrary.simpleMessage("Мои заявки"),
-    "myServices": MessageLookupByLibrary.simpleMessage("Мои услуги"),
+    "myServices": MessageLookupByLibrary.simpleMessage("Мой автосервис"),
     "myStore": MessageLookupByLibrary.simpleMessage("Мой магазин"),
     "name": MessageLookupByLibrary.simpleMessage("Имя"),
     "navWantToBuy": MessageLookupByLibrary.simpleMessage("Мне нужно"),
@@ -1247,7 +1247,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "orderUrgencyTitle": MessageLookupByLibrary.simpleMessage(
       "Насколько срочно?",
     ),
-    "orderUrgencyUrgent": MessageLookupByLibrary.simpleMessage("Срочно нужно"),
+    "orderUrgencyUrgent": MessageLookupByLibrary.simpleMessage("Срочно"),
     "orders": MessageLookupByLibrary.simpleMessage("Заказы"),
     "otherListingsBySeller": MessageLookupByLibrary.simpleMessage(
       "Другие объявления этого продавца",
@@ -1271,7 +1271,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
       "Пароли не совпадают",
     ),
-    "pendingModeration": MessageLookupByLibrary.simpleMessage("На модерации"),
+    "pendingModeration": MessageLookupByLibrary.simpleMessage("На проверке"),
     "peopleAlsoViewed": MessageLookupByLibrary.simpleMessage("Смотрели также"),
     "phone": MessageLookupByLibrary.simpleMessage("Телефон"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Номер телефона"),
@@ -1343,7 +1343,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "productUpdated": MessageLookupByLibrary.simpleMessage("Товар обновлен"),
     "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
-    "profileAdvertise": MessageLookupByLibrary.simpleMessage("Реклама"),
+    "profileAdvertise": MessageLookupByLibrary.simpleMessage("Бизнес"),
     "profileSectionAccount": MessageLookupByLibrary.simpleMessage("Аккаунт"),
     "profileSectionMyActivity": MessageLookupByLibrary.simpleMessage(
       "Моя активность",
@@ -1373,13 +1373,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "promoteListingTitle": MessageLookupByLibrary.simpleMessage(
       "Продвижение объявления",
     ),
-    "promotePlanBasic": MessageLookupByLibrary.simpleMessage("Базовый"),
+    "promotePlanBasic": MessageLookupByLibrary.simpleMessage("START"),
     "promotePlanDuration": m29,
-    "promotePlanPremium": MessageLookupByLibrary.simpleMessage("Премиум"),
+    "promotePlanPremium": MessageLookupByLibrary.simpleMessage("PRO"),
     "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Стандарт"),
-    "promotePlanTop": MessageLookupByLibrary.simpleMessage("Топ"),
-    "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
+    "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
       "Продвижение товара",
     ),
@@ -1699,6 +1698,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "storeAnalytics": MessageLookupByLibrary.simpleMessage(
       "Аналитика магазина",
     ),
+    "statusApproved": MessageLookupByLibrary.simpleMessage("Одобрено"),
+    "statusRejected": MessageLookupByLibrary.simpleMessage("Отклонено"),
     "storeCreated": MessageLookupByLibrary.simpleMessage("Магазин создан"),
     "storeProfileCompletion": MessageLookupByLibrary.simpleMessage(
       "Заполненность профиля",

@@ -25,6 +25,8 @@ query GetOrders(
       currency
       status
       isPromoted
+      promotedUntil
+      promotionPlan
       createdAt
       author { _id name phone }
       brand { _id name iconUrl }
@@ -86,6 +88,8 @@ query GetOrderById($orderId: ObjectId!) {
     currency
     status
     isPromoted
+    promotedUntil
+    promotionPlan
     createdAt
     author { _id name phone }
     brand { _id name iconUrl }

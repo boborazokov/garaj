@@ -39,6 +39,10 @@ import { AdminPartsSortEnum } from '../enums/admin-parts-sort.enum';
 import { AdminWorkshopsSortEnum } from '../enums/admin-workshops-sort.enum';
 import { AdminOrdersSortEnum } from '../enums/admin-orders-sort.enum';
 import { ServicePromotionPlanEnum } from 'src/modules/service/enums/service-promotion-plan.enum';
+import {
+  buildPromotionClearUpdate,
+  buildPromotionUpdate,
+} from 'src/modules/service/utils/promotion';
 import { PromotionPaymentService } from 'src/modules/promotion-payment/service';
 import { PromotionTargetTypeEnum } from 'src/modules/promotion-payment/enums';
 import { AdvertisementService } from 'src/modules/advertisement/service';
@@ -480,30 +484,38 @@ export class AdminService {
   ): Promise<Part> {
     this.assertAdmin(context);
     let paymentId: Types.ObjectId | null = null;
+    let update: Record<string, unknown>;
+
     if (args.recommended) {
+      if (!args.plan) {
+        throw new BadRequestException('Promotion plan is required');
+      }
+      const existing = await this.partModel
+        .findById(args.partId)
+        .select({ promotedUntil: 1 })
+        .lean();
+      if (!existing) {
+        throw new BadRequestException('Part not found');
+      }
+
       const payment =
         await this.promotionPaymentService.adminChargeOwnerForBoost({
           targetType: PromotionTargetTypeEnum.PART,
           targetId: args.partId,
-          plan: ServicePromotionPlanEnum.TOP,
+          plan: args.plan,
           context,
         });
       paymentId = payment._id;
-    }
 
-    const update = args.recommended
-      ? {
-          isPromoted: true,
-          promotedUntil: dayjs().add(1, 'year').toDate(),
-          promotionPlan: ServicePromotionPlanEnum.TOP,
-          promotionPriority: 5,
-        }
-      : {
-          isPromoted: false,
-          promotedUntil: null,
-          promotionPlan: null,
-          promotionPriority: 0,
-        };
+      const days = await this.promotionPaymentService.daysForPlan(args.plan);
+      update = buildPromotionUpdate(
+        args.plan,
+        (existing as { promotedUntil?: Date | null }).promotedUntil,
+        days,
+      );
+    } else {
+      update = buildPromotionClearUpdate();
+    }
 
     const part = await this.partModel
       .findByIdAndUpdate(args.partId, { $set: update }, { new: true })
@@ -527,30 +539,38 @@ export class AdminService {
   ): Promise<Order> {
     this.assertAdmin(context);
     let paymentId: Types.ObjectId | null = null;
+    let update: Record<string, unknown>;
+
     if (args.recommended) {
+      if (!args.plan) {
+        throw new BadRequestException('Promotion plan is required');
+      }
+      const existing = await this.orderModel
+        .findById(args.orderId)
+        .select({ promotedUntil: 1 })
+        .lean();
+      if (!existing) {
+        throw new BadRequestException('Order not found');
+      }
+
       const payment =
         await this.promotionPaymentService.adminChargeOwnerForBoost({
           targetType: PromotionTargetTypeEnum.ORDER,
           targetId: args.orderId,
-          plan: ServicePromotionPlanEnum.TOP,
+          plan: args.plan,
           context,
         });
       paymentId = payment._id;
-    }
 
-    const update = args.recommended
-      ? {
-          isPromoted: true,
-          promotedUntil: dayjs().add(1, 'year').toDate(),
-          promotionPlan: ServicePromotionPlanEnum.TOP,
-          promotionPriority: 5,
-        }
-      : {
-          isPromoted: false,
-          promotedUntil: null,
-          promotionPlan: null,
-          promotionPriority: 0,
-        };
+      const days = await this.promotionPaymentService.daysForPlan(args.plan);
+      update = buildPromotionUpdate(
+        args.plan,
+        (existing as { promotedUntil?: Date | null }).promotedUntil,
+        days,
+      );
+    } else {
+      update = buildPromotionClearUpdate();
+    }
 
     const order = await this.orderModel
       .findByIdAndUpdate(args.orderId, { $set: update }, { new: true })
@@ -705,32 +725,44 @@ export class AdminService {
   ): Promise<Workshop> {
     this.assertAdmin(context);
     let paymentId: Types.ObjectId | null = null;
+    let update: Record<string, unknown>;
+
     if (args.recommended) {
+      if (!args.plan) {
+        throw new BadRequestException('Promotion plan is required');
+      }
+      const existing = await this.workshopModel
+        .findById(args.workshopId)
+        .select({ promotedUntil: 1 })
+        .lean();
+      if (!existing) {
+        throw new BadRequestException('Workshop not found');
+      }
+
       const payment =
         await this.promotionPaymentService.adminChargeOwnerForBoost({
           targetType: PromotionTargetTypeEnum.WORKSHOP,
           targetId: args.workshopId,
-          plan: ServicePromotionPlanEnum.TOP,
+          plan: args.plan,
           context,
         });
       paymentId = payment._id;
-    }
 
-    const update = args.recommended
-      ? {
-          isPromoted: true,
-          premium: true,
-          promotedUntil: dayjs().add(1, 'year').toDate(),
-          promotionPlan: ServicePromotionPlanEnum.TOP,
-          promotionPriority: 5,
-        }
-      : {
-          isPromoted: false,
-          premium: false,
-          promotedUntil: null,
-          promotionPlan: null,
-          promotionPriority: 0,
-        };
+      const days = await this.promotionPaymentService.daysForPlan(args.plan);
+      update = {
+        ...buildPromotionUpdate(
+          args.plan,
+          (existing as { promotedUntil?: Date | null }).promotedUntil,
+          days,
+        ),
+        premium: true,
+      };
+    } else {
+      update = {
+        ...buildPromotionClearUpdate(),
+        premium: false,
+      };
+    }
 
     const workshop = await this.workshopModel
       .findByIdAndUpdate(args.workshopId, { $set: update }, { new: true })

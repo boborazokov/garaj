@@ -6,7 +6,7 @@ import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
-import 'package:my_auto/generated/l10n.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/widgets/card_date_region.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 
@@ -81,39 +81,7 @@ class FeaturedCarousel extends StatelessWidget {
                             Positioned(
                               left: 8,
                               top: 8,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: colors.surface.withValues(alpha: 0.96),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: colors.border),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 6,
-                                      height: 6,
-                                      decoration: BoxDecoration(
-                                        color: colors.primary,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Text(
-                                      S.of(context).promotedBadge,
-                                      style: TextStyle(
-                                        color: colors.textPrimary,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              child: PromotionPlanBadge(plan: p.promotionPlan),
                             ),
                           ],
                         ),

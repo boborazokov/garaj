@@ -206,6 +206,10 @@ export class AdminSetPartRecommendedArgs {
 
   @Field()
   recommended: boolean;
+
+  /** Required when recommended=true — tariff applied to the boost. */
+  @Field(() => ServicePromotionPlanEnum, { nullable: true })
+  plan?: ServicePromotionPlanEnum;
 }
 
 @ArgsType()
@@ -215,6 +219,9 @@ export class AdminSetOrderRecommendedArgs {
 
   @Field()
   recommended: boolean;
+
+  @Field(() => ServicePromotionPlanEnum, { nullable: true })
+  plan?: ServicePromotionPlanEnum;
 }
 
 @ArgsType()
@@ -293,4 +300,7 @@ export class AdminSetWorkshopRecommendedArgs {
 
   @Field()
   recommended: boolean;
+
+  @Field(() => ServicePromotionPlanEnum, { nullable: true })
+  plan?: ServicePromotionPlanEnum;
 }

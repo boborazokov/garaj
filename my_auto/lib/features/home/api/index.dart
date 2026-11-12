@@ -34,6 +34,8 @@ query GetParts(
       name
       price
       status
+      moderationNote
+      activeUntil
       createdAt
       seller {
         _id
@@ -67,6 +69,7 @@ query GetPartById($partId: ObjectId!, $deviceId: String) {
     description
     images
     status
+    moderationNote
     name
     activeUntil
     price

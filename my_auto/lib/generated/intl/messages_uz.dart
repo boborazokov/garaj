@@ -227,7 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "advertiseTariffsTitle": MessageLookupByLibrary.simpleMessage("Tariflar"),
     "advertiseTitle": MessageLookupByLibrary.simpleMessage(
-      "Autorin’da reklama",
+      "Biznesingizni reklama qilmoqchimisiz? Admin bilan bog‘laning",
     ),
     "advertiseWalletCta": MessageLookupByLibrary.simpleMessage(
       "Hamyonni ochish",
@@ -1009,7 +1009,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "myOrders": MessageLookupByLibrary.simpleMessage("Mening buyurtmalarim"),
     "myProducts": MessageLookupByLibrary.simpleMessage("Mening mahsulotlarim"),
     "myRequests": MessageLookupByLibrary.simpleMessage("Mening buyurtmalarim"),
-    "myServices": MessageLookupByLibrary.simpleMessage("Mening xizmatlarim"),
+    "myServices": MessageLookupByLibrary.simpleMessage("Mening avtoservisim"),
     "myStore": MessageLookupByLibrary.simpleMessage("Mening do\'konim"),
     "name": MessageLookupByLibrary.simpleMessage("Ism"),
     "navWantToBuy": MessageLookupByLibrary.simpleMessage("Menga kerak"),
@@ -1278,7 +1278,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Qanchalik shoshilinch?",
     ),
     "orderUrgencyUrgent": MessageLookupByLibrary.simpleMessage(
-      "Juda shoshilinch",
+      "Shoshilinch",
     ),
     "orders": MessageLookupByLibrary.simpleMessage("Buyurtmalar"),
     "otherListingsBySeller": MessageLookupByLibrary.simpleMessage(
@@ -1307,7 +1307,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
       "Parollar mos kelmayapti",
     ),
-    "pendingModeration": MessageLookupByLibrary.simpleMessage("Moderatsiyada"),
+    "pendingModeration": MessageLookupByLibrary.simpleMessage(
+      "Ko'rib chiqilmoqda",
+    ),
     "peopleAlsoViewed": MessageLookupByLibrary.simpleMessage(
       "Boshqalar ham ko‘rdi",
     ),
@@ -1383,7 +1385,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Mahsulot yangilandi",
     ),
     "profile": MessageLookupByLibrary.simpleMessage("Profil"),
-    "profileAdvertise": MessageLookupByLibrary.simpleMessage("Reklama"),
+    "profileAdvertise": MessageLookupByLibrary.simpleMessage("Biznes"),
     "profileSectionAccount": MessageLookupByLibrary.simpleMessage("Hisob"),
     "profileSectionMyActivity": MessageLookupByLibrary.simpleMessage(
       "Mening faoliyatim",
@@ -1413,13 +1415,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "promoteListingTitle": MessageLookupByLibrary.simpleMessage(
       "E\'lonni targ\'ib qilish",
     ),
-    "promotePlanBasic": MessageLookupByLibrary.simpleMessage("Asosiy"),
+    "promotePlanBasic": MessageLookupByLibrary.simpleMessage("START"),
     "promotePlanDuration": m29,
-    "promotePlanPremium": MessageLookupByLibrary.simpleMessage("Premium"),
+    "promotePlanPremium": MessageLookupByLibrary.simpleMessage("PRO"),
     "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Standart"),
-    "promotePlanTop": MessageLookupByLibrary.simpleMessage("Top"),
-    "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
+    "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
       "Mahsulotni targ\'ib qilish",
     ),
@@ -1757,6 +1758,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "storeAnalytics": MessageLookupByLibrary.simpleMessage(
       "Do\'kon analitikasi",
     ),
+    "statusApproved": MessageLookupByLibrary.simpleMessage("Tasdiqlangan"),
+    "statusRejected": MessageLookupByLibrary.simpleMessage("Rad etildi"),
     "storeCreated": MessageLookupByLibrary.simpleMessage("Do\'kon yaratilgan"),
     "storeProfileCompletion": MessageLookupByLibrary.simpleMessage(
       "Profil to\'ldirilishi",

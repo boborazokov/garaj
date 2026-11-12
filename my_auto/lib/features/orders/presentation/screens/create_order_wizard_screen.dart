@@ -59,7 +59,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
   UzbekistanRegion? _region;
   final _budgetCtrl = TextEditingController();
 
-  OrderUrgency _urgency = OrderUrgency.medium;
+  OrderUrgency _urgency = OrderUrgency.medium; // off = medium, on = urgent
   double _budgetSlider = 500000;
   bool _submitting = false;
   final List<File> _photos = [];
@@ -660,34 +660,45 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
           }),
         ),
         const SizedBox(height: 20),
-        Text(
-          s.orderUrgencyTitle,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          s.orderUrgencyHint,
-          style: TextStyle(fontSize: 13, color: colors.textMuted),
-        ),
-        const SizedBox(height: 10),
-        SegmentedButton<OrderUrgency>(
-          segments: [
-            ButtonSegment(
-              value: OrderUrgency.low,
-              label: Text(s.orderUrgencyLow),
+        Material(
+          color: colors.surface,
+          borderRadius: BorderRadius.circular(12),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () => setState(() {
+              _urgency = _urgency == OrderUrgency.urgent
+                  ? OrderUrgency.medium
+                  : OrderUrgency.urgent;
+            }),
+            child: Ink(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: colors.border),
+              ),
+              child: SwitchListTile.adaptive(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 4,
+                ),
+                title: Text(
+                  s.orderUrgencyUrgent,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                secondary: Icon(
+                  LucideIcons.flame,
+                  size: 20,
+                  color: _urgency == OrderUrgency.urgent
+                      ? colors.danger
+                      : colors.textMuted,
+                ),
+                value: _urgency == OrderUrgency.urgent,
+                onChanged: (on) => setState(() {
+                  _urgency =
+                      on ? OrderUrgency.urgent : OrderUrgency.medium;
+                }),
+              ),
             ),
-            ButtonSegment(
-              value: OrderUrgency.medium,
-              label: Text(s.orderUrgencyNormal),
-            ),
-            ButtonSegment(
-              value: OrderUrgency.urgent,
-              label: Text(s.orderUrgencyUrgent),
-              icon: const Icon(LucideIcons.flame, size: 16),
-            ),
-          ],
-          selected: {_urgency},
-          onSelectionChanged: (sel) => setState(() => _urgency = sel.first),
+          ),
         ),
       ],
     );
@@ -818,26 +829,23 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
                 const SizedBox(height: 8),
                 Text(_descCtrl.text),
               ],
-              if (_urgency != OrderUrgency.medium) ...[
+              if (_urgency == OrderUrgency.urgent) ...[
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    if (_urgency == OrderUrgency.urgent)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 6),
-                        child: Icon(
-                          LucideIcons.flame,
-                          size: 18,
-                          color: colors.danger,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: Icon(
+                        LucideIcons.flame,
+                        size: 18,
+                        color: colors.danger,
                       ),
+                    ),
                     Text(
-                      _urgencyLabel(s),
+                      s.orderUrgencyUrgent,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        color: _urgency == OrderUrgency.urgent
-                            ? colors.danger
-                            : colors.textSecondary,
+                        color: colors.danger,
                       ),
                     ),
                   ],

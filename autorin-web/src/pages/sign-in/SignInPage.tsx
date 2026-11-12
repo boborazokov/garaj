@@ -15,8 +15,8 @@ import { cleanPhone } from "@/lib/helpers/phone.helpers";
 import { useLanguage } from "@/lib/i18n";
 import { SIGN_IN_TEXTS } from "./constants";
 import type { SignInFormValues } from "./types";
+import { BrandLogo } from "@/components/brand";
 import {
-  AsteriskIcon,
   BannerSection,
   LanguageSelect,
   SignInForm,
@@ -27,7 +27,7 @@ import {
   FormSection,
   FormCenterWrapper,
   FormHeader,
-  BrandStarWrapper,
+  BrandLogoWrapper,
   FormTitle,
   FormSubtitle,
 } from "./styles";
@@ -170,9 +170,9 @@ export function SignInPage() {
         <FormSection>
           <FormCenterWrapper>
             <FormHeader>
-              <BrandStarWrapper>
-                <AsteriskIcon size={26} color="#226DF7" />
-              </BrandStarWrapper>
+              <BrandLogoWrapper>
+                <BrandLogo variant="full" size={40} />
+              </BrandLogoWrapper>
               <FormTitle>{t(SIGN_IN_TEXTS.title)}</FormTitle>
               <FormSubtitle>{t(SIGN_IN_TEXTS.subtitle)}</FormSubtitle>
             </FormHeader>

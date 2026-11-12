@@ -28,8 +28,13 @@ export function toStoragePath(path: string): string {
 export function mediaUrl(path?: string | null): string {
   if (!path?.trim()) return ''
 
-  const storagePath = toStoragePath(path)
+  let storagePath = toStoragePath(path)
   if (!storagePath) return ''
+  // Avoid `/media/media/...` when DB already stored a proxied path.
+  if (storagePath.startsWith('media/')) {
+    storagePath = storagePath.slice('media/'.length)
+  }
 
-  return `${API_ORIGIN}/media/${storagePath}`
+  const origin = API_ORIGIN.replace(/\/$/, '')
+  return origin ? `${origin}/media/${storagePath}` : `/media/${storagePath}`
 }

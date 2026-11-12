@@ -2358,7 +2358,13 @@ class SUz extends S {
   String get archivedProducts => 'Arxiv';
 
   @override
-  String get pendingModeration => 'Moderatsiyada';
+  String get pendingModeration => 'Ko\'rib chiqilmoqda';
+
+  @override
+  String get statusRejected => 'Rad etildi';
+
+  @override
+  String get statusApproved => 'Tasdiqlangan';
 
   @override
   String get storeCreated => 'Do\'kon yaratilgan';

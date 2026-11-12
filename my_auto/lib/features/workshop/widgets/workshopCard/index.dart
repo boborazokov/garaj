@@ -5,6 +5,7 @@ import 'package:my_auto/core/model/workshop/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 
@@ -77,11 +78,20 @@ class WorkshopCard extends StatelessWidget {
                 Positioned(
                   left: 8,
                   top: 8,
-                  child: MarketBadgeChip(
-                    label: isOpen
-                        ? s.workshopStatusOpen
-                        : s.workshopStatusClosed,
-                    dense: true,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MarketBadgeChip(
+                        label: isOpen
+                            ? s.workshopStatusOpen
+                            : s.workshopStatusClosed,
+                        dense: true,
+                      ),
+                      if (workshop.isPromotionActive) ...[
+                        const SizedBox(height: 6),
+                        PromotionPlanBadge(plan: workshop.promotionPlan),
+                      ],
+                    ],
                   ),
                 ),
               ],

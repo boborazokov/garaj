@@ -3,23 +3,51 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 
-/// Soft status pill used on seller listing cards (active / archived).
+/// Visual tone for seller listing status chips.
+enum MyListingStatusTone { success, warning, danger, muted }
+
+/// Soft status pill used on seller listing cards
+/// (active / pending moderation / rejected / archived).
 class MyListingStatusChip extends StatelessWidget {
   const MyListingStatusChip({
     super.key,
     required this.label,
-    required this.isActive,
+    this.tone,
+    this.isActive,
   });
 
   final String label;
-  final bool isActive;
+  final MyListingStatusTone? tone;
+
+  /// Fallback when [tone] is omitted (workshop cards still pass this).
+  final bool? isActive;
+
+  MyListingStatusTone get _resolvedTone {
+    if (tone != null) return tone!;
+    return (isActive ?? true)
+        ? MyListingStatusTone.success
+        : MyListingStatusTone.danger;
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    final bg = isActive ? colors.successSoft : colors.dangerSoft;
-    final fg = isActive ? colors.success : colors.danger;
-    final dot = isActive ? colors.success : colors.danger;
+    late final Color bg;
+    late final Color fg;
+    switch (_resolvedTone) {
+      case MyListingStatusTone.success:
+        bg = colors.successSoft;
+        fg = colors.success;
+      case MyListingStatusTone.warning:
+        bg = AppPalette.warning100;
+        fg = colors.warning;
+      case MyListingStatusTone.danger:
+        bg = colors.dangerSoft;
+        fg = colors.danger;
+      case MyListingStatusTone.muted:
+        bg = colors.surfaceMuted;
+        fg = colors.textMuted;
+    }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -34,7 +62,7 @@ class MyListingStatusChip extends StatelessWidget {
           Container(
             width: 6,
             height: 6,
-            decoration: BoxDecoration(color: dot, shape: BoxShape.circle),
+            decoration: BoxDecoration(color: fg, shape: BoxShape.circle),
           ),
           const SizedBox(width: 6),
           Flexible(

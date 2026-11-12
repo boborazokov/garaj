@@ -9,9 +9,9 @@ export const SLIDER_ITEMS: SliderItem[] = [
     id: 1,
     image: carPartsRepairImg,
     alt: {
-      uz: "AutoRin — Sifatli ehtiyot qismlar",
-      ru: "AutoRin — качественные автозапчасти",
-      en: "AutoRin — quality car parts",
+      uz: "Garage — Sifatli ehtiyot qismlar",
+      ru: "Garage — качественные автозапчасти",
+      en: "Garage — quality car parts",
     },
     subtitle: {
       uz: "Boshqaruv",
@@ -81,9 +81,9 @@ export const SLIDER_ITEMS: SliderItem[] = [
 
 export const SIGN_IN_TEXTS = {
   brandTitle: {
-    uz: "AutoRin",
-    ru: "AutoRin",
-    en: "AutoRin",
+    uz: "Garage",
+    ru: "Garage",
+    en: "Garage",
   },
   brandSubtitle: {
     uz: "Avtomobil ehtiyot qismlari platformasi",

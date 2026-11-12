@@ -11,6 +11,26 @@ export default defineConfig({
     },
   },
   server: {
+    host: true,
     port: 5173,
+    // Same-origin in the browser (works from phone/LAN). Vite forwards to Nest.
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:7007",
+        changeOrigin: true,
+      },
+      "/upload": {
+        target: "http://127.0.0.1:7007",
+        changeOrigin: true,
+      },
+      "/media": {
+        target: "http://127.0.0.1:7007",
+        changeOrigin: true,
+      },
+      "/debug": {
+        target: "http://127.0.0.1:7007",
+        changeOrigin: true,
+      },
+    },
   },
 })

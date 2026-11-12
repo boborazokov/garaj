@@ -2345,7 +2345,13 @@ class SEn extends S {
   String get archivedProducts => 'Archived';
 
   @override
-  String get pendingModeration => 'Pending';
+  String get pendingModeration => 'Under review';
+
+  @override
+  String get statusRejected => 'Rejected';
+
+  @override
+  String get statusApproved => 'Approved';
 
   @override
   String get storeCreated => 'Store created';

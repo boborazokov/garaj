@@ -1,4 +1,3 @@
-export * from "./AsteriskIcon";
 export * from "./BannerSection";
 export * from "./BannerSlider";
 export * from "./GoogleButton";

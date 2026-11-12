@@ -1220,10 +1220,10 @@ type Mutation {
   adminSetUserVerified(userId: ObjectId!, verified: Boolean!): User!
   approvePart(partId: ObjectId!, note: String): Part!
   rejectPart(partId: ObjectId!, note: String): Part!
-  adminSetPartRecommended(partId: ObjectId!, recommended: Boolean!): Part!
-  adminSetOrderRecommended(orderId: ObjectId!, recommended: Boolean!): Order!
+  adminSetPartRecommended(partId: ObjectId!, recommended: Boolean!, plan: ServicePromotionPlanEnum): Part!
+  adminSetOrderRecommended(orderId: ObjectId!, recommended: Boolean!, plan: ServicePromotionPlanEnum): Order!
   adminSetPartViewsCount(partId: ObjectId!, viewsCount: Int!): Part!
-  adminSetWorkshopRecommended(workshopId: ObjectId!, recommended: Boolean!): Workshop!
+  adminSetWorkshopRecommended(workshopId: ObjectId!, recommended: Boolean!, plan: ServicePromotionPlanEnum): Workshop!
   purchasePromotion(targetType: PromotionTargetTypeEnum!, targetId: ObjectId!, plan: ServicePromotionPlanEnum!): PromotionPayment!
   cancelPromotion(targetType: PromotionTargetTypeEnum!, targetId: ObjectId!): Boolean!
   adminFulfillPromotion(targetType: PromotionTargetTypeEnum!, targetId: ObjectId!, plan: ServicePromotionPlanEnum): Boolean!

@@ -5,6 +5,7 @@ import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/place_label.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/card_date_region.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,7 @@ class ProductTitle extends StatelessWidget {
   final bool? condition;
   final bool negotiable;
   final bool isPromoted;
+  final String? promotionPlan;
   final bool showPrice;
   final int viewsCount;
 
@@ -40,6 +42,7 @@ class ProductTitle extends StatelessWidget {
     this.condition,
     this.negotiable = false,
     this.isPromoted = false,
+    this.promotionPlan,
     this.showPrice = true,
     this.viewsCount = 0,
   });
@@ -133,13 +136,7 @@ class ProductTitle extends StatelessWidget {
               runSpacing: AppSpacing.s,
               children: [
                 if (isPromoted)
-                  _MetaChip(
-                    label: s.promotedBadge,
-                    foreground: colors.primary,
-                    background: colors.primary.withValues(alpha: 0.1),
-                    borderColor: colors.primary.withValues(alpha: 0.22),
-                    showBayDot: true,
-                  ),
+                  PromotionPlanBadge(plan: promotionPlan, dense: false),
                 if (condition != null)
                   _MetaChip(
                     label: condition! ? s.newPart : s.used,

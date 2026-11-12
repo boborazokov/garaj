@@ -65,6 +65,11 @@ query GetWorkshops($pagination: PaginationInput, $search: String, $filter: Works
       gallery
       images
       verified
+      premium
+      isPromoted
+      promotedUntil
+      promotionPlan
+      promotionPriority
       rating
       reviewCount
       fastResponse

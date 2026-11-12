@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/model/product/index.dart';
+import 'package:my_auto/features/advertisement/domain/advertisement.dart';
+import 'package:my_auto/features/advertisement/presentation/ad_list_slot.dart';
 import 'package:my_auto/features/profile/widgets/my_product_card/index.dart';
 import 'package:my_auto/widgets/productCard/index.dart';
 
@@ -29,8 +31,7 @@ class ProductGrid extends StatelessWidget {
         itemCount: products.length,
         itemBuilder: (context, index) {
           final product = products[index];
-          final depleted = isDepleted ||
-              product.status == ItemStatusEnum.archived;
+          final depleted = isDepleted || product.status.isInactive;
           return MyProductCard(
             product: product,
             isMine: isMine,
@@ -57,24 +58,57 @@ class ProductGrid extends StatelessWidget {
       aspectRatio = 0.56;
     }
 
-    return GridView.builder(
-        itemCount: products.length,
-        shrinkWrap: true,
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-        controller: controller,
-        physics: physics ?? const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: aspectRatio,
-        ),
-        itemBuilder: (context, index) {
-          return ProductCardGrid(
-            product: products[index],
-            key: ValueKey(products[index].id),
-          );
-        },
-      );
+    final rowCount = (products.length / crossAxisCount).ceil();
+
+    return ListView.builder(
+      itemCount: rowCount,
+      shrinkWrap: true,
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+      controller: controller,
+      physics: physics ?? const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, rowIndex) {
+        final start = rowIndex * crossAxisCount;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AdListSlot(
+              listIndex: start,
+              surface: AdSurface.part,
+              interval: 6,
+              height: 110,
+              margin: const EdgeInsets.fromLTRB(0, 4, 0, 12),
+            ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final tileWidth =
+                    (constraints.maxWidth - (crossAxisCount - 1) * 8) /
+                        crossAxisCount;
+                final tileHeight = tileWidth / aspectRatio;
+                return SizedBox(
+                  height: tileHeight,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (var i = 0; i < crossAxisCount; i++) ...[
+                        if (i > 0) const SizedBox(width: 8),
+                        Expanded(
+                          child: start + i < products.length
+                              ? ProductCardGrid(
+                                  product: products[start + i],
+                                  key: ValueKey(products[start + i].id),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
+                      ],
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+          ],
+        );
+      },
+    );
   }
 }

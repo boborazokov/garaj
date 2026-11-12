@@ -83,12 +83,10 @@ class _MyProductsState extends State<MyProducts> {
         return products;
       case MyListingsStatusFilter.active:
         return products
-            .where((p) => p.status == ItemStatusEnum.active)
+            .where((p) => p.status.countsAsActiveListing)
             .toList();
       case MyListingsStatusFilter.inactive:
-        return products
-            .where((p) => p.status == ItemStatusEnum.archived)
-            .toList();
+        return products.where((p) => p.status.isInactive).toList();
     }
   }
 
@@ -119,9 +117,9 @@ class _MyProductsState extends State<MyProducts> {
         myProducts.isEmpty;
 
     final activeCount =
-        myProducts.where((p) => p.status == ItemStatusEnum.active).length;
+        myProducts.where((p) => p.status.countsAsActiveListing).length;
     final inactiveCount =
-        myProducts.where((p) => p.status == ItemStatusEnum.archived).length;
+        myProducts.where((p) => p.status.isInactive).length;
     final visible = _applyStatus(myProducts);
 
     return MyListingsScaffold(

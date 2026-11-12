@@ -15,6 +15,7 @@ import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
 import 'package:my_auto/features/promotion/presentation/promote_workshop_sheet.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
 import 'package:my_auto/features/workshop/data/workshops_repository.dart';
 import 'package:my_auto/features/workshop/presentation/widgets/book_workshop_sheet.dart';
@@ -403,9 +404,9 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
                               runSpacing: 6,
                               children: [
                                 if (w.isPromotionActive)
-                                  MarketBadgeChip(
-                                    label: s.promotedBadge,
-                                    emphasized: true,
+                                  PromotionPlanBadge(
+                                    plan: w.promotionPlan,
+                                    dense: false,
                                   ),
                                 if (w.verified)
                                   MarketBadgeChip(label: s.workshopVerified),

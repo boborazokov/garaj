@@ -1,0 +1,1 @@
+export { ModerationDetailDialog } from "./ModerationDetailDialog";

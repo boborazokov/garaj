@@ -7,14 +7,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
 import { useLanguage } from "@/lib/i18n";
 import type { PromotionPlan } from "@/types";
-import {
-  DEFAULT_AMOUNTS,
-  DEFAULT_DAYS,
-  TOP_PLAN_LABELS,
-  TOP_TARIFFS_TEXTS,
-} from "../../constants";
+import { TOP_PLAN_LABELS, TOP_TARIFFS_TEXTS } from "../../constants";
 import { finalAmount, formatUzs } from "../../helpers";
 import type { TariffFormDialogProps } from "../../types";
 
@@ -27,10 +28,12 @@ export function TariffFormDialog({
   planOptions,
   onClose,
   onFormChange,
+  onPlanChange,
   onSave,
 }: TariffFormDialogProps) {
   const { t } = useLanguage();
   const computed = finalAmount(form);
+  const selected = planOptions.find((option) => option.plan === form.plan);
 
   return (
     <Dialog
@@ -49,29 +52,39 @@ export function TariffFormDialog({
         </DialogHeader>
 
         <div className="flex flex-col gap-3">
-          <label className="flex flex-col gap-1.5 text-[13px] text-foreground">
+          <div className="flex flex-col gap-1.5 text-[13px] text-foreground">
             <span>{t(TOP_TARIFFS_TEXTS.plan)}</span>
-            <select
-              className="h-11 rounded-[8px] border border-[#e2e8f0] bg-white px-3 py-1.5 text-[13px] outline-none focus:border-[#226DF7]"
-              disabled={busy || editing}
+            <Select
               value={form.plan}
-              onChange={(event) => {
-                const plan = event.target.value as PromotionPlan;
-                onFormChange({
-                  plan,
-                  baseAmount: DEFAULT_AMOUNTS[plan],
-                  days: DEFAULT_DAYS[plan],
-                  discountPercent: 0,
-                });
-              }}
+              disabled={busy}
+              onValueChange={(value) => onPlanChange(value as PromotionPlan)}
             >
-              {planOptions.map((plan) => (
-                <option key={plan} value={plan}>
-                  {t(TOP_PLAN_LABELS[plan])}
-                </option>
-              ))}
-            </select>
-          </label>
+              <SelectTrigger
+                aria-label={t(TOP_TARIFFS_TEXTS.plan)}
+                className="h-11 w-full"
+              >
+                <span className="truncate">
+                  {selected
+                    ? t(TOP_PLAN_LABELS[selected.plan])
+                    : t(TOP_TARIFFS_TEXTS.planSelectHint)}
+                </span>
+              </SelectTrigger>
+              <SelectContent className="min-w-[var(--radix-select-trigger-width)]">
+                {planOptions.map((option) => (
+                  <SelectItem key={option.plan} value={option.plan}>
+                    <span className="flex w-full min-w-0 items-center justify-between gap-3">
+                      <span className="truncate">
+                        {t(TOP_PLAN_LABELS[option.plan])}
+                      </span>
+                      <span className="shrink-0 text-[12px] text-muted-foreground">
+                        {option.days} {t(TOP_TARIFFS_TEXTS.daysShort)}
+                      </span>
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           <label className="flex flex-col gap-1.5 text-[13px] text-foreground">
             <span>{t(TOP_TARIFFS_TEXTS.days)}</span>

@@ -1,4 +1,10 @@
-import type { AdminPartsSort, ItemStatus, Part } from "@/types";
+import type {
+  AdminPartsSort,
+  ItemStatus,
+  Part,
+  PromotionPlan,
+  PromotionPlanPrice,
+} from "@/types";
 
 export type ShowFilter = "all" | ItemStatus | "recommended";
 export type PeriodFilterId = string;
@@ -63,5 +69,15 @@ export interface ConfirmDialogProps {
   busy?: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+}
+
+export interface PromotePlanDialogProps {
+  open: boolean;
+  partName?: string;
+  prices: PromotionPlanPrice[];
+  busy?: boolean;
+  error?: string | null;
+  onCancel: () => void;
+  onConfirm: (plan: PromotionPlan) => void;
 }
 

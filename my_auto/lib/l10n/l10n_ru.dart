@@ -2348,7 +2348,13 @@ class SRu extends S {
   String get archivedProducts => 'Архив';
 
   @override
-  String get pendingModeration => 'На модерации';
+  String get pendingModeration => 'На проверке';
+
+  @override
+  String get statusRejected => 'Отклонено';
+
+  @override
+  String get statusApproved => 'Одобрено';
 
   @override
   String get storeCreated => 'Магазин создан';

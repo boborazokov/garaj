@@ -1,7 +1,23 @@
 import type { LocalizedText } from "@/lib/i18n";
-import type { AdminPartsSort, ItemStatus } from "@/types";
+import type { AdminPartsSort, ItemStatus, PromotionPlan } from "@/types";
 
 export const PRODUCTS_PAGE_SIZE = 10;
+
+export const PROMOTE_PLAN_ORDER: PromotionPlan[] = [
+  "BASIC",
+  "STANDARD",
+  "PREMIUM",
+  "VIP",
+  "TOP",
+];
+
+export const PROMOTE_PLAN_LABELS: Record<PromotionPlan, LocalizedText> = {
+  BASIC: { uz: "START", ru: "START", en: "START" },
+  STANDARD: { uz: "STANDARD", ru: "STANDARD", en: "STANDARD" },
+  PREMIUM: { uz: "PRO", ru: "PRO", en: "PRO" },
+  VIP: { uz: "VIP", ru: "VIP", en: "VIP" },
+  TOP: { uz: "TOP", ru: "TOP", en: "TOP" },
+};
 
 export const PRODUCTS_TEXTS = {
   title: { uz: "Mahsulotlar", ru: "Товары", en: "Products" },
@@ -38,6 +54,33 @@ export const PRODUCTS_TEXTS = {
   action: { uz: "Amal", ru: "Действие", en: "Action" },
   pin: { uz: "Tepaga chiqarish", ru: "Поднять вверх", en: "Pin to top" },
   unpin: { uz: "Tavsiyani olib tashlash", ru: "Убрать из рекомендованных", en: "Unpin" },
+  promoteTitle: {
+    uz: "Tepaga chiqarish",
+    ru: "Поднять вверх",
+    en: "Pin to top",
+  },
+  promoteHint: {
+    uz: "Mahsulot uchun tarifni tanlang",
+    ru: "Выберите тариф для товара",
+    en: "Choose a tariff for this product",
+  },
+  promotePlan: { uz: "Tarif", ru: "Тариф", en: "Plan" },
+  promotePlanHint: {
+    uz: "Tarifni tanlang",
+    ru: "Выберите тариф",
+    en: "Select a plan",
+  },
+  daysShort: { uz: "kun", ru: "дн.", en: "days" },
+  promoteConfirm: {
+    uz: "Chiqarish",
+    ru: "Поднять",
+    en: "Boost",
+  },
+  promoteError: {
+    uz: "Tarifni tanlash majburiy",
+    ru: "Нужно выбрать тариф",
+    en: "A tariff is required",
+  },
   delete: { uz: "O'chirish", ru: "Удалить", en: "Delete" },
   loading: { uz: "Yuklanmoqda...", ru: "Загрузка...", en: "Loading..." },
   empty: { uz: "Mahsulot topilmadi", ru: "Товары не найдены", en: "No products found" },

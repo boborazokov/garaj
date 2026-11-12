@@ -120,7 +120,7 @@ export function ConversationThread({
           createdAt: new Date().toISOString(),
           sender: {
             _id: currentUserId,
-            name: "AutoRin Admin",
+            name: "Garage Admin",
             phone: "+998900000000",
             verified: true,
           },

@@ -15,15 +15,23 @@ export interface TopTariffsTableProps {
   onDelete: (row: PromotionPlanPrice) => void;
 }
 
+export interface TariffPlanOption {
+  plan: PromotionPlan;
+  days: number;
+  amount: number;
+  discountPercent: number;
+}
+
 export interface TariffFormDialogProps {
   open: boolean;
   editing: boolean;
   form: TariffFormState;
   error: string | null;
   busy: boolean;
-  planOptions: PromotionPlan[];
+  planOptions: TariffPlanOption[];
   onClose: () => void;
   onFormChange: (next: TariffFormState) => void;
+  onPlanChange: (plan: PromotionPlan) => void;
   onSave: () => void;
 }
 

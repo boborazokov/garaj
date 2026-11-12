@@ -31,7 +31,7 @@ export const SHELL_COLORS = {
 } as const;
 
 export const SHELL_TEXTS = {
-  brand: { uz: "AutoRin", ru: "AutoRin", en: "AutoRin" },
+  brand: { uz: "Garage", ru: "Garage", en: "Garage" },
   searchPlaceholder: { uz: "O'tish...", ru: "Перейти...", en: "Go to..." },
   searchAria: { uz: "Sahifaga o'tish", ru: "Перейти на страницу", en: "Go to page" },
   searchEmpty: {
@@ -80,24 +80,19 @@ export const ADMIN_NAV_GROUPS: AppNavGroup[] = [
     label: { uz: "Katalog", ru: "Каталог", en: "Catalog" },
     items: [
       {
-        to: "/admin/categories",
-        label: { uz: "Kategoriyalar", ru: "Категории", en: "Categories" },
-        icon: FolderTree,
-      },
-      {
         to: "/admin/products",
         label: { uz: "Mahsulotlar", ru: "Товары", en: "Products" },
         icon: Package,
       },
       {
+        to: "/admin/orders",
+        label: { uz: "Buyurtmalar", ru: "Заявки", en: "Orders" },
+        icon: ClipboardList,
+      },
+      {
         to: "/admin/workshops",
         label: { uz: "Avtoservislar", ru: "Автосервисы", en: "Workshops" },
         icon: Wrench,
-      },
-      {
-        to: "/admin/advertisements",
-        label: { uz: "Bannerlar", ru: "Баннеры", en: "Banners" },
-        icon: Image,
       },
       {
         to: "/admin/top-plans",
@@ -111,14 +106,19 @@ export const ADMIN_NAV_GROUPS: AppNavGroup[] = [
     label: { uz: "Ish jarayoni", ru: "Операции", en: "Operations" },
     items: [
       {
+        to: "/admin/categories",
+        label: { uz: "Kategoriyalar", ru: "Категории", en: "Categories" },
+        icon: FolderTree,
+      },
+      {
+        to: "/admin/advertisements",
+        label: { uz: "Bannerlar", ru: "Баннеры", en: "Banners" },
+        icon: Image,
+      },
+      {
         to: "/admin/moderation",
         label: { uz: "Moderatsiya", ru: "Модерация", en: "Moderation" },
         icon: ShieldCheck,
-      },
-      {
-        to: "/admin/orders",
-        label: { uz: "Buyurtmalar", ru: "Заявки", en: "Orders" },
-        icon: ClipboardList,
       },
       {
         to: "/admin/messages",

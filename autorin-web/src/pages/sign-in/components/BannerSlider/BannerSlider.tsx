@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLanguage } from "@/lib/i18n";
 import { SLIDER_ITEMS } from "../../constants";
-import { AsteriskIcon } from "../AsteriskIcon";
+import { BrandLogo } from "@/components/brand";
 import {
   SliderContainer,
   SlidesTrack,
   SlideItem,
   SlideImage,
   DarkOverlay,
-  TopAsterisk,
+  TopBrandMark,
   BottomContent,
   TextSection,
   SubtitleTag,
@@ -160,10 +160,9 @@ export function BannerSlider() {
       {/* Rasm ustidagi silliq qorong'ilashtiruvchi gradient overlay */}
       <DarkOverlay />
 
-      {/* Yuqori chapdagi Asterisk belgisi (Mockupdagidek) */}
-      <TopAsterisk>
-        <AsteriskIcon size={34} color="#ffffff" />
-      </TopAsterisk>
+      <TopBrandMark>
+        <BrandLogo size={40} />
+      </TopBrandMark>
 
       {/* Slayderning pastki qismida avtomatik animatsiya bilan chiquvchi matnlar va dotlar */}
       <BottomContent>

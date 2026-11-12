@@ -15,6 +15,9 @@ class Workshop {
   final String? title;
   final String? status;
   final String? description;
+  final bool isPromoted;
+  final DateTime? promotedUntil;
+  final String? promotionPlan;
 
   Workshop({
     required this.id,
@@ -29,7 +32,17 @@ class Workshop {
     this.status,
     this.description,
     this.title,
+    this.isPromoted = false,
+    this.promotedUntil,
+    this.promotionPlan,
   });
+
+  bool get isPromotionActive {
+    if (!isPromoted) return false;
+    final until = promotedUntil;
+    if (until == null) return true;
+    return until.isAfter(DateTime.now());
+  }
 
   /// Street / city for UI — never raw lat,lng.
   String get displayPlace => humanPlaceLabel(
@@ -66,6 +79,11 @@ class Workshop {
           ? title
           : (name != null && name.trim().isNotEmpty ? name : null),
       description: json['description'] as String?,
+      isPromoted: json['isPromoted'] == true,
+      promotedUntil: json['promotedUntil'] != null
+          ? DateTime.tryParse(json['promotedUntil'].toString())
+          : null,
+      promotionPlan: json['promotionPlan']?.toString(),
     );
   }
 }

@@ -9,6 +9,7 @@ import { useLanguage } from "@/lib/i18n";
 import type { PaginatedParts, Part } from "@/types";
 import {
   ApproveDialog,
+  ModerationDetailDialog,
   ModerationPagination,
   ModerationTable,
   ModerationToolbar,
@@ -21,6 +22,7 @@ export function ModerationPage() {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [detailPart, setDetailPart] = useState<Part | null>(null);
   const [pendingApprove, setPendingApprove] = useState<Part | null>(null);
   const [pendingReject, setPendingReject] = useState<Part | null>(null);
   const [rejectNote, setRejectNote] = useState("");
@@ -108,8 +110,13 @@ export function ModerationPage() {
           rows={rows}
           loading={loading}
           busyId={busyId}
-          onApprove={setPendingApprove}
+          onOpen={setDetailPart}
+          onApprove={(part) => {
+            setDetailPart(null);
+            setPendingApprove(part);
+          }}
           onReject={(part) => {
+            setDetailPart(null);
             setRejectNote("");
             setPendingReject(part);
           }}
@@ -121,6 +128,21 @@ export function ModerationPage() {
           onPage={setPage}
         />
       </section>
+
+      <ModerationDetailDialog
+        open={Boolean(detailPart)}
+        part={detailPart}
+        onClose={() => setDetailPart(null)}
+        onApprove={(part) => {
+          setDetailPart(null);
+          setPendingApprove(part);
+        }}
+        onReject={(part) => {
+          setDetailPart(null);
+          setRejectNote("");
+          setPendingReject(part);
+        }}
+      />
 
       <ApproveDialog
         open={Boolean(pendingApprove)}

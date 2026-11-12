@@ -25,6 +25,7 @@ import 'package:my_auto/features/orders/presentation/widgets/order_owner_actions
 import 'package:my_auto/features/orders/presentation/widgets/order_images.dart';
 import 'package:my_auto/features/orders/presentation/widgets/order_response_card.dart';
 import 'package:my_auto/features/orders/presentation/widgets/premium_order_card.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/toaster/index.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -373,11 +374,11 @@ class _RequestHeader extends StatelessWidget {
                   fg: colors.danger,
                   bg: colors.danger.withValues(alpha: 0.12),
                 ),
-              if (order.isPromoted)
-                _MetaChip(
-                  label: s.promotedBadge,
-                  fg: colors.onPrimary,
-                  bg: colors.primary,
+              if (order.isPromotionActive)
+                PromotionPlanBadge(
+                  plan: order.promotionPlan,
+                  dense: false,
+                  filled: true,
                 ),
             ],
           ),

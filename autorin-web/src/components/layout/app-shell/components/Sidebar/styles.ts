@@ -57,7 +57,7 @@ export const BrandMark = styled.span`
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: ${SHELL_COLORS.accentSoft};
+  overflow: hidden;
   flex-shrink: 0;
 `;
 

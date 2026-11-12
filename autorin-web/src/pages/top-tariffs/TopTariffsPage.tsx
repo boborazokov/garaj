@@ -9,7 +9,7 @@ import {
   SET_PROMOTION_TARIFF,
 } from "@/graphql/operations";
 import { useLanguage } from "@/lib/i18n";
-import type { PromotionPlanPrice } from "@/types";
+import type { PromotionPlan, PromotionPlanPrice } from "@/types";
 import {
   ConfirmDialog,
   TariffFormDialog,
@@ -17,7 +17,7 @@ import {
 } from "./components";
 import { TOP_PLAN_ORDER, TOP_TARIFFS_TEXTS } from "./constants";
 import {
-  availablePlans,
+  buildPlanOptions,
   emptyTariffForm,
   finalAmount,
   formFromRow,
@@ -75,6 +75,20 @@ export function TopTariffsPage() {
     if (busy) return;
     setCreating(false);
     setEditing(null);
+    setError(null);
+  }
+
+  function onPlanChange(plan: PromotionPlan) {
+    const existing = rows.find((row) => row.plan === plan);
+    if (existing) {
+      setEditing(existing);
+      setCreating(false);
+      setForm(formFromRow(existing));
+    } else {
+      setEditing(null);
+      setCreating(true);
+      setForm(emptyTariffForm(plan));
+    }
     setError(null);
   }
 
@@ -185,9 +199,10 @@ export function TopTariffsPage() {
         form={form}
         error={error}
         busy={busy}
-        planOptions={availablePlans(rows, editing?.plan)}
+        planOptions={buildPlanOptions(rows)}
         onClose={closeModal}
         onFormChange={setForm}
+        onPlanChange={onPlanChange}
         onSave={() => {
           void onSave();
         }}

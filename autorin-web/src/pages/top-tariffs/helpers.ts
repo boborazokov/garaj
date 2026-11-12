@@ -4,7 +4,7 @@ import {
   DEFAULT_DAYS,
   TOP_PLAN_ORDER,
 } from "./constants";
-import type { TariffFormState } from "./types";
+import type { TariffFormState, TariffPlanOption } from "./types";
 
 export function emptyTariffForm(plan: PromotionPlan = "BASIC"): TariffFormState {
   return {
@@ -35,15 +35,16 @@ export function finalAmount(form: TariffFormState): number {
   return Math.round(base * (1 - discount / 100));
 }
 
-export function availablePlans(
-  rows: PromotionPlanPrice[],
-  editingPlan?: PromotionPlan | null,
-): PromotionPlan[] {
-  // All enum plans stay visible; "create" edits a selected plan's overrides.
-  if (editingPlan) return [editingPlan];
-  return TOP_PLAN_ORDER.filter((plan) =>
-    rows.some((row) => row.plan === plan),
-  );
+export function buildPlanOptions(rows: PromotionPlanPrice[]): TariffPlanOption[] {
+  return TOP_PLAN_ORDER.map((plan) => {
+    const row = rows.find((item) => item.plan === plan);
+    return {
+      plan,
+      days: row?.days ?? DEFAULT_DAYS[plan],
+      amount: row?.amount ?? DEFAULT_AMOUNTS[plan],
+      discountPercent: row?.discountPercent ?? 0,
+    };
+  });
 }
 
 export function formatUzs(amount: number): string {

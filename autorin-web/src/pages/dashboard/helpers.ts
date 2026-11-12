@@ -16,10 +16,8 @@ export function formatCompact(value: number, language: string) {
   return (Number.isFinite(value) ? value : 0).toLocaleString(locale);
 }
 
-/** Snapshot cards use a clinic-like padded look for small counts. */
 export function formatSnapshotValue(value: number, language: string) {
   const safe = Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
-  if (safe < 100) return String(safe).padStart(2, "0");
   return formatCompact(safe, language);
 }
 

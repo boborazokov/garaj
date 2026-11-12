@@ -7,6 +7,7 @@ import {
   ADMIN_SET_PART_RECOMMENDED,
   DELETE_PART,
   GET_PRODUCT_CATEGORIES,
+  PROMOTION_PLAN_PRICES,
 } from "@/graphql/operations";
 import { categoryLabel } from "@/lib/category-names";
 import { useLanguage } from "@/lib/i18n";
@@ -17,12 +18,15 @@ import type {
   PaginatedParts,
   PaginatedUsers,
   Part,
+  PromotionPlan,
+  PromotionPlanPrice,
 } from "@/types";
 import {
   ConfirmDialog,
   ProductsPagination,
   ProductsTable,
   ProductsToolbar,
+  PromotePlanDialog,
 } from "./components";
 import { PRODUCTS_PAGE_SIZE, PRODUCTS_TEXTS } from "./constants";
 import { isPartRecommended, periodBounds } from "./helpers";
@@ -41,6 +45,9 @@ export function ProductsPage() {
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [pendingDelete, setPendingDelete] = useState<Part[] | null>(null);
+  const [pendingPromote, setPendingPromote] = useState<Part | null>(null);
+  const [promoteError, setPromoteError] = useState<string | null>(null);
+  const [promoting, setPromoting] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setSearch(searchInput.trim()), 300);
@@ -93,9 +100,16 @@ export function ProductsPage() {
 
   const [removePart, { loading: deleting }] = useMutation(DELETE_PART);
   const [setRecommended] = useMutation(ADMIN_SET_PART_RECOMMENDED);
+  const { data: planData } = useQuery<{
+    promotionPlanPrices: PromotionPlanPrice[];
+  }>(PROMOTION_PLAN_PRICES, {
+    fetchPolicy: "cache-and-network",
+    skip: !pendingPromote,
+  });
 
   const result = data?.adminListParts;
   const rows = result?.payload ?? [];
+  const planPrices = planData?.promotionPlanPrices ?? [];
 
   const categories = useMemo(
     () =>
@@ -128,10 +142,38 @@ export function ProductsPage() {
   }
 
   async function onRecommend(part: Part) {
-    await setRecommended({
-      variables: { partId: part._id, recommended: !isPartRecommended(part) },
-    });
-    await refetch();
+    if (isPartRecommended(part)) {
+      await setRecommended({
+        variables: { partId: part._id, recommended: false },
+      });
+      await refetch();
+      return;
+    }
+    setPromoteError(null);
+    setPendingPromote(part);
+  }
+
+  async function confirmPromote(plan: PromotionPlan) {
+    if (!pendingPromote) return;
+    setPromoting(true);
+    setPromoteError(null);
+    try {
+      await setRecommended({
+        variables: {
+          partId: pendingPromote._id,
+          recommended: true,
+          plan,
+        },
+      });
+      setPendingPromote(null);
+      await refetch();
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : t(PRODUCTS_TEXTS.promoteError);
+      setPromoteError(message);
+    } finally {
+      setPromoting(false);
+    }
   }
 
   async function confirmDelete() {
@@ -228,6 +270,22 @@ export function ProductsPage() {
         onCancel={() => setPendingDelete(null)}
         onConfirm={() => {
           void confirmDelete();
+        }}
+      />
+
+      <PromotePlanDialog
+        open={Boolean(pendingPromote)}
+        partName={pendingPromote?.name}
+        prices={planPrices}
+        busy={promoting}
+        error={promoteError}
+        onCancel={() => {
+          if (promoting) return;
+          setPendingPromote(null);
+          setPromoteError(null);
+        }}
+        onConfirm={(plan) => {
+          void confirmPromote(plan);
         }}
       />
     </div>

@@ -9,6 +9,7 @@ import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/features/promotion/presentation/promote_product_sheet.dart';
 import 'package:my_auto/features/profile/widgets/my_listing_card_helpers.dart';
 import 'package:my_auto/generated/l10n.dart';
@@ -41,9 +42,11 @@ class MyProductCard extends StatelessWidget {
     final providerRemove = context.watch<RemovePartsByIdProvider>();
     final imageUrl = product.images.isNotEmpty ? product.images.first : null;
 
-    final statusLabel = isDepleted
-        ? s.depleted
-        : s.availableUntil(DateFormat('d MMMM').format(product.activeUntil));
+    final (statusLabel, statusTone) = _statusPresentation(s);
+    final note = product.moderationNote?.trim();
+    final showNote = product.status.isRejected &&
+        note != null &&
+        note.isNotEmpty;
 
     void openDetail() =>
         context.push(RoutesName.productDetailScreen, extra: product.id);
@@ -86,10 +89,8 @@ class MyProductCard extends StatelessWidget {
                           Positioned(
                             left: 6,
                             top: 6,
-                            child: MarketBadgeChip(
-                              label: s.promotedBadge,
-                              emphasized: true,
-                              dense: true,
+                            child: PromotionPlanBadge(
+                              plan: product.promotionPlan,
                             ),
                           ),
                       ],
@@ -122,8 +123,20 @@ class MyProductCard extends StatelessWidget {
                       const SizedBox(height: 8),
                       MyListingStatusChip(
                         label: statusLabel,
-                        isActive: !isDepleted,
+                        tone: statusTone,
                       ),
+                      if (showNote) ...[
+                        const SizedBox(height: 6),
+                        Text(
+                          note,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colors.danger,
+                            height: 1.3,
+                          ),
+                        ),
+                      ],
                       if (product.category?.name != null) ...[
                         const SizedBox(height: 8),
                         Text(
@@ -167,7 +180,7 @@ class MyProductCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (isMine && !isDepleted) ...[
+                if (isMine && product.status.isListedActive) ...[
                   MyListingPromoteButton(
                     label: product.isPromotionActive
                         ? s.promotionManage
@@ -220,6 +233,25 @@ class MyProductCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  (String, MyListingStatusTone) _statusPresentation(S s) {
+    switch (product.status) {
+      case ItemStatusEnum.pendingModeration:
+        return (s.pendingModeration, MyListingStatusTone.warning);
+      case ItemStatusEnum.rejected:
+        return (s.statusRejected, MyListingStatusTone.danger);
+      case ItemStatusEnum.archived:
+        return (s.depleted, MyListingStatusTone.muted);
+      case ItemStatusEnum.active:
+        if (isDepleted) {
+          return (s.depleted, MyListingStatusTone.muted);
+        }
+        return (
+          s.availableUntil(DateFormat('d MMMM').format(product.activeUntil)),
+          MyListingStatusTone.success,
+        );
+    }
   }
 
   void _showDeleteDialog(

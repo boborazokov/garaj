@@ -45,6 +45,8 @@ class OrderItem {
   final String? currency;
   final OrderStatusEnum status;
   final bool isPromoted;
+  final DateTime? promotedUntil;
+  final String? promotionPlan;
   final DateTime createdAt;
   final User? author;
   final CategoryCar? brand;
@@ -61,6 +63,8 @@ class OrderItem {
     required this.status,
     required this.isPromoted,
     required this.createdAt,
+    this.promotedUntil,
+    this.promotionPlan,
     this.location,
     this.region,
     this.currency,
@@ -70,6 +74,13 @@ class OrderItem {
     this.partCategory,
     this.images = const [],
   });
+
+  bool get isPromotionActive {
+    if (!isPromoted) return false;
+    final until = promotedUntil;
+    if (until == null) return true;
+    return until.isAfter(DateTime.now());
+  }
 
   String? get primaryImageUrl => images.isNotEmpty ? images.first : null;
 
@@ -100,6 +111,8 @@ class OrderItem {
       currency: json['currency']?.toString(),
       status: OrderStatusEnumX.fromApi(json['status']?.toString()),
       isPromoted: json['isPromoted'] == true,
+      promotedUntil: _parseOptionalDate(json['promotedUntil']),
+      promotionPlan: json['promotionPlan']?.toString(),
       createdAt: _parseDate(json['createdAt']),
       author:
           json['author'] is Map ? User.fromJson(json['author']) : null,
@@ -137,5 +150,14 @@ class OrderItem {
       } catch (_) {}
     }
     return DateTime.now();
+  }
+
+  static DateTime? _parseOptionalDate(dynamic v) {
+    if (v is String && v.isNotEmpty) {
+      try {
+        return DateTime.parse(v);
+      } catch (_) {}
+    }
+    return null;
   }
 }

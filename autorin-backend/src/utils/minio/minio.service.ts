@@ -39,18 +39,21 @@ export class MinioService {
     const driver = (
       this.configService.get<string>('STORAGE_DRIVER') ?? ''
     ).toLowerCase();
-    this.useLocalDisk =
-      driver === 'local' ||
-      endpoint === 'localhost' ||
-      endpoint === '127.0.0.1';
+    // Local folder only when explicitly requested. Docker MinIO commonly uses
+    // endpoint=localhost — that must still talk to MinIO, not an empty uploads/.
+    this.useLocalDisk = driver === 'local';
     this.localRoot =
       this.configService.get<string>('LOCAL_STORAGE_PATH') ||
       join(process.cwd(), 'uploads');
     if (this.useLocalDisk) {
       this.logger.warn(
-        `Storage: local disk at ${this.localRoot} (MinIO endpoint=${endpoint}). Files are lost on redeploy unless a persistent disk is attached.`,
+        `Storage: local disk at ${this.localRoot} (STORAGE_DRIVER=local). Files are lost on redeploy unless a persistent disk is attached.`,
       );
       mkdirSync(this.localRoot, { recursive: true });
+    } else {
+      this.logger.log(
+        `Storage: MinIO at ${endpoint}:${this.configService.get('MINIO_PORT') ?? '9000'}`,
+      );
     }
   }
 

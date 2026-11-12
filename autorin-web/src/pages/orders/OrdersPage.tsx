@@ -8,6 +8,7 @@ import {
   CLOSE_ORDER,
   DELETE_ORDER,
   GET_PRODUCT_CATEGORIES,
+  PROMOTION_PLAN_PRICES,
   REOPEN_ORDER,
 } from "@/graphql/operations";
 import { categoryLabel } from "@/lib/category-names";
@@ -19,7 +20,10 @@ import type {
   OrderStatus,
   PaginatedOrders,
   PaginatedUsers,
+  PromotionPlan,
+  PromotionPlanPrice,
 } from "@/types";
+import { PromotePlanDialog } from "@/pages/products/components/PromotePlanDialog";
 import {
   ConfirmDialog,
   OffersDialog,
@@ -47,6 +51,9 @@ export function OrdersPage() {
   const [pendingClose, setPendingClose] = useState<OrderRow | null>(null);
   const [pendingReopen, setPendingReopen] = useState<OrderRow | null>(null);
   const [offersOrder, setOffersOrder] = useState<OrderRow | null>(null);
+  const [pendingPromote, setPendingPromote] = useState<OrderRow | null>(null);
+  const [promoteError, setPromoteError] = useState<string | null>(null);
+  const [promoting, setPromoting] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setSearch(searchInput.trim()), 300);
@@ -100,9 +107,16 @@ export function OrdersPage() {
   const [closeOrder, { loading: closing }] = useMutation(CLOSE_ORDER);
   const [reopenOrder, { loading: reopening }] = useMutation(REOPEN_ORDER);
   const [setRecommended] = useMutation(ADMIN_SET_ORDER_RECOMMENDED);
+  const { data: planData } = useQuery<{
+    promotionPlanPrices: PromotionPlanPrice[];
+  }>(PROMOTION_PLAN_PRICES, {
+    fetchPolicy: "cache-and-network",
+    skip: !pendingPromote,
+  });
 
   const result = data?.adminListOrders;
   const rows = result?.payload ?? [];
+  const planPrices = planData?.promotionPlanPrices ?? [];
 
   const categories = useMemo(
     () =>
@@ -135,13 +149,44 @@ export function OrdersPage() {
   }
 
   async function onRecommend(order: OrderRow) {
-    await setRecommended({
-      variables: {
-        orderId: order._id,
-        recommended: !isOrderRecommended(order),
-      },
-    });
-    await refetch();
+    if (isOrderRecommended(order)) {
+      await setRecommended({
+        variables: { orderId: order._id, recommended: false },
+      });
+      await refetch();
+      return;
+    }
+    setPromoteError(null);
+    setPendingPromote(order);
+  }
+
+  async function confirmPromote(plan: PromotionPlan) {
+    if (!pendingPromote) return;
+    setPromoting(true);
+    setPromoteError(null);
+    try {
+      await setRecommended({
+        variables: {
+          orderId: pendingPromote._id,
+          recommended: true,
+          plan,
+        },
+      });
+      setPendingPromote(null);
+      await refetch();
+    } catch (err) {
+      setPromoteError(
+        err instanceof Error
+          ? err.message
+          : t({
+              uz: "Tarifni tanlash majburiy",
+              ru: "Нужно выбрать тариф",
+              en: "A tariff is required",
+            }),
+      );
+    } finally {
+      setPromoting(false);
+    }
   }
 
   async function confirmDelete() {
@@ -286,6 +331,22 @@ export function OrdersPage() {
         order={offersOrder}
         open={Boolean(offersOrder)}
         onClose={() => setOffersOrder(null)}
+      />
+
+      <PromotePlanDialog
+        open={Boolean(pendingPromote)}
+        partName={pendingPromote?.title}
+        prices={planPrices}
+        busy={promoting}
+        error={promoteError}
+        onCancel={() => {
+          if (promoting) return;
+          setPendingPromote(null);
+          setPromoteError(null);
+        }}
+        onConfirm={(plan) => {
+          void confirmPromote(plan);
+        }}
       />
     </div>
   );

@@ -10,19 +10,15 @@ export const TOP_PLAN_ORDER: PromotionPlan[] = [
 ];
 
 export const TOP_PLAN_LABELS: Record<PromotionPlan, LocalizedText> = {
-  BASIC: { uz: "Asosiy (BASIC)", ru: "Базовый (BASIC)", en: "Basic" },
-  STANDARD: {
-    uz: "Standart (STANDARD)",
-    ru: "Стандарт (STANDARD)",
-    en: "Standard",
-  },
-  PREMIUM: { uz: "Premium", ru: "Premium", en: "Premium" },
+  BASIC: { uz: "START", ru: "START", en: "START" },
+  STANDARD: { uz: "STANDARD", ru: "STANDARD", en: "STANDARD" },
+  PREMIUM: { uz: "PRO", ru: "PRO", en: "PRO" },
   VIP: { uz: "VIP", ru: "VIP", en: "VIP" },
   TOP: { uz: "TOP", ru: "TOP", en: "TOP" },
 };
 
 export const DEFAULT_DAYS: Record<PromotionPlan, number> = {
-  BASIC: 3,
+  BASIC: 1,
   STANDARD: 7,
   PREMIUM: 14,
   VIP: 30,
@@ -30,11 +26,11 @@ export const DEFAULT_DAYS: Record<PromotionPlan, number> = {
 };
 
 export const DEFAULT_AMOUNTS: Record<PromotionPlan, number> = {
-  BASIC: 15_000,
-  STANDARD: 35_000,
-  PREMIUM: 70_000,
-  VIP: 120_000,
-  TOP: 200_000,
+  BASIC: 1_000,
+  STANDARD: 5_000,
+  PREMIUM: 10_000,
+  VIP: 20_000,
+  TOP: 30_000,
 };
 
 export const TOP_TARIFFS_TEXTS = {
@@ -53,7 +49,13 @@ export const TOP_TARIFFS_TEXTS = {
     en: "Reset defaults",
   },
   plan: { uz: "Tarif", ru: "Тариф", en: "Plan" },
+  planSelectHint: {
+    uz: "Tarifni tanlang",
+    ru: "Выберите тариф",
+    en: "Select a plan",
+  },
   days: { uz: "Muddat (kun)", ru: "Срок (дней)", en: "Duration (days)" },
+  daysShort: { uz: "kun", ru: "дн.", en: "days" },
   price: { uz: "Narx (UZS)", ru: "Цена (UZS)", en: "Price (UZS)" },
   basePrice: {
     uz: "Asosiy narx (UZS)",

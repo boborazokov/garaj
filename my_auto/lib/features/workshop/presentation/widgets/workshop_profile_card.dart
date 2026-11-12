@@ -6,6 +6,7 @@ import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
@@ -64,11 +65,20 @@ class WorkshopProfileCard extends StatelessWidget {
                 Positioned(
                   left: 10,
                   top: 10,
-                  child: MarketBadgeChip(
-                    label: workshop.isOpenNow
-                        ? s.workshopOpenNow
-                        : s.workshopStatusClosed,
-                    dense: true,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MarketBadgeChip(
+                        label: workshop.isOpenNow
+                            ? s.workshopOpenNow
+                            : s.workshopStatusClosed,
+                        dense: true,
+                      ),
+                      if (workshop.isPromotionActive) ...[
+                        const SizedBox(height: 6),
+                        PromotionPlanBadge(plan: workshop.promotionPlan),
+                      ],
+                    ],
                   ),
                 ),
                 if (workshop.verified)

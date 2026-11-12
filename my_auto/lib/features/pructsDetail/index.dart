@@ -229,6 +229,7 @@ class _ProductDetailView extends StatelessWidget {
             condition: product.condition,
             negotiable: product.negotiable == true,
             isPromoted: product.isPromotionActive,
+            promotionPlan: product.promotionPlan,
             showPrice: !(product.negotiable == true && product.price <= 0),
             viewsCount: product.viewsCount,
           ),

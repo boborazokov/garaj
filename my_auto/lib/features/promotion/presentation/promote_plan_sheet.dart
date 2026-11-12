@@ -47,9 +47,10 @@ String _formatUzs(int amount) {
 }
 
 class _PlanOption {
-  const _PlanOption(this.plan, this.fallbackDays);
+  const _PlanOption(this.plan, this.fallbackDays, this.fallbackAmount);
   final ServicePromotionPlan plan;
   final int fallbackDays;
+  final int fallbackAmount;
 }
 
 typedef PromotePlanCallback = Future<bool> Function(ServicePromotionPlan plan);
@@ -115,11 +116,11 @@ class _PromotePlanSheetState extends State<_PromotePlanSheet> {
   int? _walletTotal;
 
   static const _plans = [
-    _PlanOption(ServicePromotionPlan.basic, 3),
-    _PlanOption(ServicePromotionPlan.standard, 7),
-    _PlanOption(ServicePromotionPlan.premium, 14),
-    _PlanOption(ServicePromotionPlan.vip, 30),
-    _PlanOption(ServicePromotionPlan.top, 45),
+    _PlanOption(ServicePromotionPlan.basic, 1, 1000),
+    _PlanOption(ServicePromotionPlan.standard, 7, 5000),
+    _PlanOption(ServicePromotionPlan.premium, 14, 10000),
+    _PlanOption(ServicePromotionPlan.vip, 30, 20000),
+    _PlanOption(ServicePromotionPlan.top, 45, 30000),
   ];
 
   @override
@@ -459,7 +460,7 @@ class _PromotePlanSheetState extends State<_PromotePlanSheet> {
                           final selected = _selected == p.plan;
                           final price = _prices[p.plan];
                           final days = price?.days ?? p.fallbackDays;
-                          final amount = price?.amount;
+                          final amount = price?.amount ?? p.fallbackAmount;
                           final isTop = p.plan == ServicePromotionPlan.top;
                           return Padding(
                             padding: const EdgeInsets.only(bottom: AppSpacing.s),
@@ -469,9 +470,7 @@ class _PromotePlanSheetState extends State<_PromotePlanSheet> {
                               title: promotePlanLabel(s, p.plan),
                               subtitle:
                                   s.promotePlanDuration(days, p.plan.weight),
-                              trailing: amount == null
-                                  ? '—'
-                                  : _formatUzs(amount),
+                              trailing: _formatUzs(amount),
                               recommended: isTop,
                               recommendedLabel:
                                   isTop ? s.popularProducts : null,

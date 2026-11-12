@@ -15,6 +15,8 @@ class OrderDto {
     required this.status,
     required this.isPromoted,
     required this.createdAt,
+    this.promotedUntil,
+    this.promotionPlan,
     this.location,
     this.region,
     this.currency,
@@ -40,6 +42,8 @@ class OrderDto {
   final String? currency;
   final String status;
   final bool isPromoted;
+  final DateTime? promotedUntil;
+  final String? promotionPlan;
   final DateTime createdAt;
   final OrderAuthor? author;
   final OrderCategoryRef? brand;
@@ -64,6 +68,8 @@ class OrderDto {
       currency: json['currency']?.toString(),
       status: (json['status'] ?? 'ACTIVE').toString(),
       isPromoted: json['isPromoted'] == true,
+      promotedUntil: _parseDate(json['promotedUntil']),
+      promotionPlan: json['promotionPlan']?.toString(),
       createdAt: _parseDate(json['createdAt']) ?? DateTime.now(),
       author: _author(json['author']),
       brand: _category(json['brand']),
@@ -89,6 +95,8 @@ class OrderDto {
         currency: currency,
         status: OrderStatusX.fromApi(status),
         isPromoted: isPromoted,
+        promotedUntil: promotedUntil,
+        promotionPlan: promotionPlan,
         createdAt: createdAt,
         author: author,
         brand: brand,

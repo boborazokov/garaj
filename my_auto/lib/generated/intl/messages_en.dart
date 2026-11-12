@@ -219,7 +219,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "advertiseTariffsTitle": MessageLookupByLibrary.simpleMessage("Tariffs"),
     "advertiseTitle": MessageLookupByLibrary.simpleMessage(
-      "Advertise on Autorin",
+      "Want to advertise your business? Contact admin",
     ),
     "advertiseWalletCta": MessageLookupByLibrary.simpleMessage("Open wallet"),
     "afternoon": MessageLookupByLibrary.simpleMessage("Good Afternoon"),
@@ -979,7 +979,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "myOrders": MessageLookupByLibrary.simpleMessage("My Orders"),
     "myProducts": MessageLookupByLibrary.simpleMessage("My Products"),
     "myRequests": MessageLookupByLibrary.simpleMessage("My requests"),
-    "myServices": MessageLookupByLibrary.simpleMessage("My Services"),
+    "myServices": MessageLookupByLibrary.simpleMessage("My auto service"),
     "myStore": MessageLookupByLibrary.simpleMessage("My store"),
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "navWantToBuy": MessageLookupByLibrary.simpleMessage("I need"),
@@ -1260,7 +1260,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
       "Passwords do not match",
     ),
-    "pendingModeration": MessageLookupByLibrary.simpleMessage("Pending"),
+    "pendingModeration": MessageLookupByLibrary.simpleMessage("Under review"),
     "peopleAlsoViewed": MessageLookupByLibrary.simpleMessage(
       "People Also Viewed",
     ),
@@ -1337,7 +1337,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Product updated successfully",
     ),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
-    "profileAdvertise": MessageLookupByLibrary.simpleMessage("Advertise"),
+    "profileAdvertise": MessageLookupByLibrary.simpleMessage("Business"),
     "profileSectionAccount": MessageLookupByLibrary.simpleMessage("Account"),
     "profileSectionMyActivity": MessageLookupByLibrary.simpleMessage(
       "My activity",
@@ -1367,13 +1367,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "promoteListingTitle": MessageLookupByLibrary.simpleMessage(
       "Promote listing",
     ),
-    "promotePlanBasic": MessageLookupByLibrary.simpleMessage("Basic"),
+    "promotePlanBasic": MessageLookupByLibrary.simpleMessage("START"),
     "promotePlanDuration": m29,
-    "promotePlanPremium": MessageLookupByLibrary.simpleMessage("Premium"),
+    "promotePlanPremium": MessageLookupByLibrary.simpleMessage("PRO"),
     "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Standard"),
-    "promotePlanTop": MessageLookupByLibrary.simpleMessage("Top"),
-    "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
+    "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
       "Promote product",
     ),
@@ -1677,6 +1676,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "sortRecommended": MessageLookupByLibrary.simpleMessage("Recommended"),
     "specialOffers": MessageLookupByLibrary.simpleMessage("Special Offers"),
     "storeAnalytics": MessageLookupByLibrary.simpleMessage("Store analytics"),
+    "statusApproved": MessageLookupByLibrary.simpleMessage("Approved"),
+    "statusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "storeCreated": MessageLookupByLibrary.simpleMessage("Store created"),
     "storeProfileCompletion": MessageLookupByLibrary.simpleMessage(
       "Store profile completion",

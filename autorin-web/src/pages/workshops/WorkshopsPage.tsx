@@ -6,6 +6,7 @@ import {
   ADMIN_LIST_WORKSHOPS,
   ADMIN_SET_WORKSHOP_RECOMMENDED,
   DELETE_WORKSHOP,
+  PROMOTION_PLAN_PRICES,
   WORKSHOP_CATEGORIES,
 } from "@/graphql/operations";
 import { useLanguage } from "@/lib/i18n";
@@ -14,9 +15,12 @@ import type {
   ItemStatus,
   PaginatedUsers,
   PaginatedWorkshops,
+  PromotionPlan,
+  PromotionPlanPrice,
   WorkshopCategoryRef,
   WorkshopRow,
 } from "@/types";
+import { PromotePlanDialog } from "@/pages/products/components/PromotePlanDialog";
 import {
   ConfirmDialog,
   WorkshopsPagination,
@@ -40,6 +44,9 @@ export function WorkshopsPage() {
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [pendingDelete, setPendingDelete] = useState<WorkshopRow[] | null>(null);
+  const [pendingPromote, setPendingPromote] = useState<WorkshopRow | null>(null);
+  const [promoteError, setPromoteError] = useState<string | null>(null);
+  const [promoting, setPromoting] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setSearch(searchInput.trim()), 300);
@@ -91,9 +98,16 @@ export function WorkshopsPage() {
 
   const [removeWorkshop, { loading: deleting }] = useMutation(DELETE_WORKSHOP);
   const [setRecommended] = useMutation(ADMIN_SET_WORKSHOP_RECOMMENDED);
+  const { data: planData } = useQuery<{
+    promotionPlanPrices: PromotionPlanPrice[];
+  }>(PROMOTION_PLAN_PRICES, {
+    fetchPolicy: "cache-and-network",
+    skip: !pendingPromote,
+  });
 
   const result = data?.adminListWorkshops;
   const rows = result?.payload ?? [];
+  const planPrices = planData?.promotionPlanPrices ?? [];
 
   const categories = useMemo(
     () =>
@@ -126,13 +140,44 @@ export function WorkshopsPage() {
   }
 
   async function onRecommend(workshop: WorkshopRow) {
-    await setRecommended({
-      variables: {
-        workshopId: workshop._id,
-        recommended: !isWorkshopRecommended(workshop),
-      },
-    });
-    await refetch();
+    if (isWorkshopRecommended(workshop)) {
+      await setRecommended({
+        variables: { workshopId: workshop._id, recommended: false },
+      });
+      await refetch();
+      return;
+    }
+    setPromoteError(null);
+    setPendingPromote(workshop);
+  }
+
+  async function confirmPromote(plan: PromotionPlan) {
+    if (!pendingPromote) return;
+    setPromoting(true);
+    setPromoteError(null);
+    try {
+      await setRecommended({
+        variables: {
+          workshopId: pendingPromote._id,
+          recommended: true,
+          plan,
+        },
+      });
+      setPendingPromote(null);
+      await refetch();
+    } catch (err) {
+      setPromoteError(
+        err instanceof Error
+          ? err.message
+          : t({
+              uz: "Tarifni tanlash majburiy",
+              ru: "Нужно выбрать тариф",
+              en: "A tariff is required",
+            }),
+      );
+    } finally {
+      setPromoting(false);
+    }
   }
 
   async function confirmDelete() {
@@ -229,6 +274,22 @@ export function WorkshopsPage() {
         onCancel={() => setPendingDelete(null)}
         onConfirm={() => {
           void confirmDelete();
+        }}
+      />
+
+      <PromotePlanDialog
+        open={Boolean(pendingPromote)}
+        partName={pendingPromote?.name}
+        prices={planPrices}
+        busy={promoting}
+        error={promoteError}
+        onCancel={() => {
+          if (promoting) return;
+          setPendingPromote(null);
+          setPromoteError(null);
+        }}
+        onConfirm={(plan) => {
+          void confirmPromote(plan);
         }}
       />
     </div>
