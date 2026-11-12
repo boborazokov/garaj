@@ -30,9 +30,6 @@ const TEXTS = {
 
 const STEPS = 3;
 
-/**
- * Muted Garage splash loop — used while the app/session is warming up.
- */
 export function BrandLoading({
   fullScreen = true,
   className,
@@ -49,7 +46,6 @@ export function BrandLoading({
     el.defaultMuted = true;
     el.volume = 0;
     void el.play().catch(() => {
-      /* autoplay policies — still show poster frame */
     });
   }, []);
 
@@ -129,7 +125,10 @@ export function BrandLoading({
           </div>
         </div>
 
-        <p className="mt-28 mb-0 text-center text-[13px] text-[#9ca3af] sm:mt-32">
+        <p
+          className="mb-0 text-center text-[13px] leading-5 text-[#9ca3af]"
+          style={{ marginTop: 28 }}
+        >
           {t(TEXTS.footer)}
         </p>
       </div>
