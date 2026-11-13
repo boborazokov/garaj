@@ -11,11 +11,13 @@ import { CategoryService } from './modules/category/service';
 import { AppSettingsService } from './modules/app-settings/service/app-settings.service';
 import { ROUTES } from './constants';
 import { json } from 'express';
+import helmet from 'helmet';
 import { graphqlUploadExpress } from 'graphql-upload-ts';
 import { HttpExceptionFilter } from './common/filters';
 import { buildCorsOptions } from './configs/cors/cors.config';
 import { setupSwagger } from './configs/bootstrap';
 import { createMaxQuerySizeMiddleware } from './configs/graphql/graphql-security.validation';
+import { isProductionEnv } from './configs/env';
 
 export let app: INestApplication = null as unknown as INestApplication;
 
@@ -29,6 +31,28 @@ async function bootstrap() {
 
   const config = nestApp.get(ConfigService);
   const jsonLimit = config.get<string>('JSON_BODY_LIMIT') ?? '5mb';
+  const isProd = isProductionEnv(config.get<string>('NODE_ENV'));
+  const enableHsts =
+    isProd &&
+    (config.get<string>('ENABLE_HSTS') === '1' ||
+      config.get<string>('ENABLE_HSTS') === 'true');
+
+  // API-only Nest process: CSP is left off so GraphQL / uploads / CORS clients are not broken.
+  nestApp.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+      frameguard: { action: 'deny' },
+      hidePoweredBy: true,
+      noSniff: true,
+      referrerPolicy: { policy: 'no-referrer' },
+      hsts: enableHsts
+        ? { maxAge: 15552000, includeSubDomains: true, preload: false }
+        : false,
+    }),
+  );
+  nestApp.getHttpAdapter().getInstance().disable('x-powered-by');
 
   nestApp.enableCors(buildCorsOptions(config));
 

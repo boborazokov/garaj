@@ -17,7 +17,7 @@ export class SignInPage {
   }
 
   async goto() {
-    await this.page.goto('/sign-in');
+    await this.page.goto('/sign-in', { waitUntil: 'domcontentloaded' });
     await expect(this.page).toHaveURL(/sign-in/);
   }
 

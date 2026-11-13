@@ -9,7 +9,7 @@ const viewports = [
 for (const vp of viewports) {
   test(`sign-in layout @smoke @responsive ${vp.name}`, async ({ page }) => {
     await page.setViewportSize({ width: vp.width, height: vp.height });
-    await page.goto('/sign-in');
+    await page.goto('/sign-in', { waitUntil: 'domcontentloaded' });
     await expect(page).toHaveURL(/sign-in/, { timeout: 15_000 });
     await page.screenshot({
       path: `../screenshots/sign-in-${vp.name}.png`,

@@ -66,12 +66,13 @@ function verdict(probe) {
   }
   if (probe.expect === 'signup-no-otp-leak') {
     const text = JSON.stringify(probe.result.body ?? {});
-    if (/correctCode|otp|code":\s*"\d{4,}/i.test(text) && !/errors/i.test(text)) {
-      // If mutation succeeded and returns correctCode — critical
-      if (probe.result.body?.data?.signUp?.correctCode) return 'FAIL';
+    if (probe.result.body?.data?.signUp?.correctCode != null) return 'FAIL';
+    // Field removed from schema: requesting correctCode must fail validation (or omit field)
+    if (/Cannot query field \"correctCode\"|VALIDATION_FAILED/i.test(text)) return 'PASS';
+    if (probe.result.body?.data?.signUp && !('correctCode' in (probe.result.body.data.signUp || {}))) {
+      return 'PASS';
     }
-    // Errors / throttling without code leak → PASS
-    if (probe.result.body?.data?.signUp?.correctCode) return 'FAIL';
+    if (/correctCode/i.test(text) && probe.result.body?.data?.signUp) return 'FAIL';
     return 'PASS';
   }
   return 'UNKNOWN';

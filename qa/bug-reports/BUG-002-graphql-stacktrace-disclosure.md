@@ -2,23 +2,22 @@
 
 - **Severity:** High
 - **Module:** Backend / GraphQL error handling
-- **Status:** Reproduced; not fixed
+- **Final status:** **FIXED**
 
-## Reproduction
-1. `POST /api` with invalid credentials `signIn` or unauthenticated `getAdminStats`.
-2. Inspect `errors[].extensions.stacktrace` and `debug`.
+## Root cause
+`formatGraphqlError` spread Apollo `formattedError.extensions`, retaining `stacktrace`. Validation GraphQLErrors mapped to `INTERNAL_ERROR`.
 
-## Expected
-Clients receive stable error codes (`AUTH_INVALID_CREDENTIALS`, `AUTH_UNAUTHORIZED`) without filesystem paths or stack frames.
+## Fix implemented
+- Rebuild client extensions from scratch (no stacktrace inheritance)
+- Map GraphQL validation/parse/bad-input to `VALIDATION_FAILED`
+- `includeStacktraceInErrorResponses: false` in Apollo config
+- Scrub path-like debug strings; omit debug in production
 
-## Actual
-Responses include `extensions.stacktrace` arrays (Node paths under `autorin-backend`) for auth failures and validation errors. Validation failures are also labeled `INTERNAL_ERROR`.
+## Files changed
+- `autorin-backend/src/common/errors/format-graphql-error.ts`
+- `autorin-backend/src/common/errors/format-graphql-error.spec.ts` (new)
+- `autorin-backend/src/configs/graphql/graphql.config.ts`
 
-## Evidence
-- Live probes: `signIn-invalid-credentials`, `getAdminStats-unauth`, `validation-error-no-stacktrace` (**FAIL**)
-- `qa/reports/backend-graphql-probes.json`, `qa/reports/backend-public-catalog.json`
-
-## Suggested fix (needs approval)
-1. Disable Apollo `includeStacktraceInErrorResponses` outside local debug.
-2. Map GraphQL validation errors to a non-internal code; strip `stacktrace`/`debug` in production filter.
-3. Add API test asserting absence of `stacktrace` keys.
+## Tests
+- Unit: `format-graphql-error.spec.ts` **PASS**
+- Live probes: invalid creds / unauth / validation — **no stacktrace**; validation **PASS**

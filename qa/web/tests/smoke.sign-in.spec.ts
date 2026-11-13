@@ -21,7 +21,7 @@ test.describe('Sign-in @smoke', () => {
   });
 
   test('unauthenticated admin route redirects toward sign-in', async ({ page }) => {
-    await page.goto('/admin');
+    await page.goto('/admin', { waitUntil: 'domcontentloaded' });
     // Splash (~3.2s) then auth guard may send user to /sign-in
     await expect(page).toHaveURL(/sign-in|admin/, { timeout: 20_000 });
   });

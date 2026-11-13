@@ -1,29 +1,34 @@
 # BUG-001 — OTP `correctCode` returned by GraphQL `signUp`
 
 - **Severity:** High (Critical if `NODE_ENV` mis-set on any shared/staging host)
-- **Module:** Backend / Auth (`autorin-backend`)
-- **Status:** Reproduced locally; not fixed
+- **Module:** Backend / Auth (`autorin-backend`) + Web + Flutter clients
+- **Final status:** **FIXED**
 
-## Reproduction
-1. Ensure backend runs with non-production `NODE_ENV`.
-2. `POST http://127.0.0.1:7007/api` with:
-   ```graphql
-   mutation { signUp(data: { phone: "+998901119998", password: "QaAuditPass123!", name: "QA" }) { token correctCode } }
-   ```
-3. Observe response `data.signUp.correctCode` is a numeric OTP.
+## Original finding
+Non-prod GraphQL `signUp` / `requestPasswordReset` returned `correctCode`. Clients selected it.
 
-## Expected
-OTP never leaves the server (SMS/out-of-band only). GraphQL must not expose plaintext OTP.
+## Root cause
+`ConfirmationOutput` exposed `@Field() correctCode`; `auth.service.ts` assigned OTP when `!isProductionEnv`.
 
-## Actual
-`correctCode` returned in GraphQL payload (value redacted in reports). Code path: `auth.service.ts` assigns `output.correctCode` when `!isProductionEnv(NODE_ENV)`. Web client also queries `correctCode` in `operations.ts`.
+## Fix implemented
+- Removed field from GraphQL type + `schema.gql`
+- Stopped assigning OTP to API responses (SMS / server log only)
+- Removed selections from web `operations.ts`, Flutter `auth_api.dart`, reset/sign-up flows, router extras
 
-## Evidence
-- `qa/reports/backend-graphql-probes.json` → `signUp-otp-leak-check` **FAIL**
-- Source: `autorin-backend/src/modules/auth/service/auth.service.ts` (~L110–112, ~L255–257)
+## Files changed
+- `autorin-backend/src/modules/auth/types/confirmation.type.ts`
+- `autorin-backend/src/modules/auth/service/auth.service.ts`
+- `autorin-backend/schema.gql`
+- `autorin-web/src/graphql/operations.ts`
+- `my_auto/lib/features/auth/data/api/auth_api.dart`
+- `my_auto/lib/features/auth/presentation/providers/sign_up_provider.dart`
+- `my_auto/lib/features/auth/presentation/screens/confirmation_screen.dart`
+- `my_auto/lib/features/auth/presentation/screens/reset_password_screen.dart`
+- `my_auto/lib/core/routes/app_router.dart`
 
-## Suggested fix (needs approval)
-1. Remove `correctCode` from GraphQL schema / `ConfirmationOutput` for all environments, **or** gate behind an explicit `QA_EXPOSE_OTP=1` never enabled outside local.
-2. Stop selecting `correctCode` from `autorin-web` and mobile clients.
-3. Add regression test: signUp response must not contain OTP digits.
-4. Verify staging/production `NODE_ENV=production`.
+## Tests
+- `node qa/backend/tests/audit-graphql-probes.mjs` → `signUp-otp-leak-check` **PASS**
+- Backend Jest **PASS** (38)
+
+## Remaining risks
+Local SMS `log` provider still prints OTP to **server logs** in development (not GraphQL). Acceptable for local only.

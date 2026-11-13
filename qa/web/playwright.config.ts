@@ -16,8 +16,9 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
-  workers: isCI ? 2 : undefined,
+  retries: isCI ? 2 : 1,
+  // Evidence from audit: 6 workers + 3.2s splash caused intermittent page.goto(load) timeouts.
+  workers: isCI ? 2 : 3,
   timeout: 60_000,
   expect: { timeout: 10_000 },
   reporter: [
@@ -32,7 +33,8 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     actionTimeout: 15_000,
-    navigationTimeout: 30_000,
+    // Prefer DOM readiness over full window load (Vite HMR / long-lived assets).
+    navigationTimeout: 45_000,
   },
   projects: [
     {

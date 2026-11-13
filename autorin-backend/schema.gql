@@ -58,7 +58,6 @@ type AuthOutput {
 
 type ConfirmationOutput {
   token: String!
-  correctCode: Float
 }
 
 type CategoryNames {

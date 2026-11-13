@@ -109,6 +109,8 @@ describe('GraphQL authorization pipeline', () => {
 
   afterAll(async () => {
     await app?.close();
+    // Allow Apollo/HTTP sockets to release before Jest considers the suite done.
+    await new Promise<void>((resolve) => setImmediate(resolve));
   });
 
   function bearer(role: UserRoleEnum, extra: Record<string, unknown> = {}) {

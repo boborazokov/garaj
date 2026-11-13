@@ -37,7 +37,7 @@ test.describe('Auth guards audit @audit', () => {
     '/moderator',
   ]) {
     test(`unauthenticated ${route} does not expose protected UI`, async ({ page }) => {
-      await page.goto(route);
+      await page.goto(route, { waitUntil: 'domcontentloaded' });
       // After splash + guard: should be sign-in, or empty redirect — never authenticated sidebar chrome
       await expect(page).toHaveURL(/sign-in|admin|moderator/, { timeout: 20_000 });
       const url = page.url();

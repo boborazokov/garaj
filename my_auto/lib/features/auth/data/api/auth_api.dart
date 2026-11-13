@@ -2,7 +2,6 @@ const String signUpMutation = r"""
 mutation SignUp($data: SignUpInput!) {
   signUp(data: $data) {
     token
-    correctCode
   }
 }""";
 

@@ -4,9 +4,7 @@
       "C:\\Program Files\\nodejs\\node.exe",
       "D:\\flutter_projects\\Garaje\\qa\\web\\node_modules\\@playwright\\test\\cli.js",
       "test",
-      "--project=chromium",
-      "--grep",
-      "@smoke"
+      "--project=chromium"
     ],
     "configFile": "D:\\flutter_projects\\Garaje\\qa\\web\\playwright.config.ts",
     "rootDir": "D:/flutter_projects/Garaje/qa/web/tests",
@@ -20,16 +18,16 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 6
+      "actualWorkers": 3
     },
     "preserveOutput": "always",
     "projects": [
       {
         "outputDir": "D:/flutter_projects/Garaje/qa/screenshots/playwright-artifacts",
         "repeatEach": 1,
-        "retries": 0,
+        "retries": 1,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 3
         },
         "id": "chromium",
         "name": "chromium",
@@ -43,9 +41,9 @@
       {
         "outputDir": "D:/flutter_projects/Garaje/qa/screenshots/playwright-artifacts",
         "repeatEach": 1,
-        "retries": 0,
+        "retries": 1,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 3
         },
         "id": "firefox",
         "name": "firefox",
@@ -59,9 +57,9 @@
       {
         "outputDir": "D:/flutter_projects/Garaje/qa/screenshots/playwright-artifacts",
         "repeatEach": 1,
-        "retries": 0,
+        "retries": 1,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 3
         },
         "id": "webkit",
         "name": "webkit",
@@ -75,9 +73,9 @@
       {
         "outputDir": "D:/flutter_projects/Garaje/qa/screenshots/playwright-artifacts",
         "repeatEach": 1,
-        "retries": 0,
+        "retries": 1,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 3
         },
         "id": "mobile-chrome",
         "name": "mobile-chrome",
@@ -91,9 +89,9 @@
       {
         "outputDir": "D:/flutter_projects/Garaje/qa/screenshots/playwright-artifacts",
         "repeatEach": 1,
-        "retries": 0,
+        "retries": 1,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 3
         },
         "id": "mobile-safari",
         "name": "mobile-safari",
@@ -111,9 +109,9 @@
         "grepInvert": null,
         "outputDir": "D:\\flutter_projects\\Garaje\\qa\\screenshots\\playwright-artifacts",
         "repeatEach": 1,
-        "retries": 0,
+        "retries": 1,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 3
         },
         "name": "chromium",
         "testDir": "D:\\flutter_projects\\Garaje\\qa\\web\\tests",
@@ -127,7 +125,7 @@
           "screenshot": "only-on-failure",
           "video": "retain-on-failure",
           "actionTimeout": 15000,
-          "navigationTimeout": 30000,
+          "navigationTimeout": 45000,
           "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.8127.18 Safari/537.36",
           "viewport": {
             "width": 1280,
@@ -176,7 +174,7 @@
     "updateSnapshots": "default",
     "updateSourceMethod": "patch",
     "version": "1.65.0",
-    "workers": 6,
+    "workers": 3,
     "webServer": {
       "command": "npm run dev --prefix ../../autorin-web",
       "url": "http://127.0.0.1:5173",
@@ -185,6 +183,383 @@
     }
   },
   "suites": [
+    {
+      "title": "audit.auth-guards.spec.ts",
+      "file": "audit.auth-guards.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Auth guards audit @audit",
+          "file": "audit.auth-guards.spec.ts",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "sign-in page is reachable and shows credentials fields",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6944,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:33.298Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-068ce11d0ba0fe0cab0c",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "invalid credentials stay on sign-in and do not enter admin",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 7578,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:33.327Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-d277f7b407a58793492a",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 16,
+              "column": 3
+            },
+            {
+              "title": "unauthenticated /admin does not expose protected UI",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 7472,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:33.305Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-d7779d06e0ebb9a7bab0",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "unauthenticated /admin/products does not expose protected UI",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6197,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:40.449Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-8d584af8b59766600220",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "unauthenticated /admin/orders does not expose protected UI",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5877,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:40.970Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-322f1995a669698d6028",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "unauthenticated /admin/users does not expose protected UI",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5881,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:41.114Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-98e0e01687dd0208fd7b",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "unauthenticated /admin/moderation does not expose protected UI",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6309,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:46.664Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-84dffd7ba3a294a4e01e",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "unauthenticated /admin/messages does not expose protected UI",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6294,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:46.866Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-529718a3144f39ea489a",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "unauthenticated /admin/settings does not expose protected UI",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6394,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:47.018Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-0986fa9f510bb81ee525",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "unauthenticated /moderator does not expose protected UI",
+              "ok": true,
+              "tags": [
+                "audit"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6291,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:52.995Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2031c36ea4d8a0991ffb-cb9edc27df0327a589b1",
+              "file": "audit.auth-guards.spec.ts",
+              "line": 39,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
     {
       "title": "navigation.spec.ts",
       "file": "navigation.spec.ts",
@@ -213,15 +588,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 10885,
+                      "duration": 5439,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T13:07:17.177Z",
+                      "startTime": "2026-11-13T13:49:53.188Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -252,12 +627,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 10433,
+                      "duration": 5311,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T13:07:16.992Z",
+                      "startTime": "2026-11-13T13:49:53.463Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -268,6 +643,57 @@
               "id": "5d2868f7d23420c27cca-57a1e438d6f8b818a499",
               "file": "navigation.spec.ts",
               "line": 9,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "network-failure.spec.ts",
+      "file": "network-failure.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Network failure handling",
+          "file": "network-failure.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "sign-in survives GraphQL API offline",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5938,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-13T13:49:58.649Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3d4cb429b3fb547048fe-2883785a5a9c042d5a92",
+              "file": "network-failure.spec.ts",
+              "line": 5,
               "column": 3
             }
           ]
@@ -296,15 +722,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 2,
-                  "parallelIndex": 2,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 9651,
+                  "duration": 2426,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-13T13:07:17.280Z",
+                  "startTime": "2026-11-13T13:49:58.797Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -333,15 +759,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 3,
-                  "parallelIndex": 3,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 10284,
+                  "duration": 2254,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-13T13:07:17.230Z",
+                  "startTime": "2026-11-13T13:49:59.313Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -370,15 +796,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 4,
-                  "parallelIndex": 4,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 9864,
+                  "duration": 2111,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-13T13:07:17.387Z",
+                  "startTime": "2026-11-13T13:50:01.241Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -421,15 +847,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 5,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10485,
+                      "duration": 5360,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T13:07:17.371Z",
+                      "startTime": "2026-11-13T13:50:01.597Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -457,15 +883,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 6225,
+                      "duration": 5168,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T13:07:27.443Z",
+                      "startTime": "2026-11-13T13:50:03.379Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -493,15 +919,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2604,
+                      "duration": 1698,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-13T13:07:27.831Z",
+                      "startTime": "2026-11-13T13:50:04.612Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -521,9 +947,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-13T13:07:13.166Z",
-    "duration": 21040.932999999997,
-    "expected": 8,
+    "startTime": "2026-11-13T13:49:30.641Z",
+    "duration": 38365.245,
+    "expected": 19,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

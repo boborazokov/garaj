@@ -19,7 +19,6 @@ const _requestReset = r'''
 mutation RequestPasswordReset($phone: String!) {
   requestPasswordReset(phone: $phone) {
     token
-    correctCode
   }
 }
 ''';
@@ -167,10 +166,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         return;
       }
       _token = payload['token'].toString();
-      final hint = payload['correctCode'];
-      if (hint != null) {
-        _code.text = hint.toString().padLeft(5, '0');
-      }
       setState(() => _step = 1);
     } catch (_) {
       if (mounted) {

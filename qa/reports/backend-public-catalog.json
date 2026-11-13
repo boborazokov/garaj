@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T13:17:36.467Z",
+  "generatedAt": "2026-11-13T13:43:47.860Z",
   "results": [
     {
       "name": "getParts-unauth",
@@ -25,7 +25,7 @@
       "errorCodes": [
         "AUTH_UNAUTHORIZED"
       ],
-      "exposesStacktrace": true
+      "exposesStacktrace": false
     }
   ]
 }

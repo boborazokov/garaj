@@ -1,10 +1,9 @@
 {
   "suite": "backend-graphql-audit-probes",
   "url": "http://127.0.0.1:7007/api",
-  "generatedAt": "2026-11-13T13:15:22.052Z",
+  "generatedAt": "2026-11-13T13:43:47.491Z",
   "counts": {
-    "PASS": 6,
-    "FAIL": 2,
+    "PASS": 8,
     "PASS_WITH_NOTES": 1
   },
   "probes": [
@@ -19,7 +18,7 @@
             "__typename": "Query"
           }
         },
-        "elapsedMs": 40,
+        "elapsedMs": 74,
         "error": null,
         "exposesStacktrace": false
       },
@@ -45,15 +44,8 @@
                 "signIn"
               ],
               "extensions": {
-                "code": "AUTH_INVALID_CREDENTIALS",
-                "stacktrace": [
-                  "ApiException: Api Exception",
-                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
-                  "    at AuthService.signIn (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\modules\\auth\\service\\auth.service.ts:193:15)",
-                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async Object.signIn (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
-                ],
                 "success": false,
+                "code": "AUTH_INVALID_CREDENTIALS",
                 "statusCode": 400,
                 "debug": "No user for phone"
               }
@@ -61,9 +53,9 @@
           ],
           "data": null
         },
-        "elapsedMs": 334,
+        "elapsedMs": 143,
         "error": null,
-        "exposesStacktrace": true
+        "exposesStacktrace": false
       },
       "status": "PASS"
     },
@@ -87,18 +79,8 @@
                 "getAdminStats"
               ],
               "extensions": {
-                "code": "AUTH_UNAUTHORIZED",
-                "stacktrace": [
-                  "ApiException: Api Exception",
-                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
-                  "    at GlobalAuthGuard.canActivate (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\auth\\guard\\global-auth.guard.ts:95:15)",
-                  "    at GuardsConsumer.tryActivate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
-                  "    at async canActivateFn (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async Object.getAdminStats (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
-                ],
                 "success": false,
+                "code": "AUTH_UNAUTHORIZED",
                 "statusCode": 401,
                 "debug": "JWT missing or invalid"
               }
@@ -106,9 +88,9 @@
           ],
           "data": null
         },
-        "elapsedMs": 11,
+        "elapsedMs": 7,
         "error": null,
-        "exposesStacktrace": true
+        "exposesStacktrace": false
       },
       "status": "PASS"
     },
@@ -132,18 +114,8 @@
                 "getAdminStats"
               ],
               "extensions": {
-                "code": "AUTH_UNAUTHORIZED",
-                "stacktrace": [
-                  "ApiException: Api Exception",
-                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
-                  "    at GlobalAuthGuard.canActivate (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\auth\\guard\\global-auth.guard.ts:95:15)",
-                  "    at GuardsConsumer.tryActivate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
-                  "    at async canActivateFn (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async Object.getAdminStats (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
-                ],
                 "success": false,
+                "code": "AUTH_UNAUTHORIZED",
                 "statusCode": 401,
                 "debug": "JWT missing or invalid"
               }
@@ -151,9 +123,9 @@
           ],
           "data": null
         },
-        "elapsedMs": 12,
+        "elapsedMs": 7,
         "error": null,
-        "exposesStacktrace": true
+        "exposesStacktrace": false
       },
       "status": "PASS"
     },
@@ -177,18 +149,8 @@
                 "adminListUsers"
               ],
               "extensions": {
-                "code": "AUTH_UNAUTHORIZED",
-                "stacktrace": [
-                  "ApiException: Api Exception",
-                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
-                  "    at GlobalAuthGuard.canActivate (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\auth\\guard\\global-auth.guard.ts:95:15)",
-                  "    at GuardsConsumer.tryActivate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
-                  "    at async canActivateFn (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async Object.adminListUsers (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
-                ],
                 "success": false,
+                "code": "AUTH_UNAUTHORIZED",
                 "statusCode": 401,
                 "debug": "JWT missing or invalid"
               }
@@ -196,9 +158,9 @@
           ],
           "data": null
         },
-        "elapsedMs": 15,
+        "elapsedMs": 7,
         "error": null,
-        "exposesStacktrace": true
+        "exposesStacktrace": false
       },
       "status": "PASS"
     },
@@ -222,18 +184,8 @@
                 "getAppSettings"
               ],
               "extensions": {
-                "code": "AUTH_UNAUTHORIZED",
-                "stacktrace": [
-                  "ApiException: Api Exception",
-                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
-                  "    at GlobalAuthGuard.canActivate (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\auth\\guard\\global-auth.guard.ts:95:15)",
-                  "    at GuardsConsumer.tryActivate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
-                  "    at async canActivateFn (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async Object.getAppSettings (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
-                ],
                 "success": false,
+                "code": "AUTH_UNAUTHORIZED",
                 "statusCode": 401,
                 "debug": "JWT missing or invalid"
               }
@@ -241,9 +193,9 @@
           ],
           "data": null
         },
-        "elapsedMs": 8,
+        "elapsedMs": 15,
         "error": null,
-        "exposesStacktrace": true
+        "exposesStacktrace": false
       },
       "status": "PASS"
     },
@@ -256,7 +208,7 @@
         "body": {
           "errors": [
             {
-              "message": "INTERNAL_ERROR",
+              "message": "VALIDATION_FAILED",
               "locations": [
                 {
                   "line": 1,
@@ -264,31 +216,18 @@
                 }
               ],
               "extensions": {
-                "code": "INTERNAL_ERROR",
-                "stacktrace": [
-                  "GraphQLError: Cannot query field \"totallyFakeFieldThatDoesNotExist\" on type \"Query\".",
-                  "    at Object.Field (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at Object.enter (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at Object.enter (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at visit (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at validate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at processGraphQLRequest (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
-                  "    at async internalExecuteOperation (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async runHttpQuery (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
-                  "    at async runPotentiallyBatchedHttpQuery (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
-                ],
                 "success": false,
+                "code": "VALIDATION_FAILED",
                 "debug": "Cannot query field \"totallyFakeFieldThatDoesNotExist\" on type \"Query\"."
               }
             }
           ]
         },
-        "elapsedMs": 10,
+        "elapsedMs": 13,
         "error": null,
-        "exposesStacktrace": true
+        "exposesStacktrace": false
       },
-      "status": "FAIL"
+      "status": "PASS"
     },
     {
       "name": "introspection-schema",
@@ -334,9 +273,6 @@
                   "name": "ConfirmationOutput"
                 },
                 {
-                  "name": "Float"
-                },
-                {
                   "name": "CategoryNames"
                 },
                 {
@@ -347,6 +283,9 @@
                 },
                 {
                   "name": "GeoPoint"
+                },
+                {
+                  "name": "Float"
                 },
                 {
                   "name": "Part"
@@ -745,7 +684,7 @@
             }
           }
         },
-        "elapsedMs": 8,
+        "elapsedMs": 7,
         "error": null,
         "exposesStacktrace": false
       },
@@ -755,21 +694,31 @@
       "name": "signUp-otp-leak-check",
       "expect": "signup-no-otp-leak",
       "result": {
-        "ok": true,
-        "status": 200,
+        "ok": false,
+        "status": 400,
         "body": {
-          "data": {
-            "signUp": {
-              "token": "[REDACTED_JWT]",
-              "correctCode": "[REDACTED_OTP]"
+          "errors": [
+            {
+              "message": "VALIDATION_FAILED",
+              "locations": [
+                {
+                  "line": 2,
+                  "column": 33
+                }
+              ],
+              "extensions": {
+                "success": false,
+                "code": "VALIDATION_FAILED",
+                "debug": "Cannot query field \"correctCode\" on type \"ConfirmationOutput\"."
+              }
             }
-          }
+          ]
         },
-        "elapsedMs": 249,
+        "elapsedMs": 8,
         "error": null,
         "exposesStacktrace": false
       },
-      "status": "FAIL"
+      "status": "PASS"
     }
   ]
 }

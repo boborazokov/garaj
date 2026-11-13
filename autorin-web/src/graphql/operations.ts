@@ -442,7 +442,6 @@ export const SIGN_UP = gql`
   mutation SignUp($data: SignUpInput!) {
     signUp(data: $data) {
       token
-      correctCode
     }
   }
 `

@@ -105,13 +105,8 @@ export class AuthService {
       expiresIn: OTP_CODE_EXPIRATION,
     });
 
-    const output: ConfirmationOutput = { token };
-
-    if (!isProductionEnv(this.configService.get<string>('NODE_ENV'))) {
-      output.correctCode = Number(code);
-    }
-
-    return output;
+    // OTP is delivered only via SMS / out-of-band channel — never in GraphQL.
+    return { token } satisfies ConfirmationOutput;
   }
 
   async confirmSignUp({ code, token }: ConfirmSignUpArgs) {
@@ -251,11 +246,8 @@ export class AuthService {
       { expiresIn: OTP_CODE_EXPIRATION },
     );
 
-    const output: ConfirmationOutput = { token };
-    if (!isProductionEnv(this.configService.get<string>('NODE_ENV'))) {
-      output.correctCode = Number(code);
-    }
-    return output;
+    // OTP is delivered only via SMS / out-of-band channel — never in GraphQL.
+    return { token } satisfies ConfirmationOutput;
   }
 
   async resetPassword({ token, code, password }: ResetPasswordArgs) {

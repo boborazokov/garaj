@@ -12,6 +12,7 @@ import {
   type AuthUser,
 } from "@/lib/auth";
 import { cleanPhone } from "@/lib/helpers/phone.helpers";
+import { safeInternalRedirect } from "@/lib/helpers/safe-redirect";
 import { useLanguage } from "@/lib/i18n";
 import { SIGN_IN_TEXTS } from "./constants";
 import type { SignInFormValues } from "./types";
@@ -35,7 +36,11 @@ import {
 export function SignInPage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const redirect = params.get("redirect") ?? "/admin";
+  const redirect = safeInternalRedirect(
+    params.get("redirect"),
+    "/admin",
+    ["/admin", "/moderator"],
+  );
   const { t } = useLanguage();
   const [error, setError] = useState("");
 
@@ -135,13 +140,15 @@ export function SignInPage() {
       });
 
       if (isAdmin(user)) {
-        navigate(redirect.startsWith("/admin") ? redirect : "/admin", {
-          replace: true,
-        });
+        navigate(
+          safeInternalRedirect(redirect, "/admin", ["/admin"]),
+          { replace: true },
+        );
       } else if (isModerator(user)) {
-        navigate(redirect.startsWith("/moderator") ? redirect : "/moderator", {
-          replace: true,
-        });
+        navigate(
+          safeInternalRedirect(redirect, "/moderator", ["/moderator"]),
+          { replace: true },
+        );
       } else {
         clearSession();
         const message = t(SIGN_IN_TEXTS.accessDenied);

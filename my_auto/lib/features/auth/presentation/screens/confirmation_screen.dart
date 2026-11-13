@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_auto/core/auth/pending_signup_token.dart';
@@ -16,11 +15,9 @@ class ConfirmationScreen extends StatefulWidget {
   const ConfirmationScreen({
     super.key,
     required this.token,
-    required this.correctCode,
   });
 
   final String token;
-  final int correctCode;
 
   @override
   State<ConfirmationScreen> createState() => _ConfirmationScreenState();
@@ -74,14 +71,6 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
     final s = S.of(context);
     final colors = context.appColors;
     final lang = Localizations.localeOf(context).languageCode;
-
-    if (kDebugMode && widget.correctCode > 0) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (controller.codeController.text.isEmpty) {
-          controller.codeController.text = widget.correctCode.toString();
-        }
-      });
-    }
 
     final pinTheme = PinTheme(
       width: 52,

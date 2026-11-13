@@ -68,11 +68,21 @@ class WsConnectionLimiterModule {}
               ]),
         ];
 
+        const introspectionExplicit = config.get<string>('GRAPHQL_INTROSPECTION');
+        const introspectionEnabled =
+          introspectionExplicit === '1' || introspectionExplicit === 'true'
+            ? true
+            : introspectionExplicit === '0' || introspectionExplicit === 'false'
+              ? false
+              : !isProd;
+
         return {
           path: ROUTES.API,
           autoSchemaFile: 'schema.gql',
           playground: false,
-          introspection: !isProd,
+          // Secure default: off in staging/production unless GRAPHQL_INTROSPECTION=true
+          introspection: introspectionEnabled,
+          includeStacktraceInErrorResponses: false,
           csrfPrevention: true,
           uploads: {
             maxFileSize: Number(config.get('UPLOAD_MAX_FILE_BYTES') ?? 10_485_760),

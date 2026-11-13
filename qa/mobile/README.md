@@ -9,44 +9,32 @@
 - Navigation: `go_router`
 - API: `graphql_flutter`
 
+## API URL configuration (BUG-011)
+
+Copy `my_auto/.env.example` → `my_auto/.env` (gitignored).
+
+| Target | `API_URL` / `API_File_URL` |
+|--------|---------------------------|
+| Windows/macOS desktop | `http://127.0.0.1:7007` |
+| Android emulator | `http://10.0.2.2:7007` |
+| Physical device (LAN) | `http://<dev-machine-lan-ip>:7007` |
+| iOS simulator | `http://127.0.0.1:7007` |
+
+Web admin uses Vite same-origin proxy (`/api` → backend). Do not commit real LAN IPs or MapTiler keys.
+
 ## Framework choices
 
 | Tool | Status | Notes |
 |------|--------|-------|
 | `flutter_test` | Configured | Primary unit/widget tests |
-| `integration_test` | Scaffolded under `qa/mobile/integration_test` (copy into app when ready) | Flutter official |
-| **Patrol** | Recommended for Flutter native UI | Requires `patrol` + Android/iOS native hooks — install only when ready to modify platform folders |
-| **Maestro** | Configured (YAML flows) | Lowest friction; needs Maestro CLI + built APK/IPA |
-| Appium / Detox | Not selected | Detox is RN-focused; Appium heavier than needed |
+| `integration_test` | Scaffolded under `qa/mobile/integration_test` | Opt-in |
+| **Patrol** | Optional | Needs native hooks |
+| **Maestro** | YAML ready | Needs Maestro CLI |
 
 ## Commands
 
 ```bash
-# From repo root
-npm run qa:flutter
-npm run qa:flutter:analyze
-
-# Direct
+npm --prefix qa run qa:flutter
 cd my_auto && flutter test
 cd my_auto && flutter analyze
 ```
-
-## Maestro
-
-Install CLI separately: https://maestro.mobile.dev/
-
-```bash
-maestro test qa/mobile/maestro/smoke-launch.yaml
-```
-
-Flows assume a debug/release APK already installed or launched via `maestro`.
-
-## Patrol (optional manual setup)
-
-```bash
-cd my_auto
-flutter pub add dev:patrol
-# then follow Patrol 4.x native setup for Android/iOS
-```
-
-Do **not** run Patrol install automatically against production devices without consent.

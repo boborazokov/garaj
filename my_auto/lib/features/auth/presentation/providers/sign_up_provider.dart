@@ -67,10 +67,6 @@ class SignUpProvider extends ChangeNotifier {
       }
 
       final token = rawToken is String ? rawToken.trim() : '';
-      final rawCode = data?['signUp']?['correctCode'];
-      final correctCode = rawCode is int
-          ? rawCode
-          : (rawCode is String ? int.tryParse(rawCode) ?? 0 : 0);
 
       if (token.isEmpty || token.split('.').length != 3) {
         if (kDebugMode) {
@@ -86,7 +82,6 @@ class SignUpProvider extends ChangeNotifier {
         RoutesName.confirmation,
         extra: <String, dynamic>{
           'token': token,
-          'correctCode': correctCode,
         },
       );
     } catch (_) {

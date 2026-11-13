@@ -178,16 +178,12 @@ GoRouter createAppRouter(AuthProvider auth) {
         path: RoutesName.confirmation,
         builder: (context, state) {
           String token = '';
-          int correctCode = 0;
           final extra = state.extra;
           if (extra is Map) {
             final t = extra['token'];
             if (t is String) token = t.trim();
-            final c = extra['correctCode'];
-            if (c is int) correctCode = c;
-            if (c is String) correctCode = int.tryParse(c) ?? 0;
           }
-          return ConfirmationScreen(token: token, correctCode: correctCode);
+          return ConfirmationScreen(token: token);
         },
       ),
       GoRoute(
