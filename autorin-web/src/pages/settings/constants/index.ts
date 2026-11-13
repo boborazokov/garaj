@@ -64,7 +64,7 @@ export const SETTINGS_TEXTS = {
     ru: "Тарифы топа и настройки баннеров.",
     en: "Top tariffs and banner settings.",
   },
-  topPlans: { uz: "Top plans", ru: "Top plans", en: "Top plans" },
+  topPlans: { uz: "Top tariflar", ru: "Топ тарифы", en: "Top plans" },
   topPlansHint: {
     uz: "Topga ko‘tarish narxlari va muddatlari",
     ru: "Цены и сроки поднятия в топ",

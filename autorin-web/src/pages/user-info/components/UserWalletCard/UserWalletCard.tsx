@@ -8,6 +8,7 @@ import {
 } from "@/graphql/operations";
 import { useLanguage } from "@/lib/i18n";
 import { USER_INFO_COLORS, USER_INFO_TEXTS } from "../../constants";
+import { walletPoolLabel, walletTxTypeLabel } from "../../helpers";
 
 type WalletData = {
   _id: string;
@@ -225,7 +226,7 @@ export function UserWalletCard({ userId }: { userId: string }) {
               >
                 <div className="min-w-0">
                   <p className="truncate font-medium" style={{ color: USER_INFO_COLORS.text }}>
-                    {tx.type} · {tx.pool}
+                    {walletTxTypeLabel(tx.type, t)} · {walletPoolLabel(tx.pool, t)}
                   </p>
                   <p className="truncate text-[12px]" style={{ color: USER_INFO_COLORS.muted }}>
                     {tx.note || new Date(tx.createdAt).toLocaleString()}

@@ -1,77 +1,14 @@
 import { Link } from "react-router-dom";
-import {
-  ArrowLeft,
-  BadgeCheck,
-  CalendarDays,
-  Eye,
-  MapPin,
-  Package,
-  Phone,
-  ShieldAlert,
-  Star,
-  Store,
-} from "lucide-react";
+import { ArrowLeft, BadgeCheck, ShieldAlert } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 import { USER_INFO_COLORS, USER_INFO_TEXTS } from "../../constants";
-import { formatJoined, initialsOf, roleLabel } from "../../helpers";
-import { getMockRating, isMockUserId } from "../../mock";
+import { initialsOf, roleLabel } from "../../helpers";
 import type { UserProfileCardProps } from "../../types";
-import { MetricCard } from "../MetricCard";
 
-export function UserProfileCard({
-  user,
-  productsCount,
-  activeCount,
-  viewsCount,
-  region,
-}: UserProfileCardProps) {
-  const { t, language } = useLanguage();
+export function UserProfileCard({ user }: UserProfileCardProps) {
+  const { t } = useLanguage();
   const verified = user.verified === true;
-  const rating = isMockUserId(user._id) ? getMockRating(user._id) : "—";
   const displayName = user.name || user.phone || "—";
-
-  const metricCards = [
-    {
-      icon: Package,
-      label: t(USER_INFO_TEXTS.statsProducts),
-      value: String(productsCount),
-    },
-    {
-      icon: Store,
-      label: t(USER_INFO_TEXTS.statsActive),
-      value: String(activeCount),
-    },
-    {
-      icon: Eye,
-      label: t(USER_INFO_TEXTS.statsViews),
-      value: viewsCount.toLocaleString(
-        language === "uz" ? "uz-UZ" : language === "en" ? "en-US" : "ru-RU",
-      ),
-    },
-    {
-      icon: Star,
-      label: t(USER_INFO_TEXTS.statsRating),
-      value: rating,
-    },
-  ];
-
-  const infoCards = [
-    {
-      icon: Phone,
-      label: t(USER_INFO_TEXTS.phone),
-      value: user.phone || "—",
-    },
-    {
-      icon: MapPin,
-      label: t(USER_INFO_TEXTS.region),
-      value: region?.trim() || t(USER_INFO_TEXTS.unknownRegion),
-    },
-    {
-      icon: CalendarDays,
-      label: t(USER_INFO_TEXTS.joined),
-      value: formatJoined(user.createdAt, language),
-    },
-  ];
 
   return (
     <div className="space-y-3">
@@ -94,14 +31,14 @@ export function UserProfileCard({
         style={{ borderColor: USER_INFO_COLORS.border }}
       >
         <div
-          className="h-[84px] w-full"
+          className="h-[88px] w-full sm:h-[96px]"
           style={{
             background: `linear-gradient(115deg, ${USER_INFO_COLORS.bannerFrom} 0%, ${USER_INFO_COLORS.bannerVia} 48%, ${USER_INFO_COLORS.bannerTo} 100%)`,
           }}
         />
         <div className="flex items-start gap-4 px-5 pb-5 sm:px-6">
           <div
-            className="-mt-11 flex size-[88px] shrink-0 items-center justify-center rounded-full border-[3px] border-white text-[22px] font-bold"
+            className="-mt-12 flex size-[112px] shrink-0 items-center justify-center rounded-full border-[4px] border-white text-[28px] font-bold sm:-mt-14 sm:size-[120px] sm:text-[30px]"
             style={{
               background: USER_INFO_COLORS.accentSoft,
               color: USER_INFO_COLORS.accent,
@@ -109,7 +46,7 @@ export function UserProfileCard({
           >
             {initialsOf(displayName)}
           </div>
-          <div className="min-w-0 pt-3">
+          <div className="min-w-0 pt-4">
             <div className="flex min-w-0 flex-wrap items-center gap-2">
               <h1
                 className="truncate text-[18px] font-semibold leading-none"
@@ -147,18 +84,6 @@ export function UserProfileCard({
             </p>
           </div>
         </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2.5 xl:grid-cols-4">
-        {metricCards.map((card) => (
-          <MetricCard key={card.label} {...card} />
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
-        {infoCards.map((card) => (
-          <MetricCard key={card.label} {...card} />
-        ))}
       </div>
     </div>
   );

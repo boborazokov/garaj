@@ -161,7 +161,7 @@ export function BannerSlider() {
       <DarkOverlay />
 
       <TopBrandMark>
-        <BrandLogo size={40} />
+        <BrandLogo size={52} />
       </TopBrandMark>
 
       {/* Slayderning pastki qismida avtomatik animatsiya bilan chiquvchi matnlar va dotlar */}

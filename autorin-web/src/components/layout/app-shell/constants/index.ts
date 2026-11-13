@@ -96,7 +96,7 @@ export const ADMIN_NAV_GROUPS: AppNavGroup[] = [
       },
       {
         to: "/admin/top-plans",
-        label: { uz: "Top plans", ru: "Top plans", en: "Top plans" },
+        label: { uz: "Top tariflar", ru: "Топ тарифы", en: "Top plans" },
         icon: TrendingUp,
       },
     ],

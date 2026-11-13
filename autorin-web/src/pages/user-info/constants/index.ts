@@ -39,6 +39,31 @@ export const USER_INFO_TEXTS = {
     ru: "К сообщениям",
     en: "Back to messages",
   },
+  tabStats: {
+    uz: "Statistika",
+    ru: "Статистика",
+    en: "Statistics",
+  },
+  tabWallet: {
+    uz: "Hamyon",
+    ru: "Кошелёк",
+    en: "Wallet",
+  },
+  tabProducts: {
+    uz: "Mahsulotlar",
+    ru: "Товары",
+    en: "Products",
+  },
+  tabsAria: {
+    uz: "Mijoz bo‘limlari",
+    ru: "Разделы клиента",
+    en: "Client sections",
+  },
+  walletMockHint: {
+    uz: "Demo foydalanuvchida hamyon mavjud emas",
+    ru: "У демо-пользователя нет кошелька",
+    en: "Wallet is unavailable for demo users",
+  },
   productsTitle: {
     uz: "Mahsulotlar",
     ru: "Товары",
@@ -186,6 +211,66 @@ export const USER_INFO_TEXTS = {
     uz: "Bekor qilish",
     ru: "Отмена",
     en: "Cancel",
+  },
+  txTopupMain: {
+    uz: "Hisob to‘ldirish",
+    ru: "Пополнение",
+    en: "Top-up",
+  },
+  txAdminTopupMain: {
+    uz: "Admin to‘ldirish",
+    ru: "Пополнение админом",
+    en: "Admin top-up",
+  },
+  txAdminCreditBonus: {
+    uz: "Bonus hisob",
+    ru: "Бонусное начисление",
+    en: "Bonus credit",
+  },
+  txPromotionSpend: {
+    uz: "Topga chiqarish",
+    ru: "Продвижение",
+    en: "Promotion spend",
+  },
+  txBookingSpend: {
+    uz: "Buyurtma to‘lovi",
+    ru: "Оплата брони",
+    en: "Booking spend",
+  },
+  txAdSpend: {
+    uz: "Reklama to‘lovi",
+    ru: "Оплата рекламы",
+    en: "Ad spend",
+  },
+  txRefund: {
+    uz: "Qaytarish",
+    ru: "Возврат",
+    en: "Refund",
+  },
+  txWithdrawRequest: {
+    uz: "Yechib olish so‘rovi",
+    ru: "Заявка на вывод",
+    en: "Withdraw request",
+  },
+  txWithdrawPaid: {
+    uz: "Yechib olindi",
+    ru: "Вывод выполнен",
+    en: "Withdraw paid",
+  },
+  txWithdrawRejected: {
+    uz: "Yechib olish rad etildi",
+    ru: "Вывод отклонён",
+    en: "Withdraw rejected",
+  },
+  poolMain: {
+    uz: "Asosiy",
+    ru: "Основной",
+    en: "Main",
+  },
+  poolBonus: {
+    uz: "Bonus",
+    ru: "Бонус",
+    en: "Bonus",
   },
   prevPage: {
     uz: "Oldingi",

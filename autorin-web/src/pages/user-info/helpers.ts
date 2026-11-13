@@ -12,9 +12,11 @@ export function roleLabel(
   role: string,
   t: (value: LocalizedText) => string,
 ): string {
-  if (role === "ADMIN") return t(USER_INFO_TEXTS.admin);
-  if (role === "MODERATOR") return t(USER_INFO_TEXTS.moderator);
-  return t(USER_INFO_TEXTS.seller);
+  const normalized = role.trim().toUpperCase();
+  if (normalized === "ADMIN") return t(USER_INFO_TEXTS.admin);
+  if (normalized === "MODERATOR") return t(USER_INFO_TEXTS.moderator);
+  if (normalized === "USER") return t(USER_INFO_TEXTS.seller);
+  return t(USER_INFO_TEXTS.user);
 }
 
 const MONTHS_UZ = [
@@ -112,14 +114,59 @@ export function formatPrice(price: number, currency: string, language: LanguageC
   return `${amount.toLocaleString(locale)} ${currency}`;
 }
 
+export function walletTxTypeLabel(
+  type: string,
+  t: (value: LocalizedText) => string,
+): string {
+  switch (type) {
+    case "TOPUP_MAIN":
+      return t(USER_INFO_TEXTS.txTopupMain);
+    case "ADMIN_TOPUP_MAIN":
+      return t(USER_INFO_TEXTS.txAdminTopupMain);
+    case "ADMIN_CREDIT_BONUS":
+      return t(USER_INFO_TEXTS.txAdminCreditBonus);
+    case "PROMOTION_SPEND":
+      return t(USER_INFO_TEXTS.txPromotionSpend);
+    case "BOOKING_SPEND":
+      return t(USER_INFO_TEXTS.txBookingSpend);
+    case "ADVERTISEMENT_SPEND":
+      return t(USER_INFO_TEXTS.txAdSpend);
+    case "REFUND":
+      return t(USER_INFO_TEXTS.txRefund);
+    case "WITHDRAW_REQUEST":
+      return t(USER_INFO_TEXTS.txWithdrawRequest);
+    case "WITHDRAW_PAID":
+      return t(USER_INFO_TEXTS.txWithdrawPaid);
+    case "WITHDRAW_REJECTED":
+      return t(USER_INFO_TEXTS.txWithdrawRejected);
+    default:
+      return type;
+  }
+}
+
+export function walletPoolLabel(
+  pool: string,
+  t: (value: LocalizedText) => string,
+): string {
+  if (pool === "BONUS") return t(USER_INFO_TEXTS.poolBonus);
+  if (pool === "MAIN") return t(USER_INFO_TEXTS.poolMain);
+  return pool;
+}
+
 export function userFromPeer(
-  peer: { _id: string; name?: string | null; phone?: string | null; verified?: boolean | null },
+  peer: {
+    _id: string;
+    name?: string | null;
+    phone?: string | null;
+    verified?: boolean | null;
+    role?: string | null;
+  },
 ): UserRow {
   return {
     _id: peer._id,
     name: peer.name?.trim() || peer.phone || "—",
     phone: peer.phone ?? "",
-    role: "USER",
+    role: peer.role?.trim() || "USER",
     verified: peer.verified ?? false,
   };
 }

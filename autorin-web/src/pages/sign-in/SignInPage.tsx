@@ -171,7 +171,7 @@ export function SignInPage() {
           <FormCenterWrapper>
             <FormHeader>
               <BrandLogoWrapper>
-                <BrandLogo variant="full" size={40} />
+                <BrandLogo variant="full" size={72} />
               </BrandLogoWrapper>
               <FormTitle>{t(SIGN_IN_TEXTS.title)}</FormTitle>
               <FormSubtitle>{t(SIGN_IN_TEXTS.subtitle)}</FormSubtitle>

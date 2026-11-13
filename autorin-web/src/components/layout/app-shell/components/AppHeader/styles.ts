@@ -177,30 +177,6 @@ export const SearchEmpty = styled.li`
   color: ${SHELL_COLORS.textMuted};
 `;
 
-export const LanguageSelect = styled.select`
-  appearance: none;
-  height: 36px;
-  padding: 0 28px 0 12px;
-  border: 1px solid ${SHELL_COLORS.border};
-  border-radius: 9px;
-  background-color: ${SHELL_COLORS.cardBg};
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: 0.04em;
-  color: ${SHELL_COLORS.textSecondary};
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    border-color: #c5d0de;
-    outline: none;
-    color: ${SHELL_COLORS.textPrimary};
-  }
-`;
-
 export const IconButton = styled.button`
   position: relative;
   display: inline-flex;

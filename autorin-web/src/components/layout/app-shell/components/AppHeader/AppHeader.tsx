@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bell, Menu, Search } from "lucide-react";
-import { isLanguageCode, LANGUAGE_OPTIONS, useLanguage } from "@/lib/i18n";
+import { LanguageSelect } from "@/components/language-select";
+import { useLanguage } from "@/lib/i18n";
 import { SHELL_TEXTS } from "../../constants";
 import type { AppNavGroup, AppNavItem, NavBadgeKey } from "../../types";
 import {
@@ -14,7 +15,6 @@ import {
   HeaderRight,
   HeaderRoot,
   IconButton,
-  LanguageSelect,
   MenuButton,
   SearchEmpty,
   SearchIconWrap,
@@ -61,7 +61,7 @@ export function AppHeader({
 }: AppHeaderProps) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -194,20 +194,9 @@ export function AppHeader({
         </SearchWrap>
 
         <LanguageSelect
-          value={language}
-          aria-label={t(SHELL_TEXTS.languageAria)}
-          onChange={(event) => {
-            if (isLanguageCode(event.target.value)) {
-              setLanguage(event.target.value);
-            }
-          }}
-        >
-          {LANGUAGE_OPTIONS.map((item) => (
-            <option key={item.code} value={item.code}>
-              {item.code.toUpperCase()}
-            </option>
-          ))}
-        </LanguageSelect>
+          compact
+          ariaLabel={t(SHELL_TEXTS.languageAria)}
+        />
 
         {notificationsTo && (
           <IconButton

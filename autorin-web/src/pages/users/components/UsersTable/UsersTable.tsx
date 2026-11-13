@@ -113,11 +113,13 @@ function UserRowItem({
         <Link
           to={`/admin/users/${user._id}`}
           state={{
+            user,
             peer: {
               _id: user._id,
               name: user.name,
               phone: user.phone,
               verified: user.verified,
+              role: user.role,
             },
           }}
           className="inline-flex min-w-0 max-w-[240px] items-center gap-2.5 rounded-md outline-none hover:opacity-80 focus-visible:ring-2 focus-visible:ring-[#226DF7]/30"
