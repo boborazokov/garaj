@@ -143,6 +143,20 @@ export class Order {
   @Prop({ default: 0, index: true })
   promotionPriority: number;
 
+  @Field(() => Int)
+  @Prop({ default: 0, min: 0 })
+  viewsCount: number;
+
+  /** How many times viewers tapped "call". */
+  @Field(() => Int)
+  @Prop({ default: 0, min: 0 })
+  phoneClickCount: number;
+
+  /** How many times the request was shared. */
+  @Field(() => Int)
+  @Prop({ default: 0, min: 0 })
+  shareCount: number;
+
   @Field()
   createdAt: Date;
 

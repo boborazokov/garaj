@@ -120,11 +120,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "aboutSection": MessageLookupByLibrary.simpleMessage("About"),
     "accountDetails": MessageLookupByLibrary.simpleMessage("Account Details"),
     "activatePromotion": MessageLookupByLibrary.simpleMessage(
-      "Pay & move to top",
+      "Activate promotion",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Active"),
     "adMyBannersEmpty": MessageLookupByLibrary.simpleMessage(
-      "No banners yet. Buy one to promote your offer.",
+      "No banners yet. Contact admin to get started.",
     ),
     "adMyBannersTitle": MessageLookupByLibrary.simpleMessage("My banners"),
     "adPauseCta": MessageLookupByLibrary.simpleMessage("Pause"),
@@ -186,9 +186,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "advertiseFromWeek": m5,
     "advertiseHowBody": MessageLookupByLibrary.simpleMessage(
-      "Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.",
+      "Banner placements and duration are arranged with admin. You can still buy TOP for your own listings.",
     ),
-    "advertiseHowTitle": MessageLookupByLibrary.simpleMessage("How it works"),
+    "advertiseHowTitle": MessageLookupByLibrary.simpleMessage("Info"),
     "advertisePlacementAnnouncement": MessageLookupByLibrary.simpleMessage(
       "Requests — top",
     ),
@@ -212,7 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "advertisePlanQuarter": MessageLookupByLibrary.simpleMessage("3 months"),
     "advertisePlanWeek": MessageLookupByLibrary.simpleMessage("1 week"),
     "advertiseSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Put your offer on home, products, services and more. Pick a slot and duration.",
+      "Business banners — info here and stats for your active banners.",
     ),
     "advertiseTariffsHint": MessageLookupByLibrary.simpleMessage(
       "Prices in UZS. Home top is the most visible slot.",
@@ -1347,7 +1347,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "profileSectionSupport": MessageLookupByLibrary.simpleMessage("Support"),
     "profileSubtitleAdvertise": MessageLookupByLibrary.simpleMessage(
-      "Banners, tariffs and stats",
+      "Banners and stats",
     ),
     "profileSubtitleMessages": MessageLookupByLibrary.simpleMessage(
       "Chats with sellers",
@@ -1386,7 +1386,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotedBadge": MessageLookupByLibrary.simpleMessage("TOP"),
     "promotedTop": MessageLookupByLibrary.simpleMessage("Promoted"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
-      "Payment received — listing is now on top",
+      "Promotion activated successfully",
     ),
     "promotionActiveUntil": m30,
     "promotionCancelBody": MessageLookupByLibrary.simpleMessage(
@@ -1547,6 +1547,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "select": MessageLookupByLibrary.simpleMessage("Select"),
     "selectBirthDay": MessageLookupByLibrary.simpleMessage("Select Birth Day"),
     "selectBrand": MessageLookupByLibrary.simpleMessage("Select brand"),
+    "selectBrandAndModel": MessageLookupByLibrary.simpleMessage(
+      "Select brand and model",
+    ),
     "selectModel": MessageLookupByLibrary.simpleMessage("Select model"),
     "selectPartCategory": MessageLookupByLibrary.simpleMessage(
       "Select part category",
@@ -1675,9 +1678,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sortRecommended": MessageLookupByLibrary.simpleMessage("Recommended"),
     "specialOffers": MessageLookupByLibrary.simpleMessage("Special Offers"),
-    "storeAnalytics": MessageLookupByLibrary.simpleMessage("Store analytics"),
     "statusApproved": MessageLookupByLibrary.simpleMessage("Approved"),
     "statusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
+    "storeAnalytics": MessageLookupByLibrary.simpleMessage("Store analytics"),
     "storeCreated": MessageLookupByLibrary.simpleMessage("Store created"),
     "storeProfileCompletion": MessageLookupByLibrary.simpleMessage(
       "Store profile completion",

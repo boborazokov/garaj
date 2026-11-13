@@ -1,4 +1,13 @@
-import { CircleX, ClipboardList, MessageSquare, Pin, PinOff, RotateCcw, Trash2 } from "lucide-react";
+import {
+  BarChart3,
+  CircleX,
+  ClipboardList,
+  MessageSquare,
+  Pin,
+  PinOff,
+  RotateCcw,
+  Trash2,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -15,6 +24,7 @@ import { useLanguage } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import type { OrderRow, OrderStatus } from "@/types";
+import { PROMOTE_PLAN_LABELS } from "@/pages/products/constants";
 import { ORDERS_TEXTS, STATUS_LABELS } from "../../constants";
 import { formatBudget, formatDate, isOrderRecommended } from "../../helpers";
 import type { OrdersTableProps } from "../../types";
@@ -56,6 +66,7 @@ export function OrdersTable({
   onClose,
   onReopen,
   onDelete,
+  onOpenStats,
 }: OrdersTableProps) {
   const { t } = useLanguage();
   const allChecked = rows.length > 0 && rows.every((row) => selectedIds.includes(row._id));
@@ -100,6 +111,7 @@ export function OrdersTable({
                   onClose={onClose}
                   onReopen={onReopen}
                   onDelete={onDelete}
+                  onOpenStats={onOpenStats}
                 />
               ))}
         </TableBody>
@@ -152,6 +164,7 @@ function OrdersSkeletonRow() {
           <Skeleton className="size-8 rounded-[8px]" />
           <Skeleton className="size-8 rounded-[8px]" />
           <Skeleton className="size-8 rounded-[8px]" />
+          <Skeleton className="size-8 rounded-[8px]" />
         </div>
       </TableCell>
     </TableRow>
@@ -167,6 +180,7 @@ function OrderRowView({
   onClose,
   onReopen,
   onDelete,
+  onOpenStats,
 }: {
   order: OrderRow;
   selected: boolean;
@@ -176,9 +190,13 @@ function OrderRowView({
   onClose: (order: OrderRow) => void;
   onReopen: (order: OrderRow) => void;
   onDelete: (order: OrderRow) => void;
+  onOpenStats: (order: OrderRow) => void;
 }) {
   const { t, language } = useLanguage();
   const recommended = isOrderRecommended(order);
+  const planLabel = order.promotionPlan
+    ? t(PROMOTE_PLAN_LABELS[order.promotionPlan] ?? PROMOTE_PLAN_LABELS.TOP)
+    : null;
   const brandName = order.brand ? categoryLabel(order.brand, language) : "";
   const modelName = order.carModel ? categoryLabel(order.carModel, language) : "";
   const categoryName = order.partCategory
@@ -214,7 +232,7 @@ function OrderRowView({
                   variant="secondary"
                   className="h-5 shrink-0 bg-primary/8 px-1.5 text-[10px] font-semibold text-primary"
                 >
-                  {t(ORDERS_TEXTS.promoted)}
+                  {planLabel ?? t(ORDERS_TEXTS.promoted)}
                 </Badge>
               ) : null}
             </div>
@@ -256,6 +274,17 @@ function OrderRowView({
       </TableCell>
       <TableCell>
         <div className="flex items-center justify-end gap-1.5">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="size-8"
+            title={t(ORDERS_TEXTS.stats)}
+            aria-label={t(ORDERS_TEXTS.stats)}
+            onClick={() => onOpenStats(order)}
+          >
+            <BarChart3 className="size-3.5" />
+          </Button>
           <Button
             type="button"
             variant="outline"

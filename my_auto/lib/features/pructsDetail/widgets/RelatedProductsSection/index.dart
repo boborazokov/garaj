@@ -38,6 +38,7 @@ class RelatedProductsSection extends StatelessWidget {
         SizedBox(
           height: 280,
           child: ListView.separated(
+            addAutomaticKeepAlives: false,
             separatorBuilder: (_, __) => const SizedBox(width: 16),
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -50,6 +51,8 @@ class RelatedProductsSection extends StatelessWidget {
                 child: ProductCardGrid(
                   product: product,
                   key: ValueKey('related-${product.id}'),
+                  expandImage: true,
+                  imageCacheWidth: itemWidth,
                 ),
               );
             },

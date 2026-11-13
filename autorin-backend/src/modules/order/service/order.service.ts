@@ -17,6 +17,8 @@ import { Part } from 'src/modules/part/schema';
 import { PushService } from 'src/services/push';
 import { SortOrderEnum } from 'src/shared/enums';
 import { slugModelKey } from 'src/modules/category/seed/seed-vehicle-catalog';
+import { ViewService } from 'src/modules/view/service';
+import { ViewTargetTypeEnum } from 'src/modules/view/enums';
 import {
   CreateOrderArgs,
   GetOrderByIdArgs,
@@ -49,6 +51,7 @@ export class OrderService implements OnModuleInit {
     @InjectModel(COLLECTIONS.PARTS)
     private readonly partModel: Model<Part>,
     private readonly pushService: PushService,
+    private readonly viewService: ViewService,
   ) {}
 
   async onModuleInit() {
@@ -404,7 +407,10 @@ export class OrderService implements OnModuleInit {
     return found;
   }
 
-  async getOrderById({ orderId }: GetOrderByIdArgs, context: ContextType) {
+  async getOrderById(
+    { orderId, deviceId }: GetOrderByIdArgs,
+    context: ContextType,
+  ) {
     const found = await this.orderModel.findById(orderId).populate(populate);
     if (!found) throw new BadRequestException('Order not found');
 
@@ -417,7 +423,46 @@ export class OrderService implements OnModuleInit {
       throw new BadRequestException('Order not found');
     }
 
+    if (!isAuthor && !isAdminRole(context)) {
+      const normalizedDeviceId =
+        deviceId?.trim() ||
+        (viewerId ? `user:${viewerId.toString()}` : '');
+
+      if (normalizedDeviceId) {
+        const isNewView = await this.viewService.recordUniqueDeviceView({
+          targetType: ViewTargetTypeEnum.ORDER,
+          targetId: found._id,
+          deviceId: normalizedDeviceId,
+          userId: viewerId ?? null,
+        });
+
+        if (isNewView) {
+          found.viewsCount = Number(found.viewsCount ?? 0) + 1;
+          await this.orderModel.updateOne(
+            { _id: found._id },
+            { $inc: { viewsCount: 1 } },
+          );
+        }
+      }
+    }
+
     return found;
+  }
+
+  async recordOrderPhoneClick({ orderId }: GetOrderByIdArgs) {
+    const updated = await this.orderModel
+      .findByIdAndUpdate(orderId, { $inc: { phoneClickCount: 1 } }, { new: true })
+      .populate(populate);
+    if (!updated) throw new BadRequestException('Order not found');
+    return updated;
+  }
+
+  async recordOrderShare({ orderId }: GetOrderByIdArgs) {
+    const updated = await this.orderModel
+      .findByIdAndUpdate(orderId, { $inc: { shareCount: 1 } }, { new: true })
+      .populate(populate);
+    if (!updated) throw new BadRequestException('Order not found');
+    return updated;
   }
 
   private async buildFilterQuery(

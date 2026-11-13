@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
@@ -95,7 +96,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 
     if (_loading) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator.adaptive()),
+        body: DetailPageSkeleton(),
       );
     }
 

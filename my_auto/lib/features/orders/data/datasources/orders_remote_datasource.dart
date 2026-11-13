@@ -1,5 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+import 'package:my_auto/core/auth/auth_token_store.dart';
 import 'package:my_auto/core/errors/api_error_code.dart';
 
 import '../../domain/failures/orders_failure.dart';
@@ -66,10 +67,11 @@ class OrdersRemoteDataSource {
   }
 
   Future<OrderDto> getOrderById(String orderId) async {
+    final deviceId = await AuthTokenStore.deviceId();
     final result = await _client.query(
       QueryOptions(
         document: gql(getOrderByIdQuery),
-        variables: {'orderId': orderId},
+        variables: {'orderId': orderId, 'deviceId': deviceId},
         fetchPolicy: FetchPolicy.networkOnly,
       ),
     );

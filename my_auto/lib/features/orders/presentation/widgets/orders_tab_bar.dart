@@ -35,6 +35,7 @@ class OrdersTabBar extends StatelessWidget {
     return SizedBox(
       height: 40,
       child: ListView.separated(
+        addAutomaticKeepAlives: false,
         scrollDirection: Axis.horizontal,
         itemCount: OrdersTab.values.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),

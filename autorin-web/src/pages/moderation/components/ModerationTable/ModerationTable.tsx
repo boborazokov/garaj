@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { categoryLabel } from "@/lib/category-names";
 import { useLanguage } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
 import type { Part } from "@/types";
@@ -138,7 +139,10 @@ function ModerationRow({
   onOpen: (part: Part) => void;
 }) {
   const { t, language } = useLanguage();
-  const categoryName = part.category?.name?.trim() || "—";
+  const lang = language === "en" || language === "uz" ? language : "ru";
+  const categoryName = part.category
+    ? categoryLabel(part.category, lang)
+    : "—";
 
   return (
     <TableRow

@@ -228,7 +228,10 @@ class _OrdersViewState extends State<_OrdersView> {
                                 height: 110,
                                 margin: const EdgeInsets.fromLTRB(0, 4, 0, 12),
                               ),
-                              IntrinsicHeight(
+                              // Fixed row height — IntrinsicHeight forces
+                              // double layout passes and freezes fast flings.
+                              SizedBox(
+                                height: 210,
                                 child: Row(
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
@@ -289,6 +292,7 @@ class _OrdersViewState extends State<_OrdersView> {
                           );
                         },
                         childCount: rowCount + (loadingMore ? 1 : 0),
+                        addAutomaticKeepAlives: false,
                       ),
                     ),
                   );

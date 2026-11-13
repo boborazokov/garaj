@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
@@ -36,7 +37,10 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   Future<void> _reload() async {
-    setState(() => _loading = true);
+    final soft = _wallet != null;
+    if (!soft) {
+      setState(() => _loading = true);
+    }
     final wallet = await walletRepository.fetchWallet();
     final txs = await walletRepository.fetchTransactions();
     if (!mounted) return;
@@ -308,7 +312,7 @@ class _WalletScreenState extends State<WalletScreen> {
       body: AppSafeArea(
         top: false,
         child: _loading && _wallet == null
-            ? const Center(child: CircularProgressIndicator.adaptive())
+            ? const WalletSkeleton()
             : RefreshIndicator(
                 color: colors.primary,
                 onRefresh: _reload,

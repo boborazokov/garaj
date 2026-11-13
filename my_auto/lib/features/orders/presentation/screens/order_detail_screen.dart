@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
+import 'package:my_auto/core/services/engagement/engagement_repository.dart';
 import 'package:my_auto/core/errors/graphql_error_ui.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/presentation/presentation.dart';
@@ -25,7 +28,6 @@ import 'package:my_auto/features/orders/presentation/widgets/order_owner_actions
 import 'package:my_auto/features/orders/presentation/widgets/order_images.dart';
 import 'package:my_auto/features/orders/presentation/widgets/order_response_card.dart';
 import 'package:my_auto/features/orders/presentation/widgets/premium_order_card.dart';
-import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/toaster/index.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -116,7 +118,12 @@ class _OrderDetailView extends StatelessWidget {
                     ),
                     if (hasImages)
                       SliverToBoxAdapter(
-                        child: OrderDetailGallery(images: order.images),
+                        child: OrderDetailGallery(
+                          images: order.images,
+                          promotionPlan: order.isPromotionActive
+                              ? order.promotionPlan
+                              : null,
+                        ),
                       )
                     else
                       SliverToBoxAdapter(
@@ -194,15 +201,26 @@ class _OrderDetailView extends StatelessWidget {
                                 ),
                                 onCall:
                                     (r.seller.phone ?? order.phone).isNotEmpty
-                                        ? () => launchUrl(
-                                              Uri.parse(
-                                                'tel:${r.seller.phone ?? order.phone}',
+                                        ? () {
+                                            unawaited(
+                                              engagementRepository
+                                                  .recordOrderPhoneClick(
+                                                orderId,
                                               ),
-                                            )
+                                            );
+                                            unawaited(
+                                              launchUrl(
+                                                Uri.parse(
+                                                  'tel:${r.seller.phone ?? order.phone}',
+                                                ),
+                                              ),
+                                            );
+                                          }
                                         : null,
                               ),
                             );
                           },
+                          addAutomaticKeepAlives: false,
                           childCount: state.responses.length,
                         ),
                       ),
@@ -223,7 +241,16 @@ class _OrderDetailView extends StatelessWidget {
                   onMessage: () => openOrderAuthorChat(context, order),
                   onOffer: () => _openRespondSheet(context, order),
                   onCall: order.phone.trim().isNotEmpty
-                      ? () => launchUrl(Uri.parse('tel:${order.phone}'))
+                      ? () {
+                          unawaited(
+                            engagementRepository.recordOrderPhoneClick(
+                              orderId,
+                            ),
+                          );
+                          unawaited(
+                            launchUrl(Uri.parse('tel:${order.phone}')),
+                          );
+                        }
                       : null,
                 ),
             ],
@@ -314,23 +341,24 @@ class _RequestHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            _budgetLabel(context, order),
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: colors.primary,
-              letterSpacing: -0.4,
-              height: 1.1,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            s.wantToBuyBudget,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: colors.textMuted,
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  _budgetLabel(context, order),
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colors.primary,
+                    letterSpacing: -0.2,
+                    height: 1.15,
+                    fontSize: 22,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              _OrderFavoriteToggle(orderId: order.id),
+            ],
           ),
           const SizedBox(height: 12),
           Text(
@@ -374,15 +402,81 @@ class _RequestHeader extends StatelessWidget {
                   fg: colors.danger,
                   bg: colors.danger.withValues(alpha: 0.12),
                 ),
-              if (order.isPromotionActive)
-                PromotionPlanBadge(
-                  plan: order.promotionPlan,
-                  dense: false,
-                  filled: true,
-                ),
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _OrderFavoriteToggle extends StatefulWidget {
+  const _OrderFavoriteToggle({required this.orderId});
+
+  final String orderId;
+
+  @override
+  State<_OrderFavoriteToggle> createState() => _OrderFavoriteToggleState();
+}
+
+class _OrderFavoriteToggleState extends State<_OrderFavoriteToggle> {
+  bool _loading = true;
+  bool _favorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _sync();
+  }
+
+  Future<void> _sync() async {
+    final ids = await ordersRepository.getFavoriteIds();
+    if (!mounted) return;
+    setState(() {
+      _favorite = ids.contains(widget.orderId);
+      _loading = false;
+    });
+  }
+
+  Future<void> _toggle() async {
+    await ordersRepository.toggleFavorite(widget.orderId);
+    await _sync();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    if (_loading) {
+      return const SizedBox(
+        width: 40,
+        height: 40,
+        child: Center(
+          child: SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator.adaptive(strokeWidth: 2),
+          ),
+        ),
+      );
+    }
+    return Material(
+      color: colors.surfaceMuted.withValues(alpha: 0.5),
+      shape: RoundedRectangleBorder(
+        borderRadius: AppRadius.rM,
+        side: BorderSide(color: colors.border.withValues(alpha: 0.6)),
+      ),
+      child: InkWell(
+        onTap: _toggle,
+        borderRadius: AppRadius.rM,
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: Icon(
+            _favorite ? Icons.favorite : Icons.favorite_border,
+            size: 22,
+            color: _favorite ? colors.danger : colors.textSecondary,
+          ),
+        ),
       ),
     );
   }
@@ -948,6 +1042,7 @@ class _SimilarOrdersSectionState extends State<_SimilarOrdersSection> {
           SizedBox(
             height: 208,
             child: ListView.separated(
+              addAutomaticKeepAlives: false,
               scrollDirection: Axis.horizontal,
               itemCount: _items.length,
               separatorBuilder: (_, __) => const SizedBox(width: 12),

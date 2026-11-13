@@ -1,6 +1,7 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PartService } from '../service';
 import { ContextType } from 'src/auth/interfaces';
+import { Public } from 'src/auth/decorators/public.decorator';
 import {
   CreatePartArgs,
   GetPartByIdArgs,
@@ -74,5 +75,17 @@ export class PartResolver {
     @Context() context: ContextType,
   ) {
     return this.partService.promotePartById(args, context);
+  }
+
+  @Public()
+  @Mutation(() => Part)
+  recordPartPhoneClick(@Args() args: GetPartByIdArgs) {
+    return this.partService.recordPartPhoneClick(args);
+  }
+
+  @Public()
+  @Mutation(() => Part)
+  recordPartShare(@Args() args: GetPartByIdArgs) {
+    return this.partService.recordPartShare(args);
   }
 }

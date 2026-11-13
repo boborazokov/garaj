@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/catalog/vehicle_catalog_repository.dart';
 import 'package:my_auto/core/constants/uzbekistan_regions.dart';
 import 'package:my_auto/core/layout/layout.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
@@ -17,6 +18,7 @@ import 'package:my_auto/core/errors/user_facing_errors.dart';
 import 'package:my_auto/core/forms/form_validators.dart';
 import 'package:my_auto/features/orders/domain/failures/orders_failure.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
+import 'package:my_auto/core/utils/phoneFormater.dart';
 import 'package:my_auto/features/orders/orders_di.dart';
 import 'package:my_auto/features/orders/presentation/widgets/order_images.dart';
 import 'package:my_auto/features/add/widgets/customDropdown/index.dart';
@@ -96,7 +98,9 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
       _titleCtrl.text = widget.initialTitle!;
     }
     final phone = context.read<AuthProvider>().auth?.user.phone;
-    if (phone != null && phone.isNotEmpty) _phoneCtrl.text = phone;
+    if (phone != null && phone.isNotEmpty) {
+      _phoneCtrl.text = UzbekPhone.format(phone);
+    }
     _loadCatalog();
   }
 
@@ -195,7 +199,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
     return {
       'title': _titleCtrl.text.trim(),
       'description': descLines.join('\n'),
-      'phone': _phoneCtrl.text.trim(),
+      'phone': UzbekPhone.normalize(_phoneCtrl.text),
       'urgency': _urgency.toApi(),
       if (_region != null)
         'region': uzbekistanRegionLabel(S.of(context), _region!),
@@ -291,7 +295,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
   void _pickBrand() {
     showCatalogPickerSheet(
       context,
-      title: S.of(context).selectBrand,
+      title: S.of(context).selectBrandAndModel,
       items: _brands,
       onPick: (n) {
         final label = n.localizedName(categoryLanguageCode(context));
@@ -438,7 +442,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
 
   Widget _buildBody(AppColors colors, S s) {
     if (_catalogLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const FormPageSkeleton(fields: 4);
     }
     if (_catalogError != null) {
       return Center(
@@ -554,7 +558,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
       children: [
         _hero(colors, s),
         Text(
-          s.createProductStepVehicle,
+          s.selectBrandAndModel,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 4),
@@ -756,6 +760,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
           controller: _phoneCtrl,
           label: s.phoneNumber,
           required: true,
+          hint: UzbekPhone.hint,
           keyboardType: TextInputType.phone,
           validator: (v) => FormValidators.phone(context, v),
         ),
@@ -789,6 +794,7 @@ class _CreateOrderWizardScreenState extends State<CreateOrderWizardScreen> {
                 SizedBox(
                   height: 88,
                   child: ListView.separated(
+                    addAutomaticKeepAlives: false,
                     scrollDirection: Axis.horizontal,
                     itemCount: _photos.length,
                     separatorBuilder: (_, __) => const SizedBox(width: 8),

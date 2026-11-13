@@ -89,22 +89,30 @@ class GetWorkshop extends ChangeNotifier {
   Future<void> loadList({
     Map<String, dynamic>? filters,
     bool reset = true,
+    bool keepPrevious = true,
     String? search,
   }) async {
     final key = _key(filters, search);
 
     if (_isLoadingMap[key] == true) return;
 
+    final soft =
+        reset && keepPrevious && (_workshopsMap[key]?.isNotEmpty ?? false);
+
     if (reset) {
       _currentPageMap[key] = 1;
       _hasMoreMap[key] = true;
-      _workshopsMap[key] = [];
+      if (!soft) {
+        _workshopsMap[key] = [];
+      }
     }
 
     if (_hasMoreMap[key] == false) return;
 
     _isLoadingMap[key] = true;
-    notifyListeners();
+    if (!soft) {
+      notifyListeners();
+    }
 
     try {
       final page = _currentPageMap[key] ?? 1;
@@ -128,20 +136,29 @@ class GetWorkshop extends ChangeNotifier {
       final totalPages = result.data?['getWorkshops']?['totalPages'];
 
       if (workshopsData is List && workshopsData.isNotEmpty) {
-        final newWorkshops = workshopsData
+        final parsed = workshopsData
             .map((e) => Workshop.fromJson(e as Map<String, dynamic>))
-            .where((w) =>
-                !(_workshopsMap[key]?.any((existing) => existing.id == w.id) ??
-                    false))
-            .toList();
+            .toList(growable: false);
 
-        _workshopsMap[key] = [...?_workshopsMap[key], ...newWorkshops];
+        if (reset) {
+          _workshopsMap[key] = parsed;
+        } else {
+          final existingIds = <String>{
+            for (final w in _workshopsMap[key] ?? const <Workshop>[]) w.id,
+          };
+          final newWorkshops =
+              parsed.where((w) => !existingIds.contains(w.id)).toList();
+          _workshopsMap[key] = [...?_workshopsMap[key], ...newWorkshops];
+        }
 
         _currentPageMap[key] = page + 1;
         if (_currentPageMap[key]! > (totalPages ?? 1)) {
           _hasMoreMap[key] = false;
         }
       } else {
+        if (reset) {
+          _workshopsMap[key] = [];
+        }
         _hasMoreMap[key] = false;
       }
     } finally {

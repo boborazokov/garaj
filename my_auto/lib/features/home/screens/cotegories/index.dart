@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/add/getCotegories.dart';
 import 'package:my_auto/features/advertisement/domain/advertisement.dart';
 import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
@@ -44,7 +45,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               const SizedBox(height: 16),
               Expanded(
                 child: provider.isLoading && provider.categories.isEmpty
-                    ? const Center(child: CircularProgressIndicator.adaptive())
+                    ? const CategoryGridSkeleton()
                     : GridCategories(
                         listCategory: provider.categories,
                         showAll: true,

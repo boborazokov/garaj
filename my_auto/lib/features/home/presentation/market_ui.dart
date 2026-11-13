@@ -135,6 +135,8 @@ class MarketCardShell extends StatelessWidget {
     this.padding,
     this.margin,
     this.clipBehavior = Clip.antiAlias,
+    /// Cheaper paint for feed tiles (no Ink decoration / shadow path).
+    this.lite = false,
   });
 
   final Widget child;
@@ -142,6 +144,7 @@ class MarketCardShell extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final Clip clipBehavior;
+  final bool lite;
 
   @override
   Widget build(BuildContext context) {
@@ -150,19 +153,39 @@ class MarketCardShell extends StatelessWidget {
         ? child
         : Padding(padding: padding!, child: child);
 
-    final material = Material(
-      color: colors.surface,
-      borderRadius: MarketUi.cardRadius,
-      clipBehavior: clipBehavior,
-      child: InkWell(
-        onTap: onTap,
+    final Widget material;
+    if (lite) {
+      material = Material(
+        color: colors.surface,
         borderRadius: MarketUi.cardRadius,
-        child: Ink(
-          decoration: MarketUi.card(context, colors),
-          child: content,
+        clipBehavior: clipBehavior,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: MarketUi.cardRadius,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: MarketUi.cardRadius,
+              border: Border.all(color: colors.border.withValues(alpha: 0.9)),
+            ),
+            child: content,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      material = Material(
+        color: colors.surface,
+        borderRadius: MarketUi.cardRadius,
+        clipBehavior: clipBehavior,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: MarketUi.cardRadius,
+          child: Ink(
+            decoration: MarketUi.card(context, colors),
+            child: content,
+          ),
+        ),
+      );
+    }
 
     if (margin == null) return material;
     return Padding(padding: margin!, child: material);

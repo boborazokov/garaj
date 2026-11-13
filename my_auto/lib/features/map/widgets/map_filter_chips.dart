@@ -41,6 +41,7 @@ class MapFilterChips extends StatelessWidget {
     return SizedBox(
       height: 42,
       child: ListView.builder(
+        addAutomaticKeepAlives: false,
         scrollDirection: Axis.horizontal,
         itemCount: chips.length,
         itemBuilder: (_, i) {

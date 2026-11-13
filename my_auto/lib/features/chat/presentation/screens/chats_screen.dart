@@ -6,6 +6,7 @@ import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
 import 'package:my_auto/core/config/admin_config.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/errors/graphql_error_ui.dart';
@@ -172,7 +173,7 @@ class _ChatsView extends StatelessWidget {
 
     switch (state.status) {
       case ChatsListStatus.loading:
-        return const Center(child: CircularProgressIndicator.adaptive());
+        return const ListTileSkeleton();
       case ChatsListStatus.empty:
         return Column(
           children: [
@@ -242,6 +243,7 @@ class _ChatsView extends StatelessWidget {
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.only(bottom: embedded ? 108 : 24),
+              addAutomaticKeepAlives: false,
               itemCount: (adminTile != null ? 1 : 0) +
                   regularConversations.length +
                   (state.status == ChatsListStatus.loadingMore ? 1 : 0),

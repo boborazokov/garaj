@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/catalog/vehicle_catalog_repository.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/model/product/index.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/language/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
@@ -473,9 +474,9 @@ class _ExploreBody extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.m),
         if (brandsLoading && brands.isEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
-            child: Center(child: CircularProgressIndicator.adaptive()),
+          const SizedBox(
+            height: 220,
+            child: CategoryGridSkeleton(count: 6),
           )
         else if (brands.isEmpty)
           Text(s.noAvailable, style: TextStyle(color: colors.textMuted))
@@ -554,6 +555,7 @@ class _BrandExploreGrid extends StatelessWidget {
     final colors = context.appColors;
 
     return GridView.builder(
+      addAutomaticKeepAlives: false,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: brands.length.clamp(0, 12),
@@ -656,27 +658,18 @@ class _SearchingState extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.appColors;
     final s = S.of(context);
+    if (busy) {
+      return const ProductGridSkeleton(
+        count: 4,
+        padding: EdgeInsets.fromLTRB(16, 8, 16, 24),
+      );
+    }
+
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (busy) ...[
-            const CircularProgressIndicator.adaptive(),
-            const SizedBox(height: 14),
-            Text(
-              s.searchHubSearching,
-              style: TextStyle(
-                color: colors.textMuted,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ] else
-            Text(
-              s.searchHubAwaitingTyping,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: colors.textMuted),
-            ),
-        ],
+      child: Text(
+        s.searchHubAwaitingTyping,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: colors.textMuted),
       ),
     );
   }
@@ -784,6 +777,7 @@ class _ResultsBody extends StatelessWidget {
         SizedBox(
           height: 44,
           child: ListView.separated(
+            addAutomaticKeepAlives: false,
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(
               horizontal: MarketUi.spacingMD,

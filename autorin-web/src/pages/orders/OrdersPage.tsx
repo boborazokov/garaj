@@ -30,6 +30,7 @@ import {
   OrdersPagination,
   OrdersTable,
   OrdersToolbar,
+  StatsDialog,
 } from "./components";
 import { ORDERS_PAGE_SIZE, ORDERS_TEXTS } from "./constants";
 import { isOrderRecommended, periodBounds } from "./helpers";
@@ -54,6 +55,7 @@ export function OrdersPage() {
   const [pendingPromote, setPendingPromote] = useState<OrderRow | null>(null);
   const [promoteError, setPromoteError] = useState<string | null>(null);
   const [promoting, setPromoting] = useState(false);
+  const [statsOrder, setStatsOrder] = useState<OrderRow | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setSearch(searchInput.trim()), 300);
@@ -261,6 +263,7 @@ export function OrdersPage() {
           onClose={setPendingClose}
           onReopen={setPendingReopen}
           onDelete={(order) => setPendingDelete([order])}
+          onOpenStats={setStatsOrder}
         />
 
         {selectedRows.length > 0 ? (
@@ -331,6 +334,12 @@ export function OrdersPage() {
         order={offersOrder}
         open={Boolean(offersOrder)}
         onClose={() => setOffersOrder(null)}
+      />
+
+      <StatsDialog
+        order={statsOrder}
+        open={Boolean(statsOrder)}
+        onClose={() => setStatsOrder(null)}
       />
 
       <PromotePlanDialog

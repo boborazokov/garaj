@@ -76,6 +76,10 @@ Future<void> handleAuthLost(AuthProvider auth) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Cap decoded-image cache so older phones don't OOM / jank on feed scroll.
+  PaintingBinding.instance.imageCache.maximumSize = 120;
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 48 << 20; // 48 MB
+
   // -------------------- 1. Environment --------------------
   await dotenv.load(fileName: ".env");
 

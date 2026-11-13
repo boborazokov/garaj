@@ -119,11 +119,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "aboutSection": MessageLookupByLibrary.simpleMessage("О себе"),
     "accountDetails": MessageLookupByLibrary.simpleMessage("Данные аккаунта"),
     "activatePromotion": MessageLookupByLibrary.simpleMessage(
-      "Оплатить и поднять в топ",
+      "Активировать продвижение",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Активен"),
     "adMyBannersEmpty": MessageLookupByLibrary.simpleMessage(
-      "Пока нет баннеров. Купите, чтобы продвинуть предложение.",
+      "Пока нет баннеров. Свяжитесь с админом.",
     ),
     "adMyBannersTitle": MessageLookupByLibrary.simpleMessage("Мои баннеры"),
     "adPauseCta": MessageLookupByLibrary.simpleMessage("Пауза"),
@@ -187,11 +187,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "advertiseFromWeek": m5,
     "advertiseHowBody": MessageLookupByLibrary.simpleMessage(
-      "Выберите место, срок 1 день / 1 неделя / 1 месяц / 3 месяца — баннер увидят покупатели на этом экране.",
+      "Размещение и срок баннера согласуются с админом. TOP для своих объявлений можно купить самостоятельно.",
     ),
-    "advertiseHowTitle": MessageLookupByLibrary.simpleMessage(
-      "Как это работает",
-    ),
+    "advertiseHowTitle": MessageLookupByLibrary.simpleMessage("Информация"),
     "advertisePlacementAnnouncement": MessageLookupByLibrary.simpleMessage(
       "Заявки — верх",
     ),
@@ -215,13 +213,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "advertisePlanQuarter": MessageLookupByLibrary.simpleMessage("3 месяца"),
     "advertisePlanWeek": MessageLookupByLibrary.simpleMessage("1 неделя"),
     "advertiseSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Покажите предложение на главной, в товарах, сервисах и других экранах. Выберите слот и срок.",
+      "Бизнес-баннеры — информация и статистика ваших баннеров.",
     ),
     "advertiseTariffsHint": MessageLookupByLibrary.simpleMessage(
       "Цены в UZS. Верх главной — самый заметный слот.",
     ),
     "advertiseTariffsTitle": MessageLookupByLibrary.simpleMessage("Тарифы"),
-    "advertiseTitle": MessageLookupByLibrary.simpleMessage("Хотите рекламировать бизнес? Свяжитесь с админом"),
+    "advertiseTitle": MessageLookupByLibrary.simpleMessage(
+      "Хотите рекламировать бизнес? Свяжитесь с админом",
+    ),
     "advertiseWalletCta": MessageLookupByLibrary.simpleMessage(
       "Открыть кошелёк",
     ),
@@ -1353,7 +1353,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "profileSectionSupport": MessageLookupByLibrary.simpleMessage("Поддержка"),
     "profileSubtitleAdvertise": MessageLookupByLibrary.simpleMessage(
-      "Баннеры, тарифы и статистика",
+      "Баннеры и статистика",
     ),
     "profileSubtitleMessages": MessageLookupByLibrary.simpleMessage(
       "Чаты с продавцами",
@@ -1376,7 +1376,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotePlanBasic": MessageLookupByLibrary.simpleMessage("START"),
     "promotePlanDuration": m29,
     "promotePlanPremium": MessageLookupByLibrary.simpleMessage("PRO"),
-    "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Стандарт"),
+    "promotePlanStandard": MessageLookupByLibrary.simpleMessage("STANDARD"),
     "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
     "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
@@ -1392,7 +1392,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotedBadge": MessageLookupByLibrary.simpleMessage("ТОП"),
     "promotedTop": MessageLookupByLibrary.simpleMessage("В топе"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
-      "Оплата принята — объявление в топе",
+      "Продвижение успешно активировано",
     ),
     "promotionActiveUntil": m30,
     "promotionCancelBody": MessageLookupByLibrary.simpleMessage(
@@ -1561,6 +1561,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Выберите дату рождения",
     ),
     "selectBrand": MessageLookupByLibrary.simpleMessage("Выберите марку"),
+    "selectBrandAndModel": MessageLookupByLibrary.simpleMessage(
+      "Выберите марку и модель",
+    ),
     "selectModel": MessageLookupByLibrary.simpleMessage("Выберите модель"),
     "selectPartCategory": MessageLookupByLibrary.simpleMessage(
       "Выберите категорию",
@@ -1695,11 +1698,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "specialOffers": MessageLookupByLibrary.simpleMessage(
       "Специальные предложения",
     ),
+    "statusApproved": MessageLookupByLibrary.simpleMessage("Одобрено"),
+    "statusRejected": MessageLookupByLibrary.simpleMessage("Отклонено"),
     "storeAnalytics": MessageLookupByLibrary.simpleMessage(
       "Аналитика магазина",
     ),
-    "statusApproved": MessageLookupByLibrary.simpleMessage("Одобрено"),
-    "statusRejected": MessageLookupByLibrary.simpleMessage("Отклонено"),
     "storeCreated": MessageLookupByLibrary.simpleMessage("Магазин создан"),
     "storeProfileCompletion": MessageLookupByLibrary.simpleMessage(
       "Заполненность профиля",

@@ -56,6 +56,7 @@ import { PushService } from 'src/services/push';
 import { Workshop } from 'src/modules/workshop/schema';
 import { PaginatedWorkshops } from 'src/modules/workshop/types';
 import { normalizeWorkshops } from 'src/modules/workshop/utils/normalize-workshop';
+import * as bcrypt from 'bcrypt';
 import * as dayjs from 'dayjs';
 
 const workshopPopulate = [
@@ -273,8 +274,24 @@ export class AdminService {
 
   async setUserRole(args: SetUserRoleArgs, context: ContextType) {
     this.assertAdmin(context);
-    const { userId, role } = args;
+    const { userId, role, password } = args;
     const { userId: actorId } = assertAuthenticated(context);
+
+    if (!password?.trim()) {
+      throw new BadRequestException('Password is required to change roles');
+    }
+
+    const actor = await this.userModel
+      .findById(actorId)
+      .select('+password password');
+    if (!actor?.password) {
+      throw new ForbiddenException('Could not verify admin password');
+    }
+
+    const passwordOk = await bcrypt.compare(password, actor.password);
+    if (!passwordOk) {
+      throw new ForbiddenException('Incorrect password');
+    }
 
     if (userId.toString() === actorId.toString() && role !== UserRoleEnum.ADMIN) {
       throw new BadRequestException('Cannot demote yourself');

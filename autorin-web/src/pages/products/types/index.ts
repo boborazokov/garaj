@@ -53,6 +53,13 @@ export interface ProductsTableProps {
   onToggleRow: (id: string, checked: boolean) => void;
   onRecommend: (part: Part) => void;
   onDelete: (part: Part) => void;
+  onOpenStats: (part: Part) => void;
+}
+
+export interface StatsDialogProps {
+  part: Part | null;
+  open: boolean;
+  onClose: () => void;
 }
 
 export interface ProductsPaginationProps {

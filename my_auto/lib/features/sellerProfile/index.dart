@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
 import 'package:my_auto/core/provider/language/index.dart';
@@ -29,7 +30,6 @@ import 'package:my_auto/widgets/productCard/index.dart';
 import 'package:my_auto/widgets/searchInput/index.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum _ProductTab { all, latest, popular }
@@ -88,8 +88,9 @@ class _SellerProfileState extends State<SellerProfile> {
   }
 
   Future<void> _loadProfile() async {
+    final soft = _profile != null;
     setState(() {
-      _profileLoading = true;
+      if (!soft) _profileLoading = true;
       _profileError = null;
     });
     try {
@@ -246,7 +247,7 @@ class _SellerProfileState extends State<SellerProfile> {
         centerTitle: false,
       ),
       body: _profileLoading && profile == null
-          ? const _ProfileSkeleton()
+          ? const ProfileHeaderSkeleton()
           : _profileError != null && profile == null
               ? SellerProfileError(
                   error: _profileError,
@@ -255,8 +256,17 @@ class _SellerProfileState extends State<SellerProfile> {
               : RefreshIndicator(
                   color: colors.primary,
                   onRefresh: () async {
+                    final products = context.read<ProductProvider>();
                     await _loadProfile();
-                    _loadProducts(reset: true);
+                    if (!mounted) return;
+                    final search = _searchController.text.trim();
+                    await products.loadList(
+                      filters: _filters,
+                      reset: true,
+                      keepPrevious: true,
+                      search: search.isEmpty ? null : search,
+                      sort: _sortForTab,
+                    );
                   },
                   child: CustomScrollView(
                     controller: _scrollController,
@@ -353,8 +363,8 @@ class _SellerProfileState extends State<SellerProfile> {
                       ),
                       if (isLoading && parts.isEmpty)
                         const SliverFillRemaining(
-                          child: Center(
-                            child: CircularProgressIndicator.adaptive(),
+                          child: ProductGridSkeleton(
+                            padding: EdgeInsets.fromLTRB(8, 8, 8, 24),
                           ),
                         )
                       else if (parts.isEmpty)
@@ -399,7 +409,10 @@ class _SellerProfileState extends State<SellerProfile> {
                               (context, index) => ProductCardGrid(
                                 product: parts[index],
                                 key: ValueKey(parts[index].id),
+                                expandImage: true,
+                                imageCacheWidth: 180,
                               ),
+                              addAutomaticKeepAlives: false,
                               childCount: parts.length,
                             ),
                           ),
@@ -413,6 +426,7 @@ class _SellerProfileState extends State<SellerProfile> {
                                 product: parts[index],
                               ),
                             ),
+                            addAutomaticKeepAlives: false,
                             childCount: parts.length,
                           ),
                         ),
@@ -706,6 +720,7 @@ class _CategoriesSection extends StatelessWidget {
           SizedBox(
             height: 40,
             child: ListView.separated(
+              addAutomaticKeepAlives: false,
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
               separatorBuilder: (_, __) => const SizedBox(width: 8),
@@ -823,46 +838,6 @@ class _ProductsToolbar extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ProfileSkeleton extends StatelessWidget {
-  const _ProfileSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    final base = Theme.of(context).colorScheme.surfaceContainerHighest;
-    return Shimmer.fromColors(
-      baseColor: base,
-      highlightColor: base.withValues(alpha: 0.5),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Container(
-              height: 160,
-              decoration: BoxDecoration(
-                color: base,
-                borderRadius: AppRadius.rL,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: List.generate(
-                4,
-                (_) => Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    height: 64,
-                    color: base,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

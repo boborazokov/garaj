@@ -179,6 +179,10 @@ export interface OrderRow {
   images?: string[]
   isPromoted?: boolean
   promotedUntil?: string | null
+  promotionPlan?: PromotionPlan | null
+  viewsCount?: number
+  phoneClickCount?: number
+  shareCount?: number
   urgency?: string
   year?: number | null
   createdAt?: string
@@ -222,12 +226,15 @@ export interface Part {
   currency: string
   quantity?: number
   viewsCount?: number
+  phoneClickCount?: number
+  shareCount?: number
   images?: string[]
   location?: string
   region?: string
   status: ItemStatus
   isPromoted?: boolean
   promotedUntil?: string | null
+  promotionPlan?: PromotionPlan | null
   isNew?: boolean
   isNegotiable?: boolean
   deliveryCondition?: "INCLUDED" | "NOT_INCLUDED" | "UNDER_CONTRACT"

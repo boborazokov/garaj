@@ -50,10 +50,11 @@ class _MyProductsState extends State<MyProducts> {
   String get _query =>
       context.read<ProductProvider>().searchController.text.trim();
 
-  void _load({required bool reset}) {
-    context.read<ProductProvider>().loadList(
+  Future<void> _load({required bool reset}) {
+    return context.read<ProductProvider>().loadList(
           filters: _filters,
           reset: reset,
+          keepPrevious: true,
           search: _query,
           sort: 'NEWEST',
         );
@@ -131,7 +132,7 @@ class _MyProductsState extends State<MyProducts> {
       onSearch: (_) {},
       showSummary: false,
       isLoading: isLoading,
-      onRefresh: () async => _load(reset: true),
+      onRefresh: () => _load(reset: true),
       belowSearch: MyListingsStatusFilters(
         selected: _status,
         allCount: myProducts.length,

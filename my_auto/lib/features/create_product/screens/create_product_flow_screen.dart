@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/model/product/index.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/create_product/bloc/create_product_bloc.dart';
 import 'package:my_auto/features/create_product/create_product_di.dart';
@@ -99,7 +100,7 @@ class _CreateProductFlowScreenState extends State<CreateProductFlowScreen> {
                 : S.of(context).addProduct,
           ),
         ),
-        body: const Center(child: CircularProgressIndicator.adaptive()),
+        body: const FormPageSkeleton(),
       );
     }
 
@@ -199,7 +200,7 @@ class _CreateProductFlowView extends StatelessWidget {
           return Scaffold(
             backgroundColor: colors.background,
             body: const AppSafeArea(
-              child: Center(child: CircularProgressIndicator.adaptive()),
+              child: FormPageSkeleton(),
             ),
           );
         }

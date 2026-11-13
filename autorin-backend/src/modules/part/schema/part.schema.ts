@@ -49,6 +49,16 @@ export class Part {
   @Prop({ default: 0, min: 0 })
   viewsCount: number;
 
+  /** How many times viewers tapped "call seller". */
+  @Field(() => Int)
+  @Prop({ default: 0, min: 0 })
+  phoneClickCount: number;
+
+  /** How many times the listing was shared. */
+  @Field(() => Int)
+  @Prop({ default: 0, min: 0 })
+  shareCount: number;
+
   @Field(() => CurrencyEnum)
   @Prop({ type: String, enum: Object.keys(CurrencyEnum), index: true })
   currency: CurrencyEnum;

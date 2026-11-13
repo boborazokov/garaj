@@ -46,3 +46,13 @@ export interface ConfirmDialogProps {
   onCancel: () => void;
   onConfirm: () => void;
 }
+
+export interface RoleConfirmDialogProps {
+  open: boolean;
+  title: string;
+  message: string;
+  busy?: boolean;
+  error?: string | null;
+  onCancel: () => void;
+  onConfirm: (password: string) => void;
+}

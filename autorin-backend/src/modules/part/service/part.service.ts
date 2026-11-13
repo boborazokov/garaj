@@ -61,6 +61,8 @@ export class PartService {
       isPromoted: plain.isPromoted === true,
       promotionPriority: (plain.promotionPriority as number) ?? 0,
       viewsCount: Number(plain.viewsCount ?? 0),
+      phoneClickCount: Number(plain.phoneClickCount ?? 0),
+      shareCount: Number(plain.shareCount ?? 0),
     } as Part;
   }
 
@@ -525,5 +527,29 @@ export class PartService {
     }
 
     return this.partForGraphql(promoted);
+  }
+
+  async recordPartPhoneClick({ partId }: GetPartByIdArgs) {
+    const updated = await this.partModel.findByIdAndUpdate(
+      partId,
+      { $inc: { phoneClickCount: 1 } },
+      { new: true },
+    );
+    if (!updated) {
+      throw new BadRequestException('Part not found');
+    }
+    return this.partForGraphql(updated);
+  }
+
+  async recordPartShare({ partId }: GetPartByIdArgs) {
+    const updated = await this.partModel.findByIdAndUpdate(
+      partId,
+      { $inc: { shareCount: 1 } },
+      { new: true },
+    );
+    if (!updated) {
+      throw new BadRequestException('Part not found');
+    }
+    return this.partForGraphql(updated);
   }
 }

@@ -596,6 +596,7 @@ class _AttachmentStrip extends StatelessWidget {
     return SizedBox(
       height: 84,
       child: ListView.separated(
+        addAutomaticKeepAlives: false,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
         itemCount: paths.length,

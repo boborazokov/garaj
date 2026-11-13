@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/routes/name.dart';
+import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/onboarding/data/onboarding_prefs.dart';
+import 'package:my_auto/widgets/brand_logo.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -66,19 +68,15 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colors.background,
       body: Center(
         child: FadeTransition(
           opacity: _fade,
           child: ScaleTransition(
             scale: _scale,
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: 280,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.high,
-            ),
+            child: const BrandLogo(width: 280),
           ),
         ),
       ),

@@ -6,8 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/errors/graphql_error_ui.dart';
 import 'package:my_auto/core/forms/form_validators.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/core/utils/phoneFormater.dart';
 import 'package:my_auto/features/workshop/data/models/workshop_profile.dart';
 import 'package:my_auto/features/workshop/data/workshops_repository.dart';
 import 'package:my_auto/features/workshop/domain/create_workshop_draft.dart';
@@ -64,7 +66,7 @@ class _EditWorkshopScreenState extends State<EditWorkshopScreen> {
       _workshop = w;
       _nameCtrl.text = w.name;
       _descCtrl.text = w.description;
-      _phoneCtrl.text = w.phone;
+      _phoneCtrl.text = UzbekPhone.format(w.phone);
       _telegramCtrl.text = w.telegram;
       _weeklySchedule = WorkshopWeeklySchedule.fromProfile(
         weeklySchedule: w.weeklySchedule,
@@ -115,7 +117,7 @@ class _EditWorkshopScreenState extends State<EditWorkshopScreen> {
         data: {
           'name': _nameCtrl.text.trim(),
           'description': _descCtrl.text.trim(),
-          'phone': _phoneCtrl.text.trim(),
+          'phone': UzbekPhone.normalize(_phoneCtrl.text),
           'telegram': _telegramCtrl.text.trim(),
           'weeklySchedule': schedule,
           'openFrom': hours.openFrom.toUtc().toIso8601String(),
@@ -165,7 +167,7 @@ class _EditWorkshopScreenState extends State<EditWorkshopScreen> {
       return Scaffold(
         backgroundColor: colors.background,
         appBar: AppTopBar(title: s.edit),
-        body: const Center(child: CircularProgressIndicator.adaptive()),
+        body: const FormPageSkeleton(),
       );
     }
 
@@ -212,7 +214,7 @@ class _EditWorkshopScreenState extends State<EditWorkshopScreen> {
               controller: _phoneCtrl,
               type: TextInputType.phone,
               required: true,
-              hintText: s.phone,
+              hintText: UzbekPhone.hint,
               icon: Icon(LucideIcons.phone, color: colors.primary),
             ),
             const SizedBox(height: 12),

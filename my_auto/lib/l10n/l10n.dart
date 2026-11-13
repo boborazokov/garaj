@@ -510,7 +510,7 @@ abstract class S {
   /// No description provided for @myServices.
   ///
   /// In en, this message translates to:
-  /// **'My Services'**
+  /// **'My auto service'**
   String get myServices;
 
   /// No description provided for @myProducts.
@@ -1766,6 +1766,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Select brand'**
   String get selectBrand;
+
+  /// No description provided for @selectBrandAndModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select brand and model'**
+  String get selectBrandAndModel;
 
   /// No description provided for @selectModel.
   ///
@@ -4718,7 +4724,7 @@ abstract class S {
   /// No description provided for @promotePlanBasic.
   ///
   /// In en, this message translates to:
-  /// **'Basic'**
+  /// **'START'**
   String get promotePlanBasic;
 
   /// No description provided for @promotePlanStandard.
@@ -4730,7 +4736,7 @@ abstract class S {
   /// No description provided for @promotePlanPremium.
   ///
   /// In en, this message translates to:
-  /// **'Premium'**
+  /// **'PRO'**
   String get promotePlanPremium;
 
   /// No description provided for @promotePlanVip.
@@ -4742,7 +4748,7 @@ abstract class S {
   /// No description provided for @promotePlanTop.
   ///
   /// In en, this message translates to:
-  /// **'Top'**
+  /// **'TOP'**
   String get promotePlanTop;
 
   /// No description provided for @walletPromoteBalance.
@@ -5222,25 +5228,25 @@ abstract class S {
   /// No description provided for @advertiseTitle.
   ///
   /// In en, this message translates to:
-  /// **'Advertise on Autorin'**
+  /// **'Want to advertise your business? Contact admin'**
   String get advertiseTitle;
 
   /// No description provided for @advertiseSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Put your offer on home, products, services and more. Pick a slot and duration.'**
+  /// **'Business banners — info here and stats for your active banners.'**
   String get advertiseSubtitle;
 
   /// No description provided for @advertiseHowTitle.
   ///
   /// In en, this message translates to:
-  /// **'How it works'**
+  /// **'Info'**
   String get advertiseHowTitle;
 
   /// No description provided for @advertiseHowBody.
   ///
   /// In en, this message translates to:
-  /// **'Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.'**
+  /// **'Banner placements and duration are arranged with admin. You can still buy TOP for your own listings.'**
   String get advertiseHowBody;
 
   /// No description provided for @advertiseTariffsTitle.
@@ -5450,7 +5456,7 @@ abstract class S {
   /// No description provided for @adMyBannersEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No banners yet. Buy one to promote your offer.'**
+  /// **'No banners yet. Contact admin to get started.'**
   String get adMyBannersEmpty;
 
   /// No description provided for @adStatImpressions.
@@ -5510,13 +5516,13 @@ abstract class S {
   /// No description provided for @profileAdvertise.
   ///
   /// In en, this message translates to:
-  /// **'Advertise'**
+  /// **'Business'**
   String get profileAdvertise;
 
   /// No description provided for @profileSubtitleAdvertise.
   ///
   /// In en, this message translates to:
-  /// **'Banners, tariffs and stats'**
+  /// **'Banners and stats'**
   String get profileSubtitleAdvertise;
 
   /// No description provided for @onboardingPartsTitle.

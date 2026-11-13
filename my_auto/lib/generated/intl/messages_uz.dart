@@ -122,11 +122,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Hisob ma’lumotlari",
     ),
     "activatePromotion": MessageLookupByLibrary.simpleMessage(
-      "To\'lash va topga chiqarish",
+      "Targ\'ibni yoqish",
     ),
     "active": MessageLookupByLibrary.simpleMessage("Faol"),
     "adMyBannersEmpty": MessageLookupByLibrary.simpleMessage(
-      "Hali banner yo‘q. Taklifingizni ko‘tarish uchun sotib oling.",
+      "Hali banner yo‘q. Admin bilan bog‘laning.",
     ),
     "adMyBannersTitle": MessageLookupByLibrary.simpleMessage(
       "Mening bannerlarim",
@@ -192,11 +192,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "advertiseFromWeek": m5,
     "advertiseHowBody": MessageLookupByLibrary.simpleMessage(
-      "Joy tanlang, 1 kun / 1 hafta / 1 oy / 3 oy muddatni belgilang — banner shu ekrandagi xaridorlarga chiqadi.",
+      "Banner joylashlari va muddatni admin bilan kelishasiz. E’lonlar uchun TOP rejasini o‘zingiz yoqishingiz mumkin.",
     ),
-    "advertiseHowTitle": MessageLookupByLibrary.simpleMessage(
-      "Qanday ishlaydi",
-    ),
+    "advertiseHowTitle": MessageLookupByLibrary.simpleMessage("Ma’lumot"),
     "advertisePlacementAnnouncement": MessageLookupByLibrary.simpleMessage(
       "Buyurtmalar — yuqori",
     ),
@@ -220,7 +218,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "advertisePlanQuarter": MessageLookupByLibrary.simpleMessage("3 oy"),
     "advertisePlanWeek": MessageLookupByLibrary.simpleMessage("1 hafta"),
     "advertiseSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Taklifingizni bosh sahifa, mahsulotlar, servislar va boshqa ekranlarda ko‘rsating. Joy va muddatni tanlang.",
+      "Banner va biznes reklamasi — ma’lumot va o‘z bannerlaringiz statistikasi.",
     ),
     "advertiseTariffsHint": MessageLookupByLibrary.simpleMessage(
       "Narxlar UZS’da. Bosh sahifa yuqorisi — eng ko‘rinadigan joy.",
@@ -1277,9 +1275,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "orderUrgencyTitle": MessageLookupByLibrary.simpleMessage(
       "Qanchalik shoshilinch?",
     ),
-    "orderUrgencyUrgent": MessageLookupByLibrary.simpleMessage(
-      "Shoshilinch",
-    ),
+    "orderUrgencyUrgent": MessageLookupByLibrary.simpleMessage("Shoshilinch"),
     "orders": MessageLookupByLibrary.simpleMessage("Buyurtmalar"),
     "otherListingsBySeller": MessageLookupByLibrary.simpleMessage(
       "Ushbu sotuvchining boshqa e’lonlari",
@@ -1308,7 +1304,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Parollar mos kelmayapti",
     ),
     "pendingModeration": MessageLookupByLibrary.simpleMessage(
-      "Ko'rib chiqilmoqda",
+      "Ko\'rib chiqilmoqda",
     ),
     "peopleAlsoViewed": MessageLookupByLibrary.simpleMessage(
       "Boshqalar ham ko‘rdi",
@@ -1395,7 +1391,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "profileSectionSupport": MessageLookupByLibrary.simpleMessage("Yordam"),
     "profileSubtitleAdvertise": MessageLookupByLibrary.simpleMessage(
-      "Bannerlar, tariflar va statistika",
+      "Bannerlar va statistika",
     ),
     "profileSubtitleMessages": MessageLookupByLibrary.simpleMessage(
       "Sotuvchilar bilan chatlar",
@@ -1418,7 +1414,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotePlanBasic": MessageLookupByLibrary.simpleMessage("START"),
     "promotePlanDuration": m29,
     "promotePlanPremium": MessageLookupByLibrary.simpleMessage("PRO"),
-    "promotePlanStandard": MessageLookupByLibrary.simpleMessage("Standart"),
+    "promotePlanStandard": MessageLookupByLibrary.simpleMessage("STANDARD"),
     "promotePlanTop": MessageLookupByLibrary.simpleMessage("TOP"),
     "promotePlanVip": MessageLookupByLibrary.simpleMessage("VIP"),
     "promoteProductTitle": MessageLookupByLibrary.simpleMessage(
@@ -1434,7 +1430,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "promotedBadge": MessageLookupByLibrary.simpleMessage("Targ\'ib"),
     "promotedTop": MessageLookupByLibrary.simpleMessage("Targ\'ib qilingan"),
     "promotionActivatedSuccess": MessageLookupByLibrary.simpleMessage(
-      "To\'lov qabul qilindi — e\'lon topga chiqdi",
+      "Targ\'ib muvaffaqiyatli yoqildi",
     ),
     "promotionActiveUntil": m30,
     "promotionCancelBody": MessageLookupByLibrary.simpleMessage(
@@ -1615,6 +1611,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Tug‘ilgan kunni tanlang",
     ),
     "selectBrand": MessageLookupByLibrary.simpleMessage("Brendni tanlang"),
+    "selectBrandAndModel": MessageLookupByLibrary.simpleMessage(
+      "Marka va modelni tanlang",
+    ),
     "selectModel": MessageLookupByLibrary.simpleMessage("Modelni tanlang"),
     "selectPartCategory": MessageLookupByLibrary.simpleMessage(
       "Toifani tanlang",
@@ -1755,11 +1754,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sortRecommended": MessageLookupByLibrary.simpleMessage("Tavsiya"),
     "specialOffers": MessageLookupByLibrary.simpleMessage("Maxsus takliflar"),
+    "statusApproved": MessageLookupByLibrary.simpleMessage("Tasdiqlangan"),
+    "statusRejected": MessageLookupByLibrary.simpleMessage("Rad etildi"),
     "storeAnalytics": MessageLookupByLibrary.simpleMessage(
       "Do\'kon analitikasi",
     ),
-    "statusApproved": MessageLookupByLibrary.simpleMessage("Tasdiqlangan"),
-    "statusRejected": MessageLookupByLibrary.simpleMessage("Rad etildi"),
     "storeCreated": MessageLookupByLibrary.simpleMessage("Do\'kon yaratilgan"),
     "storeProfileCompletion": MessageLookupByLibrary.simpleMessage(
       "Profil to\'ldirilishi",

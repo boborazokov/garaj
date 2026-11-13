@@ -27,6 +27,7 @@ import {
   ProductsTable,
   ProductsToolbar,
   PromotePlanDialog,
+  StatsDialog,
 } from "./components";
 import { PRODUCTS_PAGE_SIZE, PRODUCTS_TEXTS } from "./constants";
 import { isPartRecommended, periodBounds } from "./helpers";
@@ -48,6 +49,7 @@ export function ProductsPage() {
   const [pendingPromote, setPendingPromote] = useState<Part | null>(null);
   const [promoteError, setPromoteError] = useState<string | null>(null);
   const [promoting, setPromoting] = useState(false);
+  const [statsPart, setStatsPart] = useState<Part | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setSearch(searchInput.trim()), 300);
@@ -231,6 +233,7 @@ export function ProductsPage() {
           onToggleRow={toggleRow}
           onRecommend={onRecommend}
           onDelete={(part) => setPendingDelete([part])}
+          onOpenStats={setStatsPart}
         />
 
         {selectedRows.length > 0 ? (
@@ -271,6 +274,12 @@ export function ProductsPage() {
         onConfirm={() => {
           void confirmDelete();
         }}
+      />
+
+      <StatsDialog
+        part={statsPart}
+        open={Boolean(statsPart)}
+        onClose={() => setStatsPart(null)}
       />
 
       <PromotePlanDialog

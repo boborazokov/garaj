@@ -1,5 +1,6 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ContextType } from 'src/auth/interfaces';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { UseAuth, UseOptionalAuth } from 'src/auth/useAuth';
 import {
   CreateOrderArgs,
@@ -76,5 +77,17 @@ export class OrderResolver {
     @Context() context: ContextType,
   ) {
     return this.orderService.deleteOrderById(args, context);
+  }
+
+  @Public()
+  @Mutation(() => Order)
+  recordOrderPhoneClick(@Args() args: GetOrderByIdArgs) {
+    return this.orderService.recordOrderPhoneClick(args);
+  }
+
+  @Public()
+  @Mutation(() => Order)
+  recordOrderShare(@Args() args: GetOrderByIdArgs) {
+    return this.orderService.recordOrderShare(args);
   }
 }

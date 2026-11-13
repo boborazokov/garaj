@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/errors/graphql_error_ui.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/advertisement/data/advertisement_repository.dart';
@@ -216,7 +217,7 @@ class _PurchaseAdvertisementScreenState
       body: AppSafeArea(
         top: false,
         child: _loadingMeta
-            ? const Center(child: CircularProgressIndicator.adaptive())
+            ? const FormPageSkeleton(fields: 4)
             : ListView(
                 controller: _scroll,
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),

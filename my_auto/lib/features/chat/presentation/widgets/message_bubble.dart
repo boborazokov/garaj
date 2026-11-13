@@ -676,6 +676,7 @@ class _ImageGrid extends StatelessWidget {
       child: SizedBox(
         width: clampedW,
         child: GridView.builder(
+          addAutomaticKeepAlives: false,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

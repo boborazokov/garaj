@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/language/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
@@ -34,8 +35,9 @@ class _SellerMatchingOrdersScreenState
   }
 
   Future<void> _load() async {
+    final soft = _overview != null;
     setState(() {
-      _loading = true;
+      if (!soft) _loading = true;
       _error = null;
     });
     try {
@@ -67,15 +69,9 @@ class _SellerMatchingOrdersScreenState
       body: RefreshIndicator(
         color: colors.primary,
         onRefresh: _load,
-        child: _loading
-            ? ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: const [
-                  SizedBox(height: 120),
-                  Center(child: CircularProgressIndicator.adaptive()),
-                ],
-              )
-            : _error != null
+        child: _loading && _overview == null
+            ? const CardListSkeleton(count: 6, cardHeight: 96)
+            : _error != null && _overview == null
                 ? ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(24),

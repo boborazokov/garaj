@@ -10,6 +10,7 @@ import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
 import 'package:my_auto/core/provider/orders/orders_provider.dart';
 import 'package:my_auto/core/provider/workshop/getWorkshop/index.dart';
 import 'package:my_auto/core/routes/name.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/features/advertisement/domain/advertisement.dart';
 import 'package:my_auto/features/advertisement/presentation/ad_banner.dart';
@@ -66,7 +67,9 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
   void _onScroll() {
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
-    if (pos.pixels < pos.maxScrollExtent - 200) return;
+    // Prefetch a bit earlier, but only once near the end — avoids a
+    // mid-swipe network+rebuild hitch on old phones.
+    if (pos.pixels < pos.maxScrollExtent - 480) return;
     final hub = context.read<ProductProvider>();
     if (!hub.isMoreLoadingFor({}, sort: _sort) &&
         hub.hasMoreFor({}, sort: _sort) &&
@@ -83,35 +86,36 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
   }
 
   Future<void> _onRefresh() async {
-    setState(() => _adRefreshToken++);
+    // Soft refresh keeps current tiles on screen while network runs —
+    // avoids the pull-gesture freeze from clearing → skeleton → rebuild.
     await Future.wait([
       context.read<ProductProvider>().loadList(
             filters: _promoFilters,
             reset: true,
+            keepPrevious: true,
             sort: _sort,
           ),
-      context
-          .read<ProductProvider>()
-          .loadList(filters: {}, reset: true, sort: _sort),
+      context.read<ProductProvider>().loadList(
+            filters: {},
+            reset: true,
+            keepPrevious: true,
+            sort: _sort,
+          ),
       context.read<GetCategories>().loadCategories(type.PART.name),
       context.read<GetWorkshop>().loadList(
             filters: _workshopFilters,
             reset: true,
+            keepPrevious: true,
           ),
-      context.read<OrdersProvider>().loadList(filters: {}, reset: true),
+      context.read<OrdersProvider>().loadList(
+            filters: {},
+            reset: true,
+            keepPrevious: true,
+          ),
     ]);
-  }
-
-  List<Part> _topProducts(ProductProvider products) {
-    final dedicated = products
-        .getProducts(_promoFilters, sort: _sort)
-        .where((p) => p.isPromotionActive)
-        .toList(growable: false);
-    if (dedicated.isNotEmpty) return dedicated;
-    return products
-        .getProducts({}, sort: _sort)
-        .where((p) => p.isPromotionActive)
-        .toList(growable: false);
+    if (!mounted) return;
+    // Ads after content — one cheap rebuild instead of mid-gesture setState.
+    setState(() => _adRefreshToken++);
   }
 
   void _openOrdersTab() {
@@ -126,33 +130,9 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    final s = S.of(context);
-    final categories = context.watch<GetCategories>();
-    final products = context.watch<ProductProvider>();
-    final workshops = context.watch<GetWorkshop>();
-    final ordersHub = context.watch<OrdersProvider>();
-
-    final list = products.getProducts({}, sort: _sort);
-    final topList = _topProducts(products);
-    final workshopList =
-        workshops.getWorkshops(_workshopFilters, null).take(12).toList();
-    final orderList = ordersHub.ordersFor({}).take(12).toList();
-
-    final promoBucketEmpty =
-        products.getProducts(_promoFilters, sort: _sort).isEmpty;
-    final promoLoading =
-        products.isLoadingFor(_promoFilters, sort: _sort) && promoBucketEmpty;
-    final productsLoading =
-        products.isLoadingFor({}, sort: _sort) && list.isEmpty;
-    final workshopsLoading =
-        workshops.isLoadingFor(_workshopFilters, null) && workshopList.isEmpty;
-    final ordersLoading = ordersHub.isLoadingFor({}) && orderList.isEmpty;
-
-    final head = list.take(_productsBeforeServices).toList();
-    final tail = list.length > _productsBeforeServices
-        ? list.sublist(_productsBeforeServices)
-        : const <Part>[];
-
+    // Do NOT watch all providers here — loadMore would rebuild categories /
+    // workshops / ads mid-fling and freeze the scroll. Each section watches
+    // only what it needs.
     return Scaffold(
       backgroundColor: colors.background,
       body: AppSafeArea(
@@ -173,7 +153,6 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
                   child: const HomeTopBar(),
                 ),
               ),
-              // Top home banner (admin placement: BRAND)
               SliverToBoxAdapter(
                 child: AdBanner(
                   surface: AdSurface.brand,
@@ -182,206 +161,20 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
                   refreshToken: _adRefreshToken,
                 ),
               ),
-              // Kategoriya
-              SliverToBoxAdapter(
-                child: _WhiteBlock(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _MarketHeader(
-                        title: s.category,
-                        onSeeAll: () => context.push(
-                          RoutesName.categoriesScreen,
-                          extra: type.PART.name,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 12),
-                        child: GridCategories(
-                          listCategory: categories.categories,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              const _HomeCategoriesSection(),
+              const _HomeFeaturedSection(
+                promoFilters: _promoFilters,
+                sort: _sort,
               ),
-
-              // Tavsiya / hits
-              if (promoLoading || topList.isNotEmpty) ...[
-                const SliverToBoxAdapter(child: _BlockGap()),
-                SliverToBoxAdapter(
-                  child: _WhiteBlock(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _MarketHeader(
-                          title: s.featured,
-                          onSeeAll: () => context.push(
-                            RoutesName.search,
-                            extra: const {'isAllProduct': true},
-                          ),
-                        ),
-                        if (promoLoading)
-                          const _StripLoading()
-                        else
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: FeaturedCarousel(items: topList),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-
-              // Buyurtmalar
-              const SliverToBoxAdapter(child: _BlockGap()),
-              SliverToBoxAdapter(
-                child: AdBanner(
-                  surface: AdSurface.announcement,
-                  height: 110,
-                  margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                  refreshToken: _adRefreshToken,
-                ),
+              _HomeOrdersSection(onSeeAll: _openOrdersTab),
+              // Products + services: only this rebuilds on load-more.
+              _HomeFeedBody(
+                sort: _sort,
+                promoFilters: _promoFilters,
+                workshopFilters: _workshopFilters,
+                productsBeforeServices: _productsBeforeServices,
+                adRefreshToken: _adRefreshToken,
               ),
-              SliverToBoxAdapter(
-                child: _WhiteBlock(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _MarketHeader(
-                        title: s.orders,
-                        onSeeAll: _openOrdersTab,
-                      ),
-                      if (ordersLoading)
-                        const _StripLoading()
-                      else if (orderList.isEmpty)
-                        _StripEmpty(
-                          icon: LucideIcons.clipboardList,
-                          message: s.wantToBuyEmptyTitle,
-                          colors: colors,
-                        )
-                      else
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: _HorizontalOrdersStrip(orders: orderList),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Barcha mahsulotlar
-              const SliverToBoxAdapter(child: _BlockGap()),
-              SliverToBoxAdapter(
-                child: AdBanner(
-                  surface: AdSurface.part,
-                  height: 120,
-                  margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                  refreshToken: _adRefreshToken,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: _WhiteBlock(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _MarketHeader(
-                        title: s.allProducts,
-                        onSeeAll: () => context.push(
-                          RoutesName.search,
-                          extra: const {'isAllProduct': true},
-                        ),
-                      ),
-                      if (productsLoading)
-                        const _StripLoading()
-                      else if (list.isEmpty)
-                        _StripEmpty(
-                          icon: LucideIcons.package,
-                          message: s.noProducts,
-                          colors: colors,
-                        )
-                      else
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: ProductGrid(
-                            products: head,
-                            physics: const NeverScrollableScrollPhysics(),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Avtoservis
-              if (workshopsLoading || workshopList.isNotEmpty) ...[
-                const SliverToBoxAdapter(child: _BlockGap()),
-                // Services strip banner (admin placement: SERVICE)
-                SliverToBoxAdapter(
-                  child: AdBanner(
-                    surface: AdSurface.service,
-                    height: 120,
-                    margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                    refreshToken: _adRefreshToken,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: _WhiteBlock(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _MarketHeader(
-                          title: s.services,
-                          onSeeAll: () =>
-                              context.push(RoutesName.servicesHub),
-                        ),
-                        if (workshopsLoading)
-                          const _StripLoading()
-                        else
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: _HorizontalWorkshopStrip(
-                              workshops: workshopList,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-
-              if (tail.isNotEmpty) ...[
-                const SliverToBoxAdapter(child: _BlockGap()),
-                SliverToBoxAdapter(
-                  child: _WhiteBlock(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4, bottom: 8),
-                      child: ProductGrid(
-                        products: tail,
-                        physics: const NeverScrollableScrollPhysics(),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-
-              if (products.isMoreLoadingFor({}, sort: _sort))
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Center(
-                      child: SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator.adaptive(
-                          strokeWidth: 2,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
               SliverToBoxAdapter(
                 child: SizedBox(height: listPaddingAboveBottomNav(context)),
               ),
@@ -390,6 +183,306 @@ class _ClassicHomeScreenState extends State<ClassicHomeScreen> {
         ),
       ),
     );
+  }
+}
+
+/// Categories only — ignores product pagination notifies.
+class _HomeCategoriesSection extends StatelessWidget {
+  const _HomeCategoriesSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final s = S.of(context);
+    final categories = context.watch<GetCategories>().categories;
+    return SliverToBoxAdapter(
+      child: _WhiteBlock(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _MarketHeader(
+              title: s.category,
+              onSeeAll: () => context.push(
+                RoutesName.categoriesScreen,
+                extra: type.PART.name,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 12),
+              child: GridCategories(listCategory: categories),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeFeaturedSection extends StatelessWidget {
+  const _HomeFeaturedSection({
+    required this.promoFilters,
+    required this.sort,
+  });
+
+  final Map<String, dynamic> promoFilters;
+  final String sort;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = S.of(context);
+    // Fingerprint promoted ids only — main-feed loadMore must not rebuild this.
+    final fingerprint = context.select<ProductProvider, int>((p) {
+      final promo = p
+          .getProducts(promoFilters, sort: sort)
+          .where((e) => e.isPromotionActive)
+          .map((e) => e.id);
+      if (promo.isNotEmpty) return Object.hashAll(promo);
+      return Object.hashAll(
+        p
+            .getProducts({}, sort: sort)
+            .where((e) => e.isPromotionActive)
+            .map((e) => e.id),
+      );
+    });
+    final products = context.read<ProductProvider>();
+    final dedicated = products
+        .getProducts(promoFilters, sort: sort)
+        .where((p) => p.isPromotionActive)
+        .toList(growable: false);
+    final topList = dedicated.isNotEmpty
+        ? dedicated
+        : products
+            .getProducts({}, sort: sort)
+            .where((p) => p.isPromotionActive)
+            .toList(growable: false);
+    final promoLoading = products.isLoadingFor(promoFilters, sort: sort) &&
+        products.getProducts(promoFilters, sort: sort).isEmpty;
+
+    if (!promoLoading && topList.isEmpty) {
+      return const SliverToBoxAdapter(child: SizedBox.shrink());
+    }
+
+    return SliverMainAxisGroup(
+      key: ValueKey(fingerprint),
+      slivers: [
+        const SliverToBoxAdapter(child: _BlockGap()),
+        SliverToBoxAdapter(
+          child: _WhiteBlock(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _MarketHeader(
+                  title: s.featured,
+                  onSeeAll: () => context.push(
+                    RoutesName.search,
+                    extra: const {'isAllProduct': true},
+                  ),
+                ),
+                if (promoLoading)
+                  const _StripLoading()
+                else
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: FeaturedCarousel(items: topList),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _HomeOrdersSection extends StatelessWidget {
+  const _HomeOrdersSection({required this.onSeeAll});
+
+  final VoidCallback onSeeAll;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final s = S.of(context);
+    final ordersHub = context.watch<OrdersProvider>();
+    final orderList = ordersHub.ordersFor({}).take(12).toList();
+    final ordersLoading = ordersHub.isLoadingFor({}) && orderList.isEmpty;
+
+    return SliverMainAxisGroup(
+      slivers: [
+        const SliverToBoxAdapter(child: _BlockGap()),
+        SliverToBoxAdapter(
+          child: _WhiteBlock(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _MarketHeader(
+                  title: s.orders,
+                  onSeeAll: onSeeAll,
+                ),
+                if (ordersLoading)
+                  const _StripLoading()
+                else if (orderList.isEmpty)
+                  _StripEmpty(
+                    icon: LucideIcons.clipboardList,
+                    message: s.wantToBuyEmptyTitle,
+                    colors: colors,
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: _HorizontalOrdersStrip(orders: orderList),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Products + services strip — the only slice that rebuilds on load-more.
+class _HomeFeedBody extends StatelessWidget {
+  const _HomeFeedBody({
+    required this.sort,
+    required this.promoFilters,
+    required this.workshopFilters,
+    required this.productsBeforeServices,
+    required this.adRefreshToken,
+  });
+
+  final String sort;
+  // Kept for API symmetry with other home sections (promo bucket unused here).
+  final Map<String, dynamic> promoFilters;
+  final Map<String, dynamic> workshopFilters;
+  final int productsBeforeServices;
+  final int adRefreshToken;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final s = S.of(context);
+    final products = context.watch<ProductProvider>();
+    final workshops = context.watch<GetWorkshop>();
+
+    final list = products.getProducts({}, sort: sort);
+    final productsLoading =
+        products.isLoadingFor({}, sort: sort) && list.isEmpty;
+    final head = list.take(productsBeforeServices).toList();
+    final tail = list.length > productsBeforeServices
+        ? list.sublist(productsBeforeServices)
+        : const <Part>[];
+
+    final workshopList =
+        workshops.getWorkshops(workshopFilters, null).take(12).toList();
+    final workshopsLoading =
+        workshops.isLoadingFor(workshopFilters, null) && workshopList.isEmpty;
+
+    return _MultiSliver(
+      children: [
+        const SliverToBoxAdapter(child: _BlockGap()),
+        SliverToBoxAdapter(
+          child: _WhiteBlock(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _MarketHeader(
+                  title: s.allProducts,
+                  onSeeAll: () => context.push(
+                    RoutesName.search,
+                    extra: const {'isAllProduct': true},
+                  ),
+                ),
+                if (productsLoading)
+                  const ProductGridSkeleton(
+                    count: 4,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                  )
+                else if (list.isEmpty)
+                  _StripEmpty(
+                    icon: LucideIcons.package,
+                    message: s.noProducts,
+                    colors: colors,
+                  ),
+              ],
+            ),
+          ),
+        ),
+        if (!productsLoading && head.isNotEmpty)
+          DecoratedSliver(
+            decoration: BoxDecoration(color: colors.surface),
+            sliver: ProductSliverGrid(
+              products: head,
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+            ),
+          ),
+        if (workshopsLoading || workshopList.isNotEmpty) ...[
+          const SliverToBoxAdapter(child: _BlockGap()),
+          SliverToBoxAdapter(
+            child: AdBanner(
+              surface: AdSurface.service,
+              height: 120,
+              margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+              refreshToken: adRefreshToken,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: _WhiteBlock(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _MarketHeader(
+                    title: s.services,
+                    onSeeAll: () => context.push(RoutesName.servicesHub),
+                  ),
+                  if (workshopsLoading)
+                    const _StripLoading()
+                  else
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: _HorizontalWorkshopStrip(workshops: workshopList),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
+        if (tail.isNotEmpty) ...[
+          const SliverToBoxAdapter(child: _BlockGap()),
+          DecoratedSliver(
+            decoration: BoxDecoration(color: colors.surface),
+            sliver: ProductSliverGrid(
+              products: tail,
+              padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+            ),
+          ),
+        ],
+        if (products.isMoreLoadingFor({}, sort: sort))
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Center(
+                child: SizedBox(
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator.adaptive(strokeWidth: 2),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Tiny helper so we can return a flat list of slivers from one widget.
+class _MultiSliver extends StatelessWidget {
+  const _MultiSliver({required this.children});
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverMainAxisGroup(slivers: children);
   }
 }
 
@@ -489,10 +582,7 @@ class _StripLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 24),
-      child: Center(child: CircularProgressIndicator.adaptive()),
-    );
+    return const HomeStripSkeleton();
   }
 }
 
@@ -549,11 +639,14 @@ class _HorizontalWorkshopStrip extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         itemCount: workshops.length,
+        addAutomaticKeepAlives: false,
         separatorBuilder: (_, __) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           return SizedBox(
             width: cardWidth,
-            child: WorkshopCard(workshop: workshops[index]),
+            child: RepaintBoundary(
+              child: WorkshopCard(workshop: workshops[index]),
+            ),
           );
         },
       ),
@@ -578,11 +671,14 @@ class _HorizontalOrdersStrip extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         itemCount: orders.length,
+        addAutomaticKeepAlives: false,
         separatorBuilder: (_, __) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           return SizedBox(
             width: cardWidth,
-            child: OrderCard(order: orders[index], compact: true),
+            child: RepaintBoundary(
+              child: OrderCard(order: orders[index], compact: true),
+            ),
           );
         },
       ),

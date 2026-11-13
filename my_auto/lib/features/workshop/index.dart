@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
@@ -44,7 +45,12 @@ class _WorkshopScreenState extends State<WorkshopScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
+    final soft = _nearby.isNotEmpty ||
+        _recommended.isNotEmpty ||
+        _openNow.isNotEmpty;
+    if (!soft) {
+      setState(() => _loading = true);
+    }
     final nearby = await workshopsRepository.nearby();
     final recommended = await workshopsRepository.recommended();
     final openNow = await workshopsRepository.openNow();
@@ -229,21 +235,27 @@ class _WorkshopScreenState extends State<WorkshopScreen> {
                   ),
                 ),
               ),
-              if (busy && !_showFiltered)
+              if (busy && !_showFiltered && _nearby.isEmpty)
                 const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator.adaptive()),
+                  child: ProductGridSkeleton(
+                    padding: EdgeInsets.fromLTRB(16, 8, 16, 24),
+                  ),
                 )
               else if (_showFiltered)
-                (_loading && _mode != _WorkshopViewMode.search)
+                (_loading &&
+                        _mode != _WorkshopViewMode.search &&
+                        _filteredList.isEmpty)
                     ? const SliverFillRemaining(
-                        child: Center(
-                          child: CircularProgressIndicator.adaptive(),
+                        child: ProductGridSkeleton(
+                          padding: EdgeInsets.fromLTRB(16, 8, 16, 24),
                         ),
                       )
                     : _gridSliver(_filteredList, _filteredTitle)
-              else if (_loading)
+              else if (_loading && _nearby.isEmpty)
                 const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator.adaptive()),
+                  child: ProductGridSkeleton(
+                    padding: EdgeInsets.fromLTRB(16, 8, 16, 24),
+                  ),
                 )
               else ...[
                 if (_openNow.isNotEmpty)
@@ -284,12 +296,15 @@ class _WorkshopScreenState extends State<WorkshopScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
               itemCount: items.length,
+              addAutomaticKeepAlives: false,
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (_, i) => SizedBox(
                 width: 200,
-                child: WorkshopProfileCard(
-                  workshop: items[i],
-                  compact: true,
+                child: RepaintBoundary(
+                  child: WorkshopProfileCard(
+                    workshop: items[i],
+                    compact: true,
+                  ),
                 ),
               ),
             ),
@@ -339,6 +354,7 @@ class _WorkshopScreenState extends State<WorkshopScreen> {
             delegate: SliverChildBuilderDelegate(
               (context, i) => WorkshopProfileCard(workshop: items[i]),
               childCount: items.length,
+              addAutomaticKeepAlives: false,
             ),
           ),
         ],

@@ -1,0 +1,35 @@
+---
+description: Safety rules for all QA / test automation work in AutoRin
+alwaysApply: true
+---
+
+# QA Safety (AutoRin)
+
+Apply on every QA, Playwright, API, Flutter, security, or performance task.
+
+## Hard rules
+
+- Never test against **production** without explicit user permission.
+- Never delete or mutate production data.
+- Never expose secrets, tokens, OTP codes, or credentials in reports, commits, logs, or chat.
+- Use isolated test databases / staging / local only (`QA_*` env vars under `qa/`).
+- Never modify application **business logic** while doing QA. Test scaffolding and QA config only.
+- Never automatically fix discovered bugs. Report them under `qa/bug-reports/`.
+- Never silently change existing application configuration (Vite, Nest, Flutter app settings).
+- Preserve existing project architecture (`autorin-web`, `autorin-backend`, `my_auto`).
+- Ask before destructive changes (DB drops, mass deletes, force-pushes, prod deploys).
+- Never claim tests **passed** without executing them.
+- Mark work **BLOCKED** when execution is impossible (no server, no device, missing tool).
+
+## Stack pointers
+
+- Web E2E: `qa/web` (Playwright) → skill `playwright-automation`
+- Backend: NestJS Jest + Supertest + `qa/backend` → skills `api-testing`, `unit-testing`, `database-testing`
+- Mobile: `my_auto` + `qa/mobile` → skill `mobile-testing`
+- Orchestrator skill: `.cursor/skills/full-stack-qa`
+- Project context: `.agents/qa-project-context.md`
+- Runner: `npm run qa:*` from `qa/package.json`
+
+## Reports
+
+Write evidence to `qa/reports/`. Keep PASS / FAIL / BLOCKED / PASS_WITH_NOTES distinct.

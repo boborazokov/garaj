@@ -564,9 +564,14 @@ class S {
     );
   }
 
-  /// `My Services`
+  /// `My auto service`
   String get myServices {
-    return Intl.message('My Services', name: 'myServices', desc: '', args: []);
+    return Intl.message(
+      'My auto service',
+      name: 'myServices',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `My Products`
@@ -2299,6 +2304,16 @@ class S {
     return Intl.message(
       'Select brand',
       name: 'selectBrand',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select brand and model`
+  String get selectBrandAndModel {
+    return Intl.message(
+      'Select brand and model',
+      name: 'selectBrandAndModel',
       desc: '',
       args: [],
     );
@@ -6510,22 +6525,12 @@ class S {
 
   /// `Rejected`
   String get statusRejected {
-    return Intl.message(
-      'Rejected',
-      name: 'statusRejected',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Rejected', name: 'statusRejected', desc: '', args: []);
   }
 
   /// `Approved`
   String get statusApproved {
-    return Intl.message(
-      'Approved',
-      name: 'statusApproved',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Approved', name: 'statusApproved', desc: '', args: []);
   }
 
   /// `Store created`
@@ -6833,9 +6838,9 @@ class S {
     );
   }
 
-  /// `Basic`
+  /// `START`
   String get promotePlanBasic {
-    return Intl.message('Basic', name: 'promotePlanBasic', desc: '', args: []);
+    return Intl.message('START', name: 'promotePlanBasic', desc: '', args: []);
   }
 
   /// `Standard`
@@ -6848,14 +6853,9 @@ class S {
     );
   }
 
-  /// `Premium`
+  /// `PRO`
   String get promotePlanPremium {
-    return Intl.message(
-      'Premium',
-      name: 'promotePlanPremium',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('PRO', name: 'promotePlanPremium', desc: '', args: []);
   }
 
   /// `VIP`
@@ -6863,9 +6863,9 @@ class S {
     return Intl.message('VIP', name: 'promotePlanVip', desc: '', args: []);
   }
 
-  /// `Top`
+  /// `TOP`
   String get promotePlanTop {
-    return Intl.message('Top', name: 'promotePlanTop', desc: '', args: []);
+    return Intl.message('TOP', name: 'promotePlanTop', desc: '', args: []);
   }
 
   /// `Wallet: {balance}`
@@ -7608,40 +7608,35 @@ class S {
     );
   }
 
-  /// `Advertise on Autorin`
+  /// `Want to advertise your business? Contact admin`
   String get advertiseTitle {
     return Intl.message(
-      'Advertise on Autorin',
+      'Want to advertise your business? Contact admin',
       name: 'advertiseTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Put your offer on home, products, services and more. Pick a slot and duration.`
+  /// `Business banners — info here and stats for your active banners.`
   String get advertiseSubtitle {
     return Intl.message(
-      'Put your offer on home, products, services and more. Pick a slot and duration.',
+      'Business banners — info here and stats for your active banners.',
       name: 'advertiseSubtitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `How it works`
+  /// `Info`
   String get advertiseHowTitle {
-    return Intl.message(
-      'How it works',
-      name: 'advertiseHowTitle',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Info', name: 'advertiseHowTitle', desc: '', args: []);
   }
 
-  /// `Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.`
+  /// `Banner placements and duration are arranged with admin. You can still buy TOP for your own listings.`
   String get advertiseHowBody {
     return Intl.message(
-      'Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.',
+      'Banner placements and duration are arranged with admin. You can still buy TOP for your own listings.',
       name: 'advertiseHowBody',
       desc: '',
       args: [],
@@ -7978,10 +7973,10 @@ class S {
     );
   }
 
-  /// `No banners yet. Buy one to promote your offer.`
+  /// `No banners yet. Contact admin to get started.`
   String get adMyBannersEmpty {
     return Intl.message(
-      'No banners yet. Buy one to promote your offer.',
+      'No banners yet. Contact admin to get started.',
       name: 'adMyBannersEmpty',
       desc: '',
       args: [],
@@ -8038,20 +8033,20 @@ class S {
     return Intl.message('Pause', name: 'adPauseCta', desc: '', args: []);
   }
 
-  /// `Advertise`
+  /// `Business`
   String get profileAdvertise {
     return Intl.message(
-      'Advertise',
+      'Business',
       name: 'profileAdvertise',
       desc: '',
       args: [],
     );
   }
 
-  /// `Banners, tariffs and stats`
+  /// `Banners and stats`
   String get profileSubtitleAdvertise {
     return Intl.message(
-      'Banners, tariffs and stats',
+      'Banners and stats',
       name: 'profileSubtitleAdvertise',
       desc: '',
       args: [],

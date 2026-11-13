@@ -222,7 +222,7 @@ class SEn extends S {
   String get callSeller => 'Call the seller';
 
   @override
-  String get myServices => 'My Services';
+  String get myServices => 'My auto service';
 
   @override
   String get myProducts => 'My Products';
@@ -888,6 +888,9 @@ class SEn extends S {
 
   @override
   String get selectBrand => 'Select brand';
+
+  @override
+  String get selectBrandAndModel => 'Select brand and model';
 
   @override
   String get selectModel => 'Select model';
@@ -2462,19 +2465,19 @@ class SEn extends S {
   String get promoteServiceTitle => 'Promote service';
 
   @override
-  String get promotePlanBasic => 'Basic';
+  String get promotePlanBasic => 'START';
 
   @override
   String get promotePlanStandard => 'Standard';
 
   @override
-  String get promotePlanPremium => 'Premium';
+  String get promotePlanPremium => 'PRO';
 
   @override
   String get promotePlanVip => 'VIP';
 
   @override
-  String get promotePlanTop => 'Top';
+  String get promotePlanTop => 'TOP';
 
   @override
   String walletPromoteBalance(String balance) {
@@ -2743,18 +2746,18 @@ class SEn extends S {
   String get adPlaceholderSubtitle => 'Tap to see placements and prices';
 
   @override
-  String get advertiseTitle => 'Advertise on Autorin';
+  String get advertiseTitle => 'Want to advertise your business? Contact admin';
 
   @override
   String get advertiseSubtitle =>
-      'Put your offer on home, products, services and more. Pick a slot and duration.';
+      'Business banners — info here and stats for your active banners.';
 
   @override
-  String get advertiseHowTitle => 'How it works';
+  String get advertiseHowTitle => 'Info';
 
   @override
   String get advertiseHowBody =>
-      'Choose a placement, pick 1 day / 1 week / 1 month / 3 months, and we show your banner to buyers in that screen.';
+      'Banner placements and duration are arranged with admin. You can still buy TOP for your own listings.';
 
   @override
   String get advertiseTariffsTitle => 'Tariffs';
@@ -2873,7 +2876,7 @@ class SEn extends S {
 
   @override
   String get adMyBannersEmpty =>
-      'No banners yet. Buy one to promote your offer.';
+      'No banners yet. Contact admin to get started.';
 
   @override
   String get adStatImpressions => 'Views';
@@ -2905,10 +2908,10 @@ class SEn extends S {
   String get adPauseCta => 'Pause';
 
   @override
-  String get profileAdvertise => 'Advertise';
+  String get profileAdvertise => 'Business';
 
   @override
-  String get profileSubtitleAdvertise => 'Banners, tariffs and stats';
+  String get profileSubtitleAdvertise => 'Banners and stats';
 
   @override
   String get onboardingPartsTitle => 'Find the right auto parts';

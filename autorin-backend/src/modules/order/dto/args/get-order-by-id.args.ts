@@ -6,4 +6,8 @@ import { ObjectIdScalar } from 'src/common';
 export class GetOrderByIdArgs {
   @Field(() => ObjectIdScalar)
   orderId: Types.ObjectId;
+
+  /** Client install id — used so one device counts as one order view. */
+  @Field(() => String, { nullable: true })
+  deviceId?: string;
 }

@@ -9,9 +9,11 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/utils/category_lucide_icon.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/core/map/geo_location.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/core/utils/phoneFormater.dart';
 import 'package:my_auto/features/create_product/widgets/sticky_continue_bar.dart';
 import 'package:my_auto/features/promotion/presentation/boost_plan_picker.dart';
 import 'package:my_auto/features/wallet/data/wallet_repository.dart';
@@ -95,7 +97,7 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
   void _syncBasicFields() {
     _draft.name = _nameCtrl.text;
     _draft.description = _descCtrl.text;
-    _draft.phone = _phoneCtrl.text;
+    _draft.phone = UzbekPhone.normalize(_phoneCtrl.text);
     _draft.telegram = _telegramCtrl.text;
   }
 
@@ -384,9 +386,11 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
           controller: _phoneCtrl,
           type: TextInputType.phone,
           required: true,
-          hintText: s.phone,
+          hintText: UzbekPhone.hint,
           icon: Icon(LucideIcons.phone, color: colors.primary),
-          onChanged: (_) => setState(() => _draft.phone = _phoneCtrl.text),
+          onChanged: (_) => setState(
+            () => _draft.phone = UzbekPhone.normalize(_phoneCtrl.text),
+          ),
         ),
         const SizedBox(height: 12),
         const FieldLabel(text: 'Telegram', required: false),
@@ -410,7 +414,7 @@ class _CreateWorkshopFlowScreenState extends State<CreateWorkshopFlowScreen> {
 
   Widget _servicesStep(AppColors colors) {
     if (_loadingCats) {
-      return const Center(child: CircularProgressIndicator.adaptive());
+      return const CategoryGridSkeleton(count: 9);
     }
     if (_categories.isEmpty) {
       return Center(

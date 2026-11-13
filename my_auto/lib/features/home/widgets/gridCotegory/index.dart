@@ -72,6 +72,7 @@ class GridCategories extends StatelessWidget {
         }
 
         return GridView.builder(
+          addAutomaticKeepAlives: false,
           shrinkWrap: !showAll,
           physics: showAll
               ? const AlwaysScrollableScrollPhysics()

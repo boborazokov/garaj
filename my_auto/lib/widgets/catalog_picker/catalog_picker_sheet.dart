@@ -6,7 +6,29 @@ import 'package:my_auto/core/utils/category_locale.dart';
 import 'package:my_auto/features/create_product/data/models/category_node.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/form/field_label.dart';
+import 'package:my_auto/widgets/image_cache/index.dart';
 import 'package:my_auto/widgets/searchInput/index.dart';
+
+Widget catalogPickerLeading(
+  BuildContext context,
+  CategoryNode item, {
+  IconData fallback = LucideIcons.car,
+}) {
+  final colors = context.appColors;
+  final raw = item.iconUrl?.trim() ?? '';
+  if (raw.isEmpty) {
+    return Icon(fallback, size: 22, color: colors.textMuted);
+  }
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(6),
+    child: ImageCacheNetwork(
+      url: raw,
+      width: 36,
+      height: 36,
+      fit: BoxFit.contain,
+    ),
+  );
+}
 
 /// Searchable bottom sheet to pick a catalog item (brand, model, part category).
 Future<void> showCatalogPickerSheet(
@@ -66,12 +88,14 @@ Future<void> showCatalogPickerSheet(
                           ),
                         )
                       : ListView.builder(
+                          addAutomaticKeepAlives: false,
                           controller: controller,
                           itemCount: filtered.length,
                           itemBuilder: (_, i) {
                             final item = filtered[i];
                             final label = item.localizedName(lang);
                             return ListTile(
+                              leading: catalogPickerLeading(context, item),
                               title: Text(
                                 label,
                                 maxLines: 2,

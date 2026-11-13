@@ -1,0 +1,25 @@
+{
+  "name": "autorin-qa-web",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Playwright E2E suite for autorin-web (AutoRin admin)",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project=mobile-chrome --project=mobile-safari",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report ../../qa/reports/playwright-html",
+    "test:update-snapshots": "playwright test --update-snapshots",
+    "install:browsers": "playwright install chromium firefox webkit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^24.12.3",
+    "dotenv": "^17.2.0",
+    "typescript": "~5.9.3"
+  }
+}

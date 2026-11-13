@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-11-13T13:17:36.467Z",
+  "results": [
+    {
+      "name": "getParts-unauth",
+      "status": 200,
+      "hasData": true,
+      "hasErrors": false,
+      "errorCodes": [],
+      "exposesStacktrace": false
+    },
+    {
+      "name": "getCategories-unauth",
+      "status": 200,
+      "hasData": true,
+      "hasErrors": false,
+      "errorCodes": [],
+      "exposesStacktrace": false
+    },
+    {
+      "name": "getAdminStats-unauth",
+      "status": 200,
+      "hasData": false,
+      "hasErrors": true,
+      "errorCodes": [
+        "AUTH_UNAUTHORIZED"
+      ],
+      "exposesStacktrace": true
+    }
+  ]
+}

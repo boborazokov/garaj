@@ -1,0 +1,16 @@
+{
+  "name": "autorin-qa-backend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "API / GraphQL QA helpers for autorin-backend (NestJS + Jest + Supertest)",
+  "scripts": {
+    "test:unit": "npm --prefix ../../autorin-backend test -- --passWithNoTests",
+    "test:unit:cov": "npm --prefix ../../autorin-backend run test:cov",
+    "test:api": "node --test ./tests/*.test.mjs",
+    "test:graphql:smoke": "node ./tests/graphql-smoke.mjs",
+    "test:security:headers": "node ./tests/security-headers.mjs"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.0"
+  }
+}

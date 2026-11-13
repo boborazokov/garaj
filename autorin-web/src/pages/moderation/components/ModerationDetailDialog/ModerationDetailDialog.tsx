@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { categoryLabel } from "@/lib/category-names";
 import { useLanguage } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
 import type { Part } from "@/types";
@@ -31,8 +32,20 @@ export function ModerationDetailDialog({
   if (!part) return null;
 
   const images = (part.images ?? []).map((src) => mediaUrl(src)).filter(Boolean) as string[];
-  const brand = part.brand?.name?.trim();
-  const model = part.carModel?.name?.trim();
+  const lang = language === "en" || language === "uz" ? language : "ru";
+  const category = part.category
+    ? categoryLabel(part.category, lang)
+    : "—";
+  const brand = part.brand ? categoryLabel(part.brand, lang) : "";
+  const model = part.carModel ? categoryLabel(part.carModel, lang) : "";
+  const delivery =
+    part.deliveryCondition === "INCLUDED"
+      ? t(MODERATION_TEXTS.deliveryIncluded)
+      : part.deliveryCondition === "NOT_INCLUDED"
+        ? t(MODERATION_TEXTS.deliveryNotIncluded)
+        : part.deliveryCondition === "UNDER_CONTRACT"
+          ? t(MODERATION_TEXTS.deliveryContract)
+          : null;
 
   return (
     <Dialog
@@ -50,12 +63,13 @@ export function ModerationDetailDialog({
           {images.length > 0 ? (
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               {images.map((src) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={part.name}
-                  className="aspect-square w-full rounded-[8px] border border-[#e2e8f0] object-cover"
-                />
+                <a key={src} href={src} target="_blank" rel="noreferrer">
+                  <img
+                    src={src}
+                    alt={part.name}
+                    className="aspect-square w-full rounded-[8px] border border-[#e2e8f0] object-cover"
+                  />
+                </a>
               ))}
             </div>
           ) : (
@@ -65,20 +79,39 @@ export function ModerationDetailDialog({
           <dl className="m-0 grid grid-cols-1 gap-2 sm:grid-cols-2">
             <Detail label={t(MODERATION_TEXTS.price)}>
               {formatPrice(part.price, part.currency, language)}
+              {part.isNegotiable ? ` · ${t(MODERATION_TEXTS.negotiable)}` : ""}
             </Detail>
-            <Detail label={t(MODERATION_TEXTS.category)}>
-              {part.category?.name?.trim() || "—"}
-            </Detail>
+            <Detail label={t(MODERATION_TEXTS.category)}>{category}</Detail>
             <Detail label={t(MODERATION_TEXTS.brandModel)}>
               {[brand, model].filter(Boolean).join(" · ") || "—"}
             </Detail>
             <Detail label={t(MODERATION_TEXTS.quantity)}>
               {part.quantity ?? "—"}
             </Detail>
+            <Detail label={t(MODERATION_TEXTS.condition)}>
+              {part.isNew === true
+                ? t(MODERATION_TEXTS.conditionNew)
+                : part.isNew === false
+                  ? t(MODERATION_TEXTS.conditionUsed)
+                  : "—"}
+            </Detail>
+            {delivery ? (
+              <Detail label={t(MODERATION_TEXTS.delivery)}>{delivery}</Detail>
+            ) : null}
             <Detail label={t(MODERATION_TEXTS.seller)}>
               {part.seller?.name?.trim() || "—"}
               {part.seller?.phone ? ` · ${part.seller.phone}` : ""}
             </Detail>
+            {part.seller?.address?.trim() ? (
+              <Detail label={t(MODERATION_TEXTS.sellerAddress)}>
+                {part.seller.address.trim()}
+              </Detail>
+            ) : null}
+            {(part.location || part.region) && (
+              <Detail label={t(MODERATION_TEXTS.location)}>
+                {[part.location, part.region].filter(Boolean).join(" · ")}
+              </Detail>
+            )}
             <Detail label={t(MODERATION_TEXTS.submitted)}>
               {formatSubmitted(part.createdAt, language)}
             </Detail>

@@ -4,7 +4,7 @@ import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/create_product/domain/entities/create_product_draft.dart';
 import 'package:my_auto/generated/l10n.dart';
 
-/// Delivery chips aligned with legacy add-product form and [deliveryCondition] API.
+/// Delivery availability — two side-by-side toggles (available / not available).
 class DeliveryOptionSelector extends StatelessWidget {
   const DeliveryOptionSelector({
     super.key,
@@ -18,7 +18,6 @@ class DeliveryOptionSelector extends StatelessWidget {
   static const _options = [
     DeliveryOption.included,
     DeliveryOption.notIncluded,
-    DeliveryOption.byAgreement,
   ];
 
   String _label(S s, DeliveryOption option) {
@@ -48,26 +47,45 @@ class DeliveryOptionSelector extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: _options.map((option) {
-            final selected = value == option;
-            return ChoiceChip(
-              label: Text(_label(s, option)),
-              selected: selected,
-              onSelected: (_) => onChanged(option),
-              selectedColor: colors.primary.withValues(alpha: 0.18),
-              labelStyle: TextStyle(
-                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                color: selected ? colors.primary : colors.textPrimary,
+        Row(
+          children: [
+            for (var i = 0; i < _options.length; i++) ...[
+              if (i > 0) const SizedBox(width: AppSpacing.m),
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: OutlinedButton(
+                    onPressed: () => onChanged(_options[i]),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: value == _options[i]
+                          ? colors.primary.withValues(alpha: 0.08)
+                          : colors.surface,
+                      foregroundColor: value == _options[i]
+                          ? colors.primary
+                          : colors.textSecondary,
+                      side: BorderSide(
+                        color: value == _options[i]
+                            ? colors.primary
+                            : colors.border,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: AppRadius.rM,
+                      ),
+                    ),
+                    child: Text(
+                      _label(s, _options[i]),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              side: BorderSide(
-                color: selected ? colors.primary : colors.border,
-              ),
-              shape: RoundedRectangleBorder(borderRadius: AppRadius.rM),
-            );
-          }).toList(),
+            ],
+          ],
         ),
       ],
     );

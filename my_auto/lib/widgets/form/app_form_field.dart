@@ -4,6 +4,7 @@ import 'package:my_auto/core/forms/form_validators.dart';
 import 'package:my_auto/core/forms/text_input_capitalization.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/core/utils/phoneFormater.dart';
 import 'package:my_auto/widgets/form/field_label.dart';
 
 /// Labeled [TextFormField] with optional required marker and validation.
@@ -46,13 +47,26 @@ class AppFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final isPhone = keyboardType == TextInputType.phone;
+    final hasUzbekPhone = inputFormatters?.any(
+          (f) => f is UzbekPhoneNumberFormatter,
+        ) ??
+        false;
+    final phoneFormatters = isPhone && !hasUzbekPhone
+        ? <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s]')),
+            UzbekPhoneNumberFormatter(),
+          ]
+        : const <TextInputFormatter>[];
+    final mergedInput = [...phoneFormatters, ...?inputFormatters];
+
     final autoCap = shouldAutoCapitalizeText(
       keyboardType: keyboardType,
-      formatters: inputFormatters,
+      formatters: mergedInput,
       enabled: capitalize,
     );
     final formatters = mergeCapitalizationFormatters(
-      formatters: inputFormatters,
+      formatters: mergedInput,
       autoCapitalize: autoCap,
       multiline: maxLines > 1,
     );
@@ -68,6 +82,8 @@ class AppFormField extends StatelessWidget {
           readOnly: readOnly,
           onTap: onTap,
           onChanged: onChanged,
+          autocorrect: !isPhone,
+          enableSuggestions: !isPhone,
           textCapitalization: textCapitalizationFor(
             autoCapitalize: autoCap,
             multiline: maxLines > 1,
@@ -76,7 +92,7 @@ class AppFormField extends StatelessWidget {
           validator: validator ??
               (required
                   ? (v) {
-                      if (keyboardType == TextInputType.phone) {
+                      if (isPhone) {
                         return FormValidators.phone(context, v);
                       }
                       if (maxLines > 1 && (v ?? '').trim().isEmpty) {
@@ -90,7 +106,7 @@ class AppFormField extends StatelessWidget {
                     }
                   : null),
           decoration: InputDecoration(
-            hintText: hint,
+            hintText: isPhone ? (hint ?? UzbekPhone.hint) : hint,
             prefixIcon: icon != null
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),

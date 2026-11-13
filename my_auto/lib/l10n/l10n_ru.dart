@@ -222,7 +222,7 @@ class SRu extends S {
   String get callSeller => 'Позвонить продавцу';
 
   @override
-  String get myServices => 'Мои услуги';
+  String get myServices => 'Мой автосервис';
 
   @override
   String get myProducts => 'Мои товары';
@@ -892,6 +892,9 @@ class SRu extends S {
   String get selectBrand => 'Выберите марку';
 
   @override
+  String get selectBrandAndModel => 'Выберите марку и модель';
+
+  @override
   String get selectModel => 'Выберите модель';
 
   @override
@@ -913,7 +916,7 @@ class SRu extends S {
   String get orderUrgencyNormal => 'Обычно';
 
   @override
-  String get orderUrgencyUrgent => 'Срочно нужно';
+  String get orderUrgencyUrgent => 'Срочно';
 
   @override
   String get submit => 'Отправить';
@@ -2465,19 +2468,19 @@ class SRu extends S {
   String get promoteServiceTitle => 'Продвижение услуги';
 
   @override
-  String get promotePlanBasic => 'Базовый';
+  String get promotePlanBasic => 'START';
 
   @override
-  String get promotePlanStandard => 'Стандарт';
+  String get promotePlanStandard => 'STANDARD';
 
   @override
-  String get promotePlanPremium => 'Премиум';
+  String get promotePlanPremium => 'PRO';
 
   @override
   String get promotePlanVip => 'VIP';
 
   @override
-  String get promotePlanTop => 'Топ';
+  String get promotePlanTop => 'TOP';
 
   @override
   String walletPromoteBalance(String balance) {
@@ -2744,18 +2747,19 @@ class SRu extends S {
   String get adPlaceholderSubtitle => 'Нажмите — слоты и тарифы';
 
   @override
-  String get advertiseTitle => 'Реклама в Autorin';
+  String get advertiseTitle =>
+      'Хотите рекламировать бизнес? Свяжитесь с админом';
 
   @override
   String get advertiseSubtitle =>
-      'Покажите предложение на главной, в товарах, сервисах и других экранах. Выберите слот и срок.';
+      'Бизнес-баннеры — информация и статистика ваших баннеров.';
 
   @override
-  String get advertiseHowTitle => 'Как это работает';
+  String get advertiseHowTitle => 'Информация';
 
   @override
   String get advertiseHowBody =>
-      'Выберите место, срок 1 день / 1 неделя / 1 месяц / 3 месяца — баннер увидят покупатели на этом экране.';
+      'Размещение и срок баннера согласуются с админом. TOP для своих объявлений можно купить самостоятельно.';
 
   @override
   String get advertiseTariffsTitle => 'Тарифы';
@@ -2873,8 +2877,7 @@ class SRu extends S {
   String get adMyBannersTitle => 'Мои баннеры';
 
   @override
-  String get adMyBannersEmpty =>
-      'Пока нет баннеров. Купите, чтобы продвинуть предложение.';
+  String get adMyBannersEmpty => 'Пока нет баннеров. Свяжитесь с админом.';
 
   @override
   String get adStatImpressions => 'Показы';
@@ -2906,10 +2909,10 @@ class SRu extends S {
   String get adPauseCta => 'Пауза';
 
   @override
-  String get profileAdvertise => 'Реклама';
+  String get profileAdvertise => 'Бизнес';
 
   @override
-  String get profileSubtitleAdvertise => 'Баннеры, тарифы и статистика';
+  String get profileSubtitleAdvertise => 'Баннеры и статистика';
 
   @override
   String get onboardingPartsTitle => 'Найдите нужные запчасти';

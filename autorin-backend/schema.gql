@@ -104,6 +104,8 @@ type Part {
   price: Float!
   quantity: Float!
   viewsCount: Int!
+  phoneClickCount: Int!
+  shareCount: Int!
   currency: CurrencyEnum!
   images: [String!]
   seller: User!
@@ -281,6 +283,9 @@ type Order {
   promotedUntil: DateTime
   promotionPlan: ServicePromotionPlanEnum
   promotionPriority: Float!
+  viewsCount: Int!
+  phoneClickCount: Int!
+  shareCount: Int!
   createdAt: DateTime!
   updatedAt: DateTime
 }
@@ -1003,7 +1008,7 @@ type Query {
   adminListAdvertisements(pagination: PaginationInput, filter: AdvertisementFilterInput): PaginatedAdvertisements!
   getOrders(filter: OrderFilterInput, search: String, pagination: PaginationInput!, sort: SortOrderEnum, viewerRegion: String): PaginatedOrders!
   getSellerMatchingOrdersOverview: SellerMatchingOrdersOverview!
-  getOrderById(orderId: ObjectId!): Order!
+  getOrderById(orderId: ObjectId!, deviceId: String): Order!
   getOrderResponses(orderId: ObjectId!): [OrderResponse!]!
   getConversations(pagination: PaginationInput): PaginatedConversations!
   getMessages(conversationId: ObjectId!, pagination: PaginationInput): PaginatedMessages!
@@ -1159,6 +1164,8 @@ type Mutation {
   deletePartById(partId: ObjectId!, deviceId: String): Part!
   restorePartById(partId: ObjectId!, deviceId: String): Part!
   promotePartById(partId: ObjectId!, plan: ServicePromotionPlanEnum!): Part!
+  recordPartPhoneClick(partId: ObjectId!, deviceId: String): Part!
+  recordPartShare(partId: ObjectId!, deviceId: String): Part!
   addToFavorites(favorite: FavoriteInput!): Favorite!
   removeFromFavorites(favorite: FavoriteInput!): Favorite!
   createCategory(data: CategoryInput!): Category!
@@ -1174,6 +1181,7 @@ type Mutation {
   bookWorkshop(data: BookWorkshopInput!): WorkshopBooking!
   restoreWorkshopById(workshopId: ObjectId!): Workshop!
   promoteWorkshop(workshopId: ObjectId!, plan: ServicePromotionPlanEnum!): Workshop!
+  recordWorkshopPhoneClick(workshopId: ObjectId!): Workshop!
   createService(data: ServiceInput!, images: [Upload!]): Service!
   promoteService(serviceId: ObjectId!, plan: ServicePromotionPlanEnum!): Service!
   bookService(data: BookServiceInput!): ServiceBooking!
@@ -1193,10 +1201,12 @@ type Mutation {
   recordAdvertisementImpression(advertisementId: ObjectId!): Advertisement!
   recordAdvertisementClick(advertisementId: ObjectId!): Advertisement!
   createOrder(data: OrderInput!): Order!
-  updateOrderById(orderId: ObjectId!, data: OrderUpdateInput!): Order!
-  closeOrderById(orderId: ObjectId!): Order!
-  reopenOrderById(orderId: ObjectId!): Order!
-  deleteOrderById(orderId: ObjectId!): Order!
+  updateOrderById(orderId: ObjectId!, deviceId: String, data: OrderUpdateInput!): Order!
+  closeOrderById(orderId: ObjectId!, deviceId: String): Order!
+  reopenOrderById(orderId: ObjectId!, deviceId: String): Order!
+  deleteOrderById(orderId: ObjectId!, deviceId: String): Order!
+  recordOrderPhoneClick(orderId: ObjectId!, deviceId: String): Order!
+  recordOrderShare(orderId: ObjectId!, deviceId: String): Order!
   respondToOrder(data: RespondToOrderInput!): OrderResponse!
   createConversation(data: CreateConversationInput!): Conversation!
   markAsRead(conversationId: ObjectId!): Conversation!
@@ -1215,7 +1225,7 @@ type Mutation {
   deletePromotionTariff(plan: ServicePromotionPlanEnum!): [PromotionPlanPrice!]!
   setPromotionTariffs(rows: [PromotionTariffInput!]!): [PromotionPlanPrice!]!
   resetPromotionTariffs: [PromotionPlanPrice!]!
-  adminSetUserRole(userId: ObjectId!, role: UserRoleEnum!): User!
+  adminSetUserRole(userId: ObjectId!, role: UserRoleEnum!, password: String!): User!
   adminSetUserImage(userId: ObjectId!, image: Upload!): User!
   adminSetUserVerified(userId: ObjectId!, verified: Boolean!): User!
   approvePart(partId: ObjectId!, note: String): Part!

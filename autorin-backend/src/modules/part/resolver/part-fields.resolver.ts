@@ -1,4 +1,10 @@
-import { Context, Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Context,
+  Int,
+  Parent,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ContextType } from 'src/auth/interfaces';
@@ -34,5 +40,20 @@ export class PartFieldsResolver {
 
     const partId = part._id.toString();
     return fav.partsIds.some((id) => id.toString() === partId);
+  }
+
+  @ResolveField(() => Int)
+  viewsCount(@Parent() part: Part) {
+    return Number(part.viewsCount ?? 0);
+  }
+
+  @ResolveField(() => Int)
+  phoneClickCount(@Parent() part: Part) {
+    return Number(part.phoneClickCount ?? 0);
+  }
+
+  @ResolveField(() => Int)
+  shareCount(@Parent() part: Part) {
+    return Number(part.shareCount ?? 0);
   }
 }

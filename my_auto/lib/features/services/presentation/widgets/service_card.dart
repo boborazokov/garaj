@@ -26,116 +26,123 @@ class ServiceCard extends StatelessWidget {
     final rating =
         '${service.rating.toStringAsFixed(1)} · ${service.reviewCount}';
 
-    return MarketCardShell(
-      onTap: onTap,
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              width: 108,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ColoredBox(
-                    color: colors.surfaceMuted,
-                    child: image != null
-                        ? ImageCacheNetwork(
-                            url: image,
-                            fit: BoxFit.cover,
-                          )
-                        : Icon(
-                            LucideIcons.wrench,
-                            color: colors.textMuted,
-                            size: 28,
-                          ),
-                  ),
-                  if (service.isPromotionActive)
-                    Positioned(
-                      left: 8,
-                      top: 8,
-                      child: PromotionPlanBadge(plan: service.promotionPlan),
-                    ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return RepaintBoundary(
+      child: MarketCardShell(
+        lite: true,
+        onTap: onTap,
+        // Fixed height avoids IntrinsicHeight double-layout during list fling.
+        child: SizedBox(
+          height: 118,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                width: 108,
+                child: Stack(
+                  fit: StackFit.expand,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            service.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              height: 1.25,
-                              color: colors.textPrimary,
+                    ColoredBox(
+                      color: colors.surfaceMuted,
+                      child: image != null
+                          ? ImageCacheNetwork(
+                              url: image,
+                              fit: BoxFit.cover,
+                              cacheWidth: 108,
+                            )
+                          : Icon(
+                              LucideIcons.wrench,
+                              color: colors.textMuted,
+                              size: 28,
+                            ),
+                    ),
+                    if (service.isPromotionActive)
+                      Positioned(
+                        left: 8,
+                        top: 8,
+                        child:
+                            PromotionPlanBadge(plan: service.promotionPlan),
+                      ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              service.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                height: 1.25,
+                                color: colors.textPrimary,
+                              ),
                             ),
                           ),
-                        ),
-                        if (service.verified) ...[
-                          const SizedBox(width: 6),
-                          Icon(
-                            LucideIcons.badgeCheck,
-                            size: 18,
-                            color: colors.primary,
-                          ),
+                          if (service.verified) ...[
+                            const SizedBox(width: 6),
+                            Icon(
+                              LucideIcons.badgeCheck,
+                              size: 18,
+                              color: colors.primary,
+                            ),
+                          ],
                         ],
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      place,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colors.textMuted,
-                        fontWeight: FontWeight.w500,
                       ),
-                    ),
-                    if (service.categoryName.isNotEmpty &&
-                        place != service.categoryName) ...[
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 4),
                       Text(
-                        service.categoryName,
+                        place,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.labelSmall?.copyWith(
+                        style: theme.textTheme.bodySmall?.copyWith(
                           color: colors.textMuted,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ],
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Icon(
-                          LucideIcons.star,
-                          size: 14,
-                          color: colors.warning,
-                        ),
-                        const SizedBox(width: 4),
+                      if (service.categoryName.isNotEmpty &&
+                          place != service.categoryName) ...[
+                        const SizedBox(height: 2),
                         Text(
-                          rating,
-                          style: theme.textTheme.labelLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: colors.textPrimary,
+                          service.categoryName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colors.textMuted,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
-                    ),
-                  ],
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(
+                            LucideIcons.star,
+                            size: 14,
+                            color: colors.warning,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            rating,
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: colors.textPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

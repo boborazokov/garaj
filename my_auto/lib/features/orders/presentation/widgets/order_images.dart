@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/resolve_media_url.dart';
+import 'package:my_auto/features/promotion/presentation/promotion_plan_badge.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
 
@@ -187,10 +188,12 @@ class OrderDetailGallery extends StatefulWidget {
     super.key,
     required this.images,
     this.height = 280,
+    this.promotionPlan,
   });
 
   final List<String> images;
   final double height;
+  final String? promotionPlan;
 
   @override
   State<OrderDetailGallery> createState() => _OrderDetailGalleryState();
@@ -217,6 +220,17 @@ class _OrderDetailGalleryState extends State<OrderDetailGallery> {
               return _OrderImage(path: images[index], fit: BoxFit.cover);
             },
           ),
+          if (widget.promotionPlan != null &&
+              widget.promotionPlan!.trim().isNotEmpty)
+            Positioned(
+              left: 12,
+              top: 12,
+              child: PromotionPlanBadge(
+                plan: widget.promotionPlan,
+                dense: true,
+                filled: true,
+              ),
+            ),
           if (images.length > 1) ...[
             Positioned(
               right: 12,

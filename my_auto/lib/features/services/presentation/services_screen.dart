@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
@@ -54,7 +55,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
+    final soft = _items.isNotEmpty;
+    if (!soft) {
+      setState(() => _loading = true);
+    }
 
     double lat = 41.2995;
     double lng = 69.2401;
@@ -348,10 +352,12 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   ),
                 ),
               ),
-              if (_loading)
+              if (_loading && _items.isEmpty)
                 const SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(child: CircularProgressIndicator.adaptive()),
+                  child: CardListSkeleton(
+                    cardHeight: 128,
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+                  ),
                 )
               else if (visible.isEmpty)
                 SliverFillRemaining(
@@ -398,6 +404,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         ],
                       ),
                       childCount: visible.length,
+                      addAutomaticKeepAlives: false,
                     ),
                   ),
                 ),
@@ -518,41 +525,43 @@ class _AvtoservisCard extends StatelessWidget {
         ? workshop.categories.first.name
         : '';
 
-    return Material(
-      color: colors.surface,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: MarketUi.cardRadius,
-        side: BorderSide(color: colors.border),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () {
-          HapticFeedback.selectionClick();
-          context.push(
-            '${RoutesName.workshopDetailScreen}/${workshop.id}',
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: AppRadius.rM,
-                child: SizedBox(
-                  width: 88,
-                  height: 88,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      ColoredBox(
-                        color: colors.surfaceMuted,
-                        child: image.isNotEmpty
-                            ? ImageCacheNetwork(
-                                url: image,
-                                fit: BoxFit.cover,
-                              )
+    return RepaintBoundary(
+      child: Material(
+        color: colors.surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: MarketUi.cardRadius,
+          side: BorderSide(color: colors.border),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () {
+            HapticFeedback.selectionClick();
+            context.push(
+              '${RoutesName.workshopDetailScreen}/${workshop.id}',
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: AppRadius.rM,
+                  child: SizedBox(
+                    width: 88,
+                    height: 88,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        ColoredBox(
+                          color: colors.surfaceMuted,
+                          child: image.isNotEmpty
+                              ? ImageCacheNetwork(
+                                  url: image,
+                                  fit: BoxFit.cover,
+                                  cacheWidth: 88,
+                                )
                             : Center(
                                 child: Icon(
                                   LucideIcons.wrench,
@@ -702,6 +711,7 @@ class _AvtoservisCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
         ),
       ),
     );

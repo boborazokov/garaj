@@ -7,10 +7,12 @@ import 'package:my_auto/core/errors/user_facing_errors.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/core/utils/phoneFormater.dart';
 import 'package:my_auto/features/auth/presentation/widgets/auth_header.dart';
 import 'package:my_auto/features/auth/presentation/widgets/auth_scaffold.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/widgets/input/index.dart';
+import 'package:my_auto/widgets/toaster/index.dart';
 import 'package:pinput/pinput.dart';
 
 const _requestReset = r'''
@@ -37,6 +39,7 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _phone = TextEditingController();
   final _code = TextEditingController();
   final _password = TextEditingController();
@@ -66,6 +69,38 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     }
   }
 
+  String _subtitle(String languageCode) {
+    switch (_step) {
+      case 0:
+        return switch (languageCode) {
+          'ru' => 'Введите номер телефона — отправим SMS с кодом.',
+          'en' => 'Enter your phone number — we will send an SMS code.',
+          _ => 'Telefon raqamingizni kiriting — SMS kod yuboramiz.',
+        };
+      case 1:
+        return switch (languageCode) {
+          'ru' => 'Введите 5-значный код из SMS.',
+          'en' => 'Enter the 5-digit code from SMS.',
+          _ => 'SMS dagi 5 xonali kodni kiriting.',
+        };
+      default:
+        return switch (languageCode) {
+          'ru' => 'Придумайте новый пароль для входа.',
+          'en' => 'Choose a new password for sign in.',
+          _ => 'Kirish uchun yangi parol o‘ylab toping.',
+        };
+    }
+  }
+
+  String _stepLabel(String languageCode) {
+    final n = _step + 1;
+    return switch (languageCode) {
+      'ru' => 'Шаг $n из 3',
+      'en' => 'Step $n of 3',
+      _ => '$n / 3 qadam',
+    };
+  }
+
   String _newPasswordLabel(String languageCode) {
     switch (languageCode) {
       case 'ru':
@@ -89,6 +124,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   Future<void> _onPrimary() async {
+    if (_loading) return;
     switch (_step) {
       case 0:
         await _sendCode();
@@ -100,8 +136,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   Future<void> _sendCode() async {
-    final phone = _phone.text.replaceAll(RegExp(r'[^+0-9]'), '');
-    if (phone.length < 9) return;
+    final s = S.of(context);
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    final phone = UzbekPhone.normalize(_phone.text);
+    if (!UzbekPhone.isComplete(_phone.text)) {
+      Toaster.error(s.fieldRequired);
+      return;
+    }
+
     setState(() => _loading = true);
     try {
       final result = await GraphQLConfig.client().mutate(
@@ -119,6 +162,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           context,
           presentation: ErrorPresentation.userAction,
           result: result,
+          fallback: s.serverNotWorking,
         );
         return;
       }
@@ -128,31 +172,47 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         _code.text = hint.toString().padLeft(5, '0');
       }
       setState(() => _step = 1);
+    } catch (_) {
+      if (mounted) {
+        UserFacingErrors.show(
+          context,
+          presentation: ErrorPresentation.userAction,
+          fallback: s.errorGeneric,
+        );
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _goToNewPassword() async {
+    final s = S.of(context);
     final digits = _code.text.replaceAll(RegExp(r'\D'), '');
-    if (digits.length < 5 || _token.isEmpty) return;
+    if (digits.length < 5) {
+      Toaster.error(s.confirmationCodeNeedsToBe5Symbols);
+      return;
+    }
+    if (_token.isEmpty) {
+      Toaster.error(s.invalidOtpCode);
+      setState(() => _step = 0);
+      return;
+    }
     setState(() => _step = 2);
   }
 
   Future<void> _savePassword() async {
     final s = S.of(context);
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
     if (_password.text.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(s.passwordLength)),
-      );
+      Toaster.error(s.passwordLength);
       return;
     }
     if (_password.text != _confirm.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(s.passwordsDoNotMatch)),
-      );
+      Toaster.error(s.passwordsDoNotMatch);
       return;
     }
+
     setState(() => _loading = true);
     try {
       final result = await GraphQLConfig.client().mutate(
@@ -173,15 +233,23 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           context,
           presentation: ErrorPresentation.userAction,
           result: result,
+          fallback: s.serverNotWorking,
         );
         return;
       }
       final lang = Localizations.localeOf(context).languageCode;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_doneMessage(lang))),
-      );
+      Toaster.success(_doneMessage(lang));
+      if (!mounted) return;
       context.pop();
       await AuthCoordinator.instance.clearSession();
+    } catch (_) {
+      if (mounted) {
+        UserFacingErrors.show(
+          context,
+          presentation: ErrorPresentation.userAction,
+          fallback: s.errorGeneric,
+        );
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -202,7 +270,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       ),
       decoration: BoxDecoration(
         color: colors.surface,
-        borderRadius: AppRadius.rL,
+        borderRadius: AppRadius.rM,
         border: Border.all(color: colors.border),
       ),
     );
@@ -218,36 +286,60 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       isLoading: _loading,
       primaryLabel: primary,
       onPrimary: _loading ? null : _onPrimary,
-      body: SingleChildScrollView(
-        padding:
-            const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.screenPadding,
+            AppSpacing.s,
+            AppSpacing.screenPadding,
+            AppSpacing.l,
+          ),
           children: [
-            AuthHeader(title: _title(lang), showLogo: false),
+            AuthHeader(
+              title: _title(lang),
+              subtitle: _subtitle(lang),
+              stepLabel: _stepLabel(lang),
+              showLogo: false,
+              compact: true,
+            ),
             if (_step == 0)
               CustomInput(
                 controller: _phone,
                 type: TextInputType.phone,
                 label: s.phone,
                 required: true,
-                hintText: s.phone,
+                hintText: UzbekPhone.hint,
+                autofillHints: const [AutofillHints.telephoneNumber],
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) {
+                  if (!_loading) _onPrimary();
+                },
                 icon: Icon(LucideIcons.phone, color: colors.primary),
               ),
-            if (_step == 1) ...[
-              Text(
-                s.enterCodeMessage,
-                style: TextStyle(color: colors.textSecondary, height: 1.35),
+            if (_step == 1)
+              AutofillGroup(
+                child: Pinput(
+                  length: 5,
+                  autofocus: true,
+                  keyboardType: TextInputType.number,
+                  controller: _code,
+                  autofillHints: const [AutofillHints.oneTimeCode],
+                  defaultPinTheme: pinTheme,
+                  focusedPinTheme: pinTheme.copyWith(
+                    decoration: pinTheme.decoration?.copyWith(
+                      border: Border.all(
+                        color: colors.primary,
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  onCompleted: (_) {
+                    if (!_loading) _onPrimary();
+                  },
+                ),
               ),
-              const SizedBox(height: 16),
-              Pinput(
-                length: 5,
-                autofocus: true,
-                keyboardType: TextInputType.number,
-                controller: _code,
-                defaultPinTheme: pinTheme,
-              ),
-            ],
             if (_step == 2) ...[
               CustomInput(
                 controller: _password,
@@ -255,18 +347,35 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 required: true,
                 hintText: _newPasswordLabel(lang),
                 type: TextInputType.visiblePassword,
+                autofillHints: const [AutofillHints.newPassword],
+                textInputAction: TextInputAction.next,
                 icon: Icon(LucideIcons.lock, color: colors.primary),
               ),
               const SizedBox(height: AppSpacing.l),
               CustomInput(
                 controller: _confirm,
-                label: s.password,
+                label: '${s.confirm} ${s.password}',
                 required: true,
-                hintText: s.password,
+                hintText: '${s.confirm} ${s.password}',
                 type: TextInputType.visiblePassword,
+                autofillHints: const [AutofillHints.newPassword],
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) {
+                  if (!_loading) _onPrimary();
+                },
                 icon: Icon(LucideIcons.lock, color: colors.primary),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return s.fieldRequired;
+                  }
+                  if (value != _password.text) {
+                    return s.passwordsDoNotMatch;
+                  }
+                  return null;
+                },
               ),
             ],
+            const SizedBox(height: AppSpacing.l),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
@@ -109,11 +110,12 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
-  void _refresh() {
+  Future<void> _refresh() {
     final provider = context.read<ProductProvider>();
-    provider.loadList(
+    return provider.loadList(
       filters: _buildFilters(),
       reset: true,
+      keepPrevious: true,
       search: provider.searchController.text,
     );
   }
@@ -175,7 +177,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Expanded(
               child: isLoading && products.isEmpty
-                  ? const Center(child: CircularProgressIndicator.adaptive())
+                  ? const ProductGridSkeleton()
                   : products.isEmpty
                       ? _EmptyWithCTA(
                           query: provider.searchController.text,
@@ -183,30 +185,36 @@ class _SearchScreenState extends State<SearchScreen> {
                         )
                       : RefreshIndicator(
                           color: colors.primary,
-                          onRefresh: () async => _refresh(),
-                          child: ListView(
+                          onRefresh: _refresh,
+                          child: CustomScrollView(
                             controller: _scrollController,
-                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
                             physics: const AlwaysScrollableScrollPhysics(),
-                            children: [
-                              ProductGrid(
-                                products: products,
-                              ),
-                              if (hasQuery && products.length <= _sparseThreshold)
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      8, 12, 8, 8),
-                                  child: _InlineRequestCta(
-                                    onTap: _openCreateRequest,
+                            slivers: [
+                              ProductSliverGrid(products: products),
+                              if (hasQuery &&
+                                  products.length <= _sparseThreshold)
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        8, 12, 8, 8),
+                                    child: _InlineRequestCta(
+                                      onTap: _openCreateRequest,
+                                    ),
                                   ),
                                 ),
                               if (isMoreLoading)
-                                const Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Center(
-                                      child: CircularProgressIndicator
-                                          .adaptive()),
+                                const SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Center(
+                                      child:
+                                          CircularProgressIndicator.adaptive(),
+                                    ),
+                                  ),
                                 ),
+                              const SliverToBoxAdapter(
+                                child: SizedBox(height: 24),
+                              ),
                             ],
                           ),
                         ),

@@ -136,7 +136,10 @@ class OrdersListBloc extends Bloc<OrdersListEvent, OrdersListState> {
   }
 
   Future<void> _load(Emitter<OrdersListState> emit, {required bool reset}) async {
-    if (reset) {
+    final soft = reset && state.orders.isNotEmpty;
+    // Soft refresh: skip loading/clear emit so tiles stay and the indicator
+    // can await the final network result.
+    if (reset && !soft) {
       emit(state.copyWith(
         status: OrdersListStatus.loading,
         orders: [],

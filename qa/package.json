@@ -1,0 +1,19 @@
+{
+  "name": "autorin-qa",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Full-stack QA orchestration for AutoRin (web + backend + Flutter)",
+  "scripts": {
+    "qa": "node ./scripts/run-qa.mjs",
+    "qa:full": "node ./scripts/run-qa.mjs full",
+    "qa:web": "node ./scripts/run-qa.mjs web",
+    "qa:backend": "node ./scripts/run-qa.mjs backend",
+    "qa:flutter": "node ./scripts/run-qa.mjs flutter",
+    "qa:security": "node ./scripts/run-qa.mjs security",
+    "qa:performance": "node ./scripts/run-qa.mjs performance",
+    "qa:regression": "node ./scripts/run-qa.mjs regression",
+    "qa:report": "node ./scripts/run-qa.mjs report",
+    "qa:web:install": "npm install --prefix ./web && npm run install:browsers --prefix ./web",
+    "qa:backend:deps": "npm install --prefix ./backend"
+  }
+}

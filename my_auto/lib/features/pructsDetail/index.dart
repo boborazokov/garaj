@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -8,6 +10,8 @@ import 'package:my_auto/features/discovery/presentation/providers/discovery_prov
 import 'package:my_auto/features/discovery/presentation/widgets/product_carousel_section.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/services/engagement/engagement_repository.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
@@ -113,6 +117,7 @@ class _ProductDetailView extends StatelessWidget {
   });
 
   Future<void> _call(String phone) async {
+    unawaited(engagementRepository.recordPartPhoneClick(id));
     final uri = Uri(scheme: 'tel', path: phone);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
@@ -130,7 +135,7 @@ class _ProductDetailView extends StatelessWidget {
       return Scaffold(
         backgroundColor: colors.background,
         body: const AppSafeArea(
-          child: Center(child: CircularProgressIndicator.adaptive()),
+          child: DetailPageSkeleton(),
         ),
       );
     }

@@ -27,9 +27,11 @@ class FavoriteHeartButton extends StatelessWidget {
     final colors = context.appColors;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Consumer<SetFavoriteProvider>(
-      builder: (context, fav, _) {
-        final isFav = fav.isFavorite(partId);
+    // Selector: only this heart rebuilds when its own favorite bit flips —
+    // Consumer rebuilt every heart on every favorites notify (scroll jank).
+    return Selector<SetFavoriteProvider, bool>(
+      selector: (_, fav) => fav.isFavorite(partId),
+      builder: (context, isFav, _) {
         final bg = onLightImage
             ? (isDark
                 ? Colors.black.withValues(alpha: 0.55)
@@ -47,11 +49,12 @@ class FavoriteHeartButton extends StatelessWidget {
         return Material(
           color: bg,
           shape: const CircleBorder(),
-          elevation: onLightImage ? 2 : 0,
-          shadowColor: Colors.black26,
+          // Elevation shadows are expensive while flinging long lists.
+          elevation: 0,
           child: InkWell(
             customBorder: const CircleBorder(),
             onTap: () async {
+              final fav = context.read<SetFavoriteProvider>();
               final ok = await AuthGuard.requireAuth(
                 context,
                 pending: PendingToggleFavorite(

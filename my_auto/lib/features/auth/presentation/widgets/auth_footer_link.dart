@@ -17,20 +17,32 @@ class AuthFooterLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.m),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      padding: const EdgeInsets.only(top: AppSpacing.m),
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text(
             prompt,
-            style: TextStyle(color: colors.textMuted),
+            style: textTheme.bodyMedium?.copyWith(color: colors.textMuted),
           ),
           TextButton(
             onPressed: onTap,
+            style: TextButton.styleFrom(
+              minimumSize: const Size(48, 44),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.s,
+                vertical: AppSpacing.s,
+              ),
+              foregroundColor: colors.primary,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
             child: Text(
               actionLabel,
-              style: TextStyle(
+              style: textTheme.labelLarge?.copyWith(
                 color: colors.primary,
                 fontWeight: FontWeight.w700,
               ),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:my_auto/core/auth/pending_action_manager.dart';
 import 'package:my_auto/core/auth/pending_signup_token.dart';
+import 'package:my_auto/core/errors/user_facing_errors.dart';
 import 'package:my_auto/core/model/user/index.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/routes/name.dart';
@@ -11,7 +12,6 @@ import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/features/auth/data/api/auth_api.dart';
 import 'package:my_auto/features/auth/presentation/controllers/confirmation_controller.dart';
 import 'package:my_auto/generated/l10n.dart';
-import 'package:my_auto/core/errors/user_facing_errors.dart';
 import 'package:my_auto/widgets/toaster/index.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +44,9 @@ class ConfirmationProvider extends ChangeNotifier {
 
     final code = controller.codeController.text.trim();
     if (code.length != 5) {
-      Toaster.error(S.of(context).confirmationCodeNeedsToBe5Symbols);
+      if (context.mounted) {
+        Toaster.error(S.of(context).confirmationCodeNeedsToBe5Symbols);
+      }
       return;
     }
 
@@ -69,30 +71,36 @@ class ConfirmationProvider extends ChangeNotifier {
         ),
       );
 
+      if (!context.mounted) return;
+
       final confirmPayload = result.data?['confirmSignUp'];
       if (confirmPayload == null) {
-        if (result.hasException && context.mounted) {
-          UserFacingErrors.show(
-            context,
-            presentation: ErrorPresentation.userAction,
-            result: result,
-          );
-        }
+        UserFacingErrors.show(
+          context,
+          presentation: ErrorPresentation.userAction,
+          result: result,
+          fallback: S.of(context).invalidOtpCode,
+        );
         return;
       }
 
-      {
-        final authData = AuthOutput.fromJson(
-          Map<String, dynamic>.from(confirmPayload as Map),
+      final authData = AuthOutput.fromJson(
+        Map<String, dynamic>.from(confirmPayload as Map),
+      );
+      await clearPendingSignupToken();
+      await context.read<AuthProvider>().setAuth(authData);
+      if (!context.mounted) return;
+      context.go(RoutesName.buttonNavigationBar);
+      await Future<void>.delayed(Duration.zero);
+      if (!context.mounted) return;
+      await PendingActionManager.instance.replay(context);
+    } catch (_) {
+      if (context.mounted) {
+        UserFacingErrors.show(
+          context,
+          presentation: ErrorPresentation.userAction,
+          fallback: S.of(context).errorGeneric,
         );
-        await clearPendingSignupToken();
-        await context.read<AuthProvider>().setAuth(authData);
-        if (!context.mounted) return;
-        // Clear confirmation / signup from the stack.
-        context.go(RoutesName.buttonNavigationBar);
-        await Future<void>.delayed(Duration.zero);
-        if (!context.mounted) return;
-        await PendingActionManager.instance.replay(context);
       }
     } finally {
       isLoading = false;

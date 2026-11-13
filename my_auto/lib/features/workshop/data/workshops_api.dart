@@ -335,3 +335,11 @@ mutation PromoteWorkshop($workshopId: ObjectId!, $plan: ServicePromotionPlanEnum
   }
 }
 """;
+
+const String recordWorkshopPhoneClickMutation = r'''
+mutation RecordWorkshopPhoneClick($workshopId: ObjectId!) {
+  recordWorkshopPhoneClick(workshopId: $workshopId) {
+    _id
+  }
+}
+''';

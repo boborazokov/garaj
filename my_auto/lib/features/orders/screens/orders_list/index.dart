@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/orders/orders_provider.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
@@ -161,7 +162,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
               ),
             Expanded(
               child: isLoading && orders.isEmpty
-                  ? const Center(child: CircularProgressIndicator.adaptive())
+                  ? const CardListSkeleton(cardHeight: 140)
                   : orders.isEmpty
                       ? _EmptyOrders()
                       : RefreshIndicator(
@@ -177,6 +178,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                             controller: _scrollController,
                             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
                             physics: const AlwaysScrollableScrollPhysics(),
+                            addAutomaticKeepAlives: false,
                             itemCount:
                                 orders.length + (isMoreLoading ? 1 : 0),
                             itemBuilder: (_, i) {

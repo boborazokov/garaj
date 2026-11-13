@@ -389,6 +389,10 @@ export const ADMIN_LIST_ORDERS = gql`
         images
         isPromoted
         promotedUntil
+        promotionPlan
+        viewsCount
+        phoneClickCount
+        shareCount
         urgency
         year
         createdAt
@@ -559,8 +563,12 @@ export const ADMIN_LIST_USERS = gql`
 `
 
 export const ADMIN_SET_USER_ROLE = gql`
-  mutation AdminSetUserRole($userId: ObjectId!, $role: UserRoleEnum!) {
-    adminSetUserRole(userId: $userId, role: $role) {
+  mutation AdminSetUserRole(
+    $userId: ObjectId!
+    $role: UserRoleEnum!
+    $password: String!
+  ) {
+    adminSetUserRole(userId: $userId, role: $role, password: $password) {
       _id
       role
     }
@@ -581,10 +589,15 @@ export const GET_PENDING_PARTS = gql`
         quantity
         viewsCount
         createdAt
-        seller { _id name phone }
-        category { _id name }
-        brand { _id name }
-        carModel { _id name }
+        location
+        region
+        isNew
+        isNegotiable
+        deliveryCondition
+        seller { _id name phone address }
+        category { _id name names { uz ru en } }
+        brand { _id name names { uz ru en } }
+        carModel { _id name names { uz ru en } }
       }
       page
       totalPages
@@ -630,9 +643,12 @@ export const ADMIN_LIST_PARTS = gql`
         currency
         quantity
         viewsCount
+        phoneClickCount
+        shareCount
         status
         isPromoted
         promotedUntil
+        promotionPlan
         createdAt
         images
         category {

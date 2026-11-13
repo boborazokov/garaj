@@ -223,7 +223,7 @@ class SUz extends S {
   String get callSeller => 'Sotuvchiga qo\'ng\'iroq qilish';
 
   @override
-  String get myServices => 'Mening xizmatlarim';
+  String get myServices => 'Mening avtoservisim';
 
   @override
   String get myProducts => 'Mening mahsulotlarim';
@@ -894,6 +894,9 @@ class SUz extends S {
   String get selectBrand => 'Brendni tanlang';
 
   @override
+  String get selectBrandAndModel => 'Marka va modelni tanlang';
+
+  @override
   String get selectModel => 'Modelni tanlang';
 
   @override
@@ -915,7 +918,7 @@ class SUz extends S {
   String get orderUrgencyNormal => 'Oddiy';
 
   @override
-  String get orderUrgencyUrgent => 'Juda shoshilinch';
+  String get orderUrgencyUrgent => 'Shoshilinch';
 
   @override
   String get submit => 'Yuborish';
@@ -2475,19 +2478,19 @@ class SUz extends S {
   String get promoteServiceTitle => 'Xizmatni targ\'ib qilish';
 
   @override
-  String get promotePlanBasic => 'Asosiy';
+  String get promotePlanBasic => 'START';
 
   @override
-  String get promotePlanStandard => 'Standart';
+  String get promotePlanStandard => 'STANDARD';
 
   @override
-  String get promotePlanPremium => 'Premium';
+  String get promotePlanPremium => 'PRO';
 
   @override
   String get promotePlanVip => 'VIP';
 
   @override
-  String get promotePlanTop => 'Top';
+  String get promotePlanTop => 'TOP';
 
   @override
   String walletPromoteBalance(String balance) {
@@ -2757,18 +2760,19 @@ class SUz extends S {
   String get adPlaceholderSubtitle => 'Bosib joylashuv va narxlarni ko‘ring';
 
   @override
-  String get advertiseTitle => 'Autorin’da reklama';
+  String get advertiseTitle =>
+      'Biznesingizni reklama qilmoqchimisiz? Admin bilan bog‘laning';
 
   @override
   String get advertiseSubtitle =>
-      'Taklifingizni bosh sahifa, mahsulotlar, servislar va boshqa ekranlarda ko‘rsating. Joy va muddatni tanlang.';
+      'Banner va biznes reklamasi — ma’lumot va o‘z bannerlaringiz statistikasi.';
 
   @override
-  String get advertiseHowTitle => 'Qanday ishlaydi';
+  String get advertiseHowTitle => 'Ma’lumot';
 
   @override
   String get advertiseHowBody =>
-      'Joy tanlang, 1 kun / 1 hafta / 1 oy / 3 oy muddatni belgilang — banner shu ekrandagi xaridorlarga chiqadi.';
+      'Banner joylashlari va muddatni admin bilan kelishasiz. E’lonlar uchun TOP rejasini o‘zingiz yoqishingiz mumkin.';
 
   @override
   String get advertiseTariffsTitle => 'Tariflar';
@@ -2886,8 +2890,7 @@ class SUz extends S {
   String get adMyBannersTitle => 'Mening bannerlarim';
 
   @override
-  String get adMyBannersEmpty =>
-      'Hali banner yo‘q. Taklifingizni ko‘tarish uchun sotib oling.';
+  String get adMyBannersEmpty => 'Hali banner yo‘q. Admin bilan bog‘laning.';
 
   @override
   String get adStatImpressions => 'Ko‘rishlar';
@@ -2919,10 +2922,10 @@ class SUz extends S {
   String get adPauseCta => 'Pauza';
 
   @override
-  String get profileAdvertise => 'Reklama';
+  String get profileAdvertise => 'Biznes';
 
   @override
-  String get profileSubtitleAdvertise => 'Bannerlar, tariflar va statistika';
+  String get profileSubtitleAdvertise => 'Bannerlar va statistika';
 
   @override
   String get onboardingPartsTitle => 'Kerakli ehtiyot qismlarni toping';

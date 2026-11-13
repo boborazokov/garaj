@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_auto/core/layout/layout.dart';
 import 'package:my_auto/core/model/product/index.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/create_product/bloc/create_product_bloc.dart';
@@ -81,7 +82,7 @@ class _EditProductShellScreenState extends State<EditProductShellScreen> {
               state.status == CreateProductStatus.initial) {
             return Scaffold(
               backgroundColor: colors.background,
-              body: const Center(child: CircularProgressIndicator.adaptive()),
+              body: const FormPageSkeleton(),
             );
           }
 

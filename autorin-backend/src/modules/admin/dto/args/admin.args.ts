@@ -116,6 +116,10 @@ export class SetUserRoleArgs {
 
   @Field(() => UserRoleEnum)
   role: UserRoleEnum;
+
+  /** Current admin password — required before granting elevated roles. */
+  @Field(() => String)
+  password: string;
 }
 
 @ArgsType()

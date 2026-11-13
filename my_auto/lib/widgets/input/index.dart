@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/forms/form_validators.dart';
 import 'package:my_auto/core/forms/text_input_capitalization.dart';
+import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/core/utils/phoneFormater.dart';
 import 'package:my_auto/widgets/form/field_label.dart';
 
@@ -22,6 +24,9 @@ class CustomInput extends StatefulWidget {
   final void Function()? onTap;
   final String? label;
   final bool required;
+  final Iterable<String>? autofillHints;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const CustomInput({
     super.key,
@@ -41,6 +46,9 @@ class CustomInput extends StatefulWidget {
     this.isTextarea = false,
     this.label,
     this.required = true,
+    this.autofillHints,
+    this.textInputAction,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -57,15 +65,20 @@ class _CustomInputState extends State<CustomInput> {
   void initState() {
     super.initState();
 
-    _inputFormatters = widget.type == TextInputType.phone
+    final isPhone = widget.type == TextInputType.phone;
+    _inputFormatters = isPhone
         ? [
-            FilteringTextInputFormatter.allow(RegExp(r'[0-9,+]')),
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s]')),
             UzbekPhoneNumberFormatter(),
           ]
         : mergeCapitalizationFormatters(
             autoCapitalize: shouldAutoCapitalizeText(keyboardType: widget.type),
             multiline: widget.isTextarea,
           );
+
+    if (isPhone) {
+      UzbekPhone.applyToController(widget.controller);
+    }
 
     _controllerListener = () {
       widget.onChanged?.call(widget.controller.text);
@@ -97,6 +110,9 @@ class _CustomInputState extends State<CustomInput> {
 
     final hasText = widget.controller.text.isNotEmpty;
 
+    final mutedIcon = colorScheme.onSurfaceVariant;
+    final isPassword = widget.type == TextInputType.visiblePassword;
+
     final field = TextFormField(
       maxLength:
           widget.maxLength ?? (widget.type == TextInputType.number ? 19 : null),
@@ -107,12 +123,18 @@ class _CustomInputState extends State<CustomInput> {
       readOnly: widget.readOnly,
       minLines: widget.isTextarea ? 3 : 1,
       maxLines: widget.isTextarea ? null : 1,
-      obscureText:
-          widget.type == TextInputType.visiblePassword ? _obscureText : false,
+      obscureText: isPassword ? _obscureText : false,
+      autofillHints: widget.autofillHints,
+      textInputAction: widget.textInputAction,
+      onFieldSubmitted: widget.onFieldSubmitted,
+      autocorrect: widget.type == TextInputType.phone || isPassword
+          ? false
+          : true,
+      enableSuggestions: !isPassword,
       textCapitalization: textCapitalizationFor(
         autoCapitalize: shouldAutoCapitalizeText(
           keyboardType: widget.type,
-          obscureText: widget.type == TextInputType.visiblePassword && _obscureText,
+          obscureText: isPassword && _obscureText,
         ),
         multiline: widget.isTextarea,
       ),
@@ -124,58 +146,61 @@ class _CustomInputState extends State<CustomInput> {
       decoration: InputDecoration(
         filled: true,
         fillColor: theme.colorScheme.surface,
-        counterText: "",
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        counterText: '',
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.l,
+          vertical: 14,
+        ),
         hintText: widget.hintText,
-        hintStyle: textTheme.bodyMedium?.copyWith(color: Colors.grey),
-
+        hintStyle: textTheme.bodyMedium?.copyWith(
+          color: mutedIcon,
+          fontWeight: FontWeight.w400,
+        ),
         prefixIcon: widget.icon != null
             ? IconTheme(
                 data: IconThemeData(
+                  size: 20,
                   color: _isFocused
                       ? colorScheme.primary
-                      : (hasText ? colorScheme.onSurface : Colors.grey),
+                      : (hasText ? colorScheme.onSurface : mutedIcon),
                 ),
                 child: widget.icon!,
               )
             : null,
         prefix: widget.prefix,
         suffix: widget.suffix,
-        suffixIcon: widget.type == TextInputType.visiblePassword
+        suffixIcon: isPassword
             ? IconButton(
+                tooltip: _obscureText ? 'Show password' : 'Hide password',
                 icon: Icon(
-                  _obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: _isFocused
-                      ? colorScheme.primary
-                      : colorScheme.onSurfaceVariant,
+                  _obscureText ? LucideIcons.eyeOff : LucideIcons.eye,
+                  size: 20,
+                  color: _isFocused ? colorScheme.primary : mutedIcon,
                 ),
                 onPressed: () => setState(() => _obscureText = !_obscureText),
               )
             : null,
-
-        // --- Borders unified through theme ---
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: AppRadius.rM,
           borderSide: BorderSide(
-            color: colorScheme.outline.withOpacity(0.4),
+            color: colorScheme.outline.withValues(alpha: 0.55),
             width: 1,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: AppRadius.rM,
           borderSide: BorderSide(
             color: colorScheme.primary,
-            width: 2,
+            width: 1.5,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: colorScheme.error, width: 2),
+          borderRadius: AppRadius.rM,
+          borderSide: BorderSide(color: colorScheme.error, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: colorScheme.error, width: 2),
+          borderRadius: AppRadius.rM,
+          borderSide: BorderSide(color: colorScheme.error, width: 1.5),
         ),
       ),
       validator: widget.validator ??
@@ -184,7 +209,7 @@ class _CustomInputState extends State<CustomInput> {
                   if (widget.type == TextInputType.phone) {
                     return FormValidators.phone(context, value);
                   }
-                  if (widget.type == TextInputType.visiblePassword) {
+                  if (isPassword) {
                     return FormValidators.password(context, value);
                   }
                   return FormValidators.required(context, value, minLength: 2);

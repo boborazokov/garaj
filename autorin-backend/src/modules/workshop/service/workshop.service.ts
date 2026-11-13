@@ -572,4 +572,16 @@ export class WorkshopService implements OnModuleInit {
     }
     return this.enrich(promoted);
   }
+
+  async recordWorkshopPhoneClick({ workshopId }: GetWorkshopByIdArgs) {
+    const updated = await this.workshopModel.findByIdAndUpdate(
+      workshopId,
+      { $inc: { phoneClickCount: 1 } },
+      { new: true },
+    );
+    if (!updated) {
+      throw new BadRequestException('Workshop not found');
+    }
+    return this.enrich(updated);
+  }
 }

@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/auth/auth_guard.dart';
 import 'package:my_auto/core/auth/pending_action.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/routes/name.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
@@ -140,9 +141,10 @@ class _NotificationsCenterScreenState extends State<NotificationsCenterScreen> {
   }
 
   Future<void> _loadInbox({required bool reset}) async {
+    final soft = reset && _items.isNotEmpty;
     if (reset) {
       setState(() {
-        _inboxLoading = true;
+        if (!soft) _inboxLoading = true;
         _inboxError = null;
         _page = 1;
       });
@@ -549,14 +551,11 @@ class _NotificationsCenterScreenState extends State<NotificationsCenterScreen> {
                     ),
                   ),
                 ),
-                if (_inboxLoading)
+                if (_inboxLoading && _items.isEmpty)
                   const SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    ),
+                    child: ListTileSkeleton(count: 8),
                   )
-                else if (_inboxError != null)
+                else if (_inboxError != null && _items.isEmpty)
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: _ErrorState(
@@ -609,6 +608,7 @@ class _NotificationsCenterScreenState extends State<NotificationsCenterScreen> {
                             onTap: () => _openNotification(n),
                           );
                         },
+                        addAutomaticKeepAlives: false,
                         childCount: group.items.length,
                       ),
                     ),

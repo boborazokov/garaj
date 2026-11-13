@@ -94,11 +94,6 @@ export const ADMIN_NAV_GROUPS: AppNavGroup[] = [
         label: { uz: "Avtoservislar", ru: "Автосервисы", en: "Workshops" },
         icon: Wrench,
       },
-      {
-        to: "/admin/top-plans",
-        label: { uz: "Top tariflar", ru: "Топ тарифы", en: "Top plans" },
-        icon: TrendingUp,
-      },
     ],
   },
   {
@@ -143,6 +138,11 @@ export const ADMIN_NAV_GROUPS: AppNavGroup[] = [
     id: "system",
     label: { uz: "Tizim", ru: "Система", en: "System" },
     items: [
+      {
+        to: "/admin/top-plans",
+        label: { uz: "Top tariflar", ru: "Топ тарифы", en: "Top plans" },
+        icon: TrendingUp,
+      },
       {
         to: "/admin/settings",
         label: { uz: "Sozlamalar", ru: "Настройки", en: "Settings" },

@@ -1,4 +1,4 @@
-import { Package, Pin, PinOff, Trash2 } from "lucide-react";
+import { BarChart3, Package, Pin, PinOff, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -15,7 +15,7 @@ import { useLanguage } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import type { CategoryRow, ItemStatus, Part } from "@/types";
-import { PRODUCTS_TEXTS, STATUS_LABELS } from "../../constants";
+import { PRODUCTS_TEXTS, PROMOTE_PLAN_LABELS, STATUS_LABELS } from "../../constants";
 import { formatCount, formatPrice, isPartRecommended, skuFromId } from "../../helpers";
 import type { ProductsTableProps } from "../../types";
 
@@ -57,6 +57,7 @@ export function ProductsTable({
   onToggleRow,
   onRecommend,
   onDelete,
+  onOpenStats,
 }: ProductsTableProps) {
   const { t } = useLanguage();
   const allChecked = rows.length > 0 && rows.every((row) => selectedIds.includes(row._id));
@@ -98,6 +99,7 @@ export function ProductsTable({
                   onToggleRow={onToggleRow}
                   onRecommend={onRecommend}
                   onDelete={onDelete}
+                  onOpenStats={onOpenStats}
                 />
               ))}
         </TableBody>
@@ -149,6 +151,7 @@ function ProductsSkeletonRow() {
         <div className="flex items-center justify-end gap-1.5">
           <Skeleton className="size-8 rounded-[8px]" />
           <Skeleton className="size-8 rounded-[8px]" />
+          <Skeleton className="size-8 rounded-[8px]" />
         </div>
       </TableCell>
     </TableRow>
@@ -161,15 +164,20 @@ function ProductRow({
   onToggleRow,
   onRecommend,
   onDelete,
+  onOpenStats,
 }: {
   part: Part;
   selected: boolean;
   onToggleRow: (id: string, checked: boolean) => void;
   onRecommend: (part: Part) => void;
   onDelete: (part: Part) => void;
+  onOpenStats: (part: Part) => void;
 }) {
   const { t, language } = useLanguage();
   const recommended = isPartRecommended(part);
+  const planLabel = part.promotionPlan
+    ? t(PROMOTE_PLAN_LABELS[part.promotionPlan] ?? PROMOTE_PLAN_LABELS.TOP)
+    : null;
   const categoryName = part.category
     ? categoryLabel(part.category as Pick<CategoryRow, "name" | "names">, language)
     : "";
@@ -198,7 +206,7 @@ function ProductRow({
                   variant="secondary"
                   className="h-5 shrink-0 bg-primary/8 px-1.5 text-[10px] font-semibold text-primary"
                 >
-                  {t(PRODUCTS_TEXTS.promoted)}
+                  {planLabel ?? t(PRODUCTS_TEXTS.promoted)}
                 </Badge>
               ) : null}
             </div>
@@ -229,6 +237,17 @@ function ProductRow({
       </TableCell>
       <TableCell>
         <div className="flex items-center justify-end gap-1.5">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="size-8"
+            title={t(PRODUCTS_TEXTS.stats)}
+            aria-label={t(PRODUCTS_TEXTS.stats)}
+            onClick={() => onOpenStats(part)}
+          >
+            <BarChart3 className="size-3.5" />
+          </Button>
           <Button
             type="button"
             variant="outline"

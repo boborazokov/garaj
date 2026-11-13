@@ -1,0 +1,775 @@
+{
+  "suite": "backend-graphql-audit-probes",
+  "url": "http://127.0.0.1:7007/api",
+  "generatedAt": "2026-11-13T13:15:22.052Z",
+  "counts": {
+    "PASS": 6,
+    "FAIL": 2,
+    "PASS_WITH_NOTES": 1
+  },
+  "probes": [
+    {
+      "name": "root-typename",
+      "expect": "http-ok-data",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "data": {
+            "__typename": "Query"
+          }
+        },
+        "elapsedMs": 40,
+        "error": null,
+        "exposesStacktrace": false
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "signIn-invalid-credentials",
+      "expect": "reject-bad-creds",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "errors": [
+            {
+              "message": "AUTH_INVALID_CREDENTIALS",
+              "locations": [
+                {
+                  "line": 2,
+                  "column": 5
+                }
+              ],
+              "path": [
+                "signIn"
+              ],
+              "extensions": {
+                "code": "AUTH_INVALID_CREDENTIALS",
+                "stacktrace": [
+                  "ApiException: Api Exception",
+                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
+                  "    at AuthService.signIn (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\modules\\auth\\service\\auth.service.ts:193:15)",
+                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async Object.signIn (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
+                ],
+                "success": false,
+                "statusCode": 400,
+                "debug": "No user for phone"
+              }
+            }
+          ],
+          "data": null
+        },
+        "elapsedMs": 334,
+        "error": null,
+        "exposesStacktrace": true
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "admin-stats-without-token",
+      "expect": "reject-unauth",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "errors": [
+            {
+              "message": "AUTH_UNAUTHORIZED",
+              "locations": [
+                {
+                  "line": 1,
+                  "column": 9
+                }
+              ],
+              "path": [
+                "getAdminStats"
+              ],
+              "extensions": {
+                "code": "AUTH_UNAUTHORIZED",
+                "stacktrace": [
+                  "ApiException: Api Exception",
+                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
+                  "    at GlobalAuthGuard.canActivate (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\auth\\guard\\global-auth.guard.ts:95:15)",
+                  "    at GuardsConsumer.tryActivate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                  "    at async canActivateFn (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async Object.getAdminStats (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
+                ],
+                "success": false,
+                "statusCode": 401,
+                "debug": "JWT missing or invalid"
+              }
+            }
+          ],
+          "data": null
+        },
+        "elapsedMs": 11,
+        "error": null,
+        "exposesStacktrace": true
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "admin-stats-with-forged-bearer",
+      "expect": "reject-unauth",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "errors": [
+            {
+              "message": "AUTH_UNAUTHORIZED",
+              "locations": [
+                {
+                  "line": 1,
+                  "column": 9
+                }
+              ],
+              "path": [
+                "getAdminStats"
+              ],
+              "extensions": {
+                "code": "AUTH_UNAUTHORIZED",
+                "stacktrace": [
+                  "ApiException: Api Exception",
+                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
+                  "    at GlobalAuthGuard.canActivate (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\auth\\guard\\global-auth.guard.ts:95:15)",
+                  "    at GuardsConsumer.tryActivate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                  "    at async canActivateFn (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async Object.getAdminStats (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
+                ],
+                "success": false,
+                "statusCode": 401,
+                "debug": "JWT missing or invalid"
+              }
+            }
+          ],
+          "data": null
+        },
+        "elapsedMs": 12,
+        "error": null,
+        "exposesStacktrace": true
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "admin-list-users-without-token",
+      "expect": "reject-unauth",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "errors": [
+            {
+              "message": "AUTH_UNAUTHORIZED",
+              "locations": [
+                {
+                  "line": 2,
+                  "column": 5
+                }
+              ],
+              "path": [
+                "adminListUsers"
+              ],
+              "extensions": {
+                "code": "AUTH_UNAUTHORIZED",
+                "stacktrace": [
+                  "ApiException: Api Exception",
+                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
+                  "    at GlobalAuthGuard.canActivate (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\auth\\guard\\global-auth.guard.ts:95:15)",
+                  "    at GuardsConsumer.tryActivate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                  "    at async canActivateFn (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async Object.adminListUsers (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
+                ],
+                "success": false,
+                "statusCode": 401,
+                "debug": "JWT missing or invalid"
+              }
+            }
+          ],
+          "data": null
+        },
+        "elapsedMs": 15,
+        "error": null,
+        "exposesStacktrace": true
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "getAppSettings-without-token",
+      "expect": "reject-unauth",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "errors": [
+            {
+              "message": "AUTH_UNAUTHORIZED",
+              "locations": [
+                {
+                  "line": 1,
+                  "column": 9
+                }
+              ],
+              "path": [
+                "getAppSettings"
+              ],
+              "extensions": {
+                "code": "AUTH_UNAUTHORIZED",
+                "stacktrace": [
+                  "ApiException: Api Exception",
+                  "    at throwApi (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\common\\errors\\api.exception.ts:33:9)",
+                  "    at GlobalAuthGuard.canActivate (D:\\flutter_projects\\Garaje\\autorin-backend\\src\\auth\\guard\\global-auth.guard.ts:95:15)",
+                  "    at GuardsConsumer.tryActivate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                  "    at async canActivateFn (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async target (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async Object.getAppSettings (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
+                ],
+                "success": false,
+                "statusCode": 401,
+                "debug": "JWT missing or invalid"
+              }
+            }
+          ],
+          "data": null
+        },
+        "elapsedMs": 8,
+        "error": null,
+        "exposesStacktrace": true
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "validation-error-no-stacktrace",
+      "expect": "no-stacktrace-on-validation",
+      "result": {
+        "ok": false,
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "message": "INTERNAL_ERROR",
+              "locations": [
+                {
+                  "line": 1,
+                  "column": 9
+                }
+              ],
+              "extensions": {
+                "code": "INTERNAL_ERROR",
+                "stacktrace": [
+                  "GraphQLError: Cannot query field \"totallyFakeFieldThatDoesNotExist\" on type \"Query\".",
+                  "    at Object.Field (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at Object.enter (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at Object.enter (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at visit (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at validate (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at processGraphQLRequest (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                  "    at async internalExecuteOperation (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async runHttpQuery (D:\\flutter_projects\\Garaje\\autorin-backend[path]",
+                  "    at async runPotentiallyBatchedHttpQuery (D:\\flutter_projects\\Garaje\\autorin-backend[path]"
+                ],
+                "success": false,
+                "debug": "Cannot query field \"totallyFakeFieldThatDoesNotExist\" on type \"Query\"."
+              }
+            }
+          ]
+        },
+        "elapsedMs": 10,
+        "error": null,
+        "exposesStacktrace": true
+      },
+      "status": "FAIL"
+    },
+    {
+      "name": "introspection-schema",
+      "expect": "introspection-limited",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "data": {
+            "__schema": {
+              "queryType": {
+                "name": "Query"
+              },
+              "types": [
+                {
+                  "name": "SellerSocialLinks"
+                },
+                {
+                  "name": "String"
+                },
+                {
+                  "name": "SellerPrivacy"
+                },
+                {
+                  "name": "Boolean"
+                },
+                {
+                  "name": "User"
+                },
+                {
+                  "name": "UserRoleEnum"
+                },
+                {
+                  "name": "DateTime"
+                },
+                {
+                  "name": "AuthOutput"
+                },
+                {
+                  "name": "Int"
+                },
+                {
+                  "name": "ConfirmationOutput"
+                },
+                {
+                  "name": "Float"
+                },
+                {
+                  "name": "CategoryNames"
+                },
+                {
+                  "name": "Category"
+                },
+                {
+                  "name": "CategoryTypeEnum"
+                },
+                {
+                  "name": "GeoPoint"
+                },
+                {
+                  "name": "Part"
+                },
+                {
+                  "name": "DeliveryConditionEnum"
+                },
+                {
+                  "name": "CurrencyEnum"
+                },
+                {
+                  "name": "ItemStatusEnum"
+                },
+                {
+                  "name": "ServicePromotionPlanEnum"
+                },
+                {
+                  "name": "WorkshopCategory"
+                },
+                {
+                  "name": "WorkshopDaySchedule"
+                },
+                {
+                  "name": "WorkshopServicePrice"
+                },
+                {
+                  "name": "Workshop"
+                },
+                {
+                  "name": "PaginatedUsers"
+                },
+                {
+                  "name": "DeleteAccountResult"
+                },
+                {
+                  "name": "Conversation"
+                },
+                {
+                  "name": "Favorite"
+                },
+                {
+                  "name": "Order"
+                },
+                {
+                  "name": "OrderUrgencyEnum"
+                },
+                {
+                  "name": "OrderStatusEnum"
+                },
+                {
+                  "name": "Message"
+                },
+                {
+                  "name": "SearchProductsResult"
+                },
+                {
+                  "name": "AppSettings"
+                },
+                {
+                  "name": "ContactInfo"
+                },
+                {
+                  "name": "PaginatedParts"
+                },
+                {
+                  "name": "CategoryTreeNode"
+                },
+                {
+                  "name": "ServiceCategory"
+                },
+                {
+                  "name": "Service"
+                },
+                {
+                  "name": "PaginatedWorkshops"
+                },
+                {
+                  "name": "WorkshopReviewOwnerReply"
+                },
+                {
+                  "name": "WorkshopReview"
+                },
+                {
+                  "name": "PaginatedWorkshopReviews"
+                },
+                {
+                  "name": "WorkshopBooking"
+                },
+                {
+                  "name": "WorkshopBookingStatusEnum"
+                },
+                {
+                  "name": "MapSearchResult"
+                },
+                {
+                  "name": "DeviceToken"
+                },
+                {
+                  "name": "DevicePlatformEnum"
+                },
+                {
+                  "name": "UserNotificationType"
+                },
+                {
+                  "name": "PaginatedUserNotifications"
+                },
+                {
+                  "name": "Wallet"
+                },
+                {
+                  "name": "WalletTransaction"
+                },
+                {
+                  "name": "WalletTransactionTypeEnum"
+                },
+                {
+                  "name": "WalletPoolEnum"
+                },
+                {
+                  "name": "WalletTransactionStatusEnum"
+                },
+                {
+                  "name": "WalletReferenceTypeEnum"
+                },
+                {
+                  "name": "ServiceBooking"
+                },
+                {
+                  "name": "ServiceBookingStatusEnum"
+                },
+                {
+                  "name": "ServiceBookingPaymentStatusEnum"
+                },
+                {
+                  "name": "ServiceReview"
+                },
+                {
+                  "name": "PaginatedServices"
+                },
+                {
+                  "name": "Advertisement"
+                },
+                {
+                  "name": "AdvertisementStatusEnum"
+                },
+                {
+                  "name": "AdvertisementPlanEnum"
+                },
+                {
+                  "name": "AdvertisementPlanPrice"
+                },
+                {
+                  "name": "AdvertisementSlotInfo"
+                },
+                {
+                  "name": "PaginatedAdvertisements"
+                },
+                {
+                  "name": "PaginatedOrders"
+                },
+                {
+                  "name": "SellerMatchingCategoryStat"
+                },
+                {
+                  "name": "SellerMatchingOrdersOverview"
+                },
+                {
+                  "name": "OrderResponse"
+                },
+                {
+                  "name": "ConversationView"
+                },
+                {
+                  "name": "PaginatedConversations"
+                },
+                {
+                  "name": "PaginatedMessages"
+                },
+                {
+                  "name": "TypingEvent"
+                },
+                {
+                  "name": "UnreadCountEvent"
+                },
+                {
+                  "name": "PromotionPayment"
+                },
+                {
+                  "name": "PromotionTargetTypeEnum"
+                },
+                {
+                  "name": "PromotionPaymentStatusEnum"
+                },
+                {
+                  "name": "PromotionPlanPrice"
+                },
+                {
+                  "name": "AdminDailyReportRow"
+                },
+                {
+                  "name": "AdminDailyReport"
+                },
+                {
+                  "name": "AdminStats"
+                },
+                {
+                  "name": "SellerCategoryStat"
+                },
+                {
+                  "name": "SellerStoreStats"
+                },
+                {
+                  "name": "SellerStoreProfile"
+                },
+                {
+                  "name": "SellerSocialLinksInput"
+                },
+                {
+                  "name": "SellerPrivacyInput"
+                },
+                {
+                  "name": "ObjectId"
+                },
+                {
+                  "name": "Query"
+                },
+                {
+                  "name": "SignInInput"
+                },
+                {
+                  "name": "PartFilterInput"
+                },
+                {
+                  "name": "PaginationInput"
+                },
+                {
+                  "name": "SortOrderEnum"
+                },
+                {
+                  "name": "ViewsTargetInput"
+                },
+                {
+                  "name": "CategoryFilterInput"
+                },
+                {
+                  "name": "WorkshopFilterInput"
+                },
+                {
+                  "name": "MapBoundsInput"
+                },
+                {
+                  "name": "WorkshopFiltersInput"
+                },
+                {
+                  "name": "ServiceFilterInput"
+                },
+                {
+                  "name": "AdvertisementFilterInput"
+                },
+                {
+                  "name": "OrderFilterInput"
+                },
+                {
+                  "name": "AdminPartsSortEnum"
+                },
+                {
+                  "name": "AdminOrdersSortEnum"
+                },
+                {
+                  "name": "AdminWorkshopsSortEnum"
+                },
+                {
+                  "name": "Mutation"
+                },
+                {
+                  "name": "SignUpInput"
+                },
+                {
+                  "name": "UserUpdateInput"
+                },
+                {
+                  "name": "Upload"
+                },
+                {
+                  "name": "ActivityTypeEnum"
+                },
+                {
+                  "name": "PartInput"
+                },
+                {
+                  "name": "PartUpdateInput"
+                },
+                {
+                  "name": "FavoriteInput"
+                },
+                {
+                  "name": "CategoryInput"
+                },
+                {
+                  "name": "CategoryNamesInput"
+                },
+                {
+                  "name": "WorkshopInput"
+                },
+                {
+                  "name": "GeolocationInput"
+                },
+                {
+                  "name": "WorkshopServicePriceInput"
+                },
+                {
+                  "name": "WorkshopDayScheduleInput"
+                },
+                {
+                  "name": "WorkshopUpdateInput"
+                },
+                {
+                  "name": "AddWorkshopReviewInput"
+                },
+                {
+                  "name": "ReplyWorkshopReviewInput"
+                },
+                {
+                  "name": "UpdateWorkshopReviewInput"
+                },
+                {
+                  "name": "BookWorkshopInput"
+                },
+                {
+                  "name": "ServiceInput"
+                },
+                {
+                  "name": "BookServiceInput"
+                },
+                {
+                  "name": "AddReviewInput"
+                },
+                {
+                  "name": "RegisterDeviceTokenInput"
+                },
+                {
+                  "name": "AdvertisementInput"
+                },
+                {
+                  "name": "OrderInput"
+                },
+                {
+                  "name": "OrderUpdateInput"
+                },
+                {
+                  "name": "RespondToOrderInput"
+                },
+                {
+                  "name": "CreateConversationInput"
+                },
+                {
+                  "name": "SendMessageInput"
+                },
+                {
+                  "name": "UpdateMessageInput"
+                },
+                {
+                  "name": "AdvertisementTariffInput"
+                },
+                {
+                  "name": "PromotionTariffInput"
+                },
+                {
+                  "name": "Subscription"
+                },
+                {
+                  "name": "__Schema"
+                },
+                {
+                  "name": "__Type"
+                },
+                {
+                  "name": "__TypeKind"
+                },
+                {
+                  "name": "__Field"
+                },
+                {
+                  "name": "__InputValue"
+                },
+                {
+                  "name": "__EnumValue"
+                },
+                {
+                  "name": "__Directive"
+                },
+                {
+                  "name": "__DirectiveLocation"
+                }
+              ]
+            }
+          }
+        },
+        "elapsedMs": 8,
+        "error": null,
+        "exposesStacktrace": false
+      },
+      "status": "PASS_WITH_NOTES"
+    },
+    {
+      "name": "signUp-otp-leak-check",
+      "expect": "signup-no-otp-leak",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "data": {
+            "signUp": {
+              "token": "[REDACTED_JWT]",
+              "correctCode": "[REDACTED_OTP]"
+            }
+          }
+        },
+        "elapsedMs": 249,
+        "error": null,
+        "exposesStacktrace": false
+      },
+      "status": "FAIL"
+    }
+  ]
+}

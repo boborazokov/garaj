@@ -27,6 +27,8 @@ class AdBanner extends StatefulWidget {
     this.refreshToken = 0,
     /// Empty-slot self-promo. Keep false for mid-list injectors.
     this.showPlaceholder = true,
+    /// Mid-list ads must not keep-alive — that freezes fling after ~page of items.
+    this.keepAlive = true,
   });
 
   final AdSurface surface;
@@ -37,6 +39,7 @@ class AdBanner extends StatefulWidget {
   final AdvertisementRepository? repository;
   final int refreshToken;
   final bool showPlaceholder;
+  final bool keepAlive;
 
   @override
   State<AdBanner> createState() => _AdBannerState();
@@ -56,7 +59,7 @@ class _AdBannerState extends State<AdBanner>
   final Set<String> _impressed = {};
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => widget.keepAlive;
 
   @override
   void initState() {

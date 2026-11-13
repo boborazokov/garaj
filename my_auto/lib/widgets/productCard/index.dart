@@ -16,10 +16,18 @@ class ProductCardGrid extends StatelessWidget {
   final Part product;
   final bool isMine;
 
+  /// Parent already gave a fixed height (feed grid) — use [Expanded] image.
+  final bool expandImage;
+
+  /// Logical px hint for decode size (halves GPU work on fling).
+  final double? imageCacheWidth;
+
   const ProductCardGrid({
     super.key,
     required this.product,
     this.isMine = false,
+    this.expandImage = false,
+    this.imageCacheWidth,
   });
 
   String _formatPrice(int price, String currency) {
@@ -41,105 +49,97 @@ class ProductCardGrid extends StatelessWidget {
     final showPrice =
         !(product.negotiable == true && product.price <= 0);
 
-    return MarketCardShell(
-      onTap: () =>
-          context.push(RoutesName.productDetailScreen, extra: product.id),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final bounded = constraints.maxHeight.isFinite;
+    final image = _ProductCardImage(
+      imageUrl: imageUrl,
+      product: product,
+      colors: colors,
+      cacheWidth: imageCacheWidth ?? 180,
+    );
 
-          final image = _ProductCardImage(
-            imageUrl: imageUrl,
-            product: product,
-            colors: colors,
-          );
-
-          final body = Padding(
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  showPrice
-                      ? _formatPrice(product.price, product.currency)
-                      : s.negotiable,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colors.textPrimary,
-                    fontSize: 15,
-                    height: 1.15,
-                    letterSpacing: -0.2,
-                  ),
-                ),
-                if (product.negotiable == true && showPrice) ...[
-                  const SizedBox(height: 2),
-                  Text(
-                    s.negotiable,
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: colors.primary,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 4),
-                Text(
-                  product.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.textPrimary.withValues(alpha: 0.82),
-                    fontWeight: FontWeight.w500,
-                    height: 1.25,
-                    fontSize: 13,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: CardDateRegion(
-                        createdAt: product.createdAt,
-                        region: product.region,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(
-                      LucideIcons.eye,
-                      size: 12,
-                      color: colors.textMuted,
-                    ),
-                    const SizedBox(width: 3),
-                    Text(
-                      '${product.viewsCount}',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: colors.textMuted,
-                        height: 1.2,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+    final body = Padding(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            showPrice
+                ? _formatPrice(product.price, product.currency)
+                : s.negotiable,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: colors.textPrimary,
+              fontSize: 15,
+              height: 1.15,
+              letterSpacing: -0.2,
             ),
-          );
+          ),
+          if (product.negotiable == true && showPrice) ...[
+            const SizedBox(height: 2),
+            Text(
+              s.negotiable,
+              maxLines: 1,
+              style: TextStyle(
+                color: colors.primary,
+                fontWeight: FontWeight.w600,
+                fontSize: 11,
+              ),
+            ),
+          ],
+          const SizedBox(height: 4),
+          Text(
+            product.name,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.textPrimary.withValues(alpha: 0.82),
+              fontWeight: FontWeight.w500,
+              height: 1.25,
+              fontSize: 13,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: CardDateRegion(
+                  createdAt: product.createdAt,
+                  region: product.region,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                LucideIcons.eye,
+                size: 12,
+                color: colors.textMuted,
+              ),
+              const SizedBox(width: 3),
+              Text(
+                '${product.viewsCount}',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: colors.textMuted,
+                  height: 1.2,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
 
-          if (bounded) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(child: image),
-                body,
-              ],
-            );
-          }
-
-          return Column(
+    final column = expandImage
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(child: image),
+              body,
+            ],
+          )
+        : Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -147,7 +147,13 @@ class ProductCardGrid extends StatelessWidget {
               body,
             ],
           );
-        },
+
+    return RepaintBoundary(
+      child: MarketCardShell(
+        lite: true,
+        onTap: () =>
+            context.push(RoutesName.productDetailScreen, extra: product.id),
+        child: column,
       ),
     );
   }
@@ -158,11 +164,13 @@ class _ProductCardImage extends StatelessWidget {
     required this.imageUrl,
     required this.product,
     required this.colors,
+    required this.cacheWidth,
   });
 
   final String? imageUrl;
   final Part product;
   final AppColors colors;
+  final double cacheWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +185,11 @@ class _ProductCardImage extends StatelessWidget {
         ColoredBox(
           color: colors.surfaceMuted,
           child: hasImage
-              ? ImageCacheNetwork(url: url, fit: BoxFit.cover)
+              ? ImageCacheNetwork(
+                  url: url,
+                  fit: BoxFit.cover,
+                  cacheWidth: cacheWidth,
+                )
               : Icon(LucideIcons.imageOff, size: 36, color: colors.textMuted),
         ),
         if (product.isPromotionActive)

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -9,8 +11,10 @@ import 'package:my_auto/core/errors/user_facing_errors.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/map/maptiler_config.dart';
 import 'package:my_auto/core/map/open_external_maps.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/routes/name.dart';
+import 'package:my_auto/core/services/engagement/engagement_repository.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/features/home/presentation/market_ui.dart';
@@ -135,6 +139,9 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
 
   Future<void> _call(String? phone) async {
     if (phone == null || phone.isEmpty) return;
+    unawaited(
+      engagementRepository.recordWorkshopPhoneClick(widget.workshopId),
+    );
     final uri = Uri.parse('tel:$phone');
     if (await canLaunchUrl(uri)) await launchUrl(uri);
   }
@@ -256,7 +263,7 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
       return Scaffold(
         backgroundColor: colors.background,
         body: const AppSafeArea(
-          child: Center(child: CircularProgressIndicator.adaptive()),
+          child: DetailPageSkeleton(),
         ),
       );
     }
@@ -505,6 +512,7 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
                 child: SizedBox(
                   height: 88,
                   child: ListView.separated(
+                    addAutomaticKeepAlives: false,
                     scrollDirection: Axis.horizontal,
                     itemCount: images.length,
                     separatorBuilder: (_, __) => const SizedBox(width: 8),
@@ -742,6 +750,7 @@ class _WorkshopDetailScreenState extends State<WorkshopDetailScreen> {
                 child: SizedBox(
                   height: 156,
                   child: ListView.separated(
+                    addAutomaticKeepAlives: false,
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.only(right: 18),
                     itemCount: _similar.length,

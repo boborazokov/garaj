@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -6,6 +7,7 @@ import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/provider/orders/orders_provider.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/core/utils/phoneFormater.dart';
 import 'package:my_auto/generated/l10n.dart';
 import 'package:my_auto/core/forms/form_validators.dart';
 import 'package:my_auto/widgets/common/app_bar.dart';
@@ -42,7 +44,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     }
     final authPhone = context.read<AuthProvider>().auth?.user.phone;
     if (authPhone != null && authPhone.isNotEmpty) {
-      _phone.text = authPhone;
+      _phone.text = UzbekPhone.format(authPhone);
     }
   }
 
@@ -64,7 +66,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     final data = <String, dynamic>{
       'title': _title.text.trim(),
       'description': _description.text.trim(),
-      'phone': _phone.text.trim(),
+      'phone': UzbekPhone.normalize(_phone.text),
       if (_location.text.trim().isNotEmpty) 'location': _location.text.trim(),
       if (budget != null && budget > 0) 'budget': budget,
     };
@@ -118,7 +120,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 controller: _phone,
                 label: s.phoneNumber,
                 required: true,
-                hint: '+998 ...',
+                hint: UzbekPhone.hint,
                 icon: LucideIcons.phone,
                 keyboardType: TextInputType.phone,
                 validator: (v) => FormValidators.phone(context, v),
@@ -246,6 +248,7 @@ class _Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPhone = keyboardType == TextInputType.phone;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -255,8 +258,16 @@ class _Field extends StatelessWidget {
           keyboardType: keyboardType,
           maxLines: maxLines,
           validator: validator,
+          autocorrect: !isPhone,
+          enableSuggestions: !isPhone,
+          inputFormatters: isPhone
+              ? [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s]')),
+                  UzbekPhoneNumberFormatter(),
+                ]
+              : null,
           decoration: InputDecoration(
-            hintText: hint,
+            hintText: isPhone ? UzbekPhone.hint : hint,
             prefixIcon: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Icon(icon, size: 18),

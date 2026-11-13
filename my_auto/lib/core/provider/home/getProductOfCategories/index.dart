@@ -74,9 +74,18 @@ class ProductProvider extends ChangeNotifier {
     return _hasMoreMap[_key(filters, sort: sort, search: search)] ?? true;
   }
 
+  /// Loads a page of products.
+  ///
+  /// When [reset] is true and [keepPrevious] is true (default), existing items
+  /// stay on screen until the new page arrives — avoids pull-to-refresh freezes
+  /// from wiping the tree into skeletons then rebuilding everything.
   Future<void> loadList({
     Map<String, dynamic>? filters,
     bool reset = true,
+    bool keepPrevious = true,
+    /// Skip the "loading started" notify (used by [loadMore] to avoid
+    /// rebuilding the whole feed mid-fling).
+    bool quiet = false,
     String? search,
     String? viewerRegion,
     String sort = 'RECOMMENDED',
@@ -85,14 +94,22 @@ class ProductProvider extends ChangeNotifier {
 
     if (_isLoadingMap[key] == true) return;
 
+    final soft =
+        reset && keepPrevious && (_productsMap[key]?.isNotEmpty ?? false);
+
     if (reset) {
       _currentPageMap[key] = 1;
       _hasMoreMap[key] = true;
-      _productsMap[key] = [];
+      if (!soft) {
+        _productsMap[key] = [];
+      }
     }
 
     _isLoadingMap[key] = true;
-    notifyListeners();
+    // Soft refresh / quiet pagination: skip a mid-scroll full-tree rebuild.
+    if (!soft && !quiet) {
+      notifyListeners();
+    }
 
     try {
       final page = _currentPageMap[key] ?? 1;
@@ -123,21 +140,31 @@ class ProductProvider extends ChangeNotifier {
       final totalPages = result.data?['getParts']?['totalPages'];
 
       if (partsData is List && partsData.isNotEmpty) {
-        final newProducts = partsData
+        final parsed = partsData
             .map((e) => Part.fromJson(Map<String, dynamic>.from(e as Map)))
-            .where((p) =>
-                !(_productsMap[key]?.any((existing) => existing.id == p.id) ??
-                    false))
-            .toList();
+            .toList(growable: false);
 
-        _productsMap[key] = [...?_productsMap[key], ...newProducts];
-        onProductsLoaded?.call(newProducts);
+        if (reset) {
+          _productsMap[key] = parsed;
+          onProductsLoaded?.call(parsed);
+        } else {
+          final existingIds = <String>{
+            for (final p in _productsMap[key] ?? const <Part>[]) p.id,
+          };
+          final newProducts =
+              parsed.where((p) => !existingIds.contains(p.id)).toList();
+          _productsMap[key] = [...?_productsMap[key], ...newProducts];
+          onProductsLoaded?.call(newProducts);
+        }
 
         _currentPageMap[key] = page + 1;
         if (_currentPageMap[key]! > (totalPages ?? 1)) {
           _hasMoreMap[key] = false;
         }
       } else {
+        if (reset) {
+          _productsMap[key] = [];
+        }
         _hasMoreMap[key] = false;
       }
     } finally {
@@ -157,18 +184,23 @@ class ProductProvider extends ChangeNotifier {
     if (_isMoreLoadingMap[key] == true || _hasMoreMap[key] == false) return;
 
     _isMoreLoadingMap[key] = true;
+    // One notify for the footer spinner — avoid a second notify from loadList.
     notifyListeners();
 
-    await loadList(
-      filters: filters,
-      reset: false,
-      search: search,
-      viewerRegion: viewerRegion,
-      sort: sort,
-    );
-
-    _isMoreLoadingMap[key] = false;
-    notifyListeners();
+    try {
+      await loadList(
+        filters: filters,
+        reset: false,
+        keepPrevious: true,
+        quiet: true,
+        search: search,
+        viewerRegion: viewerRegion,
+        sort: sort,
+      );
+    } finally {
+      _isMoreLoadingMap[key] = false;
+      notifyListeners();
+    }
   }
 
   void removeProductById(String id) {

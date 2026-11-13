@@ -5,6 +5,7 @@ import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/layout/layout.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/provider/profile/updateProfile/index.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
@@ -97,7 +98,7 @@ class _EditProfileState extends State<EditProfile> {
         Scaffold(
       appBar: AppBar(title: Text(s.editProfile)),
       body: provider.isFetching
-          ? const Center(child: CircularProgressIndicator.adaptive())
+          ? const FormPageSkeleton()
           : SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(

@@ -1,0 +1,10 @@
+# Placeholder login exploratory flow — update selectors after first device run.
+# OTP / phone auth: prefer test doubles; never hardcode production credentials.
+appId: garaj.uz
+---
+- launchApp
+- extendedWaitUntil:
+    visible: ".*"
+    timeout: 15000
+- takeScreenshot: login-start
+# - tapOn: "Kirish" / "Sign in" / localized CTA — fill after exploratory pass

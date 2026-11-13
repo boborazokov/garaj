@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +9,7 @@ import 'package:my_auto/core/auth/pending_action.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
 import 'package:my_auto/core/provider/home/setFavorite/index.dart';
 import 'package:my_auto/core/routes/name.dart';
+import 'package:my_auto/core/services/engagement/engagement_repository.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
 import 'package:my_auto/widgets/image_cache/index.dart';
@@ -128,13 +131,14 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
             right: 12,
             child: Row(
               children: [
-                Consumer<SetFavoriteProvider>(
-                  builder: (context, fav, _) {
-                    final isFav = fav.isFavorite(widget.partId);
+                Selector<SetFavoriteProvider, bool>(
+                  selector: (_, fav) => fav.isFavorite(widget.partId),
+                  builder: (context, isFav, _) {
                     return _RoundButton(
                       icon: LucideIcons.heart,
                       filled: isFav,
                       onTap: () async {
+                        final fav = context.read<SetFavoriteProvider>();
                         final ok = await AuthGuard.requireAuth(
                           context,
                           pending: PendingToggleFavorite(partId: widget.partId),
@@ -153,6 +157,9 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
                 _RoundButton(
                   icon: LucideIcons.share2,
                   onTap: () {
+                    unawaited(
+                      engagementRepository.recordPartShare(widget.partId),
+                    );
                     final title = widget.shareTitle.trim();
                     final link = 'https://garage.uz/product/${widget.partId}';
                     SharePlus.instance.share(

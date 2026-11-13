@@ -9,11 +9,13 @@ import { useLanguage } from "@/lib/i18n";
 import type { PaginatedUsers, UserRow } from "@/types";
 import {
   ConfirmDialog,
+  RoleConfirmDialog,
   UsersPagination,
   UsersTable,
   UsersToolbar,
 } from "./components";
-import { USERS_PAGE_SIZE, USERS_TEXTS } from "./constants";
+import { ROLE_LABELS, USERS_PAGE_SIZE, USERS_TEXTS } from "./constants";
+import type { UserRoleOption } from "./constants";
 import { matchesUserFilters } from "./helpers";
 import type { RoleFilter, VerifiedFilter } from "./types";
 
@@ -28,6 +30,12 @@ export function UsersPage() {
     {},
   );
   const [pendingUser, setPendingUser] = useState<UserRow | null>(null);
+  const [pendingRole, setPendingRole] = useState<{
+    user: UserRow;
+    role: string;
+  } | null>(null);
+  const [roleBusy, setRoleBusy] = useState(false);
+  const [roleError, setRoleError] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setSearch(searchInput.trim()), 300);
@@ -66,12 +74,41 @@ export function UsersPage() {
     [result?.payload, role, verified],
   );
 
-  async function changeRole(user: UserRow, nextRole: string) {
+  function requestRoleChange(user: UserRow, nextRole: string) {
+    if (user.role === nextRole) return;
+    setRoleError(null);
+    setPendingRole({ user, role: nextRole });
+  }
+
+  async function confirmRoleChange(password: string) {
+    if (!pendingRole) return;
+    const trimmed = password.trim();
+    if (!trimmed) {
+      setRoleError(t(USERS_TEXTS.passwordRequired));
+      return;
+    }
+    setRoleBusy(true);
+    setRoleError(null);
     try {
-      await setRoleMutation({ variables: { userId: user._id, role: nextRole } });
+      await setRoleMutation({
+        variables: {
+          userId: pendingRole.user._id,
+          role: pendingRole.role,
+          password: trimmed,
+        },
+      });
       await refetch();
-    } catch {
-      window.alert(t(USERS_TEXTS.roleFailed));
+      setPendingRole(null);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      const lower = msg.toLowerCase();
+      setRoleError(
+        lower.includes("password") || lower.includes("parol")
+          ? t(USERS_TEXTS.passwordWrong)
+          : t(USERS_TEXTS.roleFailed),
+      );
+    } finally {
+      setRoleBusy(false);
     }
   }
 
@@ -117,6 +154,11 @@ export function UsersPage() {
       ? (pendingVerified[pendingUser._id] ?? pendingUser.verified === true)
       : false;
 
+  const pendingRoleLabel =
+    pendingRole && pendingRole.role in ROLE_LABELS
+      ? t(ROLE_LABELS[pendingRole.role as UserRoleOption])
+      : pendingRole?.role ?? "";
+
   return (
     <div className="flex flex-col gap-2.5">
       <section className="overflow-hidden rounded-[10px] border border-border bg-card">
@@ -136,9 +178,7 @@ export function UsersPage() {
           loading={loading}
           pendingVerified={pendingVerified}
           verifying={verifying}
-          onRoleChange={(user, nextRole) => {
-            void changeRole(user, nextRole);
-          }}
+          onRoleChange={requestRoleChange}
           onToggleVerified={requestToggleVerified}
         />
 
@@ -162,6 +202,27 @@ export function UsersPage() {
         onCancel={() => setPendingUser(null)}
         onConfirm={() => {
           void confirmToggleVerified();
+        }}
+      />
+
+      <RoleConfirmDialog
+        open={Boolean(pendingRole)}
+        title={t(USERS_TEXTS.confirmRoleTitle)}
+        message={`${t(USERS_TEXTS.confirmRoleMessage)}${
+          pendingRole
+            ? ` (${pendingRole.user.name} → ${pendingRoleLabel})`
+            : ""
+        }`}
+        busy={roleBusy}
+        error={roleError}
+        onCancel={() => {
+          if (!roleBusy) {
+            setPendingRole(null);
+            setRoleError(null);
+          }
+        }}
+        onConfirm={(password) => {
+          void confirmRoleChange(password);
         }}
       />
     </div>

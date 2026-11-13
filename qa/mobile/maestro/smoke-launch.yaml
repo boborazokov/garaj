@@ -1,0 +1,9 @@
+# Maestro smoke — AutoRin (my_auto)
+# Requires Maestro CLI + app installed on device/emulator.
+# Mark BLOCKED if CLI or device is missing.
+appId: garaj.uz
+---
+- launchApp
+- assertVisible:
+    text: ".*"
+- takeScreenshot: smoke-launch

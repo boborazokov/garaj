@@ -19,8 +19,10 @@ abstract final class FormValidators {
       required(context, value, minLength: 2);
 
   static String? phone(BuildContext context, String? value) {
-    final digits = (value ?? '').replaceAll(RegExp(r'\D'), '');
-    if (digits.length < 9) {
+    // Accept +998XXXXXXXXX or formatted +998 XX XXX XX XX (9 local digits).
+    var digits = (value ?? '').replaceAll(RegExp(r'\D'), '');
+    if (digits.startsWith('998')) digits = digits.substring(3);
+    if (digits.length != 9) {
       return S.of(context).fieldRequired;
     }
     return null;

@@ -34,6 +34,7 @@ class CustomDropdownField<T> extends FormField<T> {
                 builder: (context) {
                   return AppSafeArea(
                     child: ListView.separated(
+                      addAutomaticKeepAlives: false,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shrinkWrap: true,
                       itemCount: items.length,

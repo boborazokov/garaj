@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/errors/graphql_error_ui.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
@@ -573,7 +574,7 @@ class _MessageListState extends State<_MessageList> {
 
     switch (state.status) {
       case ChatRoomStatus.loading:
-        return const Center(child: CircularProgressIndicator.adaptive());
+        return const ListTileSkeleton(count: 10, leadingSize: 36);
       case ChatRoomStatus.error:
         return Center(
           child: Column(
@@ -611,6 +612,7 @@ class _MessageListState extends State<_MessageList> {
             return false;
           },
           child: ListView.builder(
+            addAutomaticKeepAlives: false,
             controller: _scrollController,
             reverse: true,
             padding: EdgeInsets.symmetric(

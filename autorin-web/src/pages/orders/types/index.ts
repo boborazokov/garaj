@@ -39,6 +39,13 @@ export interface OrdersTableProps {
   onClose: (order: OrderRow) => void;
   onReopen: (order: OrderRow) => void;
   onDelete: (order: OrderRow) => void;
+  onOpenStats: (order: OrderRow) => void;
+}
+
+export interface StatsDialogProps {
+  order: OrderRow | null;
+  open: boolean;
+  onClose: () => void;
 }
 
 export interface OrdersPaginationProps {

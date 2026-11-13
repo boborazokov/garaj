@@ -9,6 +9,7 @@ import 'package:my_auto/features/create_product/data/models/category_node.dart';
 import 'package:my_auto/features/create_product/domain/entities/create_product_draft.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_auto/generated/l10n.dart';
+import 'package:my_auto/widgets/catalog_picker/catalog_picker_sheet.dart';
 
 class VehicleStep extends StatelessWidget {
   const VehicleStep({super.key, this.compact = false});
@@ -67,11 +68,13 @@ class VehicleStep extends StatelessWidget {
                   ),
                   Expanded(
                     child: ListView.builder(
+                      addAutomaticKeepAlives: false,
                       controller: controller,
                       itemCount: filtered.length,
                       itemBuilder: (_, i) {
                         final item = filtered[i];
                         return ListTile(
+                          leading: catalogPickerLeading(context, item),
                           title: Text(item.localizedName(lang)),
                           onTap: () {
                             onPick(item);
@@ -122,7 +125,7 @@ class VehicleStep extends StatelessWidget {
       ),
       children: [
         Text(
-          s.createProductVehicleTitle,
+          s.selectBrandAndModel,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -267,6 +270,7 @@ void _openRegionSheet(BuildContext context) {
             ),
             Expanded(
               child: ListView.builder(
+                addAutomaticKeepAlives: false,
                 controller: controller,
                 itemCount: uzbekistanRegions.length,
                 itemBuilder: (_, i) {

@@ -28,6 +28,7 @@ class WorkshopServicesGrid extends StatelessWidget {
       builder: (context, constraints) {
         final count = constraints.maxWidth >= 600 ? 5 : crossAxisCount;
         return GridView.builder(
+          addAutomaticKeepAlives: false,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

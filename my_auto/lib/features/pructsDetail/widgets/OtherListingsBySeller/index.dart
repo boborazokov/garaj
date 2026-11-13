@@ -45,6 +45,7 @@ class OtherListingsBySeller extends StatelessWidget {
         SizedBox(
           height: 280,
           child: ListView.separated(
+            addAutomaticKeepAlives: false,
             separatorBuilder: (context, index) => const SizedBox(width: 16),
             controller: scrollController,
             scrollDirection: Axis.horizontal,
@@ -71,6 +72,8 @@ class OtherListingsBySeller extends StatelessWidget {
                 child: ProductCardGrid(
                   product: products[index],
                   key: ValueKey(products[index].id),
+                  expandImage: true,
+                  imageCacheWidth: itemWidth,
                 ),
               );
             },

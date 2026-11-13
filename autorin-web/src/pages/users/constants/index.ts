@@ -87,6 +87,36 @@ export const USERS_TEXTS = {
     ru: "Не удалось обновить роль",
     en: "Could not update role",
   },
+  confirmRoleTitle: {
+    uz: "Rolni o‘zgartirish",
+    ru: "Изменить роль",
+    en: "Change role",
+  },
+  confirmRoleMessage: {
+    uz: "Davom etish uchun o‘z parolingizni kiriting. Tasdiqlamasdan rol o‘zgarmaydi.",
+    ru: "Введите свой пароль для подтверждения. Без него роль не изменится.",
+    en: "Enter your password to confirm. The role will not change without it.",
+  },
+  passwordLabel: {
+    uz: "Parolingiz",
+    ru: "Ваш пароль",
+    en: "Your password",
+  },
+  passwordPlaceholder: {
+    uz: "Parol",
+    ru: "Пароль",
+    en: "Password",
+  },
+  passwordWrong: {
+    uz: "Parol noto‘g‘ri",
+    ru: "Неверный пароль",
+    en: "Incorrect password",
+  },
+  passwordRequired: {
+    uz: "Parol majburiy",
+    ru: "Пароль обязателен",
+    en: "Password is required",
+  },
   prevPage: { uz: "Oldingi", ru: "Назад", en: "Previous" },
   nextPage: { uz: "Keyingi", ru: "Далее", en: "Next" },
   user: { uz: "Foydalanuvchi", ru: "Пользователь", en: "User" },

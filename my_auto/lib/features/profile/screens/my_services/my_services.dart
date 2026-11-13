@@ -35,9 +35,10 @@ class _MyServicesState extends State<MyServices> {
         'owner': context.read<AuthProvider>().auth!.user.id,
       };
 
-  void _load({required bool reset}) {
-    context.read<GetWorkshop>().loadList(
+  Future<void> _load({required bool reset}) {
+    return context.read<GetWorkshop>().loadList(
           reset: reset,
+          keepPrevious: true,
           filters: _filters,
           search: _currentSearch,
         );
@@ -124,7 +125,7 @@ class _MyServicesState extends State<MyServices> {
       },
       showSummary: false,
       isLoading: isLoading,
-      onRefresh: () async => _load(reset: true),
+      onRefresh: () => _load(reset: true),
       belowSearch: MyListingsStatusFilters(
         selected: _status,
         allCount: workshops.length,
@@ -143,6 +144,7 @@ class _MyServicesState extends State<MyServices> {
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 32),
+              addAutomaticKeepAlives: false,
               itemCount: visible.length + (isMoreLoading ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index >= visible.length) {

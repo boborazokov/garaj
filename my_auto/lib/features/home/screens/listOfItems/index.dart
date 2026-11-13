@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/model/categoryCar/index.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
 import 'package:my_auto/features/home/widgets/productList/index.dart';
 import 'package:my_auto/core/utils/category_locale.dart';
@@ -119,7 +120,9 @@ class _ListOfItemsState extends State<ListOfItems> {
                 )),
             Expanded(
               child: isLoading && products.isEmpty
-                  ? const Center(child: CircularProgressIndicator.adaptive())
+                  ? const ProductGridSkeleton(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 24),
+                    )
                   : products.isEmpty
                       ? Center(child: Text(S.of(context).noProducts))
                       : ProductGrid(

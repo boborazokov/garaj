@@ -46,18 +46,27 @@ class OrdersProvider extends ChangeNotifier {
     String? search,
     String? viewerRegion,
     bool reset = true,
+    bool keepPrevious = true,
+    bool quiet = false,
   }) async {
     final key = _key(filters, search);
     if (_loadingMap[key] == true) return;
 
+    final soft =
+        reset && keepPrevious && (_ordersMap[key]?.isNotEmpty ?? false);
+
     if (reset) {
       _pageMap[key] = 1;
       _hasMoreMap[key] = true;
-      _ordersMap[key] = [];
+      if (!soft) {
+        _ordersMap[key] = [];
+      }
     }
 
     _loadingMap[key] = true;
-    notifyListeners();
+    if (!soft && !quiet) {
+      notifyListeners();
+    }
 
     try {
       final page = _pageMap[key] ?? 1;
@@ -81,16 +90,26 @@ class OrdersProvider extends ChangeNotifier {
           (result.data?['getOrders']?['totalPages'] as num?)?.toInt() ?? 1;
 
       if (raw is List && raw.isNotEmpty) {
-        final fresh = raw
+        final parsed = raw
             .map((e) => OrderItem.fromJson(Map<String, dynamic>.from(e as Map)))
-            .where((o) =>
-                !(_ordersMap[key]?.any((x) => x.id == o.id) ?? false))
-            .toList();
+            .toList(growable: false);
 
-        _ordersMap[key] = [...?_ordersMap[key], ...fresh];
+        if (reset) {
+          _ordersMap[key] = parsed;
+        } else {
+          final existingIds = <String>{
+            for (final o in _ordersMap[key] ?? const <OrderItem>[]) o.id,
+          };
+          final fresh =
+              parsed.where((o) => !existingIds.contains(o.id)).toList();
+          _ordersMap[key] = [...?_ordersMap[key], ...fresh];
+        }
         _pageMap[key] = page + 1;
         if (_pageMap[key]! > totalPages) _hasMoreMap[key] = false;
       } else {
+        if (reset) {
+          _ordersMap[key] = [];
+        }
         _hasMoreMap[key] = false;
       }
     } finally {
@@ -110,15 +129,18 @@ class OrdersProvider extends ChangeNotifier {
     _moreLoadingMap[key] = true;
     notifyListeners();
 
-    await loadList(
-      filters: filters,
-      search: search,
-      viewerRegion: viewerRegion,
-      reset: false,
-    );
-
-    _moreLoadingMap[key] = false;
-    notifyListeners();
+    try {
+      await loadList(
+        filters: filters,
+        search: search,
+        viewerRegion: viewerRegion,
+        reset: false,
+        quiet: true,
+      );
+    } finally {
+      _moreLoadingMap[key] = false;
+      notifyListeners();
+    }
   }
 
   /// Returns the freshly created order id on success, throws on failure.

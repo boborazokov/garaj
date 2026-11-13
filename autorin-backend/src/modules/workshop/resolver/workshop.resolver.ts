@@ -17,6 +17,7 @@ import {
   UpdateWorkshopByIdArgs,
 } from '../dto';
 import { Workshop, resolveWorkshopGeo } from '../schema';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { UseAuth, UseOptionalAuth } from 'src/auth/useAuth';
 import { UseRole } from 'src/auth/useAuth/use-role.decorator';
 import { UserRoleEnum } from 'src/modules/user/enums';
@@ -310,5 +311,11 @@ export class WorkshopResolver {
     @Context() context: ContextType,
   ) {
     return this.workshopService.promoteWorkshop(args, context);
+  }
+
+  @Public()
+  @Mutation(() => Workshop)
+  recordWorkshopPhoneClick(@Args() args: GetWorkshopByIdArgs) {
+    return this.workshopService.recordWorkshopPhoneClick(args);
   }
 }

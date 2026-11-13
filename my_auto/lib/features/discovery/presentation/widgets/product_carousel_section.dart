@@ -69,6 +69,7 @@ class ProductCarouselSection extends StatelessWidget {
           child: isLoading
               ? _ShimmerRow(colors: colors, itemWidth: width)
               : ListView.separated(
+                  addAutomaticKeepAlives: false,
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   padding: EdgeInsets.symmetric(
@@ -84,6 +85,8 @@ class ProductCarouselSection extends StatelessWidget {
                       child: ProductCardGrid(
                         product: products[index],
                         key: ValueKey('carousel-${products[index].id}'),
+                        expandImage: true,
+                        imageCacheWidth: width,
                       ),
                     );
                   },
@@ -130,6 +133,7 @@ class _ShimmerRowState extends State<_ShimmerRow>
       animation: _controller,
       builder: (context, _) {
         return ListView.separated(
+          addAutomaticKeepAlives: false,
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           itemCount: 4,

@@ -114,6 +114,22 @@ mutation RemoveFromFavorites($favorite: FavoriteInput!) {
 }
 """;
 
+const String recordPartPhoneClickMutation = r'''
+mutation RecordPartPhoneClick($partId: ObjectId!, $deviceId: String) {
+  recordPartPhoneClick(partId: $partId, deviceId: $deviceId) {
+    _id
+  }
+}
+''';
+
+const String recordPartShareMutation = r'''
+mutation RecordPartShare($partId: ObjectId!, $deviceId: String) {
+  recordPartShare(partId: $partId, deviceId: $deviceId) {
+    _id
+  }
+}
+''';
+
 const String GET_FAVORITE_PARTS = r"""
 query GetFavoriteParts($pagination: PaginationInput!) {
   getParts(

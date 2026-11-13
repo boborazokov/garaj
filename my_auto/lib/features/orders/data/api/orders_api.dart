@@ -65,8 +65,8 @@ query GetOrders(
 """;
 
 const String getOrderByIdQuery = r"""
-query GetOrderById($orderId: ObjectId!) {
-  getOrderById(orderId: $orderId) {
+query GetOrderById($orderId: ObjectId!, $deviceId: String) {
+  getOrderById(orderId: $orderId, deviceId: $deviceId) {
     _id
     title
     description
@@ -178,6 +178,22 @@ subscription OrderUpdated($orderId: ObjectId!) {
   }
 }
 """;
+
+const String recordOrderPhoneClickMutation = r'''
+mutation RecordOrderPhoneClick($orderId: ObjectId!, $deviceId: String) {
+  recordOrderPhoneClick(orderId: $orderId, deviceId: $deviceId) {
+    _id
+  }
+}
+''';
+
+const String recordOrderShareMutation = r'''
+mutation RecordOrderShare($orderId: ObjectId!, $deviceId: String) {
+  recordOrderShare(orderId: $orderId, deviceId: $deviceId) {
+    _id
+  }
+}
+''';
 
 const String orderResponseAddedSubscription = r"""
 subscription OrderResponseAdded($orderId: ObjectId!) {

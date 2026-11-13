@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/services/graphql/index.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
@@ -124,9 +125,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           ),
           const SizedBox(height: 16),
           if (_loading)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 24),
-              child: Center(child: CircularProgressIndicator.adaptive()),
+            const CardListSkeleton(
+              count: 2,
+              cardHeight: 72,
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
             )
           else if (_failed)
             Text(

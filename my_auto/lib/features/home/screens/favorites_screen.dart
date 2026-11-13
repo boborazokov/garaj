@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:my_auto/core/layout/app_safe_area.dart';
+import 'package:my_auto/core/presentation/shimmer_skeletons.dart';
 import 'package:my_auto/core/provider/auth/auth.dart';
 import 'package:my_auto/core/provider/home/getProductOfCategories/index.dart';
 import 'package:my_auto/core/provider/home/setFavorite/index.dart';
@@ -125,15 +126,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 color: colors.primary,
                 onRefresh: _load,
                 child: loading && list.isEmpty
-                    ? ListView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        children: const [
-                          SizedBox(
-                            height: 240,
-                            child: Center(child: CircularProgressIndicator()),
-                          ),
-                        ],
-                      )
+                    ? const ProductGridSkeleton()
                     : list.isEmpty
                         ? ListView(
                             physics: const AlwaysScrollableScrollPhysics(),

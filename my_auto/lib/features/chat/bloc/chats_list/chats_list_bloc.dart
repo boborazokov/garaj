@@ -59,7 +59,10 @@ class ChatsListBloc extends Bloc<ChatsListEvent, ChatsListState> {
   }
 
   Future<void> _load(Emitter<ChatsListState> emit, {required bool reset}) async {
-    if (reset) {
+    final soft = reset && state.conversations.isNotEmpty;
+    // Soft refresh: do not emit loading/clear — keeps list painted and lets
+    // RefreshIndicator await the final network emit.
+    if (reset && !soft) {
       emit(state.copyWith(
         status: ChatsListStatus.loading,
         conversations: [],

@@ -37,92 +37,97 @@ class FeaturedCarousel extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: items.length,
+        addAutomaticKeepAlives: false,
         separatorBuilder: (_, __) => const SizedBox(width: 10),
         itemBuilder: (_, i) {
           final p = items[i];
           final image = p.images.isNotEmpty ? p.images.first : null;
-          return DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: AppRadius.rL,
-              border: Border.all(color: colors.border),
-              boxShadow: MarketUi.softElev(context),
-            ),
-            child: SizedBox(
-              width: 200,
-              child: Material(
-                color: colors.surface,
+          return RepaintBoundary(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
                 borderRadius: AppRadius.rL,
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () => context.push(
-                    RoutesName.productDetailScreen,
-                    extra: p.id,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            ColoredBox(
-                              color: colors.surfaceMuted,
-                              child: image != null && image.isNotEmpty
-                                  ? ImageCacheNetwork(
-                                      url: image,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Icon(
-                                      LucideIcons.imageOff,
-                                      size: 32,
-                                      color: colors.textMuted,
-                                    ),
-                            ),
-                            Positioned(
-                              left: 8,
-                              top: 8,
-                              child: PromotionPlanBadge(plan: p.promotionPlan),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              _formatPrice(p.price, p.currency),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: colors.primary,
-                                letterSpacing: -0.2,
-                                fontSize: 14,
+                border: Border.all(color: colors.border),
+                boxShadow: MarketUi.softElev(context),
+              ),
+              child: SizedBox(
+                width: 200,
+                child: Material(
+                  color: colors.surface,
+                  borderRadius: AppRadius.rL,
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: () => context.push(
+                      RoutesName.productDetailScreen,
+                      extra: p.id,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              ColoredBox(
+                                color: colors.surfaceMuted,
+                                child: image != null && image.isNotEmpty
+                                    ? ImageCacheNetwork(
+                                        url: image,
+                                        fit: BoxFit.cover,
+                                        cacheWidth: 200,
+                                      )
+                                    : Icon(
+                                        LucideIcons.imageOff,
+                                        size: 32,
+                                        color: colors.textMuted,
+                                      ),
                               ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              p.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12.5,
-                                color: colors.textPrimary,
+                              Positioned(
+                                left: 8,
+                                top: 8,
+                                child:
+                                    PromotionPlanBadge(plan: p.promotionPlan),
                               ),
-                            ),
-                            const SizedBox(height: 3),
-                            CardDateRegion(
-                              createdAt: p.createdAt,
-                              region: p.region,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                _formatPrice(p.price, p.currency),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.primary,
+                                  letterSpacing: -0.2,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                p.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12.5,
+                                  color: colors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              CardDateRegion(
+                                createdAt: p.createdAt,
+                                region: p.region,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

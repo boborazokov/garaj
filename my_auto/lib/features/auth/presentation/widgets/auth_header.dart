@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_auto/core/theme/colors/index.dart';
 import 'package:my_auto/core/theme/tokens.dart';
+import 'package:my_auto/widgets/brand_logo.dart';
 
 class AuthHeader extends StatelessWidget {
   const AuthHeader({
@@ -9,16 +10,21 @@ class AuthHeader extends StatelessWidget {
     this.subtitle,
     this.stepLabel,
     this.showLogo = true,
+    /// Smaller logo + tighter gaps — use on multi-field screens (sign up).
+    this.compact = false,
   });
 
   final String title;
   final String? subtitle;
   final String? stepLabel;
   final bool showLogo;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
+    final logoWidth = compact ? 168.0 : 200.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -27,28 +33,26 @@ class AuthHeader extends StatelessWidget {
           Text(
             stepLabel!,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
+            style: textTheme.labelMedium?.copyWith(
               color: colors.textMuted,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: AppSpacing.m),
+          const SizedBox(height: AppSpacing.s),
         ],
         if (showLogo) ...[
-          Image.asset(
-            'assets/images/logo.png',
-            fit: BoxFit.contain,
-            height: 110,
-          ),
-          const SizedBox(height: 10),
+          Center(child: BrandLogo(width: logoWidth)),
+          SizedBox(height: compact ? AppSpacing.m : AppSpacing.l),
         ],
         Text(
           title,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+          style: textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.3,
+            height: 1.2,
+            color: colors.textPrimary,
+            fontSize: compact ? 20 : 22,
           ),
         ),
         if (subtitle != null) ...[
@@ -56,13 +60,14 @@ class AuthHeader extends StatelessWidget {
           Text(
             subtitle!,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: colors.textMuted,
-              height: 1.4,
+            style: textTheme.bodyMedium?.copyWith(
+              color: colors.textSecondary,
+              height: 1.35,
+              fontSize: 13,
             ),
           ),
         ],
-        const SizedBox(height: 30),
+        SizedBox(height: compact ? AppSpacing.l : AppSpacing.xl),
       ],
     );
   }

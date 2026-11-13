@@ -1,0 +1,16 @@
+node_modules/
+web/node_modules/
+backend/node_modules/
+web/test-results/
+web/playwright-report/
+reports/playwright-html/
+reports/qa-run-*.json
+reports/qa-run-*.md
+reports/LATEST.json
+reports/LATEST.md
+screenshots/playwright-artifacts/
+screenshots/*.png
+**/.env
+!**/.env.example
+**/credentials*.json
+**/*.local.json
