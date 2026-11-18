@@ -1,4 +1,6 @@
-# Security QA Report — post-fix
+# Security QA Report — post-hardening (2026-11-13)
+
+See also: `FINAL_RELEASE_VERIFICATION.md`, `DEPENDENCY_MIGRATION_NOTES.md`.
 
 ## GraphQL
 
@@ -7,23 +9,33 @@
 | OTP in response | **PASS** (field removed) |
 | Stacktraces | **PASS** (stripped) |
 | Authz unauth | **PASS** |
-| Introspection | Off when `NODE_ENV=production`; local default on unless `GRAPHQL_INTROSPECTION=false` |
+| Introspection | **FIXED** — always off when `NODE_ENV=production` (env cannot re-enable) |
 
-## HTTP headers
+## HTTP / deploy config
 
-| Header | Observed |
-|--------|----------|
+| Item | Result |
+|------|--------|
 | X-Powered-By | absent |
 | X-Frame-Options | DENY |
 | X-Content-Type-Options | nosniff |
-| HSTS | off on local HTTP (expected) |
-| CSP | disabled on API (documented) |
+| HSTS | `ENABLE_HSTS=true` on Render; off on local HTTP; no includeSubDomains/preload |
+| API CSP | disabled on Nest (documented) |
+| Web CSP | **Report-Only** on Vercel (`vercel.json`) |
+| Production CORS | no localhost; loopback rejected in production |
+| MinIO blueprint | no default secrets; prod fail-closed without dashboard secrets |
+| Log redaction | sanitizeForLog used; includes otp/code/tokens |
 
 ## Dependency audits
 
-| Target | Before | After |
-|--------|--------|-------|
-| Backend npm omit-dev | 42 (4 crit) | Still reports ~42 via npm; pnpm prod ~17 (0 crit in last summary) — **PARTIALLY FIXED** |
-| Web npm omit-dev | 2 | Still reported; installed router 7.18.5 + redirect sanitize — **PARTIALLY FIXED** |
+| Target | Result |
+|--------|--------|
+| `@graphql-tools/utils` | **FIXED** → 12.0.4 override |
+| Web npm omit-dev | **0 vulnerabilities** (this pass) |
+| `@apollo/server` / `sharp` | residual HIGH — deferred majors (migration notes) |
+| React Router GHSA-qwww | **NOT APPLICABLE** at 7.18.5 |
+
+## Out of scope
+
+SMS HTTP provider integration — pending; not claimed ready.
 
 ZAP / k6: **BLOCKED** (tools not installed).

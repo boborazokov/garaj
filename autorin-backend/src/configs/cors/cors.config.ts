@@ -2,8 +2,23 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 import { ConfigService } from '@nestjs/config';
 import { isProductionEnv, parseAllowedOrigins } from '../env';
 
+function isLoopbackOrigin(origin: string): boolean {
+  try {
+    const { hostname } = new URL(origin);
+    return (
+      hostname === 'localhost' ||
+      hostname === '127.0.0.1' ||
+      hostname === '::1' ||
+      hostname === '0.0.0.0'
+    );
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Production: only origins listed in ALLOWED_ORIGINS (reject unknown).
+ * Loopback origins are never allowed in production even if listed.
  * Development: reflects the request origin when ALLOWED_ORIGINS is unset
  * (convenient for Flutter web / local tools); set ALLOWED_ORIGINS to test prod-like CORS locally.
  */
@@ -21,6 +36,11 @@ export function buildCorsOptions(config: ConfigService): CorsOptions {
     origin: (origin, callback) => {
       if (!origin) {
         callback(null, true);
+        return;
+      }
+
+      if (isProd && isLoopbackOrigin(origin)) {
+        callback(new Error('Not allowed by CORS'), false);
         return;
       }
 

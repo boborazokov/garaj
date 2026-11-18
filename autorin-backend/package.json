@@ -118,9 +118,14 @@
       "^src/(.*)$": "<rootDir>/$1"
     }
   },
+  "overrides": {
+    "ws": "8.23.0",
+    "@graphql-tools/utils": "12.0.4"
+  },
   "pnpm": {
     "overrides": {
-      "ws": "8.23.0"
+      "ws": "8.23.0",
+      "@graphql-tools/utils": "12.0.4"
     }
   }
 }

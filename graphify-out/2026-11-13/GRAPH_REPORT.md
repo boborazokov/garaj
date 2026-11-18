@@ -1,13 +1,13 @@
 # Graph Report - Garaje  (2026-11-13)
 
 ## Corpus Check
-- 1729 files · ~721,816 words
+- 1954 files · ~988,752 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 86 file(s) not represented in the graph (top: (none) 18, .css 10, .xml 9)
+- Unclassified: 92 file(s) not represented in the graph (top: (none) 21, .css 10, .xml 9)
 
 ## Summary
-- 20542 nodes · 35941 edges · 632 communities (511 shown, 121 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 440 edges (avg confidence: 0.87)
+- 23309 nodes · 38840 edges · 812 communities (692 shown, 120 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 483 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
@@ -24,29 +24,29 @@
 - useLanguage
 - package:provider/provider.dart
 - message_composer.dart
-- DeviceToken
+- .registerDeviceToken
 - create_product_bloc.dart
 - create_workshop_flow_screen.dart
 - order_detail_bloc.dart
 - productTitle/index.dart
 - examples/checkout/jetpack-compose/CheckoutScreen.kt
-- VoidCallback
+- app_bar.dart
 - service.service.ts
 - _
 - _
 - dart:io
 - graphql_links.dart
 - map_discovery_bloc.dart
-- String?
+- pructsDetail/index.dart
 - _
 - message.resolver.ts
 - examples/checkout/jetpack-compose/CheckoutScreen.kt
-- ServiceCategoryService
+- category.service.ts
 - nearby_map_screen.dart
 - chat_detail_screen.dart
 - push_service.dart
-- preview_step.dart
-- submit_review_sheet.dart
+- State
+- ai-system-testing/SKILL.md
 - create_product_draft.dart
 - services_screen.dart
 - notifications_center_screen.dart
@@ -58,9 +58,9 @@
 - DashboardScreen
 - message_bubble.dart
 - _
-- features/sellerProfile/index.dart
+- ProductsPage.tsx
 - orders_list_state.dart
-- graphql_error_ui.dart
+- package:flutter/widgets.dart
 - chats_list_bloc.dart
 - CheckoutViewModel
 - i18n/index.ts
@@ -69,23 +69,23 @@
 - order.dart
 - _
 - create_order_wizard_screen.dart
-- package:my_auto/features/services/data/models/service_listing.dart
+- workshops_repository.dart
 - order_detail_screen.dart
 - chat_room_event.dart
 - src/types/index.ts
-- AuthProvider
+- package:my_auto/generated/l10n.dart
 - messages_all.dart
 - DashboardTokens.kt
 - examples/settings/jetpack-compose/SettingsScreen.kt
-- buttom_navigation_bar/index.dart
+- shift-left-testing/SKILL.md
 - ChatScreen
 - notifications_center_screen.dart
-- order.service.ts
-- operations.ts
+- ownerScope
+- src/types/index.ts
 - examples/chat/jetpack-compose/ChatScreen.kt
 - order_dto.dart
 - cn
-- ViewTargetTypeEnum
+- OrderService
 - WorkshopsPage.tsx
 - DateTime?
 - tokens.dart
@@ -93,41 +93,41 @@
 - _
 - react
 - StatelessWidget
-- package:flutter/foundation.dart
+- app_logger.dart
 - onboarding_screen.dart
-- package:my_auto/core/theme/colors/index.dart
+- package:flutter/material.dart
 - chat_remote_datasource.dart
-- unified_search_repository.dart
+- qa-metrics/SKILL.md
 - ad_link_launcher.dart
 - auth_coordinator.dart
 - _
 - ad_banner.dart
-- dependencies
-- create_product_flow_screen.dart
 - autorin-web/package.json
-- dependencies
+- qa-project-bootstrap/SKILL.md
+- chaos-engineering/SKILL.md
+- testing-in-production/SKILL.md
 - unified_search_snapshot.dart
 - @nestjs/common
-- CreateProductBloc
+- exploratory-testing/SKILL.md
 - Example Spec — Settings
-- setFavorite/index.dart
+- quality-postmortem/SKILL.md
 - _
-- Field
+- test-reliability/SKILL.md
 - List
 - advertisement.dart
 - my_workshop_card/index.dart
-- main.dart
-- static const
-- home_top_bar.dart
+- wallet_screen.dart
+- workshop_weekly_schedule.dart
+- ci-cd-integration/SKILL.md
 - place_label.dart
-- otp-protection.ts
+- Audit report
 - @nestjs/common
-- UploadService
+- .uploadFile
 - text_input_capitalization.dart
 - chat_repository.dart
-- Catalog
+- async_content.dart
 - examples/dashboard/swiftui/DashboardScreen.swift
-- package:flutter/material.dart
+- good_screen.dart
 - WalletService
 - orders_remote_datasource.dart
 - _
@@ -135,30 +135,30 @@
 - _
 - _
 - order_response_dto.dart
-- CategoriesPage.tsx
+- productList/index.dart
 - _
-- resolve_media_url.dart
+- database-testing/SKILL.md
 - workshop_profile.dart
-- create_order/index.dart
+- input/index.dart
 - workshop_detail_screen.dart
 - market_ui.dart
 - voice_message_player.dart
-- package:my_auto/core/services/graphql/index.dart
-- vehicle_catalog_repository.dart
+- package:graphql_flutter/graphql_flutter.dart
+- Exception
 - BannersPage.tsx
-- OrderResolver
+- getByRole Examples for Every Common Element
 - orders_repository_impl.dart
-- RegisterDeviceTokenInput
+- test-data-management/SKILL.md
 - MeilisearchService
 - addPartProvider.dart
 - FirebaseService
 - orders_provider.dart
 - workshop_category.dart
-- SessionService
+- performance-testing/SKILL.md
 - UsersPage.tsx
 - LoginScreen
 - package:flutter_bloc/flutter_bloc.dart
-- boost_plan_picker.dart
+- test-planning/SKILL.md
 - examples/dashboard/react-native/DashboardScreen.tsx
 - CategoryTypeEnum
 - orders_screen.dart
@@ -166,13 +166,13 @@
 - Screen-reader semantics
 - product/index.dart
 - ApiErrorCode
-- OrderResponseService
+- visual-testing/SKILL.md
 - dependencies
 - UserInfoPage.tsx
 - ContextType
 - conversation_dto.dart
-- PartResolver
-- package:my_auto/features/create_product/domain/entities/create_product_draft.dart
+- chat_room_state.dart
+- my_listings_scaffold.dart
 - serviceScreen/index.dart
 - GeneratedPluginRegistrant.swift
 - examples/checkout/react-native/CheckoutScreen.tsx
@@ -188,15 +188,15 @@
 - app_scaffold.dart
 - examples/settings/react-native/SettingsScreen.tsx
 - features/workshop/index.dart
-- edit_workshop_screen.dart
+- workshop_hours_editor.dart
 - wallet_models.dart
 - auth_token_store.dart
 - notification_l10n.dart
 - pagination.tsx
-- premium_order_card.dart
+- color.md
 - examples/dashboard/ionic/DashboardScreen.tsx
 - $value
-- @immutable
+- ai-bug-triage/SKILL.md
 - purchase_advertisement_screen.dart
 - my_application.cc
 - Contents
@@ -211,9 +211,9 @@
 - _common.py
 - chat_repository_impl.dart
 - order/index.dart
-- AnalyticsService
+- observability-driven-testing/SKILL.md
 - push.service.ts
-- baselines/dashboard/jetpack-compose/DashboardScreen.kt
+- test-migration/SKILL.md
 - Contents
 - Contents
 - react
@@ -221,22 +221,22 @@
 - Finding
 - Contents
 - _openInAppPath
-- MinioService
+- upload.service.ts
 - public_auth_operations.dart
 - examples/checkout/ionic/CheckoutScreen.tsx
 - wallet_repository.dart
 - Architecture — My Auto (Flutter client)
 - app_safe_area.dart
-- mongoose
-- dart:io
-- Map
+- @nestjs/mongoose
+- features/sellerProfile/index.dart
+- AI Test Generation — Prompt Library (Staged Pipeline)
 - Contents
 - Table of contents
 - chat_message.dart
-- Environment configuration
+- coverage-analysis/SKILL.md
 - compilerOptions
 - Contents
-- sign_up_controller.dart
+- synthetic-monitoring/SKILL.md
 - message_dto.dart
 - examples/login/react-native/LoginScreen.tsx
 - examples/settings/ionic/SettingsScreen.tsx
@@ -244,7 +244,7 @@
 - Contents
 - Contents
 - Contents
-- chat_tile.dart
+- compliance-testing/SKILL.md
 - Contents
 - Table of contents
 - win32_window.cpp
@@ -265,21 +265,21 @@
 - examples/dashboard/jetpack-compose/DashboardScreen.kt
 - Public
 - workshops_api.dart
-- OrderInput
+- playwright-automation/SKILL.md
 - components.json
 - compilerOptions
 - Dashboard — React Native (TypeScript)
 - Empty / Error / Offline — The State-Design Playbook
 - pending_action.dart
-- SellerProfileService
+- seller-profile.service.ts
 - PushEventType
 - Checkout Patterns
 - Contents
 - Contents
 - Contents
 - Table of contents
-- WebSocket authentication
-- workshops_repository.dart
+- Flaky Test Runbook
+- cypress-automation/SKILL.md
 - ref_react_native
 - Bucket
 - Navigation Patterns
@@ -287,7 +287,7 @@
 - Unslop
 - Localization architecture (AutoRin)
 - scripts
-- inbox_hub_screen.dart
+- risk-based-testing/SKILL.md
 - product_carousel_section.dart
 - Color
 - Form Flows
@@ -305,15 +305,15 @@
 - Table of contents
 - utils.cpp
 - ItemService
-- vite.config.ts
-- trigger_test.py
+- service-virtualization/SKILL.md
+- detect_injection.py
 - Feed Patterns
-- run_all.py
+- chat_room_bloc.dart
 - Tokens
 - chat_api.dart
 - windows/flutter/generated_plugin_registrant.cc
 - meilisearch
-- graphql/index.dart
+- accessibility-testing/SKILL.md
 - LoginTokens
 - Finance / Banking — Domain Components
 - List–Detail Pattern
@@ -332,7 +332,7 @@
 - E-commerce / Marketplace — Trust & Safety
 - Healthcare — Screen Patterns
 - Productivity — Trust & Safety / Data Integrity UX
-- pathlib
+- build_registry.py
 - Elevation & Shadow (ELV)
 - Iconography (ICN)
 - OtpRateLimitService
@@ -357,7 +357,7 @@
 - Focus areas
 - Contents
 - Contents
-- discovery_provider.dart
+- payment-testing/SKILL.md
 - Signs of slop
 - .MessageHandler
 - Garaj Market / My Auto — Security Report
@@ -368,7 +368,7 @@
 - autorin-backend/README.md
 - Equatable
 - app_notification.dart
-- return
+- analytics-tracking-testing/SKILL.md
 - Map/index.dart
 - Flutter — Idiomatic Components
 - Ionic — Components (idiomatic + accessible)
@@ -385,12 +385,13 @@
 - Haptics (HAP)
 - SessionsService
 - category_names.dart
-- SmsService
+- .requestPasswordReset
+- Debugging and Triage
 - Production readiness
 - 10. Roadmap
 - Design Token Spec
-- _Row
-- _ChatScreenState
+- Consent Mode v2 Observation
+- Network Interception and Mocking
 - examples/login/ionic/LoginScreen.tsx
 - Flutter — Platform-Adaptive Guidance
 - Flutter — Tokens & Theming
@@ -451,14 +452,14 @@
 - Effects
 - Visuals
 - workshop-embedded.schema.ts
-- book_workshop_sheet.dart
+- qa-project-context/SKILL.md
 - Checkout — Flutter reference implementation
 - auth_api.dart
 - create_product_api.dart
 - notifications_api.dart
 - wallet_api.dart
 - flutter_launcher_icons
-- Garage (Flutter)
+- test-case-management/SKILL.md
 - Login — Flutter reference implementation
 - OtpAttemptGuard
 - autorin-web/tsconfig.json
@@ -469,7 +470,7 @@
 - Chat — Ionic (React + Capacitor, TypeScript)
 - Checkout — React Native (TypeScript)
 - Dashboard — Ionic (React + Capacitor, TypeScript)
-- _DashboardScreenState
+- run-qa.mjs
 - Login — Ionic (React + Capacitor, TypeScript)
 - Login — React Native (TypeScript)
 - Finance / Banking — Industry Pack
@@ -480,14 +481,15 @@
 - Social / Messaging — Industry Pack
 - Rules
 - advertisement_repository.dart
-- Deployment
+- CI Recipes
 - .dispatch
-- _openSubPage
+- Strategy Document Template
 - add/api/index.dart
 - home/api/index.dart
 - orders/api/index.dart
 - dev_dependencies
 - ProtocolEnum
+- agentic-browser-testing/SKILL.md
 - AutoRin Web
 - FavoriteService
 - 13. Appendices
@@ -568,77 +570,256 @@
 - theme/index.dart
 - .deleteOwned
 - PartFieldsResolver
-- State
-- getWorkshop/index.dart
+- security-testing/SKILL.md
+- test-environments/SKILL.md
 - vercel.json
-- MessageStatus
+- unit-testing/SKILL.md
 - seller_matching_orders.dart
+- BannerSlider.tsx
+- api-testing/SKILL.md
+- qa-report-humanizer/SKILL.md
 - orders_local_datasource.dart
 - Color
-- category_lucide_icon.dart
+- Unit Testing Patterns — full examples
 - Part
-- package:latlong2/latlong.dart
-- promotion_plan_badge.dart
+- maptiler_config.dart
+- contract-testing/SKILL.md
+- cross-browser-testing/SKILL.md
 - package:my_auto/core/model/user/index.dart
 - CheckoutStatus
 - static const double
-- typing_event_dto.dart
-- multer-options.factory.ts
+- Authentication Patterns
+- qa-dashboard/SKILL.md
 - Auth endpoint audit (GlobalAuthGuard + secure-by-default)
 - Examples — Worked Screens & Flows
-- AuthSession
-- scripts
+- Independent agent evidence gate
+- Bug Categories
 - Dashboard — Flutter reference implementation
-- paginated_orders.dart
+- ai-test-generation/SKILL.md
+- promotion_repository.dart
+- CI Failure Analysis
 - Settings — Flutter reference implementation
 - WidthClass
-- Color
-- telegram.constants.ts
+- Test Smell Buckets
+- selector-drift-recovery/SKILL.md
+- Test Pyramid Analysis Worksheet
 - snapshot.mjs
 - notifications_inbox_repository.dart
-- OrderFieldsResolver
-- _ChartCardState
-- _MetricCard
-- _ShimmerState
-- _DeleteConfirmDialog
+- scripts
+- bug-reproduction/SKILL.md
+- Refactor recovery — full playbook and scripts
+- AutoRin QA Environment — Installation Report
+- Test Smell Examples (SMELL → FIX)
 - Color
-- Ionic Framework Pack
-- _ValueSkeletonState
+- GitHub Actions Templates
+- test-suite-curation/SKILL.md
 - ItemStatusEnum
-- autorin-web/eslint.config.js
+- compilerOptions
+- email-testing/SKILL.md
+- mobile-testing/SKILL.md
 - React Native Framework Pack
 - SwiftUI Framework Pack
 - model/workshop/index.dart
+- WalletPoolEnum
+- my_listing_card_helpers.dart
+- backend/package.json
+- ai-qa-review/SKILL.md
+- Multi-Site Architecture
+- OWASP Top 10 (2025) — Test Code
+- Factory & Fixture Patterns
+- Visual Testing Recipes
+- PushService
+- web/package.json
+- API Test Patterns & Performance Assertions
+- qa-do/SKILL.md
+- phoneFormater.dart
+- scripts
+- @playwright/test
+- AutoRin — QA Project Context
+- Common Cross-Browser Issues — Code
+- Fixtures and Projects
+- qa-start/SKILL.md
+- Anti-Patterns
+- Tool API Reference — TestRail, Xray, Zephyr Scale, Qase
+- notifications_bloc.dart
+- Anti-Patterns
+- Anti-Patterns
+- Performance Testing Recipes
+- Anti-Patterns
+- DeviceTokenService
+- axe-core Setup, Keyboard Specs, and CI
+- sleep
+- Failure Injection — Runnable Code
+- GDPR / CMP Testing with Playwright — Test Code
+- cy.intercept Patterns
+- Data Integrity & Seed Data Code
+- Session Templates
+- Allure reference
+- Seeding, Anonymization & Synthetic Data
+- optional_auth_operations.dart
+- Accessible Pattern Tests
+- Pact.js Setup — Code
+- Playwright and Cloud Platform Configuration — Code
+- Data-Driven Testing with Fixtures
+- Custom Commands
+- Webhooks, idempotency, test clocks, reconciliation, refunds
+- Implementing Metrics — Phased Rollout
+- Framework Walkthrough Template
+- WireMock — Docker setup, mappings, and priority error scenarios
+- Workflow Step Templates
+- Mining CI History
+- api_error_mapper.dart
+- api_error_payload.dart
+- Full-Stack QA (AutoRin)
+- SettingsState
+- Triage Pipeline — Prompts, Templates, and Integration Code
+- Eval Framework — Code
+- Coverage Tool Configuration
+- Migration Testing Code
+- Heuristic Test-Idea Banks and the Automation Pipeline
+- Appium 3.x Patterns
+- Detox and Maestro
+- Mobile-Specific Testing Patterns
+- Multi-PSP sandbox testing: Adyen, PayPal, Braintree
+- Test Architecture Audit Worksheets
+- Quality Postmortem Templates
+- release-readiness/SKILL.md
+- Staged Rollout Validation
+- Auth Testing Patterns
+- Automated Scanning & CI Integration
+- MSW (Mock Service Worker) — handlers, setup, and stateful flows
+- CSV Import, Organization, Traceability, Automation Graduation
+- Framework-Specific Migration Guides
+- Diagrams, Worksheets & Output Template
+- Near-Duplicate Clustering
+- Mutation Confirmation of Redundancy
+- Testing-in-Production Code Patterns
+- SettingsLayout
+- brand_logo.dart
+- graphql-queries.mjs
+- Flutter / Mobile QA (my_auto)
+- Testability Refactors
+- Injection Detector — bundled scanner
+- Regression-Gating Tracking in CI
+- Pixels and Client-vs-Server Deduplication
+- Schema Validation — Zod, AJV, Contract
+- Automated bisect to find the introducing commit
+- Determinism recipes
+- Cross-Browser Testing Patterns — Code
+- Query Performance & Docker Test Database Code
+- Hosted inboxes: Mailosaur, MailSlurp, ShazaMail, Ethereal
+- Mailpit + Playwright recipes
+- Traces as Test Evidence — Code
+- Grafana reference
+- QA Metrics Dashboards
+- Filler-phrase blocklist
+- Core Principles
+- Rollback Criteria and Process
+- Risk-Based Testing — Worked Examples
+- Platforms and CI Scheduling
+- Probe Implementations
+- Ambiguous-Step Linting
+- Docker Compose for Testing — Full Configs
+- Plan Document Templates
+- Per-Test Coverage Fingerprinting
+- Destructive Safety: the grace period
+- AutoRin QA
+- Mutation Testing — the objective backstop for qualitative smells
+- Testability Analysis
+- Prompt Regression — Code
+- Test Patterns — Code
+- Tooling — Eval Code
+- News-Media Events
+- The Tracking Plan as a Typed Contract
+- Playwright API Testing — Setup & Fixtures
+- Extracting the implicit repro from a thin report
+- Writing repro evidence back into the ticket
+- Cookie Compliance — Test Code
+- Contract Testing CI Pipelines — Code
+- Coverage as CI Gate
+- Deliverability: SPF / DKIM / DMARC — a separate, non-blocking suite
+- Device Farm Integration
+- 3DS / SCA challenge handling in Playwright (nested iframes)
+- Stripe test cards and outcome assertions
+- Anti-Patterns: BAD vs GOOD Playwright Code
+- qa-project-context — Filled Examples
+- Smoke Test Suite Design
+- CI integration — MSW, WireMock, and Testcontainers in GitHub Actions
+- Record-replay — capture real responses, replay deterministically
+- Toxiproxy — network fault injection
+- TDD and Pairing Code Examples
+- The Audit Record
+- Tiering: smoke / core / extended
+- Rollout Policy & Rollback Configuration
+- TextInputFormatter
+- Schema-First Contract Testing — Code
+- Mutation Testing
+- Cypress CI Recipes
+- Log-Informed Test Design & Error-to-Test Pipeline — Code
+- 10. Hardcoded Waits for Animations
+- 11. Nested Locator Chains That Mirror DOM Structure
+- 15. Incorrect Use of locator.all() for Iteration
+- 1. waitForTimeout vs Proper Waiting
+- 4. force:true Abuse
+- 5. Shared Mutable State Between Tests
+- Release & Rollback Communication Templates
+- Rollout Automation & Verification Commands
+- Go/No-Go Checklist
+- Post-Deployment Verification
+- Shift-Left Templates
+- External Dependency Stubbing — MSW Handlers
+- Tracking & Retrospective Formats
+- GitLab CI Template
+- 12. Using evaluate() for Assertions
+- 13. Catching Errors Instead of Asserting Absence
+- 14. Using page.waitForSelector Instead of Locator Assertions
+- 2. CSS Selectors vs getByRole
+- 6. Login in Every Test vs storageState
+- 7. allTextContents() vs toHaveText
+- 8. isVisible() Checks Instead of expect().toBeVisible
+- 9. Testing Implementation Details
+- Parallel-Run CI Workflow
+- _AdBannerState
+- k6-smoke.js
+- better-ads-tests.md
+- ci-automation.md
+- eu-ai-act-tests.md
+- newman/README.md
+- bug-reports/README.md
+- fixtures/README.md
+- test_plan.md
+- test-data/README.md
+- INITIAL_SMOKE_PLAN.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `_` - 260 edges
-2. `ContextType` - 235 edges
+1. `ContextType` - 271 edges
+2. `_` - 260 edges
 3. `@nestjs/graphql` - 217 edges
 4. `_` - 193 edges
 5. `_` - 181 edges
-6. `_` - 163 edges
-7. `useLanguage()` - 146 edges
-8. `mongoose` - 137 edges
-9. `@nestjs/common` - 137 edges
+6. `useLanguage()` - 169 edges
+7. `_` - 163 edges
+8. `@nestjs/common` - 137 edges
+9. `mongoose` - 137 edges
 10. `@nestjs/mongoose` - 135 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Flutter changes (implemented)` --references--> `AuthOutput`  [INFERRED]
-  my_auto/docs/SECURITY_REPORT.md → autorin-backend/src/modules/auth/types/auth-output.type.ts
+- `Custom Metrics and Scenarios` --references--> `Trend`  [INFERRED]
+  .agents/skills/performance-testing/SKILL.md → .cursor/skills/mobile-app-uiux-pro-max/examples/dashboard/jetpack-compose/DashboardScreen.kt
 - `1. Recommended architecture` --references--> `ApiErrorCode`  [INFERRED]
   my_auto/docs/LOCALIZATION_ARCHITECTURE.md → autorin-backend/src/common/errors/api-error-code.enum.ts
 - `4. Error code mapping` --references--> `ApiErrorCode`  [INFERRED]
   my_auto/docs/LOCALIZATION_ARCHITECTURE.md → autorin-backend/src/common/errors/api-error-code.enum.ts
-- `7. Permission-denied` --references--> `App()`  [INFERRED]
-  .cursor/skills/mobile-app-uiux-pro-max/frameworks/ionic/states.md → autorin-web/src/App.tsx
 - `Phase 1 — Foundation ✅` --references--> `throwApi()`  [INFERRED]
   my_auto/docs/LOCALIZATION_ARCHITECTURE.md → autorin-backend/src/common/errors/api.exception.ts
+- `Response shape` --references--> `formatGraphqlError()`  [INFERRED]
+  my_auto/docs/LOCALIZATION_ARCHITECTURE.md → autorin-backend/src/common/errors/format-graphql-error.ts
 
 ## Import Cycles
 - 2-file cycle: `autorin-backend/src/modules/workshop/service/workshop-discovery.service.ts -> autorin-backend/src/modules/workshop/utils/normalize-workshop.ts -> autorin-backend/src/modules/workshop/service/workshop-discovery.service.ts`
 - 4-file cycle: `autorin-backend/src/modules/conversation/module/conversation.module.ts -> autorin-backend/src/modules/message/module/index.ts -> autorin-backend/src/modules/message/module/message.module.ts -> autorin-backend/src/modules/conversation/module/index.ts -> autorin-backend/src/modules/conversation/module/conversation.module.ts`
 
-## Communities (632 total, 121 thin omitted)
+## Communities (812 total, 120 thin omitted)
 
 ### Community 0 - "l10n/l10n.dart"
 Cohesion: 0.00
@@ -661,44 +842,40 @@ Cohesion: 0.02
 Nodes (102): _, AppPalette, background, black, border, _build, carbon100, carbon200 (+94 more)
 
 ### Community 5 - "useLanguage"
-Cohesion: 0.07
-Nodes (48): Button(), Dialog(), DialogContent(), DialogDescription(), DialogFooter(), DialogHeader(), DialogOverlay(), DialogPortal() (+40 more)
+Cohesion: 0.09
+Nodes (45): Button(), Dialog(), DialogContent(), DialogDescription(), DialogFooter(), DialogHeader(), DialogOverlay(), DialogPortal() (+37 more)
 
 ### Community 6 - "package:provider/provider.dart"
-Cohesion: 0.03
-Nodes (76): authProviders, clearForm, dispose, formKey, passwordController, passwordFocus, phoneController, phoneFocus (+68 more)
+Cohesion: 0.02
+Nodes (77): GraphqlErrorUi, localize, localizeFromResult, localizeRaw, localizeThrowable, showToast, showToastFromResult, ErrorPresentation (+69 more)
 
 ### Community 7 - "message_composer.dart"
 Cohesion: 0.03
 Nodes (70): _accDx, accentLabel, _activeEditId, _AttachmentStrip, build, _cancelArmed, _cancelEdit, colors (+62 more)
 
-### Community 8 - "DeviceToken"
-Cohesion: 0.10
-Nodes (4): RemoveDeviceTokenArgs, DeviceTokenResolver, DeviceToken, DeviceTokenService
-
 ### Community 9 - "create_product_bloc.dart"
-Cohesion: 0.04
-Nodes (65): categoryTree, condition, copyWith, CreateProductState, CreateProductStatus, currency, delivery, description (+57 more)
+Cohesion: 0.01
+Nodes (216): categoryTree, condition, copyWith, CreateProductConditionChanged, CreateProductCurrencyChanged, CreateProductDeliveryChanged, CreateProductDescriptionChanged, CreateProductDraftAutosave (+208 more)
 
 ### Community 10 - "create_workshop_flow_screen.dart"
-Cohesion: 0.03
-Nodes (66): build, build, _submit, _BookServiceSheet, _BookServiceSheetState, build, createState, dispose (+58 more)
+Cohesion: 0.02
+Nodes (96): clearForm, dispose, formKey, passwordController, passwordFocus, phoneController, phoneFocus, SignInController (+88 more)
 
 ### Community 11 - "order_detail_bloc.dart"
-Cohesion: 0.07
-Nodes (33): close, _emitIfServerHasNewResponses, _onClose, _onOpened, _onReopen, _onRespond, _onResponseAdded, OrderDetailBloc (+25 more)
+Cohesion: 0.08
+Nodes (31): close, _emitIfServerHasNewResponses, _onClose, _onOpened, _onReopen, _onRespond, _onResponseAdded, OrderDetailBloc (+23 more)
 
 ### Community 12 - "productTitle/index.dart"
 Cohesion: 0.02
-Nodes (80): build, MyApp, _normalizedMediaQuery, LocaleNotifier, ThemeProvider, categoryLanguageCode, fromPrefs, localeOf (+72 more)
+Nodes (122): LocaleNotifier, categoryLanguageCode, fromPrefs, localeOf, _CategoryTile, GridCategories, listCategory, lucideIcon (+114 more)
 
-### Community 14 - "VoidCallback"
-Cohesion: 0.02
-Nodes (81): alive, build, ConnectionBanner, onRetry, ProductCondition, accent, build, _ConditionCard (+73 more)
+### Community 14 - "app_bar.dart"
+Cohesion: 0.09
+Nodes (20): AuthTopBar, actions, AppTopBar, background, backgroundColor, bottom, bottomHeight, build (+12 more)
 
 ### Community 15 - "service.service.ts"
 Cohesion: 0.02
-Nodes (47): UseAuth(), UseOptionalAuth(), BookServiceInput, PromoteServiceArgs, CreateServiceArgs, GetServiceByIdArgs, GetServicesArgs, ServiceListingResolver (+39 more)
+Nodes (81): UseOptionalAuth(), POPULATIONS, ActivityTypeEnum, CHAT_OPENED, FAVORITE_ADDED, ORDER_OPENED, PRODUCT_OPENED, PRODUCT_VIEWED (+73 more)
 
 ### Community 16 - "_"
 Cohesion: 0.01
@@ -706,35 +883,39 @@ Nodes (197): _, address1, _addressKey, amountCents, amountLabel, applePay, appli
 
 ### Community 17 - "_"
 Cohesion: 0.01
-Nodes (164): _, about, account, actionLabel, _ActionRow, _announce, _announceSaved, appearance (+156 more)
+Nodes (145): _, about, account, actionLabel, _announce, _announceSaved, appearance, body (+137 more)
 
 ### Community 18 - "dart:io"
-Cohesion: 0.06
-Nodes (25): _calculateTotalBytes, cancelUpload, _headers, _rethrowFriendly, _storage, _timeout, uploadFilesWithProgress, UploadService (+17 more)
+Cohesion: 0.05
+Nodes (33): cancelUpload, controller, createWorkshop, getWorkshopById, isLoading, _parseTimeRange, _setLoading, _storage (+25 more)
 
 ### Community 19 - "graphql_links.dart"
-Cohesion: 0.08
-Nodes (18): applyErrorLink, _createWebSocketLink, disconnectWebSocket, _errorLink, GraphQLLinks, httpLink, initialize, link (+10 more)
+Cohesion: 0.06
+Nodes (25): AuthRefreshLink, _isExpired, request, _retriedOperationKeys, _retryKey, WebSocketAuthGateLink, applyErrorLink, _createWebSocketLink (+17 more)
 
 ### Community 20 - "map_discovery_bloc.dart"
 Cohesion: 0.03
 Nodes (57): activeSearchQuery, areaStale, bounds, brandKeys, brands, center, copyWith, enabled (+49 more)
 
-### Community 21 - "String?"
-Cohesion: 0.11
-Nodes (23): SettingDetailView, .body, .leaf, SettingLeaf, .isDestructive, SettingSection, about, account (+15 more)
+### Community 21 - "pructsDetail/index.dart"
+Cohesion: 0.02
+Nodes (133): ProductProvider, build, child, createState, FavoritesAuthListener, _FavoritesAuthListenerState, initState, _loadFavorites (+125 more)
 
 ### Community 22 - "_"
 Cohesion: 0.01
-Nodes (153): _, _AnimatedDots, attach, attachBody, _AttachDeniedSheet, attachTitle, author, _Avatar (+145 more)
+Nodes (138): _, attach, attachBody, attachTitle, author, back, _bubbleRadius, build (+130 more)
 
 ### Community 23 - "message.resolver.ts"
 Cohesion: 0.02
-Nodes (50): UseWsAuth(), assertAuthenticated(), resolveAuthenticated(), buildRedisOptions(), ConversationIdArgs, CreateConversationArgs, GetConversationsArgs, CreateConversationInput (+42 more)
+Nodes (53): UseWsAuth(), assertAuthenticated(), resolveAuthenticated(), buildRedisOptions(), ConversationIdArgs, CreateConversationArgs, GetConversationsArgs, CreateConversationInput (+45 more)
 
 ### Community 24 - "examples/checkout/jetpack-compose/CheckoutScreen.kt"
-Cohesion: 0.06
-Nodes (52): Address, AddressSection(), CardInput, CartLine, CartLineRow(), CheckoutActivity, CheckoutPermissionDeniedPreview(), CheckoutScreen() (+44 more)
+Cohesion: 0.05
+Nodes (53): Address, AddressSection(), CardInput, CartLine, CartLineRow(), CheckoutActivity, CheckoutPermissionDeniedPreview(), CheckoutScreen() (+45 more)
+
+### Community 25 - "category.service.ts"
+Cohesion: 0.03
+Nodes (32): CreateCategoryArgs, DeleteCategoryArgs, GetCategoriesArgs, CategoryModel, CategoryModule, CategoryResolver, localeFromRequest(), Category (+24 more)
 
 ### Community 26 - "nearby_map_screen.dart"
 Cohesion: 0.04
@@ -742,19 +923,19 @@ Nodes (33): _bloc, _booting, _cameraAnimCtrl, child, colors, createState, dispos
 
 ### Community 27 - "chat_detail_screen.dart"
 Cohesion: 0.04
-Nodes (42): _buildChatAppBar, _cancelEditing, _cancelReplying, chatDaysAgo, ChatDetailScreen, _chatRelativeTime, _computePeerHeaderInsights, _confirmDeleteMessage (+34 more)
+Nodes (41): _buildChatAppBar, _cancelEditing, _cancelReplying, chatDaysAgo, _chatRelativeTime, _computePeerHeaderInsights, _confirmDeleteMessage, conversationId (+33 more)
 
 ### Community 28 - "push_service.dart"
-Cohesion: 0.05
+Cohesion: 0.04
 Nodes (33): bootstrap, _bootstrapped, _captureCurrentToken, _channelLocalized, _configureLocal, deviceTokens, dispose, _enrichedPushData (+25 more)
 
-### Community 29 - "preview_step.dart"
+### Community 29 - "State"
 Cohesion: 0.02
-Nodes (78): AddPartProvider, AddProductWizard, _AddProductWizardState, build, createState, _currentStep, existingPart, initState (+70 more)
+Nodes (88): build, createState, darkTheme, notifications, SettingsScreen, _SettingsScreenState, ChatScreen, _ChatScreenState (+80 more)
 
-### Community 30 - "submit_review_sheet.dart"
-Cohesion: 0.11
-Nodes (18): build, createState, dispose, initialRating, initialText, initState, rating, _ReviewDraft (+10 more)
+### Community 30 - "ai-system-testing/SKILL.md"
+Cohesion: 0.04
+Nodes (46): 1. Exact string matching on LLM output, 2. Testing only with temperature=0, 3. No safety tests, 4. Evaluating AI with AI without ground truth, 5. Ignoring latency and cost in AI tests, 6. Letting an agent treat tool output as instructions, A/B test prompts, Agent-as-Target Injection (+38 more)
 
 ### Community 31 - "create_product_draft.dart"
 Cohesion: 0.05
@@ -765,12 +946,12 @@ Cohesion: 0.07
 Nodes (30): _AvtoservisCard, _countFor, createState, _debounce, dispose, _EmptyHub, _filter, _FilterChip (+22 more)
 
 ### Community 33 - "notifications_center_screen.dart"
-Cohesion: 0.03
-Nodes (55): bootstrapping, _categoryFor, _clock, _countFor, createState, _DayGroup, _dayLabel, dispose (+47 more)
+Cohesion: 0.04
+Nodes (54): bootstrapping, _categoryFor, _clock, _countFor, createState, _DayGroup, _dayLabel, dispose (+46 more)
 
 ### Community 34 - "@nestjs/graphql"
 Cohesion: 0.02
-Nodes (51): API and feature status, DeepValidate(), OTP_CODE_EXPIRATION, OTP_CODE_LENGTH, PASSWORD_MIN_LENGTH, SignInArgs, SignUpArgs, SignInInput (+43 more)
+Nodes (59): API and feature status, DeepValidate(), ObjectIdScalar, validateEnv(), OTP_CODE_EXPIRATION, OTP_CODE_LENGTH, PASSWORD_MIN_LENGTH, SignInArgs (+51 more)
 
 ### Community 35 - "LoginScreenContent"
 Cohesion: 0.10
@@ -782,51 +963,51 @@ Nodes (60): adPurchaseTotal, adPurchaseWalletBalance, adQueuePosition, adSlotFre
 
 ### Community 38 - "_"
 Cohesion: 0.01
-Nodes (133): _, abs, account, _ActivityCard, _ActivityRow, activityTitle, amountCents, _AnimatedValue (+125 more)
+Nodes (155): ChatMessage, ChatColors, CartLine, PaymentRequest, SavedCard, CheckoutColors, _, abs (+147 more)
 
 ### Community 39 - "DashboardScreen"
 Cohesion: 0.03
-Nodes (75): ActivityItem, ActivityRowSkeleton, .body, ActivityTile, .body, .effectiveState, ChartBar, ChartSkeleton (+67 more)
+Nodes (77): ChatRow, .rows, ActivityItem, ActivityRowSkeleton, .body, ActivityTile, .body, .effectiveState (+69 more)
 
 ### Community 40 - "message_bubble.dart"
-Cohesion: 0.02
-Nodes (72): _AuthWallSheet, build, message, result, showAuthWallSheet, title, build, _ChatImage (+64 more)
+Cohesion: 0.03
+Nodes (53): build, _ChatImage, createState, danger, _dragX, _formatTime, height, _hovered (+45 more)
 
 ### Community 41 - "_"
 Cohesion: 0.02
 Nodes (110): _, amber400, amber600, avatar, bar, blue400, blue500, body (+102 more)
 
-### Community 42 - "features/sellerProfile/index.dart"
-Cohesion: 0.04
-Nodes (42): categories, _CategoriesSection, _categoryId, createState, dispose, _gridView, initials, initState (+34 more)
+### Community 42 - "ProductsPage.tsx"
+Cohesion: 0.08
+Nodes (32): Pagination(), PaginationProps, AdminPartsPage(), ListingTab, statusLabel, TABS, ADMIN_LIST_PARTS, DELETE_PART (+24 more)
 
 ### Community 43 - "orders_list_state.dart"
-Cohesion: 0.06
-Nodes (33): copyWith, failure, isSubmittingResponse, order, OrderDetailStatus, orderId, props, responses (+25 more)
+Cohesion: 0.05
+Nodes (39): copyWith, failure, isSubmittingResponse, order, OrderDetailStatus, orderId, props, responses (+31 more)
 
-### Community 44 - "graphql_error_ui.dart"
-Cohesion: 0.06
-Nodes (24): ApiErrorMapper, fromGraphqlError, localize, messageFromException, messageFromGraphqlError, ApiErrorPayload, code, debug (+16 more)
+### Community 44 - "package:flutter/widgets.dart"
+Cohesion: 0.22
+Nodes (6): file, fit, localImage, fit, localImage, network
 
 ### Community 45 - "chats_list_bloc.dart"
 Cohesion: 0.09
 Nodes (36): ChatRoomResubscribe, ChatsListBloc, close, _convSub, _currentUserId, _load, _onConversationUpdated, _onDeleteRequested (+28 more)
 
 ### Community 46 - "CheckoutViewModel"
-Cohesion: 0.04
-Nodes (55): CheckoutScreen, .addressSection, .applePayButton, .applePaySection, .body, .checkoutForm, .confirmation, .demoMenu (+47 more)
+Cohesion: 0.03
+Nodes (78): AddressContentType, CardContentType, CheckoutScreen, .addressSection, .applePayButton, .applePaySection, .body, .checkoutForm (+70 more)
 
 ### Community 47 - "i18n/index.ts"
-Cohesion: 0.06
-Nodes (45): PHONE_NUMBER_COUNTRY_CODE, cleanPhone(), formatPhoneNumber(), DEFAULT_LANGUAGE, LANGUAGE_OPTIONS, LANGUAGE_STORAGE_KEY, isLanguageCode(), persistLanguage() (+37 more)
+Cohesion: 0.05
+Nodes (54): styled-components@^6.6.0, PHONE_NUMBER_COUNTRY_CODE, cleanPhone(), formatPhoneNumber(), DEFAULT_LANGUAGE, LANGUAGE_OPTIONS, LANGUAGE_STORAGE_KEY, isLanguageCode() (+46 more)
 
 ### Community 48 - "settings/SettingsPage.tsx"
 Cohesion: 0.15
-Nodes (11): GET_APP_SETTINGS, SET_CONTACT_INFO, SET_MODERATION, ModerationCard(), LINKS, QuickLinksCard(), SETTINGS_TEXTS, SettingsPage() (+3 more)
+Nodes (12): GET_APP_SETTINGS, SET_CONTACT_INFO, SET_MODERATION, ContactCard(), ModerationCard(), LINKS, QuickLinksCard(), SETTINGS_TEXTS (+4 more)
 
 ### Community 49 - "Sidebar.tsx"
-Cohesion: 0.05
-Nodes (86): styled-components@^6.6.0, AppShell(), readCollapsed(), AppHeader(), AppHeaderProps, findActive(), BellDot, CrumbDivider (+78 more)
+Cohesion: 0.08
+Nodes (60): AppShell(), readCollapsed(), AppHeader(), AppHeaderProps, findActive(), BellDot, CrumbDivider, CrumbGroup (+52 more)
 
 ### Community 50 - "order.dart"
 Cohesion: 0.05
@@ -834,31 +1015,31 @@ Nodes (37): brand, budget, carModel, condition, copyWith, createdAt, currency, a
 
 ### Community 51 - "_"
 Cohesion: 0.02
-Nodes (101): _, _ActionBar, appleSso, AuthOutcome, biometricBody, biometricLabel, _BiometricOptInSheet, biometricPrompt (+93 more)
+Nodes (102): _, _ActionBar, appleSso, AuthOutcome, biometricBody, biometricLabel, _BiometricOptInSheet, biometricPrompt (+94 more)
 
 ### Community 52 - "create_order_wizard_screen.dart"
 Cohesion: 0.04
-Nodes (46): _back, _brands, _budgetCtrl, _budgetSlider, build, _buildBody, _buildPayload, _catalogError (+38 more)
+Nodes (47): _back, _brands, _budgetCtrl, _budgetSlider, build, _buildBody, _buildPayload, _catalogError (+39 more)
 
-### Community 53 - "package:my_auto/features/services/data/models/service_listing.dart"
-Cohesion: 0.05
-Nodes (34): _client, createPart, PartRepository, promotePart, updatePart, loadViewport, MapDiscoveryLoadResult, MapDiscoveryRepository (+26 more)
+### Community 53 - "workshops_repository.dart"
+Cohesion: 0.02
+Nodes (114): _client, createPart, PartRepository, promotePart, updatePart, loadViewport, MapDiscoveryLoadResult, MapDiscoveryRepository (+106 more)
 
 ### Community 54 - "order_detail_screen.dart"
 Cohesion: 0.03
 Nodes (54): _attempted, bg, _budgetLabel, buf, colors, createState, cur, d (+46 more)
 
 ### Community 55 - "chat_room_event.dart"
-Cohesion: 0.05
-Nodes (56): ChatRoomBloc, close, _currentUserId, _currentUserName, _inboxPrefetchDebounce, _inboxSub, _msgSub, _onDeleteMessage (+48 more)
+Cohesion: 0.11
+Nodes (32): ChatRoomBloc, ChatRoomDeleteMessageRequested, ChatRoomEditMessageRequested, ChatRoomEvent, ChatRoomLoadMore, ChatRoomMessageReceived, ChatRoomOpened, ChatRoomPeerReadAll (+24 more)
 
 ### Community 56 - "src/types/index.ts"
-Cohesion: 0.09
-Nodes (39): STATUS_OPTIONS, PERIOD_OPTIONS, PRODUCTS_TEXTS, SHOW_OPTIONS, SORT_OPTIONS, STATUS_LABELS, ConfirmDialogProps, PeriodFilterId (+31 more)
+Cohesion: 0.12
+Nodes (28): DELETE_PROMOTION_TARIFF, RESET_PROMOTION_TARIFFS, SET_PROMOTION_TARIFF, PromotePlanDialogProps, TopTariffsTable(), DEFAULT_AMOUNTS, DEFAULT_DAYS, TOP_PLAN_LABELS (+20 more)
 
-### Community 57 - "AuthProvider"
+### Community 57 - "package:my_auto/generated/l10n.dart"
 Cohesion: 0.01
-Nodes (147): AuthGuard, isAuthenticated, requireAuth, clear, current, instance, _pending, PendingActionManager (+139 more)
+Nodes (143): build, MyApp, _normalizedMediaQuery, AuthGuard, isAuthenticated, requireAuth, clear, current (+135 more)
 
 ### Community 58 - "messages_all.dart"
 Cohesion: 0.12
@@ -869,48 +1050,48 @@ Cohesion: 0.04
 Nodes (57): ChatColors, ChatType, Motion, Palette, Radius, rememberReduceMotion(), Size, Space (+49 more)
 
 ### Community 60 - "examples/settings/jetpack-compose/SettingsScreen.kt"
-Cohesion: 0.05
+Cohesion: 0.04
 Nodes (64): Compose BOM note, Files, Responsiveness: `WindowSizeClass` vs `BoxWithConstraints`, Settings — Jetpack Compose (Material 3 Expressive), Validators, What it demonstrates, Action, ActionRow() (+56 more)
 
-### Community 61 - "buttom_navigation_bar/index.dart"
-Cohesion: 0.06
-Nodes (30): activeIcon, _AddActionSheet, _AddOptionTile, _AppBottomBar, _bodyForTab, build, _builtTabs, _CenterFab (+22 more)
+### Community 61 - "shift-left-testing/SKILL.md"
+Cohesion: 0.04
+Nodes (45): 1. Quality Is Everyone's Responsibility, 2. Earlier Detection = Cheaper Fixes (Directionally), 3. QA Is Embedded, Not a Gate, 4. Testability Is a Design Concern, 5. Start Small, Prove Value, Then Expand, All TDD, All the Time, Anti-Patterns, Ceremony Without Substance (+37 more)
 
 ### Community 62 - "ChatScreen"
-Cohesion: 0.04
-Nodes (53): ChatMessage, ChatRow, ChatScreen, .attachButton, .attachSheet, .body, .bubbleTransition, .chatSurface (+45 more)
+Cohesion: 0.03
+Nodes (61): ChatMessage, ChatScreen, .attachButton, .attachSheet, .body, .bubbleTransition, .chatSurface, .composer (+53 more)
 
 ### Community 63 - "notifications_center_screen.dart"
-Cohesion: 0.04
-Nodes (9): appRouter, auth, build, createAppRouter, guard, message, _MissingRouteArgumentScreen, navigatorKey (+1 more)
-
-### Community 64 - "order.service.ts"
 Cohesion: 0.03
-Nodes (19): isAdminRole(), ownerScope(), AppSettingsModel, AppSettingsResolver, AppSettings, ContactInfo, AppSettingsService, loadMockOrdersSeed() (+11 more)
+Nodes (39): appRouter, auth, build, createAppRouter, guard, message, _MissingRouteArgumentScreen, navigatorKey (+31 more)
 
-### Community 65 - "operations.ts"
-Cohesion: 0.03
-Nodes (76): Pagination(), PaginationProps, AdminPartsPage(), ListingTab, statusLabel, TABS, formatPrice(), ProductCard() (+68 more)
+### Community 64 - "ownerScope"
+Cohesion: 0.07
+Nodes (11): isAdminRole(), ownerScope(), CreatePartArgs, GetPartByIdArgs, GetPartsArgs, PromotePartArgs, UpdatePartByIdArgs, PartResolver (+3 more)
+
+### Community 65 - "src/types/index.ts"
+Cohesion: 0.05
+Nodes (60): Input(), ADMIN_LIST_ORDERS, ADMIN_SET_ORDER_RECOMMENDED, CLOSE_ORDER, DELETE_ORDER, GET_PRODUCT_CATEGORIES, REOPEN_ORDER, emptyCategoryNames() (+52 more)
 
 ### Community 66 - "examples/chat/jetpack-compose/ChatScreen.kt"
 Cohesion: 0.06
 Nodes (50): buildRows(), ChatActivity, ChatMessage, ChatPermissionDeniedPreview(), ChatRow, ChatScreen(), ChatScreenContent(), ChatStatus (+42 more)
 
 ### Community 67 - "order_dto.dart"
-Cohesion: 0.05
-Nodes (37): author, brand, budget, carModel, _category, condition, createdAt, currency (+29 more)
+Cohesion: 0.06
+Nodes (32): author, brand, budget, carModel, _category, condition, createdAt, currency (+24 more)
 
 ### Community 68 - "cn"
 Cohesion: 0.13
-Nodes (35): LanguageSelect(), LanguageSelectProps, Checkbox(), Select(), SelectContent(), SelectGroup(), SelectItem(), SelectLabel() (+27 more)
+Nodes (37): LanguageSelect(), LanguageSelectProps, Checkbox(), Select(), SelectContent(), SelectGroup(), SelectItem(), SelectLabel() (+29 more)
 
-### Community 69 - "ViewTargetTypeEnum"
-Cohesion: 0.07
-Nodes (10): GetTargetViewsCountArgs, ViewsTargetInput, ViewTargetTypeEnum, ORDER, PART, USER, WORKSHOP, ViewResolver (+2 more)
+### Community 69 - "OrderService"
+Cohesion: 0.04
+Nodes (16): CreateOrderArgs, GetOrderByIdArgs, GetOrdersArgs, UpdateOrderByIdArgs, OrderResolver, OrderService, GetTargetViewsCountArgs, ViewsTargetInput (+8 more)
 
 ### Community 70 - "WorkshopsPage.tsx"
 Cohesion: 0.08
-Nodes (35): STATUS_OPTIONS, WorkshopsToolbar(), PERIOD_OPTIONS, PROMOTION_PLAN_LABELS, SHOW_OPTIONS, SORT_OPTIONS, STATUS_LABELS, WORKSHOPS_PAGE_SIZE (+27 more)
+Nodes (27): ADMIN_LIST_WORKSHOPS, ADMIN_SET_WORKSHOP_RECOMMENDED, DELETE_WORKSHOP, PROMOTION_PLAN_PRICES, WORKSHOP_CATEGORIES, STATUS_OPTIONS, PERIOD_OPTIONS, PROMOTION_PLAN_LABELS (+19 more)
 
 ### Community 71 - "DateTime?"
 Cohesion: 0.12
@@ -922,43 +1103,43 @@ Nodes (28): AppMotion, AppRadius, AppShadows, AppSpacing, base, card, emphasized
 
 ### Community 73 - "WorkshopsTable.tsx"
 Cohesion: 0.08
-Nodes (71): Badge(), badgeVariants, Skeleton(), Table(), TableBody(), TableCell(), TableHead(), TableHeader() (+63 more)
+Nodes (70): Badge(), badgeVariants, Skeleton(), Table(), TableBody(), TableCell(), TableHead(), TableHeader() (+62 more)
 
 ### Community 74 - "_"
 Cohesion: 0.02
 Nodes (83): _, avatarRadius, avatarRadiusSm, blue300, blue400, blue50, blue500, blue700 (+75 more)
 
 ### Community 75 - "react"
-Cohesion: 0.07
-Nodes (55): AvatarStack(), ConversationItem(), ConversationSidebar(), Section(), ConversationThread(), handleSend(), handleToggleVerified(), ImageGallery() (+47 more)
+Cohesion: 0.06
+Nodes (60): ADMIN_SET_USER_VERIFIED, CHAT_GET_CONVERSATIONS, CHAT_GET_MESSAGES, CHAT_MARK_AS_READ, CHAT_SEND_MESSAGE, AvatarStack(), ConversationItem(), ConversationSidebar() (+52 more)
 
 ### Community 76 - "StatelessWidget"
-Cohesion: 0.01
-Nodes (220): _AddressForm, _CheckoutForm, _Confirmation, _DemoControls, _EditLink, _EmptyCart, _ErrorRegion, _ExpressPay (+212 more)
+Cohesion: 0.02
+Nodes (121): build, CheckoutScreen, build, DashboardScreen, build, LoginScreen, _AnimatedDots, _AttachDeniedSheet (+113 more)
 
-### Community 77 - "package:flutter/foundation.dart"
-Cohesion: 0.09
-Nodes (16): AppLogger, auth, _log, safe, security, websocket, areaSearch, callTap (+8 more)
+### Community 77 - "app_logger.dart"
+Cohesion: 0.29
+Nodes (6): AppLogger, auth, _log, safe, security, websocket
 
 ### Community 78 - "onboarding_screen.dart"
 Cohesion: 0.07
 Nodes (26): accent, activeColor, body, build, _controller, count, createState, dispose (+18 more)
 
-### Community 79 - "package:my_auto/core/theme/colors/index.dart"
-Cohesion: 0.02
-Nodes (155): OrderItem, Add, createState, didUpdateWidget, AdPlaceholderBanner, borderRadius, height, margin (+147 more)
+### Community 79 - "package:flutter/material.dart"
+Cohesion: 0.01
+Nodes (235): build, ChatScreen, _AuthWallSheet, build, message, result, showAuthWallSheet, title (+227 more)
 
 ### Community 80 - "chat_remote_datasource.dart"
 Cohesion: 0.07
 Nodes (23): ChatRemoteDataSource, _client, createConversation, deleteConversationForMe, deleteMessageForMe, getConversations, getMessages, hasNextPage (+15 more)
 
-### Community 81 - "unified_search_repository.dart"
-Cohesion: 0.06
-Nodes (20): _client, EngagementRepository, recordOrderPhoneClick, recordOrderShare, recordPartPhoneClick, recordPartShare, recordWorkshopPhoneClick, _client (+12 more)
+### Community 81 - "qa-metrics/SKILL.md"
+Cohesion: 0.05
+Nodes (43): 1. Metrics Should Drive Action, Not Just Dashboards, 2. Leading vs Lagging — Track Both, Act on Leading, 3. Trend Over Snapshot, 4. Every Metric Needs a Target and an Owner, 5. Vanity Metrics Waste Everyone's Time, Anti-Patterns, Automation Rate, Automation ROI (+35 more)
 
 ### Community 82 - "ad_link_launcher.dart"
-Cohesion: 0.08
-Nodes (24): advertisementLinkHasTarget, contains, false, h, head, id, _isAppHost, _isKnownInAppPath (+16 more)
+Cohesion: 0.03
+Nodes (66): 1, clampHeight, columnsFor, spanW, false, openLocationInExternalMaps, q, uris (+58 more)
 
 ### Community 83 - "auth_coordinator.dart"
 Cohesion: 0.06
@@ -969,116 +1150,116 @@ Cohesion: 0.03
 Nodes (78): _, actionGap, amount, amountButton, amountStrong, blue400, blue500, body (+70 more)
 
 ### Community 85 - "ad_banner.dart"
+Cohesion: 0.06
+Nodes (27): ad, _ads, _AdSlide, borderRadius, build, colors, createState, didUpdateWidget (+19 more)
+
+### Community 86 - "autorin-web/package.json"
 Cohesion: 0.04
-Nodes (41): ad, AdBanner, _AdBannerState, _ads, _AdSlide, borderRadius, build, colors (+33 more)
+Nodes (71): dependencies, antd@^6.6.8, @apollo/client@^4.2.0, class-variance-authority@^0.7.1, clsx@^2.1.1, dayjs@^1.11.19, graphql@^16.14.0, lucide-react@^1.17.0 (+63 more)
 
-### Community 86 - "dependencies"
-Cohesion: 0.07
-Nodes (36): dependencies, antd@^6.6.8, @apollo/client@^4.2.0, class-variance-authority@^0.7.1, clsx@^2.1.1, dayjs@^1.11.19, graphql@^16.14.0, lucide-react@^1.17.0 (+28 more)
+### Community 87 - "qa-project-bootstrap/SKILL.md"
+Cohesion: 0.05
+Nodes (41): 1. Time to First Merged Test Is the Success Metric, 2. Progressive Complexity, 3. Document Tribal Knowledge, 4. Pair First, Solo Second, 5. Make the Easy Path the Right Path, Access and Tooling, Anti-Patterns, Audit Output (+33 more)
 
-### Community 87 - "create_product_flow_screen.dart"
-Cohesion: 0.07
-Nodes (23): CreateProductStarted, _bloc, _bootstrap, _canContinue, _canLeave, _continueLabel, CreateProductFlowScreen, _CreateProductFlowScreenState (+15 more)
+### Community 88 - "chaos-engineering/SKILL.md"
+Cohesion: 0.05
+Nodes (40): 1. Hypothesis-driven: define expected behavior before injecting, 2. Start small: one service, controlled blast radius, 3. Monitoring is a prerequisite, 4. Game days build muscle memory, Anti-Patterns, Chaos Experiment Workflow, Chaos in production without approval, Chaos without monitoring (+32 more)
 
-### Community 88 - "autorin-web/package.json"
-Cohesion: 0.11
-Nodes (19): devDependencies, eslint@^10.3.0, @eslint/js@^10.0.1, globals@^17.6.0, tailwindcss@^4.3.0, @types/node@^24.12.3, @types/react@^19.2.14, @types/react-dom@^19.2.3 (+11 more)
-
-### Community 89 - "dependencies"
-Cohesion: 0.04
-Nodes (52): dependencies, @apollo/server@^4.12.2, apollo-server-core@^3.13.0, bcrypt@^6.0.0, bullmq@^5.76.8, class-transformer@^0.5.1, class-validator@^0.14.2, cross-env@^7.0.3 (+44 more)
+### Community 89 - "testing-in-production/SKILL.md"
+Cohesion: 0.05
+Nodes (40): 1. Production is the final test environment, 2. Safety through blast radius control, 3. Always have a tested rollback plan, 4. Monitoring is a prerequisite, not a nice-to-have, 5. Production tests must be non-destructive, Anti-Patterns, Automated promotion and rollback, Baseline comparison (+32 more)
 
 ### Community 90 - "unified_search_snapshot.dart"
-Cohesion: 0.09
-Nodes (22): categoryName, coverImage, empty, hasAnyHits, id, image, isEmergency, latitude (+14 more)
+Cohesion: 0.08
+Nodes (23): categoryName, coverImage, empty, hasAnyHits, id, image, isEmergency, latitude (+15 more)
 
 ### Community 91 - "@nestjs/common"
-Cohesion: 0.02
-Nodes (65): AppModule, Not exposed (no GraphQL operations), Configs, UserActivityModel, UserActivitySchema, AdminModule, AdvertisementModel, advertisementSchema (+57 more)
+Cohesion: 0.03
+Nodes (66): Configs, envFilePath, MongodbConfig, UserActivityModel, ActivityModule, UserActivitySchema, AdminModule, AdvertisementModel (+58 more)
 
-### Community 92 - "CreateProductBloc"
-Cohesion: 0.14
-Nodes (35): CreateProductConditionChanged, CreateProductCurrencyChanged, CreateProductDeliveryChanged, CreateProductDescriptionChanged, CreateProductDraftAutosave, CreateProductEvent, CreateProductNegotiableChanged, CreateProductNextStep (+27 more)
+### Community 92 - "exploratory-testing/SKILL.md"
+Cohesion: 0.05
+Nodes (38): 1. Structured Freedom, 2. Document As You Go, 3. Heuristics Over Scripts, 4. Time-Boxed Sessions, 5. Bugs Found Are the Beginning, Not the End, Anti-Patterns, Assisted Exploration (LLM as Companion, Not Replacement), Automate When: (+30 more)
 
 ### Community 93 - "Example Spec — Settings"
 Cohesion: 0.18
 Nodes (11): Acceptance checklist, Accessibility, Contents, Example Spec — Settings, Intent / user goal, Layout & thumb-zone (responsive), Motion, Patterns & rules used (+3 more)
 
-### Community 94 - "setFavorite/index.dart"
-Cohesion: 0.11
-Nodes (16): applyFromParts, _cachedFavoriteParts, clear, _debouncers, _favorites, isFavorite, loadFavoritesFromServer, _persistFavorite (+8 more)
+### Community 94 - "quality-postmortem/SKILL.md"
+Cohesion: 0.05
+Nodes (37): 1. Blameless Means Systemic, 2. Focus on Patterns, Not Incidents, 3. Every Postmortem = 1-3 Concrete Action Items, 4. Track to Completion, 5. Measure Improvement With Two Metrics, Not One, 5 Whys Root Cause Analysis, 6. AI Drafts the Timeline; a Human Owns the Judgment, Action Items Without Follow-Through (+29 more)
 
 ### Community 95 - "_"
 Cohesion: 0.03
 Nodes (73): _, blue400, blue500, body, button, caption, compact, dark (+65 more)
 
-### Community 96 - "Field"
-Cohesion: 0.07
-Nodes (23): AddressContentType, CardContentType, .identitySection, .newCardFields, .postalField, Field, address, card (+15 more)
+### Community 96 - "test-reliability/SKILL.md"
+Cohesion: 0.05
+Nodes (37): 1. Silent Selector Replacement, 2. "Just Retry It" as a Fix, 3. Disabling Flaky Tests Permanently, 4. Treating All Flakiness the Same, 5. waitForTimeout as a Stability Fix, 6. Healing Without Observability, 7. Over-Engineering Healing Before Writing Stable Tests, 8. No Quarantine Expiry (+29 more)
 
 ### Community 97 - "List"
-Cohesion: 0.06
-Nodes (32): fallback, _firstSupported, kAppLanguageCodes, resolveAppLocale, supported, supportedAppLocales, build, currentStep (+24 more)
+Cohesion: 0.05
+Nodes (39): fallback, _firstSupported, kAppLanguageCodes, resolveAppLocale, supported, supportedAppLocales, build, currentStep (+31 more)
 
 ### Community 98 - "advertisement.dart"
 Cohesion: 0.07
 Nodes (27): activeCount, AdCampaignStatus, AdSlotInfo, Advertisement, amountPaid, api, bannerImageUrl, clickCount (+19 more)
 
 ### Community 99 - "my_workshop_card/index.dart"
-Cohesion: 0.04
-Nodes (49): GetWorkshop, GetWorkshopById, isLoading, loadWorkshopById, workshop, _HomeFeedBody, _applyStatus, build (+41 more)
+Cohesion: 0.03
+Nodes (60): buildFilter, buildPagination, _currentPageMap, filter, GET_WORKSHOPS, GetWorkshop, getWorkshops, hasMoreFor (+52 more)
 
-### Community 100 - "main.dart"
-Cohesion: 0.06
-Nodes (22): clearPendingDeepLink, consumePendingDeepLink, navigatorKey, _parseLink, _pendingDeepLink, PushRouter, _resolveLink, route (+14 more)
+### Community 100 - "wallet_screen.dart"
+Cohesion: 0.03
+Nodes (51): AdminConfig, isConfigured, amountLabel, build, createState, credit, emphasized, enabled (+43 more)
 
-### Community 101 - "static const"
-Cohesion: 0.07
-Nodes (24): alreadyRetried, AuthRequestContext, clearDraft, _draftKey, DraftStorage, loadDraft, loadRecentVehicles, pushRecentVehicle (+16 more)
+### Community 101 - "workshop_weekly_schedule.dart"
+Cohesion: 0.14
+Nodes (13): dartWeekdayForUiIndex, defaultSchedule, entryForUiIndex, fromProfile, hasOpenDay, hmFromDateTime, is24x7Schedule, schedule24x7 (+5 more)
 
-### Community 102 - "home_top_bar.dart"
-Cohesion: 0.07
-Nodes (28): badge, build, _chatUnread, _CircleHeaderButton, color, createState, customIcon, dispose (+20 more)
+### Community 102 - "ci-cd-integration/SKILL.md"
+Cohesion: 0.05
+Nodes (36): 1. Running all tests on every commit, 2. No artifact storage, 3. Retrying flaky tests without tracking them, 4. CI-only failures without local reproduction, 5. Shared state between CI jobs, 6. No concurrency controls, 7. Hardcoded secrets in workflow files, 8. Ignoring job timeouts (+28 more)
 
 ### Community 103 - "place_label.dart"
-Cohesion: 0.08
-Nodes (23): cardPostedLabel, _coordPair, d, en, fallback, false, formatDayMonth, humanPlaceLabel (+15 more)
+Cohesion: 0.04
+Nodes (43): cardPostedLabel, _coordPair, d, en, fallback, false, formatDayMonth, humanPlaceLabel (+35 more)
 
-### Community 104 - "otp-protection.ts"
-Cohesion: 0.06
-Nodes (17): Audit report, Fixes in this pass, P0, P1, P2, P3, Verification (2026-10-16, release pass), MemoryOtpCounterStore (+9 more)
+### Community 104 - "Audit report"
+Cohesion: 0.25
+Nodes (7): Audit report, Fixes in this pass, P0, P1, P2, P3, Verification (2026-10-16, release pass)
 
 ### Community 105 - "@nestjs/common"
-Cohesion: 0.03
-Nodes (67): AuthGuardsModule, sessionMock, TestSessionModule, IS_OPTIONAL_AUTH_KEY, IS_PUBLIC_KEY, WS_SUBSCRIPTION_AUTH_KEY, AuthGuard, AttachUserResult (+59 more)
+Cohesion: 0.02
+Nodes (68): AppModule, AuthGuardsModule, sessionMock, TestSessionModule, IS_OPTIONAL_AUTH_KEY, IS_PUBLIC_KEY, WS_SUBSCRIPTION_AUTH_KEY, Public() (+60 more)
 
-### Community 106 - "UploadService"
-Cohesion: 0.08
-Nodes (20): @nestjs/swagger@^11.2.0, ALLOWED_UPLOAD_MIME_TYPES, ALLOWED_VOICE_MIME_TYPES, assertUploadAllowed(), assertVoiceUploadAllowed(), BLOCKED_UPLOAD_EXTENSIONS, EXT_TO_MIME, MIME_TO_EXT (+12 more)
+### Community 106 - ".uploadFile"
+Cohesion: 0.16
+Nodes (6): @nestjs/swagger@^11.2.0, UploadController, FileTargetDto, FilesTargetDto, UploadFileDto, @nestjs/swagger
 
 ### Community 107 - "text_input_capitalization.dart"
-Cohesion: 0.08
-Nodes (21): _CardGroupFormatter, buf, capitalizeFirstLetter, capitalizeSentences, capNext, FirstLetterCapitalizationFormatter, _firstLetterIndex, formatEditUpdate (+13 more)
+Cohesion: 0.10
+Nodes (17): buf, capitalizeFirstLetter, capitalizeSentences, capNext, _firstLetterIndex, formatEditUpdate, i, _letter (+9 more)
 
 ### Community 108 - "chat_repository.dart"
 Cohesion: 0.08
 Nodes (19): cacheMessages, clearSessionCaches, createConversation, deleteConversationForMe, deleteMessageForMe, drainOutbox, enqueueOutboxMessage, getCachedMessages (+11 more)
 
-### Community 109 - "Catalog"
-Cohesion: 0.08
-Nodes (22): fluent-ffmpeg@^2.1.3, sharp@^0.34.3, Catalog, ADVERTISEMENTS_BANNERS, ANNOUNCEMENTS_IMAGES, CATEGORIES_ICONS, CHATS_IMAGES, CHATS_VOICES (+14 more)
+### Community 109 - "async_content.dart"
+Cohesion: 0.05
+Nodes (32): build, child, curve, duration, KeyboardSafeView, AsyncContent, AsyncEmptyPane, AsyncErrorPane (+24 more)
 
 ### Community 110 - "examples/dashboard/swiftui/DashboardScreen.swift"
-Cohesion: 0.06
-Nodes (23): AppKit, AuthenticationServices, ChatScreen, .body, CheckoutScreen, .body, DashboardScreen, .body (+15 more)
+Cohesion: 0.04
+Nodes (36): AppKit, AuthenticationServices, ChatScreen, .body, CheckoutScreen, .body, DashboardScreen, .body (+28 more)
 
-### Community 111 - "package:flutter/material.dart"
-Cohesion: 0.02
-Nodes (111): build, ChatScreen, build, CheckoutScreen, build, DashboardScreen, build, LoginScreen (+103 more)
+### Community 111 - "good_screen.dart"
+Cohesion: 0.40
+Nodes (4): build, GoodScreen, state, ViewState
 
 ### Community 112 - "WalletService"
-Cohesion: 0.11
-Nodes (14): WalletReferenceTypeEnum, ADMIN, ADVERTISEMENT, PROMOTION_PAYMENT, SERVICE_BOOKING, TOPUP, WITHDRAW, WalletTransactionStatusEnum (+6 more)
+Cohesion: 0.12
+Nodes (9): WalletReferenceTypeEnum, ADMIN, ADVERTISEMENT, PROMOTION_PAYMENT, SERVICE_BOOKING, TOPUP, WITHDRAW, WalletTransaction (+1 more)
 
 ### Community 113 - "orders_remote_datasource.dart"
 Cohesion: 0.09
@@ -1104,29 +1285,29 @@ Nodes (79): _, activeCount, activeLabel, amount, balance, count, currency, curre
 Cohesion: 0.04
 Nodes (39): createdAt, deliveryDays, fromJson, id, isAccepted, listing, offeredPrice, OrderResponseDto (+31 more)
 
-### Community 119 - "CategoriesPage.tsx"
-Cohesion: 0.11
-Nodes (27): CREATE_CATEGORY, DELETE_CATEGORY, GET_CATEGORIES, UPDATE_CATEGORY, emptyCategoryNames(), namesFromRow(), postFile(), uploadAdvertisementBanner() (+19 more)
+### Community 119 - "productList/index.dart"
+Cohesion: 0.06
+Nodes (29): aspectRatio, build, contentWidth, controller, crossAxisCount, isDepleted, isMine, metrics (+21 more)
 
 ### Community 120 - "_"
 Cohesion: 0.03
 Nodes (62): _, actionGap, blue400, blue500, body, button, caption, control (+54 more)
 
-### Community 121 - "resolve_media_url.dart"
-Cohesion: 0.09
-Nodes (20): base, baseUri, _ephemeralHost, fileExistsSync, _isEphemeralMediaHost, isLocalImagePath, isRemoteMediaPath, mediaRequestHeaders (+12 more)
+### Community 121 - "database-testing/SKILL.md"
+Cohesion: 0.06
+Nodes (35): 1. Testing against production database copies, 2. Shared database state between tests, 3. Ignoring rollback testing, 4. Faking rollback with `migrate resolve --rolled-back`, 5. Using ORM sync instead of migrations, 6. Testing only happy-path queries, 7. Performance assertions that can never fail, 8. Seeding with random data (+27 more)
 
 ### Community 122 - "workshop_profile.dart"
 Cohesion: 0.03
 Nodes (63): address, categories, categorySlug, city, closed, closeTime, coverImage, createdAt (+55 more)
 
-### Community 123 - "create_order/index.dart"
-Cohesion: 0.02
-Nodes (103): applyToController, countryCode, format, formatEditUpdate, hint, inputPrefix, isComplete, localDigits (+95 more)
+### Community 123 - "input/index.dart"
+Cohesion: 0.04
+Nodes (52): _code, codeController, codeUpdated, dispose, startListening, autofillHints, build, controller (+44 more)
 
 ### Community 124 - "workshop_detail_screen.dart"
 Cohesion: 0.02
-Nodes (117): false, openLocationInExternalMaps, q, uris, build, count, OrderShimmerList, build (+109 more)
+Nodes (76): build, createState, _currentIndex, horizontalPadding, icon, _PromoCard, _PromoSlide, slide (+68 more)
 
 ### Community 125 - "market_ui.dart"
 Cohesion: 0.06
@@ -1136,33 +1317,33 @@ Nodes (30): actionDock, build, card, cardRadius, child, clipBehavior, dense, emp
 Cohesion: 0.10
 Nodes (18): build, createState, dispose, durationMs, _durSub, _fmt, initState, isMine (+10 more)
 
-### Community 127 - "package:my_auto/core/services/graphql/index.dart"
-Cohesion: 0.03
-Nodes (61): AuthCoordinator, ErrorPresentation, show, UserFacingErrors, addCategory, categories, isLoading, loadCategories (+53 more)
-
-### Community 128 - "vehicle_catalog_repository.dart"
-Cohesion: 0.09
-Nodes (17): brands, _cacheBrands, _cacheParts, clearCache, isReady, load, message, modelsForBrand (+9 more)
+### Community 127 - "package:graphql_flutter/graphql_flutter.dart"
+Cohesion: 0.02
+Nodes (108): AuthCoordinator, _englishRegionLabels, legacy, uzbekistanRegionFromStored, uzbekistanRegionLabel, uzbekistanRegions, value, clearProduct (+100 more)
 
 ### Community 129 - "BannersPage.tsx"
-Cohesion: 0.07
-Nodes (61): ADMIN_LIST_ADVERTISEMENTS, ADVERTISEMENT_PLAN_PRICES, CREATE_ADVERTISEMENT, DELETE_ADVERTISEMENT, RESET_ADVERTISEMENT_TARIFFS, SET_ADVERTISEMENT_TARIFFS, UPDATE_ADVERTISEMENT, BannersPage() (+53 more)
+Cohesion: 0.06
+Nodes (74): ADMIN_LIST_ADVERTISEMENTS, ADMIN_SET_PART_RECOMMENDED, ADMIN_SET_PART_VIEWS_COUNT, ADVERTISEMENT_PLAN_PRICES, APPROVE_PART, CONFIRM_SIGN_UP, CREATE_ADVERTISEMENT, CREATE_CATEGORY (+66 more)
+
+### Community 130 - "getByRole Examples for Every Common Element"
+Cohesion: 0.06
+Nodes (35): Alerts and Status, Anti-Patterns, Auto-generated IDs, Buttons, Chaining and Filtering, Chaining locators (scoping), Checkboxes and Radio Buttons, Combining has and hasText (+27 more)
 
 ### Community 131 - "orders_repository_impl.dart"
 Cohesion: 0.06
 Nodes (22): OrdersRemoteDataSource, closeOrder, createOrder, deleteOrder, getFavoriteIds, getOrderById, getOrderResponses, getOrders (+14 more)
 
-### Community 132 - "RegisterDeviceTokenInput"
-Cohesion: 0.13
-Nodes (6): RegisterDeviceTokenArgs, RegisterDeviceTokenInput, DevicePlatformEnum, ANDROID, IOS, WEB
+### Community 132 - "test-data-management/SKILL.md"
+Cohesion: 0.06
+Nodes (35): 1. Each Test Owns Its Data, 2. Factories Over Fixtures for Dynamic Data, 3. Anonymize Production Data Before Use, 4. Deterministic Data Enables Reproducible Tests, 5. Minimize Data, Maximize Signal, Anti-Patterns, Cleanup Strategies, Core Principles (+27 more)
 
 ### Community 133 - "MeilisearchService"
-Cohesion: 0.14
+Cohesion: 0.13
 Nodes (9): axios@^1.11.0, MEILI_FILTERABLE, MEILI_PARTS_INDEX, MEILI_SEARCHABLE, MEILI_SORTABLE, MeilisearchModule, MeiliSearchResponse, MeilisearchService (+1 more)
 
 ### Community 134 - "addPartProvider.dart"
-Cohesion: 0.05
-Nodes (36): addImages, addNetworkImages, allImages, categoriesName, categoryId, condition, _convertDeliveryEnumToLocal, _createPartOnServer (+28 more)
+Cohesion: 0.02
+Nodes (101): addImages, addNetworkImages, allImages, categoriesName, categoryId, condition, _convertDeliveryEnumToLocal, _createPartOnServer (+93 more)
 
 ### Community 136 - "orders_provider.dart"
 Cohesion: 0.07
@@ -1172,25 +1353,25 @@ Nodes (26): closeOrder, createOrder, deleteOrder, dispose, hasMoreFor, _hasMoreM
 Cohesion: 0.17
 Nodes (10): color, fromJson, icon, id, localizedName, name, names, popular (+2 more)
 
-### Community 138 - "SessionService"
-Cohesion: 0.11
-Nodes (10): decideRefresh(), DEFAULT_LEGACY_ACCESS_UNTIL, hashRefreshToken(), legacyAccessStillValid(), newRefreshToken(), REFRESH_REUSE_GRACE_MS, RefreshDecision, SessionSnapshot (+2 more)
+### Community 138 - "performance-testing/SKILL.md"
+Cohesion: 0.06
+Nodes (34): 1. Load testing production without coordination, 1. Measure before optimizing, 2. Budgets are only real if CI enforces them, 2. Unrealistic load scenarios, 3. Ignoring server-side metrics, 3. Realistic load beats maximum stress, 4. Core Web Vitals are what users actually feel, 4. Performance testing only before releases (+26 more)
 
 ### Community 139 - "UsersPage.tsx"
-Cohesion: 0.08
-Nodes (22): UsersToolbar(), ROLE_LABELS, ROLE_OPTIONS, UserRoleOption, USERS_COLORS, USERS_PAGE_SIZE, USERS_TEXTS, formatJoined() (+14 more)
+Cohesion: 0.10
+Nodes (22): ADMIN_SET_USER_ROLE, UsersToolbar(), ROLE_LABELS, ROLE_OPTIONS, UserRoleOption, USERS_COLORS, USERS_PAGE_SIZE, USERS_TEXTS (+14 more)
 
 ### Community 140 - "LoginScreen"
 Cohesion: 0.06
 Nodes (29): Field, email, password, LoginScreen, .biometricSheet, .body, .canSubmit, .credentialFields (+21 more)
 
 ### Community 141 - "package:flutter_bloc/flutter_bloc.dart"
-Cohesion: 0.10
-Nodes (22): _HeaderActions, build, _NotificationsTab, close, NotificationsBloc, _onBootstrapped, _onPermissionChanged, _onSignedIn (+14 more)
+Cohesion: 0.18
+Nodes (16): _HeaderActions, build, _NotificationsTab, NotificationsBloc, granted, NotificationsBootstrapped, NotificationsEvent, NotificationsPermissionChanged (+8 more)
 
-### Community 142 - "boost_plan_picker.dart"
-Cohesion: 0.09
-Nodes (20): BoostPlanPicker, _BoostPlanPickerState, buf, build, compact, createState, _fallbackAmount, _fallbackDays (+12 more)
+### Community 142 - "test-planning/SKILL.md"
+Cohesion: 0.06
+Nodes (34): 1. Coverage-Driven: Map Every Requirement to at Least One Test, 2. Time-Boxed: Plan Fits the Available Window, 3. Prioritized: Not Everything Gets Equal Depth, 4. Buffered: Leave Room for the Unexpected, 5. Visible: The Plan Is a Communication Tool, 6. Entry and Exit Criteria Are First-Class, Anti-Patterns, Back-Loading Testing to Sprint End (+26 more)
 
 ### Community 143 - "examples/dashboard/react-native/DashboardScreen.tsx"
 Cohesion: 0.07
@@ -1198,15 +1379,15 @@ Nodes (47): ACTIVITY, ActivityCard(), ActivityCardProps, ActivityItem, BottomNav
 
 ### Community 144 - "CategoryTypeEnum"
 Cohesion: 0.02
-Nodes (80): Public(), ADVERTISEMENT_PLACEMENT_WEIGHT, ADVERTISEMENT_PLAN_PRICES_UZS, ADVERTISEMENT_MAX_ACTIVE_SLOTS, AdminListAdvertisementsArgs, AdvertisementIdArgs, AdvertisementSlotInfoArgs, CreateAdvertisementArgs (+72 more)
+Nodes (92): AdminDailyReportArgs, AdminListOrdersArgs, AdminListPartsArgs, AdminListUsersArgs, AdminListWorkshopsArgs, AdminSetOrderRecommendedArgs, AdminSetPartRecommendedArgs, AdminSetPartViewsCountArgs (+84 more)
 
 ### Community 145 - "orders_screen.dart"
-Cohesion: 0.07
-Nodes (40): _computeStats, _currentUserId, _filterVisible, _load, _onClose, _onDelete, _onFavoriteToggled, _onLoadMore (+32 more)
+Cohesion: 0.09
+Nodes (34): _computeStats, _currentUserId, _filterVisible, _load, _onClose, _onDelete, _onFavoriteToggled, _onLoadMore (+26 more)
 
 ### Community 146 - "dashboard/DashboardPage.tsx"
-Cohesion: 0.11
-Nodes (27): GreetingBar(), GreetingBarProps, PlatformStrip(), PlatformStripProps, SegmentedTabOption, SegmentedTabs(), SegmentedTabsProps, SnapshotCards() (+19 more)
+Cohesion: 0.10
+Nodes (31): GET_ADMIN_DAILY_REPORT, GET_ADMIN_STATS, GreetingBar(), GreetingBarProps, PlatformStrip(), PlatformStripProps, SegmentedTabOption, SegmentedTabs() (+23 more)
 
 ### Community 147 - "Screen-reader semantics"
 Cohesion: 0.04
@@ -1220,33 +1401,37 @@ Nodes (53): activeUntil, address, avatarUrl, brand, carModel, category, conditio
 Cohesion: 0.04
 Nodes (48): ApiErrorCode, AUTH_ACCOUNT_DELETED, AUTH_CONFIRMATION_TOKEN_EXPIRED, AUTH_CONFIRMATION_TOKEN_INVALID, AUTH_CONFIRMATION_TOKEN_MISSING, AUTH_FORBIDDEN, AUTH_INVALID_CREDENTIALS, AUTH_INVALID_OTP (+40 more)
 
-### Community 150 - "OrderResponseService"
-Cohesion: 0.10
-Nodes (4): RespondToOrderArgs, RespondToOrderInput, OrderResponseResolver, OrderResponseService
+### Community 150 - "visual-testing/SKILL.md"
+Cohesion: 0.06
+Nodes (34): 1. Full-page screenshots without masking, 1. Visual tests catch what functional tests miss, 2. Baseline management is the hard part, 2. No artifact storage in CI, 3. Dynamic content causes false positives, 3. No review process for baseline updates, 4. Threshold tuning is iterative, 4. Visual-testing unstable components (+26 more)
 
 ### Community 151 - "dependencies"
 Cohesion: 0.04
 Nodes (48): dependencies, audioplayers, awesome_select, bloc_concurrency, bottom_picker, cached_network_image, carousel_slider, connectivity_plus (+40 more)
 
 ### Community 152 - "UserInfoPage.tsx"
-Cohesion: 0.08
-Nodes (42): ADMIN_CREDIT_WALLET, ADMIN_WALLET, ADMIN_WALLET_TRANSACTIONS, ModerationDetailDialogProps, ProductsTableProps, StatsDialogProps, MetricCard(), MetricCardProps (+34 more)
+Cohesion: 0.06
+Nodes (51): Component Testing, formatPrice(), ProductCard(), ADMIN_CREDIT_WALLET, ADMIN_LIST_USERS, ADMIN_WALLET, ADMIN_WALLET_TRANSACTIONS, GET_PART_BY_ID (+43 more)
 
 ### Community 153 - "ContextType"
 Cohesion: 0.03
-Nodes (81): ContextType, UseRole(), AdminDailyReportArgs, AdminListOrdersArgs, AdminListPartsArgs, AdminListUsersArgs, AdminListWorkshopsArgs, AdminSetOrderRecommendedArgs (+73 more)
+Nodes (49): ContextType, UseRole(), AdminResolver, AdminService, AppSettingsResolver, AppSettings, ContactInfo, AppSettingsService (+41 more)
 
 ### Community 154 - "conversation_dto.dart"
 Cohesion: 0.11
 Nodes (16): ChatParticipantDto, ConversationDto, fromJson, id, lastMessageAt, lastMessageSenderId, lastMessageText, name (+8 more)
 
-### Community 156 - "package:my_auto/features/create_product/domain/entities/create_product_draft.dart"
+### Community 155 - "chat_room_state.dart"
+Cohesion: 0.07
+Nodes (30): ChatRoomState, ChatRoomStatus, conversationId, copyWith, failure, hasMore, isPeerTyping, messages (+22 more)
+
+### Community 156 - "my_listings_scaffold.dart"
 Cohesion: 0.06
-Nodes (28): _buildDescription, _client, createPart, CreateProductRepositoryImpl, _deliveryApi, draftFromPart, fetchCategoryTree, fetchModelsForBrand (+20 more)
+Nodes (34): activeBody, activeCount, allCount, allLabel, autofocusSearch, belowSearch, body, breakdown (+26 more)
 
 ### Community 157 - "serviceScreen/index.dart"
-Cohesion: 0.08
-Nodes (23): cancelUpload, controller, createWorkshop, CreateWorkshopProvider, getWorkshopById, isLoading, _parseTimeRange, _setLoading (+15 more)
+Cohesion: 0.13
+Nodes (12): CreateWorkshopProvider, build, controller, createState, dispose, _handleSubmit, id, initState (+4 more)
 
 ### Community 158 - "GeneratedPluginRegistrant.swift"
 Cohesion: 0.05
@@ -1261,8 +1446,8 @@ Cohesion: 0.04
 Nodes (45): addProduct, advertise, buttonNavigationBar, categoriesScreen, chatDetail, chats, confirmation, contactUs (+37 more)
 
 ### Community 161 - "ApiException"
-Cohesion: 0.15
-Nodes (8): Backend localization architecture, Examples by category, GraphQL, Migration, REST, Standard error body, Throwing, ApiException
+Cohesion: 0.14
+Nodes (9): Backend localization architecture, Examples by category, GraphQL, Migration, REST, Standard error body, Throwing, ApiException (+1 more)
 
 ### Community 162 - "seller_store_profile.dart"
 Cohesion: 0.05
@@ -1274,27 +1459,27 @@ Nodes (41): address, api, categoryName, categoryNames, categorySlug, copyWith, c
 
 ### Community 164 - "controller/index.dart"
 Cohesion: 0.12
-Nodes (15): allowMessages, dispose, EditProfileController, facebookController, instagramController, locationController, mapPoint, nameController (+7 more)
+Nodes (16): UzbekistanRegion, allowMessages, dispose, EditProfileController, facebookController, instagramController, locationController, mapPoint (+8 more)
 
 ### Community 165 - "prompts/_index.md"
 Cohesion: 0.05
 Nodes (24): Accessibility Review, Animation Review, Audit Screen, Authentication Generator, Chat Generator, Checkout Generator, Component Generator, Dashboard Generator (+16 more)
 
 ### Community 166 - "setup-docker.js"
-Cohesion: 0.11
-Nodes (24): name, { exec }, runCommand(), AUTO_START_DOCKER, services, SKIP_DOCKER, checkForOrphanContainers(), { ConsoleLogger } (+16 more)
+Cohesion: 0.05
+Nodes (34): Testcontainers — ephemeral real services for integration tests, Wiring into Vitest, name, { exec }, runCommand(), AUTO_START_DOCKER, services, SKIP_DOCKER (+26 more)
 
 ### Community 167 - "provider/auth/auth.dart"
-Cohesion: 0.07
-Nodes (22): AuthRefreshLink, _isExpired, request, _retriedOperationKeys, _retryKey, WebSocketAuthGateLink, _auth, AuthSessionHook (+14 more)
+Cohesion: 0.11
+Nodes (15): _auth, AuthSessionHook, clearOrphanBearerIfGuest, isAuthenticated, isGuest, loadAuth, logout, logoutAllDevices (+7 more)
 
 ### Community 168 - "orders_repository.dart"
 Cohesion: 0.11
 Nodes (14): closeOrder, createOrder, deleteOrder, getFavoriteIds, getOrderById, getOrderResponses, getOrders, getRespondedOrderIds (+6 more)
 
 ### Community 169 - "app_scaffold.dart"
-Cohesion: 0.10
-Nodes (14): appBar, applyKeyboardPadding, applyTopSafeArea, AppScaffold, backgroundColor, body, bottomNavigationBar, build (+6 more)
+Cohesion: 0.04
+Nodes (40): appBar, applyKeyboardPadding, applyTopSafeArea, AppScaffold, backgroundColor, body, bottomNavigationBar, build (+32 more)
 
 ### Community 170 - "examples/settings/react-native/SettingsScreen.tsx"
 Cohesion: 0.07
@@ -1304,9 +1489,9 @@ Nodes (36): DANGER_GROUP, DEFAULT_OS_PERMISSIONS, DESTRUCTIVE_ROWS, FlatEntry, f
 Cohesion: 0.07
 Nodes (27): color, createState, dispose, _FilterChip, _GlassIcon, _gridSliver, _horizontalSliver, icon (+19 more)
 
-### Community 172 - "edit_workshop_screen.dart"
-Cohesion: 0.04
-Nodes (42): build, createState, _descCtrl, dispose, EditWorkshopScreen, _EditWorkshopScreenState, _formKey, _gallerySection (+34 more)
+### Community 172 - "workshop_hours_editor.dart"
+Cohesion: 0.09
+Nodes (19): build, controller, labelText, TimeInput, _applyHoursToAllOpenDays, build, _dayCard, _hmFromDateTime (+11 more)
 
 ### Community 173 - "wallet_models.dart"
 Cohesion: 0.11
@@ -1321,12 +1506,12 @@ Cohesion: 0.05
 Nodes (35): amount, amountLabel, b, body, contains, currency, data, _isAccountVerified (+27 more)
 
 ### Community 176 - "pagination.tsx"
-Cohesion: 0.21
-Nodes (24): buttonVariants, Pagination(), PaginationContent(), PaginationEllipsis(), PaginationItem(), PaginationLink(), PaginationLinkProps, PaginationNext() (+16 more)
+Cohesion: 0.22
+Nodes (23): buttonVariants, Pagination(), PaginationContent(), PaginationEllipsis(), PaginationItem(), PaginationLink(), PaginationLinkProps, PaginationNext() (+15 more)
 
-### Community 177 - "premium_order_card.dart"
-Cohesion: 0.08
-Nodes (24): bg, _budgetLabel, buf, build, compact, _CompactRequestCard, cur, digits (+16 more)
+### Community 177 - "color.md"
+Cohesion: 0.04
+Nodes (36): ChatScreen(), CheckoutScreen(), LoginScreen(), SettingsScreen(), accent, build, icon, label (+28 more)
 
 ### Community 178 - "examples/dashboard/ionic/DashboardScreen.tsx"
 Cohesion: 0.08
@@ -1336,13 +1521,13 @@ Nodes (32): ACTIVITY, ActivityCard(), ActivityCardProps, ActivityItem, BottomNav
 Cohesion: 0.06
 Nodes (34): unit, value, $value, color, example-primitive, example-semantic, $type, $description (+26 more)
 
-### Community 180 - "@immutable"
-Cohesion: 0.11
-Nodes (18): ChatMessage, ChatColors, CartLine, PaymentRequest, SavedCard, CheckoutColors, _Activity, _ChartPoint (+10 more)
+### Community 180 - "ai-bug-triage/SKILL.md"
+Cohesion: 0.06
+Nodes (33): 1. Using LLM for Deduplication, 2. Auto-Closing Without Review, 3. Over-Classifying Severity, 4. Ignoring Environment Failures, 5. No Feedback Loop, 6. Raw Logs in Tickets, 7. Fingerprinting Without Normalization, 8. No Component Ownership Mapping (+25 more)
 
 ### Community 181 - "purchase_advertisement_screen.dart"
 Cohesion: 0.03
-Nodes (66): AdSurface, AdPlan, AdvertisementPlanPrice, amount, api, currency, days, fromApi (+58 more)
+Nodes (79): AdSurface, AdPlan, AdvertisementPlanPrice, amount, api, currency, days, fromApi (+71 more)
 
 ### Community 182 - "my_application.cc"
 Cohesion: 0.08
@@ -1354,7 +1539,7 @@ Nodes (32): Contents, Forms & Inputs (FRM), FRM-001 — Every field has a persis
 
 ### Community 184 - "classic_home_screen.dart"
 Cohesion: 0.02
-Nodes (118): GetCategories, ProductProvider, RemovePartsByIdProvider, build, _condition, createState, currency, _delivery (+110 more)
+Nodes (105): addCategory, categories, GetCategories, isLoading, loadCategories, type, OrdersProvider, build (+97 more)
 
 ### Community 185 - "create_workshop_draft.dart"
 Cohesion: 0.06
@@ -1365,12 +1550,12 @@ Cohesion: 0.09
 Nodes (25): BubbleProps, ChatMessage, ChatScreen(), ChatScreenProps, ChatStatus, formatTime(), makeStyles(), MessageBubble() (+17 more)
 
 ### Community 187 - "story.mjs"
-Cohesion: 0.06
+Cohesion: 0.07
 Nodes (22): args, chrome, file, frame, frames, [frameX, frameY, frameWidth], html, [input, out] (+14 more)
 
 ### Community 188 - "SettingsModel"
-Cohesion: 0.04
-Nodes (43): PermissionStatus, authorized, denied, notDetermined, unknown, SaveError, failed, SettingsLayout (+35 more)
+Cohesion: 0.05
+Nodes (49): SaveError, failed, SettingDetailView, .body, .leaf, SettingLeaf, .isDestructive, SettingSection (+41 more)
 
 ### Community 189 - "notifications_constants.dart"
 Cohesion: 0.06
@@ -1381,28 +1566,32 @@ Cohesion: 0.07
 Nodes (25): autoFocus, _border, build, clearIconSize, controller, _controllerListener, createState, CustomSearchInput (+17 more)
 
 ### Community 191 - "test_eval.py"
-Cohesion: 0.11
-Nodes (18): Added, cell_files(), evaluate(), load_scenarios(), main(), render_markdown(), score_cell(), test_a_known_baseline_scores_low() (+10 more)
+Cohesion: 0.09
+Nodes (26): cell_files(), evaluate(), load_scenarios(), main(), render_markdown(), score_cell(), test_a_known_baseline_scores_low(), test_each_paired_baseline_loses_to_with_skill() (+18 more)
 
 ### Community 192 - "_common.py"
-Cohesion: 0.12
-Nodes (15): contrast_ratio(), flatten_tokens(), _lin(), load_flat_tokens(), parse_hex(), _read(), relative_luminance(), resolve() (+7 more)
+Cohesion: 0.11
+Nodes (17): _as_list(), contrast_ratio(), flatten_tokens(), iter_source_files(), _lin(), load_flat_tokens(), parse_hex(), _read() (+9 more)
 
 ### Community 193 - "chat_repository_impl.dart"
-Cohesion: 0.07
-Nodes (23): cacheMessages, clearSessionCaches, createConversation, deleteConversationForMe, deleteMessageForMe, drainOutbox, enqueueOutboxMessage, _findConversationWithRecipient (+15 more)
+Cohesion: 0.05
+Nodes (32): _cache, cacheMessages, ChatLocalDataSource, clearSession, drainOutbox, enqueueOutbox, getCachedMessages, InMemoryChatLocalDataSource (+24 more)
 
 ### Community 194 - "order/index.dart"
 Cohesion: 0.07
 Nodes (29): author, brand, budget, carModel, _category, createdAt, currency, description (+21 more)
 
-### Community 196 - "push.service.ts"
-Cohesion: 0.17
-Nodes (15): PUSH_QUEUE, PushService, ChatPushJob, FavoriteMatchedPushJob, OrderMatchedPushJob, OrderReplyPushJob, PromotedExpiredPushJob, PushBody (+7 more)
-
-### Community 197 - "baselines/dashboard/jetpack-compose/DashboardScreen.kt"
+### Community 195 - "observability-driven-testing/SKILL.md"
 Cohesion: 0.06
-Nodes (18): ChatScreen(), CheckoutScreen(), DashboardScreen(), LoginScreen(), SettingsScreen(), backgroundColor, borderColor, borderRadius (+10 more)
+Nodes (33): 1. Ignoring production signals, 1. Production data informs test priorities, 2. Testing only what is easy to observe, 2. Traces are test evidence, 3. No feedback loop between production and testing, 3. Observability gaps equal test gaps, 4. Close the feedback loop, 4. Over-instrumenting tests without acting on data (+25 more)
+
+### Community 196 - "push.service.ts"
+Cohesion: 0.22
+Nodes (16): FirebaseDebugPayload, ServiceAccountFile, PUSH_QUEUE, ChatPushJob, FavoriteMatchedPushJob, OrderMatchedPushJob, OrderReplyPushJob, PromotedExpiredPushJob (+8 more)
+
+### Community 197 - "test-migration/SKILL.md"
+Cohesion: 0.06
+Nodes (32): 1. Incremental over big bang, 2. Parallel run until parity, 3. Migrate highest-value tests first, 4. Modernize patterns during migration, don't just translate, Anti-Patterns, Assertion mapping, Automated Migration Tooling, Big bang migration (+24 more)
 
 ### Community 198 - "Contents"
 Cohesion: 0.07
@@ -1414,59 +1603,59 @@ Nodes (26): Contents, STATE-001 — Ship all 7 states, STATE-002 — Three empty
 
 ### Community 200 - "react"
 Cohesion: 0.08
-Nodes (42): App(), BrandLoading(), BrandLoadingProps, TEXTS, BrandLogo(), BrandLogoProps, BrandLogoVariant, SRC (+34 more)
+Nodes (43): App(), BrandLoading(), BrandLoadingProps, TEXTS, BrandLogo(), BrandLogoProps, BrandLogoVariant, SRC (+35 more)
 
 ### Community 201 - "checkout/spec.md"
 Cohesion: 0.14
 Nodes (10): Chat — React Native (TypeScript), Dependencies, Usage, Validators, What it demonstrates, Conventions used in every pattern file, How to use this pack, Pattern registry (+2 more)
 
 ### Community 202 - "Finding"
-Cohesion: 0.13
-Nodes (17): _as_list(), Finding, iter_source_files(), lines_of(), check(), main(), check(), main() (+9 more)
+Cohesion: 0.11
+Nodes (23): Finding, lines_of(), check(), main(), check(), main(), check(), main() (+15 more)
 
 ### Community 203 - "Contents"
 Cohesion: 0.08
 Nodes (24): Contents, TYP-001 — Body base size 16, TYP-002 — Modular type scale ~1.2, TYP-003 — Body line-height ~1.5, TYP-004 — Heading line-height 1.1–1.25, TYP-005 — Support Dynamic Type to AX5, TYP-006 — No fixed text heights, TYP-007 — Reference semantic text-style tokens (+16 more)
 
 ### Community 204 - "_openInAppPath"
-Cohesion: 0.03
-Nodes (74): OrdersProvider, build, build, _openInAppPath, build, _HomeOrdersSection, initState, _openOrdersTab (+66 more)
+Cohesion: 0.06
+Nodes (27): replay, build, build, _openInAppPath, build, _openOrdersTab, build, build (+19 more)
 
-### Community 205 - "MinioService"
+### Community 205 - "upload.service.ts"
 Cohesion: 0.03
-Nodes (21): MediaController, MediaModule, UpdateProfileArgs, UserUpdateInput, UserModule, UserResolver, SellerPrivacy, SellerSocialLinks (+13 more)
+Nodes (44): ALLOWED_UPLOAD_MIME_TYPES, ALLOWED_VOICE_MIME_TYPES, assertUploadAllowed(), assertVoiceUploadAllowed(), BLOCKED_UPLOAD_EXTENSIONS, EXT_TO_MIME, MIME_TO_EXT, normalizeExtension() (+36 more)
 
 ### Community 206 - "public_auth_operations.dart"
-Cohesion: 0.09
-Nodes (19): _documentHasOptionalAuthRootField, false, isOptionalAuthOperation, name, optionalAuthOperationNames, _optionalAuthRootFields, c, contains (+11 more)
+Cohesion: 0.14
+Nodes (13): c, contains, _documentHasPublicAuthRootField, false, isAuthLifecycleGraphQLError, isGenericUnauthenticatedError, isPublicAuthOperation, isQueryOperation (+5 more)
 
 ### Community 207 - "examples/checkout/ionic/CheckoutScreen.tsx"
 Cohesion: 0.11
 Nodes (19): AddressFields, CardFields, CartItem, CheckoutScreen(), CheckoutStatus, Chrome(), DEFAULT_ITEMS, Field() (+11 more)
 
 ### Community 208 - "wallet_repository.dart"
-Cohesion: 0.05
-Nodes (32): amount, api, _client, currency, days, fetchPlanPrices, fromApi, fromJson (+24 more)
+Cohesion: 0.11
+Nodes (15): amount, cancelPromotion, _client, days, fetchPlanPrices, fetchTransactions, fetchWallet, message (+7 more)
 
 ### Community 209 - "Architecture — My Auto (Flutter client)"
-Cohesion: 0.29
-Nodes (7): API layer, Architecture — My Auto (Flutter client), Auth single source of truth, Current state (hybrid), Feature modules, Layers (target standard), Migration plan (10 weeks sketch)
+Cohesion: 0.05
+Nodes (30): API layer, Architecture — My Auto (Flutter client), Auth single source of truth, Current state (hybrid), Feature modules, Layers (target standard), Migration plan (10 weeks sketch), Backend (NestJS — separate repo) (+22 more)
 
 ### Community 210 - "app_safe_area.dart"
-Cohesion: 0.10
-Nodes (18): AppSafeArea, bottom, bottomSafeOffset, build, child, homeExtra, kb, keyboardExtra (+10 more)
+Cohesion: 0.07
+Nodes (23): AppSafeArea, bottom, bottomSafeOffset, build, child, homeExtra, kb, keyboardExtra (+15 more)
 
-### Community 211 - "mongoose"
+### Community 211 - "@nestjs/mongoose"
 Cohesion: 0.02
-Nodes (102): ObjectIdScalar, COLLECTIONS, FILE_EXTENSIONS, POPULATIONS, ActivityTypeEnum, CHAT_OPENED, FAVORITE_ADDED, ORDER_OPENED (+94 more)
+Nodes (75): COLLECTIONS, FILE_EXTENSIONS, FILE_TYPES, FILE_TYPES_EXTENSIONS, DailyUserVisit, DailyUserVisitSchema, AuthSessionSchema, categorySchema (+67 more)
 
-### Community 212 - "dart:io"
-Cohesion: 0.03
-Nodes (66): AppNetworkImage, borderRadius, build, fit, height, path, _placeholder, width (+58 more)
+### Community 212 - "features/sellerProfile/index.dart"
+Cohesion: 0.02
+Nodes (119): AppNetworkImage, borderRadius, build, fit, height, path, _placeholder, width (+111 more)
 
-### Community 213 - "Map"
-Cohesion: 0.11
-Nodes (16): _englishRegionLabels, legacy, UzbekistanRegion, uzbekistanRegionFromStored, uzbekistanRegionLabel, uzbekistanRegions, value, _cache (+8 more)
+### Community 213 - "AI Test Generation — Prompt Library (Staged Pipeline)"
+Cohesion: 0.06
+Nodes (31): AI Test Generation — Prompt Library (Staged Pipeline), BOUNDARIES Edge Case Discovery, Bug Reproduction Test, Date-range picker (start/end selection), Password-validation change (from a code diff), Price-range filter (min / max inputs), Registration form (email, password, name), Step 1: Requirements Extraction Prompt (+23 more)
 
 ### Community 214 - "Contents"
 Cohesion: 0.09
@@ -1480,9 +1669,9 @@ Nodes (22): PLAT-001 — Choose one paradigm per platform; never mix, PLAT-002 �
 Cohesion: 0.09
 Nodes (22): clientTempId, conversationId, copyWith, createdAt, deliveryStatus, hasImages, hasText, hasVoice (+14 more)
 
-### Community 217 - "Environment configuration"
-Cohesion: 0.33
-Nodes (5): Backend (reference), Environment configuration, Firebase, Flutter (`.env`), Stages
+### Community 217 - "coverage-analysis/SKILL.md"
+Cohesion: 0.06
+Nodes (31): 1. Treating coverage as proof of quality, 2. Excluding files to inflate numbers, 3. Writing trivial tests to hit targets, 4. Global threshold without per-module analysis, 5. Coverage threshold set once, never adjusted, 6. Ignoring branch coverage, 7. Coverage from E2E tests only, Anti-Patterns (+23 more)
 
 ### Community 218 - "compilerOptions"
 Cohesion: 0.09
@@ -1492,13 +1681,13 @@ Nodes (21): compilerOptions, allowImportingTsExtensions, baseUrl, erasableSyntax
 Cohesion: 0.09
 Nodes (22): COL-001 — Three token tiers, COL-002 — Components reference semantic roles only, COL-003 — Never encode meaning with color alone, COL-004 — Normal text contrast ≥4.5:1, COL-005 — Large text contrast ≥3:1, COL-006 — UI and icon contrast ≥3:1, COL-007 — Generate palettes with HCT tonal ramps, COL-008 — Dark surfaces are not pure black (+14 more)
 
-### Community 220 - "sign_up_controller.dart"
-Cohesion: 0.15
-Nodes (12): confirmPasswordController, dispose, formKey, nameController, nameFocus, passwordController, passwordFocus, phoneController (+4 more)
+### Community 220 - "synthetic-monitoring/SKILL.md"
+Cohesion: 0.06
+Nodes (31): 1. Synthetic tests validate the user experience continuously, 2. Keep probes simple and fast, 3. Alert on trends, not single failures, 4. Probes must not affect production data, 5. Assert on the goal, not the status code, Alerting Integration, Alerting on every single failure, Anti-Patterns (+23 more)
 
 ### Community 221 - "message_dto.dart"
-Cohesion: 0.12
-Nodes (16): conversationId, createdAt, fromJson, id, _idFromDynamic, images, MessageDto, _parseDate (+8 more)
+Cohesion: 0.08
+Nodes (22): conversationId, createdAt, fromJson, id, _idFromDynamic, images, MessageDto, _parseDate (+14 more)
 
 ### Community 222 - "examples/login/react-native/LoginScreen.tsx"
 Cohesion: 0.14
@@ -1524,9 +1713,9 @@ Nodes (20): AUTH-001 — Permit paste in every credential field, AUTH-002 — In
 Cohesion: 0.10
 Nodes (20): Contents, PAY-001 — Use native platform Pay buttons, PAY-002 — Never render or store the raw card number, PAY-003 — Show an explicit review-before-charge step, PAY-004 — Display the full itemized total including all fees, PAY-005 — Offer guest checkout, PAY-006 — Save-card is opt-in with explicit consent, PAY-007 — Payment errors are specific and retryable without data loss (+12 more)
 
-### Community 228 - "chat_tile.dart"
-Cohesion: 0.07
-Nodes (20): AdminChatTile, build, conversation, onTap, _Avatar, build, ChatTile, _ChatTileState (+12 more)
+### Community 228 - "compliance-testing/SKILL.md"
+Cohesion: 0.06
+Nodes (30): 1. Make the approved policy the test oracle, 2. Automate the technical checks, schedule the legal audits, 3. Test the unhappy consent states, 4. Verify behavior, not the CMP, 5. Defense in depth, config-driven, Accessibility Compliance — legal map only, Advertising and accessibility, Anti-Patterns (+22 more)
 
 ### Community 229 - "Contents"
 Cohesion: 0.10
@@ -1590,11 +1779,15 @@ Nodes (18): categoryRequired, codes, CreateProductErrorCodes, createProductValid
 
 ### Community 252 - "examples/dashboard/jetpack-compose/DashboardScreen.kt"
 Cohesion: 0.04
-Nodes (56): ActivityCard(), ActivityFeed, ActivityItem, ActivityRow(), BarChart(), ChartBar, ChartCard(), ChartData (+48 more)
+Nodes (57): Bottleneck Identification, DashboardScreen(), ActivityCard(), ActivityFeed, ActivityItem, ActivityRow(), BarChart(), ChartBar (+49 more)
 
 ### Community 255 - "workshops_api.dart"
-Cohesion: 0.11
-Nodes (18): addWorkshopReviewMutation, bookWorkshopMutation, createWorkshopMutation, deleteWorkshopMutation, deleteWorkshopReviewMutation, getWorkshopsQuery, nearbyWorkshopsQuery, openNowWorkshopsQuery (+10 more)
+Cohesion: 0.10
+Nodes (19): addWorkshopReviewMutation, bookWorkshopMutation, createWorkshopMutation, deleteWorkshopMutation, deleteWorkshopReviewMutation, getWorkshopsQuery, nearbyWorkshopsQuery, openNowWorkshopsQuery (+11 more)
+
+### Community 256 - "playwright-automation/SKILL.md"
+Cohesion: 0.06
+Nodes (30): 1. The God Page Object, 2. POM methods that assert, 3. Asserting on implementation detail, 4. Fixtures that depend on test order, 5. `data-testid` where `getByRole` would work, Accessibility scan (axe; deep audits live elsewhere), AI-augmented authoring (Test Agents vs MCP), Anti-Patterns (+22 more)
 
 ### Community 258 - "components.json"
 Cohesion: 0.11
@@ -1616,9 +1809,9 @@ Nodes (18): 1. Ideal, 2. Empty — the three flavors, 3. Loading, 4. Error, 5. O
 Cohesion: 0.16
 Nodes (17): conversationId, extra, initialTitle, partId, path, peerTitle, PendingAction, PendingAddProduct (+9 more)
 
-### Community 263 - "SellerProfileService"
-Cohesion: 0.12
-Nodes (3): SellerProfileResolver, SellerProfileView, SellerProfileService
+### Community 263 - "seller-profile.service.ts"
+Cohesion: 0.07
+Nodes (10): SellerProfileResolver, SellerProfileView, SellerProfileService, SellerCategoryStat, SellerStoreProfile, SellerStoreStats, UpdateProfileArgs, UserUpdateInput (+2 more)
 
 ### Community 264 - "PushEventType"
 Cohesion: 0.20
@@ -1644,13 +1837,13 @@ Nodes (16): Contents, MEDIA-001 — Provide captions for video and transcripts f
 Cohesion: 0.12
 Nodes (16): OFF-001 — Offline-first: render from local cache, OFF-002 — Optimistic UI with visible rollback, OFF-003 — Queue mutations with explicit sync states, OFF-004 — Non-blocking connectivity banner, OFF-005 — Exponential backoff with jitter on retries, OFF-006 — Plain-language conflict resolution, OFF-007 — Mark stale/cached data with freshness, OFF-008 — Never block core reads on the network; degrade gracefully (+8 more)
 
-### Community 270 - "WebSocket authentication"
-Cohesion: 0.33
-Nodes (5): Client (Flutter), Flood protection, Server requirements (NestJS + graphql-ws), Subscription auth refresh, WebSocket authentication
-
-### Community 271 - "workshops_repository.dart"
+### Community 270 - "Flaky Test Runbook"
 Cohesion: 0.07
-Nodes (25): addReview, bookWorkshop, categories, _client, createWorkshop, deleteReview, deleteWorkshop, details (+17 more)
+Nodes (29): CI History Analysis, Cleanup Steps, Confidence Scoring Methodology, Correlation Questions, Examine Trace Files, Examples, Fix: Data Dependency, Fix: Environment Issues (+21 more)
+
+### Community 271 - "cypress-automation/SKILL.md"
+Cohesion: 0.07
+Nodes (28): 1. Commands Are Enqueued, Not Executed Immediately, 1. cy.wait(milliseconds) for Synchronization, 2. Conditional Testing Based on DOM State, 2. Retry-ability Is Built-In (For Queries, Not Actions), 3. CSS Selectors Over Data Attributes, 3. Network Control with cy.intercept, 4. Isolation: Each Test Starts Clean, 4. Sharing State Between Tests (+20 more)
 
 ### Community 272 - "ref_react_native"
 Cohesion: 0.12
@@ -1680,13 +1873,13 @@ Nodes (22): 1. Recommended architecture, 2. Backend, 3. Flutter, 4. Error code m
 Cohesion: 0.13
 Nodes (15): scripts, build, format, lint, start, start:containers, start:debug, start:dev (+7 more)
 
-### Community 279 - "inbox_hub_screen.dart"
-Cohesion: 0.14
-Nodes (8): createState, dispose, InboxHubScreen, _InboxHubScreenState, initialTab, initState, open, _tabs
+### Community 279 - "risk-based-testing/SKILL.md"
+Cohesion: 0.07
+Nodes (28): AI/LLM failure classes, Anchoring on historical risk, Anti-Patterns, Compliance and Data, Confusing severity with priority, Core Principles, Discovery Questions, Done When (+20 more)
 
 ### Community 280 - "product_carousel_section.dart"
 Cohesion: 0.03
-Nodes (69): ChatScreen, CheckoutScreen, DashboardScreen, LoginScreen, SettingsScreen, animationDelay, build, _controller (+61 more)
+Nodes (66): animationDelay, build, _controller, createState, dispose, _fadeAnimation, gradient, height (+58 more)
 
 ### Community 281 - "Color"
 Cohesion: 0.13
@@ -1749,24 +1942,24 @@ Cohesion: 0.17
 Nodes (4): wWinMain(), CreateAndAttachConsole(), GetCommandLineArguments(), Utf8FromUtf16()
 
 ### Community 296 - "ItemService"
-Cohesion: 0.19
+Cohesion: 0.16
 Nodes (3): ItemModule, ItemSchedule, ItemService
 
-### Community 297 - "vite.config.ts"
-Cohesion: 0.25
-Nodes (6): @tailwindcss/vite@^4.3.0, vite@^8.0.12, @vitejs/plugin-react@^6.0.1, @tailwindcss/vite, vite, @vitejs/plugin-react
+### Community 297 - "service-virtualization/SKILL.md"
+Cohesion: 0.07
+Nodes (28): 1. Mocking everything, 2. Inconsistent mock behavior across tests, 3. Not updating stubs when the API changes, 4. Stubbing the wrong layer, 5. No error-scenario coverage, 6. Shared, long-lived mock servers, 7. Record-replay without expiration, 8. A success handler shadows the error scenario (+20 more)
 
-### Community 298 - "trigger_test.py"
-Cohesion: 0.21
-Nodes (9): test_trigger_gate_passes(), test_trigger_has_no_missing_keywords(), test_trigger_meets_recall_and_specificity(), evaluate(), main(), read_description(), render(), tokenize() (+1 more)
+### Community 298 - "detect_injection.py"
+Cohesion: 0.19
+Nodes (12): _excerpt(), Hit, main(), _normalized_view(), _r(), _replace_view(), report(), Rule (+4 more)
 
 ### Community 299 - "Feed Patterns"
 Cohesion: 0.14
 Nodes (14): Acceptance checklist, Accessibility, Anatomy, Anti-patterns, Applied rules, Contents, Feed Patterns, Infinite scroll & pagination (+6 more)
 
-### Community 300 - "run_all.py"
-Cohesion: 0.19
-Nodes (8): main(), score(), check(), main(), test_run_all_scores_bad_below_100(), test_run_all_scores_good_100(), test_state_coverage_clean_on_good(), test_state_coverage_flags_missing_states()
+### Community 300 - "chat_room_bloc.dart"
+Cohesion: 0.07
+Nodes (24): close, _currentUserId, _currentUserName, _inboxPrefetchDebounce, _inboxSub, _msgSub, _onDeleteMessage, _onEditMessage (+16 more)
 
 ### Community 301 - "Tokens"
 Cohesion: 0.14
@@ -1780,9 +1973,9 @@ Nodes (13): CONVERSATION_UPDATED_SUB, CREATE_CONVERSATION, DELETE_CONVERSATION_F
 Cohesion: 0.15
 Nodes (12): MEILI_ENV, MEILI_MASTER_KEY, container_name, environment, image, ports, restart, volumes (+4 more)
 
-### Community 305 - "graphql/index.dart"
+### Community 305 - "accessibility-testing/SKILL.md"
 Cohesion: 0.07
-Nodes (20): AdminConfig, isConfigured, apiUrl, client, _errorLink, fileUrl, graphqlClient, GraphQLConfig (+12 more)
+Nodes (26): Accessible Patterns, Anti-Patterns, ARIA overuse, ARIA Snapshots, Automated Scanning with axe-core + Playwright, Color contrast and visual, Core Principles, Discovery Questions (+18 more)
 
 ### Community 306 - "LoginTokens"
 Cohesion: 0.15
@@ -1817,8 +2010,8 @@ Cohesion: 0.13
 Nodes (13): accessToken, AuthLifecycle, AuthSession, canRefresh, copyWith, fromAuthOutput, fromJson, refreshToken (+5 more)
 
 ### Community 314 - "Changelog"
-Cohesion: 0.17
-Nodes (12): [0.1.0] - 2026-07-01, [0.2.0] - 2026-07-01, [0.3.0] - 2026-07-01, [0.4.0] - 2026-07-02, Added, Added, Added, Changelog (+4 more)
+Cohesion: 0.15
+Nodes (13): [0.1.0] - 2026-07-01, [0.2.0] - 2026-07-01, [0.3.0] - 2026-07-01, [0.4.0] - 2026-07-02, Added, Added, Added, Added (+5 more)
 
 ### Community 316 - "Example Spec — Chat"
 Cohesion: 0.17
@@ -1856,9 +2049,9 @@ Nodes (12): 1. Health dashboard, 2. Medication & dosage flow (error-intolerant),
 Cohesion: 0.17
 Nodes (12): 1. No silent data loss, 2. Sync conflict resolution, 3. Destructive-action safety, 4. Data portability & deletion, 5. Sharing, permissions & ownership, PRO-013 — Prevent silent data loss: resolve sync conflicts and failures in the open, PRO-014 — Require confirmation and an undo window for destructive bulk actions, PRO-015 — Make data export and account/data deletion reachable in-app (+4 more)
 
-### Community 325 - "pathlib"
-Cohesion: 0.21
-Nodes (7): check(), main(), test_rtl_clean_on_good(), test_rtl_flags_bad(), collect(), main(), render()
+### Community 325 - "build_registry.py"
+Cohesion: 0.60
+Nodes (3): collect(), main(), render()
 
 ### Community 326 - "Elevation & Shadow (ELV)"
 Cohesion: 0.17
@@ -1869,12 +2062,12 @@ Cohesion: 0.17
 Nodes (11): ICN-001 — Pad glyph to a compliant hit area, ICN-002 — SF Symbols scale with Dynamic Type, ICN-003 — Use Material Symbols on Android, ICN-004 — One icon family per app, ICN-005 — Icon-only controls need an accessible label, ICN-006 — Consistent optical size and stroke weight, ICN-007 — Icons are not the sole meaning for key actions, ICN-008 — Standard icon sizes (+3 more)
 
 ### Community 329 - "autorin-backend/package.json"
-Cohesion: 0.04
-Nodes (66): author, description, devDependencies, eslint@^9.18.0, eslint-config-prettier@^10.0.1, @eslint/eslintrc@^3.2.0, @eslint/js@^9.18.0, eslint-plugin-prettier@^5.2.2 (+58 more)
+Cohesion: 0.02
+Nodes (132): author, dependencies, @apollo/server@^4.12.2, apollo-server-core@^3.13.0, bcrypt@^6.0.0, bullmq@^5.76.8, class-transformer@^0.5.1, class-validator@^0.14.2 (+124 more)
 
 ### Community 330 - "orders_api.dart"
-Cohesion: 0.17
-Nodes (11): closeOrderMutation, createOrderMutation, deleteOrderMutation, getOrderByIdQuery, getOrderResponsesQuery, getOrdersQuery, getSellerMatchingOrdersOverviewQuery, orderResponseAddedSubscription (+3 more)
+Cohesion: 0.14
+Nodes (13): closeOrderMutation, createOrderMutation, deleteOrderMutation, getOrderByIdQuery, getOrderResponsesQuery, getOrdersQuery, getSellerMatchingOrdersOverviewQuery, orderResponseAddedSubscription (+5 more)
 
 ### Community 331 - "Table of contents"
 Cohesion: 0.18
@@ -1897,12 +2090,12 @@ Cohesion: 0.18
 Nodes (11): jest, collectCoverageFrom, coverageDirectory, moduleFileExtensions, moduleNameMapper, rootDir, testEnvironment, testRegex (+3 more)
 
 ### Community 337 - "throwApi"
-Cohesion: 0.15
-Nodes (6): throwApi(), AuthService, AuthOutput, ConfirmationOutput, normalizeUzPhone(), uzPhoneLookupVariants()
+Cohesion: 0.19
+Nodes (3): throwApi(), AuthService, AuthOutput
 
 ### Community 338 - "String get"
-Cohesion: 0.25
-Nodes (5): _code, codeController, codeUpdated, dispose, startListening
+Cohesion: 0.17
+Nodes (8): clearPendingDeepLink, consumePendingDeepLink, navigatorKey, _parseLink, _pendingDeepLink, PushRouter, _resolveLink, route
 
 ### Community 339 - "Example Spec — Dashboard"
 Cohesion: 0.18
@@ -1913,8 +2106,8 @@ Cohesion: 0.18
 Nodes (11): Acceptance checklist, Accessibility, Contents, Example Spec — Login, Intent / user goal, Layout & thumb-zone, Motion, Patterns & rules used (+3 more)
 
 ### Community 341 - "image_multipart.dart"
-Cohesion: 0.13
-Nodes (14): _basename, bytes, contentType, dot, fieldName, _fileExtension, filename, i (+6 more)
+Cohesion: 0.08
+Nodes (20): GraphQLMultipart, mutate, _basename, bytes, contentType, dot, fieldName, _fileExtension (+12 more)
 
 ### Community 342 - "Jetpack Compose — The 7 UI States"
 Cohesion: 0.18
@@ -1948,16 +2141,16 @@ Nodes (10): BIO-001 — Always provide a passcode/password fallback, BIO-002 —
 Cohesion: 0.18
 Nodes (10): Contents, Home-Screen Widgets (WID), WID-001 — Keep widgets glanceable with one primary focus, WID-002 — Taps deep-link into the relevant in-app context, WID-003 — Support the platform widget size families, WID-004 — Design within platform interaction limits, WID-005 — Respect the refresh budget and show data freshness, WID-006 — Be theme-aware and legible on any background (+2 more)
 
-### Community 350 - "discovery_provider.dart"
-Cohesion: 0.11
-Nodes (17): DiscoveryFeed, errorFor, _errors, feed, _feeds, isLoading, _loadFeed, _loading (+9 more)
+### Community 350 - "payment-testing/SKILL.md"
+Cohesion: 0.07
+Nodes (26): 10. "Fixing" a failed renewal by deleting the subscription, 11. Rationalizing a real card "just in CI", 1. Reaching for `4111111111111111`, 2. Treating the card field as a normal input, 3. Selecting iframes by index, 3DS / SCA: The Nested-Iframe Challenge, 4. `waitForTimeout` to "wait for the challenge", 5. Client-side time mocking for billing (+18 more)
 
 ### Community 351 - "Signs of slop"
 Cohesion: 0.18
 Nodes (11): Components, Copy, Icons, Landing pages and heroes, Motion, Signs of slop, Spacing, Surfaces and color (+3 more)
 
 ### Community 353 - "Garaj Market / My Auto — Security Report"
-Cohesion: 0.18
+Cohesion: 0.20
 Nodes (10): Backend contract (must implement), Executive summary, Findings (risks), Flutter changes (implemented), Garaj Market / My Auto — Security Report, Next steps, P0 — Critical, P1 — High (+2 more)
 
 ### Community 354 - "services_api.dart"
@@ -1981,16 +2174,16 @@ Cohesion: 0.20
 Nodes (9): Compile and run the project, Deployment, Description, License, Project setup, Resources, Run tests, Stay in touch (+1 more)
 
 ### Community 359 - "Equatable"
-Cohesion: 0.03
-Nodes (65): ChatRoomState, ChatRoomStatus, conversationId, copyWith, failure, hasMore, isPeerTyping, messages (+57 more)
+Cohesion: 0.04
+Nodes (47): ChatMessage, ChatReplySnapshot, ChatParticipant, id, name, phone, props, hasNextPage (+39 more)
 
 ### Community 360 - "app_notification.dart"
 Cohesion: 0.08
 Nodes (21): AppNotification, body, createdAt, deepLink, fromJson, hasNextPage, id, isRead (+13 more)
 
-### Community 361 - "return"
-Cohesion: 0.10
-Nodes (16): 1, clampHeight, columnsFor, spanW, entry, names, null, _scheduleForDay (+8 more)
+### Community 361 - "analytics-tracking-testing/SKILL.md"
+Cohesion: 0.08
+Nodes (25): 1. Asserting `window.dataLayer` (or the DOM) instead of the beacon, 2. `waitForTimeout` to "wait for the event to fire", 3. Asserting only the event name, 4. Hardcoding expected values inline with no plan file, 5. Load/count checks for pixels (`fbevents.js` loaded, `fbq` ran), 6. Testing a default supplied by the test, 7. `page.route(...).abort()` inside a capture helper, 8. A "gate" that can't fail the build (+17 more)
 
 ### Community 362 - "Map/index.dart"
 Cohesion: 0.10
@@ -2001,8 +2194,8 @@ Cohesion: 0.20
 Nodes (9): Accessibility, Animation, Bottom sheets (detents), Buttons, Flutter — Idiomatic Components, Lists (virtualized), Navigation, Safe area & keyboard (+1 more)
 
 ### Community 364 - "Ionic — Components (idiomatic + accessible)"
-Cohesion: 0.20
-Nodes (9): Accessibility, Ionic — Components (idiomatic + accessible), Lists, Modals & sheets, Motion, Navigation & tabs, Responsive, Safe area (+1 more)
+Cohesion: 0.10
+Nodes (18): Accessibility, Buttons, Ionic — Components (idiomatic + accessible), Lists, Modals & sheets, Motion, Navigation & tabs, Responsive (+10 more)
 
 ### Community 365 - "MapDiscoveryBloc"
 Cohesion: 0.22
@@ -2052,6 +2245,14 @@ Nodes (9): HAP-001 — Meaningful events only, HAP-002 — Never the sole feedba
 Cohesion: 0.20
 Nodes (9): CategoryNames, compactForLocale, en, forLocale, fromJson, _pick, ru, _trim (+1 more)
 
+### Community 378 - ".requestPasswordReset"
+Cohesion: 0.15
+Nodes (5): RequestPasswordResetArgs, ConfirmationOutput, normalizeUzPhone(), uzPhoneLookupVariants(), SmsService
+
+### Community 379 - "Debugging and Triage"
+Cohesion: 0.08
+Nodes (25): Artifact Directory Structure, CI: Fail on Flaky, Common Debugging Commands, Configuration, Debug Configuration, Debugging and Triage, Debugging Checklist, Features (+17 more)
+
 ### Community 380 - "Production readiness"
 Cohesion: 0.20
 Nodes (9): Blockers before a public production launch, Commands run, Environment, Infrastructure found in the compose files, Manual checks still required, Production readiness, Release verification (2026-10-16), Rollback (+1 more)
@@ -2064,9 +2265,13 @@ Nodes (9): 10. Roadmap, Phase 1 — Foundation (E: 1–2), Phase 2 — Core Rule
 Cohesion: 0.22
 Nodes (8): 1. Three tiers (never skip a tier), 2. Naming, 3. DTCG format, 4. Theming, 5. Categories a mobile system defines, 6. Build, Design Token Spec, Token rules for an AI
 
-### Community 383 - "_Row"
-Cohesion: 0.50
-Nodes (4): _DateRow, _MessageRow, _Row, _TypingRow
+### Community 383 - "Consent Mode v2 Observation"
+Cohesion: 0.08
+Nodes (21): Add one inspected pixel contract, Assert new events after meaningful completion, Reusable Analytics Capture Fixture, The fixture, Advanced mode: default, emitted requests, and acceptance, Basic mode: defaults may be initialized only on acceptance, Bound the observation to a real application milestone, Boundary with compliance-testing (+13 more)
+
+### Community 384 - "Network Interception and Mocking"
+Cohesion: 0.08
+Nodes (24): API Mocking for Test Isolation, Conditional Routing, Fixture-Based Route Setup, HAR at Config Level, HAR Best Practices, HAR Replay, Intercept Requests for Assertions, Mock a REST API Response (+16 more)
 
 ### Community 386 - "Flutter — Platform-Adaptive Guidance"
 Cohesion: 0.22
@@ -2125,8 +2330,8 @@ Cohesion: 0.22
 Nodes (8): Files to add in API repo, GraphQL errors, NestJS auth reference (backend repo), Rate limits (Redis), Refresh rotation, Sessions schema (MongoDB), Sign-in response shape (backward compatible), ValidationPipe (global)
 
 ### Community 400 - "promote_plan_sheet.dart"
-Cohesion: 0.06
-Nodes (35): activePlan, api, buf, _cancel, _cancelling, CancelPromotionCallback, createState, fallbackAmount (+27 more)
+Cohesion: 0.04
+Nodes (53): build, activePlan, api, buf, build, _cancel, _cancelling, CancelPromotionCallback (+45 more)
 
 ### Community 401 - "Mobile UI/UX Pro Max Skill — Master Technical Design Document (Blueprint)"
 Cohesion: 0.25
@@ -2221,8 +2426,8 @@ Cohesion: 0.29
 Nodes (6): Dynamic Type / scaling, Leading (line-height), Modular scale, Platform fonts, Roles (map to semantic tokens), Type Scale
 
 ### Community 428 - "Eval Harness"
-Cohesion: 0.29
-Nodes (6): Eval Harness, Run, `run_eval.py` — quality lift, Scenarios & coverage, `trigger_test.py` — activation coverage, What it measures
+Cohesion: 0.17
+Nodes (10): Eval Harness, Run, `run_eval.py` — quality lift, Scenarios & coverage, `trigger_test.py` — activation coverage, What it measures, main(), score() (+2 more)
 
 ### Community 429 - "Rules"
 Cohesion: 0.29
@@ -2280,9 +2485,9 @@ Nodes (7): Decide what the visual is, Generate it, Objects for moments, Prompt r
 Cohesion: 0.14
 Nodes (9): ServiceFilterInput, ServiceInput, WorkshopInput, WorkshopUpdateInput, WorkshopDaySchedule, WorkshopDayScheduleInput, WorkshopServicePrice, WorkshopServicePriceInput (+1 more)
 
-### Community 446 - "book_workshop_sheet.dart"
-Cohesion: 0.14
-Nodes (13): BookWorkshopSheet, _BookWorkshopSheetState, build, createState, _date, dispose, _notes, _service (+5 more)
+### Community 446 - "qa-project-context/SKILL.md"
+Cohesion: 0.08
+Nodes (24): 1. Asking all questions at once, 2. Leaving `[brackets]` in the final file, 3. Inventing information, 4. Skipping Risk Areas, 5. Recommending tools beyond the zero-infra default, Anti-Patterns, CI/CD, Codebase Detection (+16 more)
 
 ### Community 447 - "Checkout — Flutter reference implementation"
 Cohesion: 0.40
@@ -2308,9 +2513,9 @@ Nodes (6): cancelPromotionMutation, createWalletTopupIntentMutation, myWalletQue
 Cohesion: 0.25
 Nodes (8): flutter_launcher_icons, adaptive_icon_background, adaptive_icon_foreground, adaptive_icon_foreground_inset, android, image_path, ios, remove_alpha_ios
 
-### Community 453 - "Garage (Flutter)"
-Cohesion: 0.29
-Nodes (7): Auth (client), Documentation, Garage (Flutter), License, Quick start, Stack, Troubleshooting
+### Community 453 - "test-case-management/SKILL.md"
+Cohesion: 0.08
+Nodes (24): 1. One vague step with a "verify it works" expected, 2. Rubber-stamping a suite when asked to lint it, 3. Cross-wiring the four tools' APIs, 4. One giant case for a multi-rule story, 5. CSV as free-form prose or a single Description column, 6. Deep nesting and per-case folders, 7. Traceability as a manual spreadsheet, 8. Automate-everything / automate-the-flaky-first (+16 more)
 
 ### Community 454 - "Login — Flutter reference implementation"
 Cohesion: 0.40
@@ -2347,6 +2552,10 @@ Nodes (5): Checkout — React Native (TypeScript), Dependencies, Usage, Validato
 ### Community 463 - "Dashboard — Ionic (React + Capacitor, TypeScript)"
 Cohesion: 0.33
 Nodes (5): Dashboard — Ionic (React + Capacitor, TypeScript), Dependencies, Usage, Validators, What it demonstrates
+
+### Community 464 - "run-qa.mjs"
+Cohesion: 0.12
+Nodes (21): 1. Coverage Fingerprinting (per-test), backendContract(), backendGraphqlSmoke(), backendUnit(), __dirname, flutterAnalyze(), flutterTests(), hardFail (+13 more)
 
 ### Community 465 - "Login — Ionic (React + Capacitor, TypeScript)"
 Cohesion: 0.33
@@ -2385,24 +2594,28 @@ Cohesion: 0.33
 Nodes (6): Rules, SOC-013 — Report / block / mute reachable in ≤2 taps from any content, SOC-014 — Block / mute: confirmation, immediate effect, undo, SOC-015 — Content moderation affordances (blur/hide, "show anyway"), SOC-016 — Safety-by-default for minors and DMs from strangers, SOC-017 — Report flow: reason selection, confirmation, no reporter blame
 
 ### Community 474 - "advertisement_repository.dart"
-Cohesion: 0.14
-Nodes (11): AdvertisementRepository, _client, list, myAdvertisements, pauseMine, planPrices, purchase, recordClick (+3 more)
+Cohesion: 0.09
+Nodes (16): AdvertisementRepository, _client, list, myAdvertisements, pauseMine, planPrices, purchase, recordClick (+8 more)
 
-### Community 475 - "Deployment"
-Cohesion: 0.33
-Nodes (6): Backend (NestJS — separate repo), Deployment, Flutter mobile, Infrastructure, Monitoring, Rollback
+### Community 475 - "CI Recipes"
+Cohesion: 0.08
+Nodes (23): Artifact Upload Patterns, Browser Caching in CI, CI Job Timeout, CI Recipes, Complete GitHub Actions Workflow (Production Template), Concurrency and Timeout Configuration, Custom Reporter, Docker Setup (+15 more)
 
 ### Community 476 - ".dispatch"
 Cohesion: 0.38
 Nodes (3): formatMoneyLabel(), NotificationTemplates, PushWorker
+
+### Community 477 - "Strategy Document Template"
+Cohesion: 0.08
+Nodes (23): 10. Metrics & KPIs, 11. Timeline & Milestones, 1. Scope & Objectives, 2. Test Levels & Types, 3. Test Pyramid Analysis, 4. Risk Assessment Matrix, 5. Environment Strategy, 6. Tool Selection Rationale (+15 more)
 
 ### Community 478 - "add/api/index.dart"
 Cohesion: 0.33
 Nodes (5): CREATE_PARTS, CREATE_WORKSHOP, GET_CATEGORIES, GET_WORKSHOP_BY_ID, UPDATE_WORKSHOP
 
 ### Community 479 - "home/api/index.dart"
-Cohesion: 0.33
-Nodes (5): GET_FAVORITE_PARTS, GET_ITEMS_BY_CATEGORY, GET_PRODUCT_BY_ID, REMOVE_FAVORITE, SET_FAVORITE
+Cohesion: 0.25
+Nodes (7): GET_FAVORITE_PARTS, GET_ITEMS_BY_CATEGORY, GET_PRODUCT_BY_ID, recordPartPhoneClickMutation, recordPartShareMutation, REMOVE_FAVORITE, SET_FAVORITE
 
 ### Community 480 - "orders/api/index.dart"
 Cohesion: 0.33
@@ -2415,6 +2628,10 @@ Nodes (6): dev_dependencies, flutter_lints, flutter_test, intl, intl_utils, sdk
 ### Community 482 - "ProtocolEnum"
 Cohesion: 0.40
 Nodes (3): ProtocolEnum, GRAPHQL, HTTP
+
+### Community 483 - "agentic-browser-testing/SKILL.md"
+Cohesion: 0.09
+Nodes (22): 1. Reflexively writing a scripted Playwright test, 2. "Use the agent for everything", 3. Fixing flakiness with retries or higher temperature, 4. Assuming computer-use = screenshots + pixel coordinates, 5. "No error = success" (the false pass), 6. Bigger model / more steps to go faster, 7. Running an agent forever instead of graduating, 8. Prose verdict in CI (+14 more)
 
 ### Community 484 - "AutoRin Web"
 Cohesion: 0.40
@@ -2445,15 +2662,15 @@ Cohesion: 0.18
 Nodes (11): WalletTransactionTypeEnum, ADMIN_CREDIT_BONUS, ADMIN_TOPUP_MAIN, ADVERTISEMENT_SPEND, BOOKING_SPEND, PROMOTION_SPEND, REFUND, TOPUP_MAIN (+3 more)
 
 ### Community 491 - "package:latlong2/latlong.dart"
-Cohesion: 0.11
-Nodes (14): animateTo, animateZoomBy, animateZoomTo, _lerp, MapCameraAnimator, _run, center, fromCamera (+6 more)
+Cohesion: 0.07
+Nodes (21): fromLatLng, GeoLocation, latitude, latLng, longitude, animateTo, animateZoomBy, animateZoomTo (+13 more)
 
 ### Community 492 - "chat_realtime_recovery.dart"
 Cohesion: 0.13
 Nodes (9): build, ChatRealtimeRecovery, child, createState, dispose, enableChatRoom, enableChatsList, initState (+1 more)
 
 ### Community 493 - "chat_di.dart"
-Cohesion: 0.14
+Cohesion: 0.15
 Nodes (7): chatRepository, clearChatSessionData, clearSessionCaches, destroyKey, initializeChatRepository, ChatRepositoryImpl, ChatRepository
 
 ### Community 494 - "PULL_REQUEST_TEMPLATE.md"
@@ -2533,8 +2750,8 @@ Cohesion: 0.67
 Nodes (3): 6.1 Pre-Generation Protocol (the 15-point think-list, in `SKILL.md`), 6.2 Decision routers (deterministic forks), 6. AI Behaviour
 
 ### Community 522 - "product_photo.dart"
-Cohesion: 0.11
-Nodes (14): deleteFileIfExists, fileExistsSync, platformIsWindows, copyWith, file, id, isLocal, isNetwork (+6 more)
+Cohesion: 0.06
+Nodes (27): brands, _cacheBrands, _cacheParts, clearCache, isReady, load, message, modelsForBrand (+19 more)
 
 ### Community 524 - "format-graphql-error.ts"
 Cohesion: 0.30
@@ -2553,28 +2770,40 @@ Cohesion: 0.14
 Nodes (13): URL, jobs, ping, name, on, schedule, workflow_dispatch, runs-on (+5 more)
 
 ### Community 579 - "map_geo.dart"
-Cohesion: 0.10
-Nodes (17): ChatDbKeyService, destroyKey, getOrCreateKey, _keyName, _storage, avgKmh, dLat, dLon (+9 more)
+Cohesion: 0.15
+Nodes (12): avgKmh, dLat, dLon, formatDistanceKm, h, haversineKm, hours, lat1 (+4 more)
 
 ### Community 580 - "theme/index.dart"
 Cohesion: 0.07
 Nodes (21): clearPendingSignupToken, getString, pendingSignupTokenKey, prefs, readPendingSignupToken, remove, savePendingSignupToken, setString (+13 more)
 
-### Community 583 - "State"
-Cohesion: 0.15
-Nodes (10): build, createState, darkTheme, notifications, SettingsScreen, _SettingsScreenState, _CheckoutScreenState, _SettingsScreenState (+2 more)
+### Community 583 - "security-testing/SKILL.md"
+Cohesion: 0.09
+Nodes (22): A01: Broken Access Control, A02: Security Misconfiguration, A03: Software Supply Chain Failures, A04: Cryptographic Failures, A05: Injection, A06: Insecure Design, A07: Authentication Failures, A08: Software or Data Integrity Failures (+14 more)
 
-### Community 584 - "getWorkshop/index.dart"
-Cohesion: 0.12
-Nodes (15): buildFilter, buildPagination, _currentPageMap, filter, GET_WORKSHOPS, getWorkshops, hasMoreFor, _hasMoreMap (+7 more)
+### Community 584 - "test-environments/SKILL.md"
+Cohesion: 0.09
+Nodes (22): Anti-Patterns, CI Environment, Contract Testing as Stub Validation, Core Principles, Discovery Questions, Docker Compose for Testing, Docker Compose vs Testcontainers, Done When (+14 more)
 
-### Community 586 - "MessageStatus"
-Cohesion: 0.18
-Nodes (10): MessageStatus, delivered, failed, .iconName, .iconTint, .label, queued, read (+2 more)
+### Community 586 - "unit-testing/SKILL.md"
+Cohesion: 0.09
+Nodes (22): Anti-Patterns, Bun / Deno, CI gate, Configuration, Core Principles, Coverage, Coverage types and what to gate on, Discovery Questions (+14 more)
 
 ### Community 587 - "seller_matching_orders.dart"
 Cohesion: 0.17
 Nodes (11): categories, categoryId, fromJson, icon, key, listingsCount, names, orderCount (+3 more)
+
+### Community 589 - "BannerSlider.tsx"
+Cohesion: 0.22
+Nodes (17): BannerSection(), BannerContainer, BannerSlider(), BottomContent, DarkOverlay, DotIndicator, DotsContainer, SlideDescription (+9 more)
+
+### Community 590 - "api-testing/SKILL.md"
+Cohesion: 0.09
+Nodes (21): 1. Hardcoded auth tokens, 2. Testing against production, 3. Not validating error responses, 4. Asserting headers only conditionally, 5. No cleanup after test data creation, 6. Treating API tests as unit tests, 7. Ignoring idempotency, Anti-Patterns (+13 more)
+
+### Community 591 - "qa-report-humanizer/SKILL.md"
+Cohesion: 0.09
+Nodes (21): 10. The rule-of-three summary, 1. The template opener, 2. Inflated severity language, 3. The pass-rate obsession, 4. Generic risk language, 5. Synonym cycling for test results, 6. The vague closer, 7. Vague stakeholder updates (+13 more)
 
 ### Community 592 - "orders_local_datasource.dart"
 Cohesion: 0.18
@@ -2584,21 +2813,25 @@ Nodes (10): clearDraft, _favoritesKey, getFavoriteIds, getRespondedOrderIds, loa
 Cohesion: 0.20
 Nodes (10): Color, .uxOnSurface, .uxOnSurfaceVariant, .uxOutlineVariant, .uxSkeleton, .uxStatusError, .uxStatusSuccess, .uxStatusWarning (+2 more)
 
-### Community 594 - "category_lucide_icon.dart"
-Cohesion: 0.20
-Nodes (9): categoryIconByKey, categoryIconByName, categoryLucideIcon, has, _iconByKey, _lucideByName, n, null (+1 more)
+### Community 594 - "Unit Testing Patterns — full examples"
+Cohesion: 0.10
+Nodes (20): Async — assert directly on the promise, Browser mode (Vitest 4+), Bun test / Deno test, Concurrency and isolation, describe/it with setup/teardown and a typed mock, Fixtures and conftest.py, In-source testing (useful for small utilities), Jest (+12 more)
 
 ### Community 595 - "Part"
-Cohesion: 0.02
-Nodes (28): OptionalAuthResolver(), TrackActivityArgs, ActivityModule, ActivityResolver, UserActivity, ActivityService, ConversationModel, conversationSchema (+20 more)
+Cohesion: 0.03
+Nodes (22): OptionalAuthResolver(), TrackActivityArgs, ActivityResolver, ActivityService, RedisOtpCounterStore, Favorite, OrderFieldsResolver, Order (+14 more)
 
-### Community 596 - "package:latlong2/latlong.dart"
-Cohesion: 0.09
-Nodes (14): fromLatLng, GeoLocation, latitude, latLng, longitude, apiKey, darkTileUrl, defaultCenter (+6 more)
-
-### Community 597 - "promotion_plan_badge.dart"
+### Community 596 - "maptiler_config.dart"
 Cohesion: 0.20
-Nodes (9): build, dense, filled, normalized, null, plan, PromotionPlanBadge, promotionPlanColor (+1 more)
+Nodes (7): apiKey, darkTileUrl, defaultCenter, defaultZoom, MapTilerConfig, streetsTileUrl, tileUrl
+
+### Community 597 - "contract-testing/SKILL.md"
+Cohesion: 0.10
+Nodes (19): Anti-Patterns, Bi-Directional Contracts (PactFlow / SmartBear), can-i-deploy, Consumer-Driven Workflow, Consumer-First (Pact), Core Principles, Discovery Questions, Done When (+11 more)
+
+### Community 598 - "cross-browser-testing/SKILL.md"
+Cohesion: 0.10
+Nodes (19): Analytics-Based Methodology, Anti-Patterns, Browser Matrix Design, Cloud Platform Setup, Common Cross-Browser Issues, Core Principles, Discovery Questions, Done When (+11 more)
 
 ### Community 599 - "package:my_auto/core/model/user/index.dart"
 Cohesion: 0.24
@@ -2612,33 +2845,45 @@ Nodes (9): CheckoutStatus, empty, error, ideal, loading, offline, permissionDeni
 Cohesion: 0.25
 Nodes (6): bubbleMaxWidth, ChatResponsive, isWide, messageColumnMaxWidth, sidebarWidth, wideBreakpoint
 
-### Community 602 - "typing_event_dto.dart"
-Cohesion: 0.22
-Nodes (6): conversationId, fromJson, isTyping, toEntity, TypingEventDto, userId
+### Community 602 - "Authentication Patterns"
+Cohesion: 0.10
+Nodes (19): Auth State Per Worker, Authentication Patterns, Automatic Token Refresh via Route Interception, Config With Role-Based Projects, Cookie-Based Token Seeding, Direct Token Injection, File Naming Convention, Global Setup Login (+11 more)
 
-### Community 603 - "multer-options.factory.ts"
-Cohesion: 0.33
-Nodes (5): @nestjs/platform-express@^11.0.1, createMulterOptions(), resolveMaxBytes(), uploadMulterOptions, @nestjs/platform-express
+### Community 603 - "qa-dashboard/SKILL.md"
+Cohesion: 0.10
+Nodes (19): Alerting, Allure Report, Allure TestOps (managed alternative), Anti-Patterns, Core Principles, Discovery Questions, Done When, Grafana Dashboards (+11 more)
 
 ### Community 604 - "Auth endpoint audit (GlobalAuthGuard + secure-by-default)"
-Cohesion: 0.33
-Nodes (5): Auth endpoint audit (GlobalAuthGuard + secure-by-default), OptionalAuth (guest browse + personalization when logged in), Protected (JWT required), Public, WebSocket subscriptions (WsAuth + domain checks)
+Cohesion: 0.29
+Nodes (6): Auth endpoint audit (GlobalAuthGuard + secure-by-default), Not exposed (no GraphQL operations), OptionalAuth (guest browse + personalization when logged in), Protected (JWT required), Public, WebSocket subscriptions (WsAuth + domain checks)
 
 ### Community 605 - "Examples — Worked Screens & Flows"
 Cohesion: 0.33
 Nodes (6): Definition of done (per example), Examples — Worked Screens & Flows, Flagship 5 (built first — all 4 frameworks, exemplary), Full planned catalog (20+), How to read an example, The 7 states (shared vocabulary)
 
-### Community 607 - "scripts"
-Cohesion: 0.40
-Nodes (5): scripts, build, dev, lint, preview
+### Community 606 - "Independent agent evidence gate"
+Cohesion: 0.11
+Nodes (16): Adapter activity record, Boundary and inputs, Contents, Evidence and outcomes, Gate configuration, Independent agent evidence gate, Project-owned oracle, Canvas / vision fallback (scoped last resort) (+8 more)
+
+### Community 607 - "Bug Categories"
+Cohesion: 0.11
+Nodes (18): Bug Categories, Bug Classification Taxonomy, Build Failures, Classification Decision Tree, Component Mapping Rules, Critical, Environment Issues, Error Type to Component (+10 more)
 
 ### Community 608 - "Dashboard — Flutter reference implementation"
 Cohesion: 0.40
 Nodes (4): Dashboard — Flutter reference implementation, Drop into an app, Validate, What it demonstrates
 
-### Community 611 - "paginated_orders.dart"
-Cohesion: 0.22
-Nodes (7): hasNextPage, items, page, PaginatedOrders, props, totalDocs, totalPages
+### Community 609 - "ai-test-generation/SKILL.md"
+Cohesion: 0.11
+Nodes (18): Anti-Patterns, Core Principles, Discovery Questions, Done When, Guardrails, Model selection per step, Quick Route, Reference Files (in `references/`) (+10 more)
+
+### Community 610 - "promotion_repository.dart"
+Cohesion: 0.11
+Nodes (17): amount, api, _client, currency, days, fetchPlanPrices, fromApi, fromJson (+9 more)
+
+### Community 611 - "CI Failure Analysis"
+Cohesion: 0.11
+Nodes (17): CI Failure Analysis, CI Platform Log Patterns, Common Failure Patterns, Extract Failures from Jest/Vitest Output, Extract Failures from Playwright Report, Failure Category Decision Tree, Fingerprint Stability Tests, Fingerprinting Algorithm Detail (+9 more)
 
 ### Community 612 - "Settings — Flutter reference implementation"
 Cohesion: 0.40
@@ -2648,29 +2893,69 @@ Nodes (4): Drop into an app, Settings — Flutter reference implementation, Vali
 Cohesion: 0.50
 Nodes (4): WidthClass, Compact, Expanded, Medium
 
-### Community 614 - "Color"
-Cohesion: 0.25
-Nodes (8): Color, .uxOnSurface, .uxOnSurfaceMuted, .uxOutline, .uxStatusError, .uxStatusSuccess, .uxSurface, .uxSurfaceContainer
+### Community 614 - "Test Smell Buckets"
+Cohesion: 0.12
+Nodes (17): AI-Generated Test Smells, Conditional Test Logic, Coverage Smells, Design Smells, Diagnostic Smells, Duplicate Assertions, Giant Fixtures, Happy Path Only (+9 more)
+
+### Community 615 - "selector-drift-recovery/SKILL.md"
+Cohesion: 0.12
+Nodes (16): Anti-Patterns, Core Principles, Discovery Questions, Done When, Failure Modes, Phase 1 — Snapshot the old DOM, Phase 2 — Snapshot the new DOM, Phase 3 — Inventory failed attempts, then verify source and intent (+8 more)
+
+### Community 616 - "Test Pyramid Analysis Worksheet"
+Cohesion: 0.12
+Nodes (16): 1. SaaS Product Strategy Template, 2. E-Commerce Strategy Template, 3. API-First Product Strategy Template, 4. Media/Content Site Strategy Template, Feature Inventory Template, Full 5x5 Matrix With Example Entries, How to Fill In the Matrix, Risk Assessment Matrix Template (+8 more)
 
 ### Community 617 - "snapshot.mjs"
-Cohesion: 0.25
-Nodes (3): args, chrome, positionals
+Cohesion: 0.13
+Nodes (7): applied, belowFloor, args, chrome, positionals, __dirname, __dirname
 
 ### Community 618 - "notifications_inbox_repository.dart"
 Cohesion: 0.25
 Nodes (5): fetchInbox, markAllRead, markRead, NotificationsInboxRepository, unreadCount
 
+### Community 619 - "scripts"
+Cohesion: 0.12
+Nodes (16): description, name, private, scripts, qa, qa:backend, qa:backend:deps, qa:flutter (+8 more)
+
+### Community 620 - "bug-reproduction/SKILL.md"
+Cohesion: 0.12
+Nodes (15): Bisect skip and determinism (untestable or flaky commits), Core Principles, Discovery Questions, Done When, Failure Modes, Quick Route, Related Skills, Step 1: Extract the implicit repro (+7 more)
+
+### Community 621 - "Refactor recovery — full playbook and scripts"
+Cohesion: 0.12
+Nodes (15): 0. Preconditions, 1. Snapshot the old DOM, 2. Snapshot the new DOM, 3. Inventory failed attempts, then verify the cause and source, 4. Generate replacement candidates, 5. Apply (line-anchored), validate, iterate, 6. Open the PR, Cleanup (+7 more)
+
+### Community 622 - "AutoRin QA Environment — Installation Report"
+Cohesion: 0.12
+Nodes (15): 10. Safety confirmation, 1. Project discovery (verified), 2. Installed skills, 3. Installed / configured tools, 4. Modified / created configuration files, 5. Installation commands (executed), 6. Verification results (executed), 7. Missing dependencies / gaps (+7 more)
+
+### Community 623 - "Test Smell Examples (SMELL → FIX)"
+Cohesion: 0.13
+Nodes (14): Conditional Test Logic, Coverage Smells, Design Smells, Diagnostic Smells, External Service Coupling, Giant Fixtures, Happy Path Only, Multiple Failure Causes Per Test (+6 more)
+
 ### Community 624 - "Color"
 Cohesion: 0.20
 Nodes (10): Color, .uxChatSelfBg, .uxOnSurface, .uxOnSurfaceMuted, .uxOutline, .uxStatusError, .uxStatusInfo, .uxStatusSuccess (+2 more)
 
-### Community 625 - "Ionic Framework Pack"
-Cohesion: 0.20
-Nodes (9): Buttons, Adaptive: the `mode` engine, Capability summary, Ionic Framework Pack, Non-negotiables in this pack, Sub-file map, Table of contents, When to reach for Ionic (+1 more)
+### Community 625 - "GitHub Actions Templates"
+Cohesion: 0.13
+Nodes (14): 1. Unit Test Workflow, 2. Playwright E2E Workflow, 3. Full CI Pipeline, 4. Nightly Full Suite, 5. PR Quality Gate, 6. Conditional Execution, 7. Reproduce CI Locally, Coverage Config (+6 more)
 
-### Community 628 - "autorin-web/eslint.config.js"
-Cohesion: 0.22
-Nodes (4): eslint-plugin-react-hooks@^7.1.1, eslint-plugin-react-refresh@^0.5.2, eslint-plugin-react-hooks, eslint-plugin-react-refresh
+### Community 626 - "test-suite-curation/SKILL.md"
+Cohesion: 0.13
+Nodes (14): 2. The Coverage-Equality Trap (the load-bearing rule), 3. Near-Duplicate Clustering, 4. Mining CI History, 5. Prune Decision Rules, 6. Tiering (smoke / core / extended), 7. Destructive Safety (the grace period), 8. The Audit Record, Core Principles (+6 more)
+
+### Community 628 - "compilerOptions"
+Cohesion: 0.13
+Nodes (14): compilerOptions, baseUrl, esModuleInterop, module, moduleResolution, paths, resolveJsonModule, skipLibCheck (+6 more)
+
+### Community 629 - "email-testing/SKILL.md"
+Cohesion: 0.14
+Nodes (13): Asserting subject / from / headers / links, Capture-inbox decision tree, Core Principles, Deliverability: SPF / DKIM / DMARC, Deterministic addresses (parallel isolation), Discovery Questions, Extracting OTPs and links, Flaky email in CI (+5 more)
+
+### Community 630 - "mobile-testing/SKILL.md"
+Cohesion: 0.14
+Nodes (13): Appium 3.x, Core Principles, Detox for React Native, Device Farm Integration, Discovery Questions, Done When, Framework Decision, Maestro (Cross-Platform YAML) (+5 more)
 
 ### Community 631 - "React Native Framework Pack"
 Cohesion: 0.25
@@ -2684,25 +2969,645 @@ Nodes (7): Adaptive vs single-platform decision, Capability summary, Non-negotia
 Cohesion: 0.11
 Nodes (18): activeUntil, address, city, createdAt, description, displayPlace, fromJson, id (+10 more)
 
+### Community 634 - "WalletPoolEnum"
+Cohesion: 0.14
+Nodes (9): WalletPoolEnum, BONUS, MAIN, SPLIT, WalletTransactionStatusEnum, CANCELLED, COMPLETED, FAILED (+1 more)
+
+### Community 635 - "my_listing_card_helpers.dart"
+Cohesion: 0.14
+Nodes (13): build, color, expanded, icon, isActive, isLoading, label, MyListingActionButton (+5 more)
+
+### Community 636 - "backend/package.json"
+Cohesion: 0.15
+Nodes (13): description, devDependencies, dotenv@^17.2.0, dotenv, name, private, scripts, test:api (+5 more)
+
+### Community 637 - "ai-qa-review/SKILL.md"
+Cohesion: 0.15
+Nodes (12): Anti-Patterns, Batch Audit Process, Core Principles, Discovery Questions, Done When, PR Review Checklist, Prompt Templates, Quick Route (+4 more)
+
+### Community 638 - "Multi-Site Architecture"
+Cohesion: 0.15
+Nodes (12): Adapter Pattern for Site-Specific Behavior, CI Considerations for Multi-Site, Cross-Site Tests, Environment-Aware Base URLs, Fixture That Injects the Right Adapter, Multi-Site Architecture, Multi-Site Playwright Config, Per-Site Config Objects (+4 more)
+
+### Community 639 - "OWASP Top 10 (2025) — Test Code"
+Cohesion: 0.15
+Nodes (12): A01: Broken Access Control, A02: Security Misconfiguration, A03: Software Supply Chain Failures, A04: Cryptographic Failures, A05: Injection, A06: Insecure Design, A07: Authentication Failures, A08: Software or Data Integrity Failures (+4 more)
+
+### Community 640 - "Factory & Fixture Patterns"
+Cohesion: 0.15
+Nodes (12): Associations Between Factories, Deterministic IDs for Snapshot Assertions, Dynamic Fixtures (Playwright), Factory Boy (Python), Factory & Fixture Patterns, FactoryBot (Ruby), Fishery (TypeScript), Fixture Composition (+4 more)
+
+### Community 641 - "Visual Testing Recipes"
+Cohesion: 0.15
+Nodes (12): Argos CI (open source), Chromatic (Storybook), Component-level screenshots across states, Dedicated-tool snippets, Freezing dynamic content before capture, Hiding dynamic regions with stylePath (cleaner than mask), odiff (local pixel diff, no service), Percy (any framework) (+4 more)
+
+### Community 643 - "web/package.json"
+Cohesion: 0.19
+Nodes (12): description, devDependencies, dotenv@^17.2.0, @playwright/test@^1.58.2, @types/node@^24.12.3, typescript@~5.9.3, dotenv, @types/node (+4 more)
+
+### Community 644 - "API Test Patterns & Performance Assertions"
+Cohesion: 0.17
+Nodes (11): API Test Patterns & Performance Assertions, Auth Flow Testing, CRUD Lifecycle Test, Error Response Validation, File Upload/Download via API, GraphQL Introspection-Diff Snapshot, GraphQL Testing, Pagination Testing (+3 more)
+
+### Community 645 - "qa-do/SKILL.md"
+Cohesion: 0.17
+Nodes (11): Anti-Patterns, Common Situations and Their Skills, Core Principles, Disambiguation pairs (the four overlaps to resolve, not guess), Discovery Questions, Done When, Execute an Application Check, How to Use (+3 more)
+
+### Community 646 - "phoneFormater.dart"
+Cohesion: 0.17
+Nodes (11): applyToController, countryCode, format, formatEditUpdate, hint, inputPrefix, isComplete, localDigits (+3 more)
+
+### Community 647 - "scripts"
+Cohesion: 0.17
+Nodes (12): scripts, install:browsers, test, test:chromium, test:firefox, test:headed, test:mobile, test:report (+4 more)
+
+### Community 648 - "@playwright/test"
+Cohesion: 0.23
+Nodes (3): SignInPage, viewports, @playwright/test
+
+### Community 649 - "AutoRin — QA Project Context"
+Cohesion: 0.18
+Nodes (10): AutoRin — QA Project Context, CI/CD, Commands, Environments, Product, Quality Goals, Risk Areas, Team / Conventions (+2 more)
+
+### Community 650 - "Common Cross-Browser Issues — Code"
+Cohesion: 0.18
+Nodes (10): Backdrop Filter, Clipboard API, Common Cross-Browser Issues — Code, Date Input, Dialog Element, Layout Spacing (flexbox `gap` — historical, kept as a layout-outcome example), Partitioned Cookies / CHIPS (the live 2026 divergence), Scroll Behavior (+2 more)
+
+### Community 651 - "Fixtures and Projects"
+Cohesion: 0.18
+Nodes (10): API Client Fixture, Auth Fixtures (storageState Per Role), Automatic Fixture (No Explicit Usage Required), Browser and Device Matrices, Custom Fixture Composition, Fixture Options Pattern, Fixtures and Projects, Multi-Environment Projects (dev/staging/prod) (+2 more)
+
+### Community 652 - "qa-start/SKILL.md"
+Cohesion: 0.18
+Nodes (10): After Step 3, Pin as a Manual Command, qa-start vs qa-project-bootstrap vs qa-do, Quick Route, Related Skills, Run the First Checks, Step 1: Capture Project Context, Step 2: Create the Test Strategy (+2 more)
+
+### Community 653 - "Anti-Patterns"
+Cohesion: 0.18
+Nodes (11): Anti-Patterns, Big-bang releases instead of incremental, Canary alerts that lie, Deploying on Friday afternoon, Feature flag accumulation, "It worked on staging", No post-deployment verification, No rollback plan (+3 more)
+
+### Community 654 - "Tool API Reference — TestRail, Xray, Zephyr Scale, Qase"
+Cohesion: 0.18
+Nodes (10): Qase — bulk create with the `Token` header, Step 1 — authenticate (returns a bearer token, valid 24h), Step 1 — create the test case (no steps in this body), Step 2 — add named steps with `mode: APPEND` and `inline` items, Step 2a — create a Manual test via GraphQL `createTest`, Step 2b — import a Gherkin scenario as a **Cucumber** test (not Generic), TestRail — `add_case` with separated steps, Tool API Reference — TestRail, Xray, Zephyr Scale, Qase (+2 more)
+
+### Community 655 - "notifications_bloc.dart"
+Cohesion: 0.18
+Nodes (6): close, _onBootstrapped, _onPermissionChanged, _onSignedIn, _onSignedOut, pushService
+
+### Community 656 - "Anti-Patterns"
+Cohesion: 0.20
+Nodes (10): 1. Jumping to the fix before reproducing, 2. Minimizing before confirming it reproduces, 3. Removing several variables at once, 4. Bisecting the whole suite, or by hand, 5. Exit 1 on build failure during bisect, 6. Live time, RNG, or network in the repro, 7. Writing the test after the fix, or disabling it, 8. Closing on green without revert-to-verify (+2 more)
+
+### Community 657 - "Anti-Patterns"
+Cohesion: 0.20
+Nodes (10): 10. Ethereal in CI, or a paid service for a local preview, 2. Recommending a dead capture tool, 3. Checking the database instead of the email, 4. Shortcutting past the email, 5. Brittle index-based extraction, 6. Newest-message-overall with no recipient filter, 7. Asserting only that an email exists, 8. Regexing SPF/DKIM/DMARC out of the body, or trusting Mailpit for it (+2 more)
+
+### Community 658 - "Performance Testing Recipes"
+Cohesion: 0.20
+Nodes (9): Basic k6 Load Test, Custom Metrics and Tags, k6 Browser Module — Core Web Vitals Under Load, k6 CI Integration (GitHub Actions), Lighthouse CI Config, Measuring Core Web Vitals in Playwright, Performance Testing Recipes, Scenarios for Multi-Flow Testing (+1 more)
+
+### Community 659 - "Anti-Patterns"
+Cohesion: 0.20
+Nodes (10): 1. "Same coverage, delete one", 2. Two green signals read as a green light, 3. One merged coverage run with no per-test context, 4. Grouping near-duplicates by filename, 5. Deleting never-failing or flaky tests, 6. One disposition for all flagged tests, 7. Tiering by speed (or "first N") alone, 8. Big-bang deletion PR (+2 more)
+
+### Community 661 - "axe-core Setup, Keyboard Specs, and CI"
+Cohesion: 0.22
+Nodes (8): axe-core Setup, Keyboard Specs, and CI, CI Integration, Install, Keyboard Audit Specs, Known-Gap Baseline for Pages You Cannot Fix, Reusable Helper, Rule Suppression, Using in Tests
+
+### Community 662 - "sleep"
+Cohesion: 0.22
+Nodes (9): External Service Coupling, Order Dependency, Reliability Smells, Sleep-Based Waiting, Step 4: Make the repro deterministic, 1. Fixed sleep before reading the inbox, Done When, Anti-Patterns (+1 more)
+
+### Community 663 - "Failure Injection — Runnable Code"
+Cohesion: 0.22
+Nodes (8): Automated abort / steady-state gating, Continuous chaos in CI (GameDay-as-code), Dependency failures, Failure Injection — Runnable Code, Infrastructure failures, Network failures, Service failures, Without any tooling
+
+### Community 664 - "GDPR / CMP Testing with Playwright — Test Code"
+Cohesion: 0.22
+Nodes (8): Basic policy: tracking requests blocked until consent, Consent banner and controls, Cookie classification helpers, Cookie state, persistence, and withdrawal, GDPR / CMP Testing with Playwright — Test Code, Global Privacy Control: HTTP and DOM are separate inputs, Google Consent Mode: independent tests and action checkpoints, TCF v2 consent state: wait for the relevant event and remove the listener
+
+### Community 665 - "cy.intercept Patterns"
+Cohesion: 0.22
+Nodes (8): Conditional Responses, Cross-Origin Flows with cy.origin, cy.intercept Patterns, Modify Real Response, Simulate Network Errors, Spy on Requests (No Stubbing), Stub a Response, Using Fixture Files
+
+### Community 666 - "Data Integrity & Seed Data Code"
+Cohesion: 0.22
+Nodes (8): Constraint Testing, Data Integrity & Seed Data Code, Data-Quality Audit (intended vs enforced integrity), Factory Pattern (TypeScript), Prisma Seed Script, Reading the Application's Own Store (SQLite via `node:sqlite`), Referential Integrity, Test Isolation with Transaction Rollback
+
+### Community 667 - "Session Templates"
+Cohesion: 0.22
+Nodes (8): Charter Template, Debrief, During the Session, Note-Taking Template, Session Log Format, Session Setup, Session Templates, Tagging Observations
+
+### Community 668 - "Allure reference"
+Cohesion: 0.22
+Nodes (8): Allure 2 path — generating the report (runnable), Allure 2 vs Allure 3 — which path, Allure 3 path — runnable, Allure reference, Allure with Jest/Vitest, Allure with Playwright, Custom categories (Allure 2 — `allure-results/categories.json`), History and trends (Allure 2 — preserve history/ across CI runs)
+
+### Community 669 - "Seeding, Anonymization & Synthetic Data"
+Cohesion: 0.22
+Nodes (8): Anonymization with Faker.js, Boundary Value Generation, Cleanup Strategies, Edge Case Distributions, Idempotent Seed Scripts, Referential Integrity During Anonymization, Seeding, Anonymization & Synthetic Data, Synthetic Data Generation
+
+### Community 670 - "optional_auth_operations.dart"
+Cohesion: 0.22
+Nodes (6): _documentHasOptionalAuthRootField, false, isOptionalAuthOperation, name, optionalAuthOperationNames, _optionalAuthRootFields
+
+### Community 671 - "Accessible Pattern Tests"
+Cohesion: 0.25
+Nodes (7): Accessible Forms, Accessible Pattern Tests, ARIA Snapshots (Playwright), Data Tables, Interactive States — Opened Dropdown, aria-busy, Live Regions, Modal / Dialog Accessibility, Navigation Landmarks
+
+### Community 672 - "Pact.js Setup — Code"
+Cohesion: 0.25
+Nodes (7): Async / Message Contracts, Consumer Test, Install, Pact Broker Setup with Docker, Pact.js Setup — Code, Provider Verification, Publishing Pacts (Consumer CI)
+
+### Community 673 - "Playwright and Cloud Platform Configuration — Code"
+Cohesion: 0.25
+Nodes (7): Browser Channels, BrowserStack, CI Matrix with Cloud Platforms, Playwright and Cloud Platform Configuration — Code, Playwright Built-in Browsers, Running Specific Projects, Sauce Labs
+
+### Community 674 - "Data-Driven Testing with Fixtures"
+Cohesion: 0.25
+Nodes (7): Component Testing, Component Testing and Data-Driven Fixtures, Data-Driven Testing with Fixtures, Dynamic Test Data via cy.task, Environment-Specific Configuration, React Component Test, Static Fixture Data
+
+### Community 675 - "Custom Commands"
+Cohesion: 0.25
+Nodes (7): Custom Commands, Cypress Config, Project Structure, and Custom Commands, cypress.config.ts, Defining Commands, Project Structure, Retryable Custom Queries, TypeScript Declarations
+
+### Community 676 - "Webhooks, idempotency, test clocks, reconciliation, refunds"
+Cohesion: 0.25
+Nodes (7): 1. Local webhook delivery with the Stripe CLI, 2. Signature verification — raw body FIRST, 3. Idempotency — dedup INBOUND events by event.id, 4. Test clocks — server-side subscription/billing time travel, 5. Failed renewal → past_due → refund (end to end), 6. Reconciliation — fulfill only on verified webhook, never on redirect, Webhooks, idempotency, test clocks, reconciliation, refunds
+
+### Community 677 - "Implementing Metrics — Phased Rollout"
+Cohesion: 0.25
+Nodes (7): Data Sources and Integration, Implementing Metrics — Phased Rollout, Metric half-life, Phase 1: Foundation (Week 1-2), Phase 2: Visibility (Week 3-4), Phase 3: Quality Gates (Month 2), Phase 4: Advanced Metrics (Month 3+)
+
+### Community 678 - "Framework Walkthrough Template"
+Cohesion: 0.25
+Nodes (7): 1. Architecture Overview, 2. How to Run Tests, 3. How to Write a New Test (Step by Step), 4. How to Debug Failures, 5. Common Patterns and Conventions, 6. Where to Find Help, Framework Walkthrough Template
+
+### Community 679 - "WireMock — Docker setup, mappings, and priority error scenarios"
+Cohesion: 0.25
+Nodes (7): Docker setup, Drift detection — wire WireMock to a contract, Paginated endpoint with templating, Priority-based error scenario, Programmatic control via the admin API, Stub mapping with response templating, WireMock — Docker setup, mappings, and priority error scenarios
+
+### Community 680 - "Workflow Step Templates"
+Cohesion: 0.25
+Nodes (7): Step 1: Feature Decomposition, Step 2: Coverage Mapping, Step 3: Effort Estimation, Step 4: Prioritization Matrix (Risk x Effort), Step 5: Resource Allocation, Step 6: Schedule with Buffers, Workflow Step Templates
+
+### Community 681 - "Mining CI History"
+Cohesion: 0.25
+Nodes (7): Aggregate JUnit XML into per-test signals, Defect-detection history (for tiering), Mining CI History, Never-failing tests, Platform API pulls, Same-SHA flake detection (the real definition), Sources
+
+### Community 682 - "api_error_mapper.dart"
+Cohesion: 0.25
+Nodes (5): ApiErrorMapper, fromGraphqlError, localize, messageFromException, messageFromGraphqlError
+
+### Community 683 - "api_error_payload.dart"
+Cohesion: 0.25
+Nodes (6): ApiErrorPayload, code, debug, fromExtensions, fromGraphqlMessage, success
+
+### Community 684 - "Full-Stack QA (AutoRin)"
+Cohesion: 0.25
+Nodes (7): Agent procedure, Anti-patterns, Before anything, Full-Stack QA (AutoRin), Installed skill routing, Paths, Workflows (executable)
+
+### Community 685 - "SettingsState"
+Cohesion: 0.25
+Nodes (8): SettingsState, empty, error, ideal, loading, offline, permissionDenied, success
+
+### Community 686 - "Triage Pipeline — Prompts, Templates, and Integration Code"
+Cohesion: 0.29
+Nodes (6): Bug Report Template, Integration: CI Pipeline, Integration: GitHub Issues, LLM Classification Prompt (Step 5), LLM Ticket Generation Prompt (Step 6), Triage Pipeline — Prompts, Templates, and Integration Code
+
+### Community 687 - "Eval Framework — Code"
+Cohesion: 0.29
+Nodes (6): Calibrate the LLM-as-judge, CI cost/budget gate, Eval Framework — Code, RAG grounding — hand-rolled claim extraction (no Ragas), RAG grounding — Ragas faithfulness (preferred), Weighted-metric eval framework
+
+### Community 688 - "Coverage Tool Configuration"
+Cohesion: 0.29
+Nodes (6): c8 CLI — for non-Vitest Node runners, coverage.py (Python), Coverage Tool Configuration, Istanbul / nyc (JavaScript/TypeScript), Jest, Vitest — V8 provider (default)
+
+### Community 689 - "Migration Testing Code"
+Cohesion: 0.29
+Nodes (6): Data Preservation During Migration, Forward Migration Validation, Migration Drift Detection (shadow-DB check), Migration Testing Code, Rollback Testing, Schema Snapshot Comparison
+
+### Community 690 - "Heuristic Test-Idea Banks and the Automation Pipeline"
+Cohesion: 0.29
+Nodes (6): Boundary Testing Heuristics, Error Handling Heuristics, Heuristic Test-Idea Banks and the Automation Pipeline, State Transition Heuristics, The Exploration-to-Automation Pipeline, "What If" Scenarios
+
+### Community 691 - "Appium 3.x Patterns"
+Cohesion: 0.29
+Nodes (6): Appium 3.x Patterns, Capabilities (W3C Format), Element Location Strategies, Gesture Simulation, Install and Verify, Platform Guard
+
+### Community 692 - "Detox and Maestro"
+Cohesion: 0.29
+Nodes (6): Detox and Maestro, Detox CI Integration, Detox Device APIs, Detox Setup, Detox Test Patterns, Maestro (Cross-Platform YAML)
+
+### Community 693 - "Mobile-Specific Testing Patterns"
+Cohesion: 0.29
+Nodes (6): App Lifecycle Testing, Deep Link Testing, Mobile-Specific Testing Patterns, Offline and Poor Network Simulation, Permission Dialog Handling, Push Notification Testing
+
+### Community 694 - "Multi-PSP sandbox testing: Adyen, PayPal, Braintree"
+Cohesion: 0.29
+Nodes (6): Adyen, Braintree (a PayPal company), Multi-PSP sandbox testing: Adyen, PayPal, Braintree, PayPal, Rule of thumb, What stays the same vs Stripe
+
+### Community 695 - "Test Architecture Audit Worksheets"
+Cohesion: 0.29
+Nodes (6): CI Health, Conventions, Coverage and Distribution, Reliability, Technical Debt, Test Architecture Audit Worksheets
+
+### Community 696 - "Quality Postmortem Templates"
+Cohesion: 0.29
+Nodes (6): Agenda (30-60 minutes), Escaped Bug Analysis Template, Facilitator Notes, Postmortem Template for Quality Incidents, Quality Postmortem Templates, Retro Meeting Template
+
+### Community 697 - "release-readiness/SKILL.md"
+Cohesion: 0.29
+Nodes (6): Collect Current Local Evidence, Discovery Questions, Done When, Reference Files (in `references/`), Related Skills, Verification
+
+### Community 698 - "Staged Rollout Validation"
+Cohesion: 0.29
+Nodes (7): Automated Promotion Criteria, Feature Flag Gradual Rollout, Rolling Out AI/LLM Features, Rollout Stages, Staged Rollout Validation, Tooling, What to Monitor Between Stages
+
+### Community 699 - "Auth Testing Patterns"
+Cohesion: 0.29
+Nodes (6): Auth Testing Patterns, Debug and Test-Support Routes Stay Locked, Failed-Login Throttle with Clock Control, JWT Testing, RBAC Testing, Session Management
+
+### Community 700 - "Automated Scanning & CI Integration"
+Cohesion: 0.29
+Nodes (6): Automated Scanning & CI Integration, Dependency Scanning, OWASP ZAP (DAST), SAST (Static Analysis), Secret Scanning, Security as PR Gate
+
+### Community 701 - "MSW (Mock Service Worker) — handlers, setup, and stateful flows"
+Cohesion: 0.29
+Nodes (6): Centralized handlers with realistic behavior, MSW (Mock Service Worker) — handlers, setup, and stateful flows, Per-test overrides — timeout and retry, Small client for the executable example, Stateful auth flow — create / verify / refresh / revoke, Test setup (Vitest) — reject unhandled requests and reset state
+
+### Community 702 - "CSV Import, Organization, Traceability, Automation Graduation"
+Cohesion: 0.29
+Nodes (6): CSV Import, Organization, Traceability, Automation Graduation, Suite & section organization, TestRail CSV import — column-to-field mapping, Traceability: requirements → tests → coverage, When a manual case should graduate to automation, Xray on Jira
+
+### Community 703 - "Framework-Specific Migration Guides"
+Cohesion: 0.29
+Nodes (6): Cypress to Playwright, Framework-Specific Migration Guides, Jest to Vitest, Mocha to Vitest, Protractor to Playwright, Selenium to Playwright
+
+### Community 704 - "Diagrams, Worksheets & Output Template"
+Cohesion: 0.29
+Nodes (6): 5x5 Risk Matrix, Current State Assessment Worksheet, Diagrams, Worksheets & Output Template, Strategy Document Output Skeleton, Target State Worksheet, Test Pyramid Shapes
+
+### Community 705 - "Near-Duplicate Clustering"
+Cohesion: 0.29
+Nodes (6): 1. Parse and normalize the AST, 2. Similarity metrics, 3. Combine with the coverage-profile signature, 4. Cluster at a tunable threshold, 5. Output, do not delete, Near-Duplicate Clustering
+
+### Community 706 - "Mutation Confirmation of Redundancy"
+Cohesion: 0.29
+Nodes (6): Compare kill-sets, Mutation Confirmation of Redundancy, Scope the mutation run to the suspect lines, The combined-signals case (never-failed + same-coverage), Tool per stack (current, mid-2026), Why mutation testing here
+
+### Community 707 - "Testing-in-Production Code Patterns"
+Cohesion: 0.29
+Nodes (6): Feature flag: combination testing, Feature flag: test ON and OFF, Non-destructive create-verify-cleanup (fixture-based), Production smoke tests, Synthetic user accounts, Testing-in-Production Code Patterns
+
+### Community 708 - "SettingsLayout"
+Cohesion: 0.29
+Nodes (4): SettingsLayout, compact, expanded, .isCompact
+
+### Community 709 - "brand_logo.dart"
+Cohesion: 0.29
+Nodes (6): assetFor, BrandLogo, build, height, semanticLabel, width
+
+### Community 710 - "graphql-queries.mjs"
+Cohesion: 0.38
+Nodes (3): HEALTH_HINTS, INTROSPECTION_LITE, SIGN_IN
+
+### Community 711 - "Flutter / Mobile QA (my_auto)"
+Cohesion: 0.29
+Nodes (6): Commands, Flutter / Mobile QA (my_auto), Framework choices, Maestro, Patrol (optional manual setup), Stack detected
+
+### Community 712 - "Testability Refactors"
+Cohesion: 0.33
+Nodes (5): Dependency Injection, Interface Segregation, Pure Function Extraction, Side Effect Isolation, Testability Refactors
+
+### Community 713 - "Injection Detector — bundled scanner"
+Cohesion: 0.33
+Nodes (5): Decoding coverage and limits, Gate untrusted inputs, Injection Detector — bundled scanner, Rule classes, Run it and interpret the result
+
+### Community 714 - "Regression-Gating Tracking in CI"
+Cohesion: 0.33
+Nodes (5): GitHub Actions workflow, Regression-Gating Tracking in CI, Surfacing failures in the job summary, The diff against baseline, What NOT to do
+
+### Community 715 - "Pixels and Client-vs-Server Deduplication"
+Cohesion: 0.33
+Nodes (5): Capturing the server CAPI event_id, Meta PageView + Purchase, with dedup assertion, Pixels and Client-vs-Server Deduplication, TikTok / LinkedIn parsing, Why load/count checks fail
+
+### Community 716 - "Schema Validation — Zod, AJV, Contract"
+Cohesion: 0.33
+Nodes (5): AJV with JSON Schema, Schema-as-Contract Pattern, Schema Validation — Zod, AJV, Contract, Spec-Driven & Property-Based Validation, Zod (Zod 4 native form)
+
+### Community 717 - "Automated bisect to find the introducing commit"
+Cohesion: 0.33
+Nodes (5): After bisect, Automated bisect to find the introducing commit, Happy path, Skip untestable commits and ignore flaky failures (exit 125), The exit-code contract
+
+### Community 718 - "Determinism recipes"
+Cohesion: 0.33
+Nodes (5): Determinism checklist (carry into the ticket), Determinism recipes, If randomness comes from `Math.random` rather than faker, Playwright end-to-end repro, Vitest unit / integration repro
+
+### Community 719 - "Cross-Browser Testing Patterns — Code"
+Cohesion: 0.33
+Nodes (5): Browser-Specific Test Logic, Cross-Browser Testing Patterns — Code, Progressive Enhancement Validation, Same Test, Multiple Browsers, Visual Cross-Browser Comparison
+
+### Community 720 - "Query Performance & Docker Test Database Code"
+Cohesion: 0.33
+Nodes (5): EXPLAIN ANALYZE Patterns, Index Validation, Proving the EXPLAIN test has teeth, Query Performance & Docker Test Database Code, Testcontainers Test Database
+
+### Community 721 - "Hosted inboxes: Mailosaur, MailSlurp, ShazaMail, Ethereal"
+Cohesion: 0.33
+Nodes (5): Ethereal — throwaway local preview (NOT for CI assertions), Hosted inboxes: Mailosaur, MailSlurp, ShazaMail, Ethereal, Mailosaur — real addresses, auto-waiting `messages.get`, MailSlurp — per-test throwaway inbox, ShazaMail — receive-only test inbox + bounded wait API
+
+### Community 722 - "Mailpit + Playwright recipes"
+Cohesion: 0.33
+Nodes (5): Extracting an OTP and a magic link from the body, Mailpit + Playwright recipes, Password-reset E2E (full flow), Polling helper — no fixed sleep, Signup / OTP / magic-link variations
+
+### Community 723 - "Traces as Test Evidence — Code"
+Cohesion: 0.33
+Nodes (5): Distributed trace validation across services, Fast, deterministic alternative: in-memory exporter, OpenTelemetry integration in test infrastructure, Trace-based assertions, Traces as Test Evidence — Code
+
+### Community 724 - "Grafana reference"
+Cohesion: 0.33
+Nodes (5): Alerting — provisioned ">2pp pass-rate drop in a day" rule, Data pipeline: CI to Grafana, Grafana reference, Pushing test metrics to InfluxDB, Recommended panels (InfluxQL)
+
+### Community 725 - "QA Metrics Dashboards"
+Cohesion: 0.33
+Nodes (5): Engineering Dashboard (Daily View), Leadership Dashboard (Monthly View), QA Metrics Dashboards, Release confidence score (example weighting, not a standard), Sprint Health Dashboard (Per-Sprint View)
+
+### Community 726 - "Filler-phrase blocklist"
+Cohesion: 0.33
+Nodes (5): Banned filler phrases, Filler-phrase blocklist, Grep-ready regex (case-insensitive), Passive-voice "who broke it" dodges, Synonym-cycling tells (test-result rewording)
+
+### Community 727 - "Core Principles"
+Cohesion: 0.33
+Nodes (6): 1. Release confidence comes from evidence, not feelings, 2. Smoke tests are the last safety net, not the only safety net, 3. Staged rollouts reduce blast radius, 4. Rollback criteria must be defined BEFORE release, 5. Every release is a learning opportunity, Core Principles
+
+### Community 728 - "Rollback Criteria and Process"
+Cohesion: 0.33
+Nodes (6): Automated Rollback Triggers, Data Considerations, Manual Rollback Triggers, Rollback announcement skeleton, Rollback Criteria and Process, Rollback Procedure
+
+### Community 729 - "Risk-Based Testing — Worked Examples"
+Cohesion: 0.33
+Nodes (5): Example 1: E-commerce Checkout, Example 2: Content Loading (Media Platform), Example 3: Third-Party API Integration, Example 4: Authentication Flows, Risk-Based Testing — Worked Examples
+
+### Community 730 - "Platforms and CI Scheduling"
+Cohesion: 0.33
+Nodes (5): Alert routing config, Checkly-based implementation, Custom implementation: Playwright + GitHub Actions, Platforms and CI Scheduling, Probe runbook template
+
+### Community 731 - "Probe Implementations"
+Cohesion: 0.33
+Nodes (5): API health-check probe, Environment-aware probe config, Playwright login-flow probe, Probe Implementations, Search probe (fill query, submit, assert on results + latency budget)
+
+### Community 732 - "Ambiguous-Step Linting"
+Cohesion: 0.33
+Nodes (5): Ambiguous-Step Linting, Lint checklist — flag a step if any is true, Lint output format (when linting a real suite), The rule, Worked example — the four classic bad steps, rewritten
+
+### Community 733 - "Docker Compose for Testing — Full Configs"
+Cohesion: 0.33
+Nodes (5): Docker Compose for Testing — Full Configs, `docker-compose.test.yml`, MinIO as an S3 Substitute, Multi-Stage Dockerfile, Running Tests Against Docker Compose
+
+### Community 734 - "Plan Document Templates"
+Cohesion: 0.33
+Nodes (5): Feature Coverage Matrix, Plan Document Templates, Release Test Plan, Sprint Test Plan (1-Page), Test Estimation Worksheet
+
+### Community 735 - "Per-Test Coverage Fingerprinting"
+Cohesion: 0.33
+Nodes (5): Capture per-test contexts (pytest / coverage.py), JS / Vitest + Istanbul per-test equivalent, Per-Test Coverage Fingerprinting, Read the contexts out of the .coverage SQLite DB, Uniquely-covered lines and subsumption
+
+### Community 736 - "Destructive Safety: the grace period"
+Cohesion: 0.33
+Nodes (5): Destructive Safety: the grace period, Step 1 — Quarantine, do not delete, Step 2 — Human sign-off (CODEOWNERS), Step 3 — Observation window + escaped-defect watch, Step 4 — Delete in small batches
+
+### Community 737 - "AutoRin QA"
+Cohesion: 0.33
+Nodes (5): AutoRin QA, Cursor, Quick start, Safety, Workflows
+
+### Community 738 - "Mutation Testing — the objective backstop for qualitative smells"
+Cohesion: 0.40
+Nodes (4): Minimal StrykerJS config, Mutation Testing — the objective backstop for qualitative smells, Thresholds (2026 guidance), Tools (verified current, mid-2026)
+
+### Community 739 - "Testability Analysis"
+Cohesion: 0.40
+Nodes (5): Dependency Injection, Interface Segregation, Pure Function Extraction, Side Effect Isolation, Testability Analysis
+
+### Community 740 - "Prompt Regression — Code"
+Cohesion: 0.40
+Nodes (4): A/B test prompts, Baseline response quality, Prompt Regression — Code, Version prompts like code
+
+### Community 741 - "Test Patterns — Code"
+Cohesion: 0.40
+Nodes (4): Property-based assertions, Statistical testing over N runs, Test Patterns — Code, Tool selection tests
+
+### Community 742 - "Tooling — Eval Code"
+Cohesion: 0.40
+Nodes (4): Prompt regression + cross-provider with Promptfoo, Red-team / safety with Garak, Tool-call validation with DeepEval, Tooling — Eval Code
+
+### Community 743 - "News-Media Events"
+Cohesion: 0.40
+Nodes (4): article_view on load, News-Media Events, Paywall / meter event, Scroll depth at 25 / 50 / 75 / 100
+
+### Community 744 - "The Tracking Plan as a Typed Contract"
+Cohesion: 0.40
+Nodes (4): Ecommerce plan, The Tracking Plan as a Typed Contract, Use both schema and scenario assertions, Validate normalized payloads
+
+### Community 745 - "Playwright API Testing — Setup & Fixtures"
+Cohesion: 0.40
+Nodes (4): Authenticated API Fixture, Combined Browser + API Tests, Configuration and Standalone Tests, Playwright API Testing — Setup & Fixtures
+
+### Community 746 - "Extracting the implicit repro from a thin report"
+Cohesion: 0.40
+Nodes (4): Extracting the implicit repro from a thin report, The extraction checklist, Turning answers into a repro spec, Why each load-bearing dimension matters for "wrong total"
+
+### Community 747 - "Writing repro evidence back into the ticket"
+Cohesion: 0.40
+Nodes (4): Status, not just close, The seven required elements, What goes in, and in what structure, Writing repro evidence back into the ticket
+
+### Community 748 - "Cookie Compliance — Test Code"
+Cohesion: 0.40
+Nodes (4): Cookie Attribute Validation, Cookie Compliance — Test Code, Cookie Inventory, Cookie Inventory Drift Detection
+
+### Community 749 - "Contract Testing CI Pipelines — Code"
+Cohesion: 0.40
+Nodes (4): can-i-deploy, Consumer CI Pipeline, Contract Testing CI Pipelines — Code, Provider CI Pipeline
+
+### Community 750 - "Coverage as CI Gate"
+Cohesion: 0.40
+Nodes (4): Coverage as CI Gate, Coverage Diff on PRs, Ratchet Pattern, Threshold Configuration
+
+### Community 751 - "Deliverability: SPF / DKIM / DMARC — a separate, non-blocking suite"
+Cohesion: 0.40
+Nodes (4): Deliverability: SPF / DKIM / DMARC — a separate, non-blocking suite, Mailosaur deliverability assertion (separate spec), The conceptual trap to avoid, Wiring it as non-blocking
+
+### Community 752 - "Device Farm Integration"
+Cohesion: 0.40
+Nodes (4): BrowserStack App Automate, Device Farm Integration, Device Matrix Strategy, Sauce Labs
+
+### Community 753 - "3DS / SCA challenge handling in Playwright (nested iframes)"
+Cohesion: 0.40
+Nodes (4): 3DS / SCA challenge handling in Playwright (nested iframes), Selector notes, The correct pattern, Why the naive approaches fail
+
+### Community 754 - "Stripe test cards and outcome assertions"
+Cohesion: 0.40
+Nodes (4): Card catalogue, Never use these, Playwright: assert the right outcome per card, Stripe test cards and outcome assertions
+
+### Community 755 - "Anti-Patterns: BAD vs GOOD Playwright Code"
+Cohesion: 0.40
+Nodes (4): 3. page.click() vs locator.click(), Anti-Patterns: BAD vs GOOD Playwright Code, BAD, GOOD
+
+### Community 756 - "qa-project-context — Filled Examples"
+Cohesion: 0.40
+Nodes (4): Example: Media Site (multi-tenant publisher), Example: SaaS Product, Monorepo structure, qa-project-context — Filled Examples
+
+### Community 757 - "Smoke Test Suite Design"
+Cohesion: 0.40
+Nodes (5): Environment-Specific Smoke Tests, Keeping It Fast, Smoke Test Suite Design, What NOT to Include, What to Include
+
+### Community 758 - "CI integration — MSW, WireMock, and Testcontainers in GitHub Actions"
+Cohesion: 0.40
+Nodes (4): Choosing the right tool for CI, CI integration — MSW, WireMock, and Testcontainers in GitHub Actions, MSW in CI (zero infrastructure), WireMock + Testcontainers in CI
+
+### Community 759 - "Record-replay — capture real responses, replay deterministically"
+Cohesion: 0.40
+Nodes (4): Cassette format with expiry, Fidelity check against the live provider, Record-replay — capture real responses, replay deterministically, Replaying a multi-step interaction
+
+### Community 760 - "Toxiproxy — network fault injection"
+Cohesion: 0.40
+Nodes (4): Compose ports, Helpers — note the `response.ok` checks, Toxiproxy — network fault injection, Usage in a test
+
+### Community 761 - "TDD and Pairing Code Examples"
+Cohesion: 0.40
+Nodes (4): Pairing on Test-First Design — Example Output, Red-Green-Refactor — Password Strength Validator, TDD and Pairing Code Examples, TDD for Bugs — Failing Test First
+
+### Community 762 - "The Audit Record"
+Cohesion: 0.40
+Nodes (4): Column schema, Store it committed and versioned, The Audit Record, Worked example row
+
+### Community 763 - "Tiering: smoke / core / extended"
+Cohesion: 0.40
+Nodes (4): Assigning tiers from evidence, Encode tiers as markers (not by moving files), Selection evidence (in priority order), Tiering: smoke / core / extended
+
+### Community 764 - "Rollout Policy & Rollback Configuration"
+Cohesion: 0.40
+Nodes (4): Automated promotion criteria, Automatic rollback triggers, Error-budget / SLO gates, Rollout Policy & Rollback Configuration
+
+### Community 765 - "TextInputFormatter"
+Cohesion: 0.40
+Nodes (4): _CardGroupFormatter, FirstLetterCapitalizationFormatter, SentenceCapitalizationFormatter, UzbekPhoneNumberFormatter
+
+### Community 766 - "Schema-First Contract Testing — Code"
+Cohesion: 0.50
+Nodes (3): Schema-First Contract Testing — Code, Schema-First (OpenAPI + Validation), Schemathesis (Property-Based, Spec-Driven)
+
+### Community 767 - "Mutation Testing"
+Cohesion: 0.50
+Nodes (3): Mutation Testing, mutmut (Python), Stryker (JS/TS)
+
+### Community 768 - "Cypress CI Recipes"
+Cohesion: 0.50
+Nodes (3): Cypress CI Recipes, With Cypress Cloud, Without Cloud
+
+### Community 769 - "Log-Informed Test Design & Error-to-Test Pipeline — Code"
+Cohesion: 0.50
+Nodes (3): Analyze production error logs for test gaps, Log-Informed Test Design & Error-to-Test Pipeline — Code, Production error to test — implementation example
+
+### Community 770 - "10. Hardcoded Waits for Animations"
+Cohesion: 0.50
+Nodes (4): 10. Hardcoded Waits for Animations, BAD, GOOD, GOOD (if CSS animations genuinely interfere)
+
+### Community 771 - "11. Nested Locator Chains That Mirror DOM Structure"
+Cohesion: 0.50
+Nodes (4): 11. Nested Locator Chains That Mirror DOM Structure, BAD, BETTER (if the card has unique text), GOOD
+
+### Community 772 - "15. Incorrect Use of locator.all() for Iteration"
+Cohesion: 0.50
+Nodes (4): 15. Incorrect Use of locator.all() for Iteration, BAD, GOOD, GOOD (when the exact count is unknown)
+
+### Community 773 - "1. waitForTimeout vs Proper Waiting"
+Cohesion: 0.50
+Nodes (4): 1. waitForTimeout vs Proper Waiting, BAD, GOOD, GOOD (waiting for network)
+
+### Community 774 - "4. force:true Abuse"
+Cohesion: 0.50
+Nodes (4): 4. force:true Abuse, BAD, GOOD, GOOD (if the overlay is not always present)
+
+### Community 775 - "5. Shared Mutable State Between Tests"
+Cohesion: 0.50
+Nodes (4): 5. Shared Mutable State Between Tests, BAD, GOOD, GOOD (if tests genuinely depend on each other)
+
+### Community 776 - "Release & Rollback Communication Templates"
+Cohesion: 0.50
+Nodes (3): Release Communication Template, Release & Rollback Communication Templates, Rollback Communication Template
+
+### Community 777 - "Rollout Automation & Verification Commands"
+Cohesion: 0.50
+Nodes (3): Automated Promotion Criteria, Rollout Automation & Verification Commands, Verification Commands
+
+### Community 778 - "Go/No-Go Checklist"
+Cohesion: 0.50
+Nodes (4): Automated Checks (Must Pass), Go/No-Go Checklist, Manual Checks (Verify Before Go), Risk Assessment
+
+### Community 779 - "Post-Deployment Verification"
+Cohesion: 0.50
+Nodes (4): Immediate (0-15 minutes), Medium-term (2-24 hours), Post-Deployment Verification, Short-term (15 minutes - 2 hours)
+
+### Community 780 - "Shift-Left Templates"
+Cohesion: 0.50
+Nodes (3): Recommended Definition of Done with Quality Gates, Shift-Left Maturity Self-Assessment Worksheet, Shift-Left Templates
+
+### Community 781 - "External Dependency Stubbing — MSW Handlers"
+Cohesion: 0.50
+Nodes (3): External Dependency Stubbing — MSW Handlers, MSW Handlers for External APIs, Server Lifecycle
+
+### Community 782 - "Tracking & Retrospective Formats"
+Cohesion: 0.50
+Nodes (3): Daily Test Status Format, Sprint Retrospective Inputs, Tracking & Retrospective Formats
+
+### Community 784 - "12. Using evaluate() for Assertions"
+Cohesion: 0.67
+Nodes (3): 12. Using evaluate() for Assertions, BAD, GOOD
+
+### Community 785 - "13. Catching Errors Instead of Asserting Absence"
+Cohesion: 0.67
+Nodes (3): 13. Catching Errors Instead of Asserting Absence, BAD, GOOD
+
+### Community 786 - "14. Using page.waitForSelector Instead of Locator Assertions"
+Cohesion: 0.67
+Nodes (3): 14. Using page.waitForSelector Instead of Locator Assertions, BAD, GOOD
+
+### Community 787 - "2. CSS Selectors vs getByRole"
+Cohesion: 0.67
+Nodes (3): 2. CSS Selectors vs getByRole, BAD, GOOD
+
+### Community 788 - "6. Login in Every Test vs storageState"
+Cohesion: 0.67
+Nodes (3): 6. Login in Every Test vs storageState, BAD, GOOD
+
+### Community 789 - "7. allTextContents() vs toHaveText"
+Cohesion: 0.67
+Nodes (3): 7. allTextContents() vs toHaveText(), BAD, GOOD
+
+### Community 790 - "8. isVisible() Checks Instead of expect().toBeVisible"
+Cohesion: 0.67
+Nodes (3): 8. isVisible() Checks Instead of expect().toBeVisible(), BAD, GOOD
+
+### Community 791 - "9. Testing Implementation Details"
+Cohesion: 0.67
+Nodes (3): 9. Testing Implementation Details, BAD, GOOD
+
 ## Knowledge Gaps
-- **9924 isolated node(s):** `FormValidators`, `required`, `title`, `phone`, `password` (+9919 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 13831 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **121 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **9930 isolated node(s):** `build`, `.body`, `build`, `.body`, `build` (+9925 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 16064 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **120 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Button()` connect `useLanguage` to `BannersPage.tsx`, `operations.ts`, `cn`, `WorkshopsPage.tsx`, `React Native Framework Pack`, `WorkshopsTable.tsx`, `UsersPage.tsx`, `react`, `SwiftUI Framework Pack`, `CheckoutViewModel`, `Jetpack Compose — Components`, `pagination.tsx`, `React Native — Idiomatic Components`, `LoginTokens`, `Jetpack Compose Framework Pack`, `Jetpack Compose — The 7 UI States`, `CategoriesPage.tsx`, `src/types/index.ts`?**
-  _High betweenness centrality (0.317) - this node is a cross-community bridge._
-- **What connects `FormValidators`, `required`, `title` to the rest of the system?**
-  _9924 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `Button()` connect `useLanguage` to `BannersPage.tsx`, `UsersPage.tsx`, `Jetpack Compose Framework Pack`, `ProductsPage.tsx`, `CheckoutViewModel`, `pagination.tsx`, `settings/SettingsPage.tsx`, `LoginTokens`, `src/types/index.ts`, `src/types/index.ts`, `cn`, `WorkshopsPage.tsx`, `WorkshopsTable.tsx`, `react`, `Jetpack Compose — The 7 UI States`, `Jetpack Compose — Components`, `React Native — Idiomatic Components`, `React Native Framework Pack`, `SwiftUI Framework Pack`?**
+  _High betweenness centrality (0.263) - this node is a cross-community bridge._
+- **What connects `build`, `.body`, `build` to the rest of the system?**
+  _9930 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `l10n/l10n.dart` be split into smaller, more focused modules?**
   _Cohesion score 0.002162162162162162 - nodes in this community are weakly interconnected._
-- **Why does `What it demonstrates` connect `react` to `useLanguage`, `SettingsModel`, `SettingsLayout`?**
-  _High betweenness centrality (0.307) - this node is a cross-community bridge._
+- **Why does `What it demonstrates` connect `react` to `useLanguage`, `SettingsLayout`, `SettingsLayout`?**
+  _High betweenness centrality (0.246) - this node is a cross-community bridge._
 - **Should `l10n_en.dart` be split into smaller, more focused modules?**
-  _Cohesion score 0.002190580503833516 - nodes in this community are weakly interconnected._
-- **Why does `SettingsLayout` connect `SettingsModel` to `react`, `examples/dashboard/swiftui/DashboardScreen.swift`, `Equatable`?**
-  _High betweenness centrality (0.306) - this node is a cross-community bridge._
+  _Cohesion score 0.002188183807439825 - nodes in this community are weakly interconnected._
+- **Why does `SettingsLayout` connect `SettingsLayout` to `react`, `SettingsModel`, `examples/dashboard/swiftui/DashboardScreen.swift`, `Equatable`?**
+  _High betweenness centrality (0.246) - this node is a cross-community bridge._
 - **Should `l10n_ru.dart` be split into smaller, more focused modules?**
   _Cohesion score 0.002190580503833516 - nodes in this community are weakly interconnected._

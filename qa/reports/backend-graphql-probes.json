@@ -1,7 +1,7 @@
 {
   "suite": "backend-graphql-audit-probes",
   "url": "http://127.0.0.1:7007/api",
-  "generatedAt": "2026-11-13T13:43:47.491Z",
+  "generatedAt": "2026-11-13T14:14:11.056Z",
   "counts": {
     "PASS": 8,
     "PASS_WITH_NOTES": 1
@@ -18,7 +18,7 @@
             "__typename": "Query"
           }
         },
-        "elapsedMs": 74,
+        "elapsedMs": 136,
         "error": null,
         "exposesStacktrace": false
       },
@@ -53,7 +53,7 @@
           ],
           "data": null
         },
-        "elapsedMs": 143,
+        "elapsedMs": 377,
         "error": null,
         "exposesStacktrace": false
       },
@@ -88,7 +88,7 @@
           ],
           "data": null
         },
-        "elapsedMs": 7,
+        "elapsedMs": 14,
         "error": null,
         "exposesStacktrace": false
       },
@@ -123,7 +123,7 @@
           ],
           "data": null
         },
-        "elapsedMs": 7,
+        "elapsedMs": 26,
         "error": null,
         "exposesStacktrace": false
       },
@@ -158,7 +158,7 @@
           ],
           "data": null
         },
-        "elapsedMs": 7,
+        "elapsedMs": 11,
         "error": null,
         "exposesStacktrace": false
       },
@@ -193,7 +193,7 @@
           ],
           "data": null
         },
-        "elapsedMs": 15,
+        "elapsedMs": 16,
         "error": null,
         "exposesStacktrace": false
       },
@@ -223,7 +223,7 @@
             }
           ]
         },
-        "elapsedMs": 13,
+        "elapsedMs": 25,
         "error": null,
         "exposesStacktrace": false
       },
@@ -684,7 +684,7 @@
             }
           }
         },
-        "elapsedMs": 7,
+        "elapsedMs": 10,
         "error": null,
         "exposesStacktrace": false
       },
@@ -714,7 +714,7 @@
             }
           ]
         },
-        "elapsedMs": 8,
+        "elapsedMs": 13,
         "error": null,
         "exposesStacktrace": false
       },

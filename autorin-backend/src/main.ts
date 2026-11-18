@@ -47,8 +47,9 @@ async function bootstrap() {
       hidePoweredBy: true,
       noSniff: true,
       referrerPolicy: { policy: 'no-referrer' },
+      // includeSubDomains/preload left off until every subdomain is confirmed HTTPS.
       hsts: enableHsts
-        ? { maxAge: 15552000, includeSubDomains: true, preload: false }
+        ? { maxAge: 15552000, includeSubDomains: false, preload: false }
         : false,
     }),
   );

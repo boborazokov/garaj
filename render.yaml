@@ -8,7 +8,12 @@
 # External free deps (set when Blueprint asks for sync:false):
 #   MongoDB Atlas M0  → DATABASE_URL
 #   Upstash Redis     → REDIS_HOST + REDIS_PASSWORD (REDIS_TLS=true already set)
-# Optional later in Dashboard: MINIO_*, MEILI_*, ALLOWED_ORIGINS, Firebase
+# Object storage (required in production — no localhost / default credentials):
+#   MINIO_ENDPOINT, MINIO_PORT, MINIO_USE_SSL, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, MINIO_REGION
+# Optional later in Dashboard: MEILI_*, Firebase
+#
+# SMS: SMS_PROVIDER remains "log" until a real HTTP SMS provider is connected
+# (application refuses log transport in production — see known pending integration).
 
 services:
   - type: web
@@ -46,20 +51,25 @@ services:
         value: "0"
       - key: REDIS_CACHE_DB
         value: "0"
+      # Pending real SMS provider integration — do not invent tokens/URLs here.
       - key: SMS_PROVIDER
         value: log
-      # Native mobile clients send no Origin (allowed). Browser/admin need explicit entries.
+      # Browser/admin origins only (no localhost). Native clients send no Origin.
       - key: ALLOWED_ORIGINS
-        value: https://autorin-web-boborazokovs-projects.vercel.app,https://autorin-web-alpha.vercel.app,https://autorin-backend.onrender.com,http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000
+        value: https://autorin-web-boborazokovs-projects.vercel.app,https://autorin-web-alpha.vercel.app,https://autorin-backend.onrender.com
+      # Render terminates HTTPS at the public edge for *.onrender.com
+      - key: ENABLE_HSTS
+        value: "true"
+      # Never set GRAPHQL_INTROSPECTION in production — code ignores it anyway.
       - key: MINIO_ENDPOINT
-        value: localhost
+        sync: false
       - key: MINIO_PORT
-        value: "9000"
+        sync: false
       - key: MINIO_USE_SSL
-        value: "false"
+        sync: false
       - key: MINIO_ACCESS_KEY
-        value: minioadmin
+        sync: false
       - key: MINIO_SECRET_KEY
-        value: minioadmin
+        sync: false
       - key: MINIO_REGION
-        value: us-east-1
+        sync: false

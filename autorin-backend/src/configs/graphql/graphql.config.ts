@@ -16,6 +16,7 @@ import { ROUTES } from 'src/constants';
 import { UserRoleEnum } from 'src/modules/user/enums';
 import { formatGraphqlError } from 'src/common/errors';
 import { isProductionEnv, parseAllowedOrigins } from '../env';
+import { resolveGraphqlIntrospection } from './graphql-introspection';
 import {
   createComplexityPlugin,
   createGraphQLValidationRules,
@@ -68,19 +69,16 @@ class WsConnectionLimiterModule {}
               ]),
         ];
 
-        const introspectionExplicit = config.get<string>('GRAPHQL_INTROSPECTION');
-        const introspectionEnabled =
-          introspectionExplicit === '1' || introspectionExplicit === 'true'
-            ? true
-            : introspectionExplicit === '0' || introspectionExplicit === 'false'
-              ? false
-              : !isProd;
+        const introspectionEnabled = resolveGraphqlIntrospection(
+          isProd,
+          config.get<string>('GRAPHQL_INTROSPECTION'),
+        );
 
         return {
           path: ROUTES.API,
           autoSchemaFile: 'schema.gql',
           playground: false,
-          // Secure default: off in staging/production unless GRAPHQL_INTROSPECTION=true
+          // Production: always off (env cannot re-enable). Dev: GRAPHQL_INTROSPECTION controls.
           introspection: introspectionEnabled,
           includeStacktraceInErrorResponses: false,
           csrfPrevention: true,

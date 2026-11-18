@@ -11,8 +11,10 @@ import { GqlArgumentsHost } from '@nestjs/graphql';
 import { Request, Response } from 'express';
 import { isProductionEnv } from 'src/configs/env';
 import { ApiErrorCode, isApiErrorResponse } from 'src/common/errors';
-
-const SENSITIVE_KEYS = /password|token|secret|authorization|cookie|api[_-]?key/i;
+import {
+  sanitizeForLog,
+  sanitizeForLogObject,
+} from 'src/common/logging/sanitize-for-log';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -41,13 +43,38 @@ export class HttpExceptionFilter implements ExceptionFilter {
         : ((responseBody as { message?: string | string[] }).message ??
           'Internal server error');
 
+    const safeMessageText = Array.isArray(message)
+      ? message.join(', ')
+      : String(message);
+
     if (!isProd) {
+      const detail =
+        exception instanceof Error
+          ? { name: exception.name, message: exception.message, stack: exception.stack }
+          : { value: String(exception) };
       this.logger.error(
-        exception instanceof Error ? exception.stack : String(exception),
+        JSON.stringify(
+          sanitizeForLog({
+            status,
+            response: responseBody,
+            exception: detail,
+          }),
+        ),
       );
     } else {
       this.logger.error(
-        `HTTP ${status}: ${Array.isArray(message) ? message.join(', ') : message}`,
+        JSON.stringify(
+          sanitizeForLogObject({
+            status,
+            code:
+              typeof responseBody === 'object' &&
+              responseBody !== null &&
+              'code' in responseBody
+                ? (responseBody as { code?: string }).code
+                : undefined,
+            message: safeMessageText,
+          }),
+        ),
       );
     }
 
@@ -95,24 +122,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      ...(isProd ? {} : { stack: exception instanceof Error ? exception.stack : undefined }),
+      ...(isProd
+        ? {}
+        : {
+            stack:
+              exception instanceof Error ? exception.stack : undefined,
+          }),
     });
   }
 
-  /** Use in custom log payloads to strip secrets before writing to logs. */
+  /** @deprecated Prefer `sanitizeForLog` / `sanitizeForLogObject` from common/logging. */
   static sanitizeForLog(payload: Record<string, unknown>): Record<string, unknown> {
-    const out: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(payload)) {
-      if (SENSITIVE_KEYS.test(key)) {
-        out[key] = '[redacted]';
-      } else if (value && typeof value === 'object' && !Array.isArray(value)) {
-        out[key] = HttpExceptionFilter.sanitizeForLog(
-          value as Record<string, unknown>,
-        );
-      } else {
-        out[key] = value;
-      }
-    }
-    return out;
+    return sanitizeForLogObject(payload);
   }
 }
